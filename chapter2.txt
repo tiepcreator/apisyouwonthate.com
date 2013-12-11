@@ -1,6 +1,7 @@
 # Planning and Creating Endpoints {#chapter-2}
 
-With your database planned and full of fake but useful <mark><strike>content</strike> data</mark> it is time to plan what your endpoints are going to look like. The first step is <mark><strike>define</strike> to work out the</mark> requirements <mark>of an API</mark>, then <mark>we'll</mark> move onto some theory and finally <mark>see the theory implemented in</mark> some examples.
+With your database planned and full of fake but useful data it is time to plan what your endpoints are going to look like. The first step is to work out the requirements 
+of an API, then we'll move onto some theory and finally see the theory implemented in some examples.
 
 ## Functional Requirements
 
@@ -36,9 +37,7 @@ The API will need to offer the ability to search places by location too, but tha
 > - Read  
 > - Update  
 > - Delete  
-> - List **(lat, lon, box)**
-
-<mark>would it not be (lat, lon, distance) ?</mark>
+> - List **(lat, lon, distance or box)**
 
 Adding a few parameters as a reminder at this stage is cool, but lets not worry about adding too much. For example, create and update are complicated so adding every single field would be a mess.
 
@@ -51,7 +50,7 @@ Places will also need to have an image uploaded via the API. In this example we 
 > - Read  
 > - Update  
 > - Delete  
-> - List (lat, lon, box)  
+> - List (lat, lon, distance or box)  
 > - **Image**  
 
 A complete API "action plan" might look like this:
@@ -82,7 +81,7 @@ A complete API "action plan" might look like this:
 > - Read  
 > - Update  
 > - Delete  
-> - List (lat, lon, box)  
+> - List (lat, lon, distance or box)  
 > - Image  
   
 > Users  
@@ -136,7 +135,7 @@ Want to delete things? Easy:
 
 What about creating and updating? This is where it gets almost religious. There are lots of people who will try to pair the HTTP POST or HTTP PUT verb to a specific CRUD action and always only ever do that one action with that one verb. That sucks and is not productive or functionally scalable. 
 
-Generally speaking, PUT is used if you know the entire URL before hand and the action is idempotent. <mark><strike>That</strike> Idempotent</mark> is a fancy word for "can do it over and over again without causing different results". 
+Generally speaking, PUT is used if you know the entire URL before hand and the action is idempotent. Idempotent is a fancy word for "can do it over and over again without causing different results". 
 
 For example, create _could_ be a PUT if you are creating one image for a place. If you were to do this:
 
