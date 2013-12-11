@@ -1,0 +1,190 @@
+# Endpoint Testing {#chapter-5}
+
+You might be sitting there thinking "This really escalated quickly, I'm not ready for testing!" but this is essentially the point. You have to set up your tests as early as possible so you actually bother using them, otherwise they become the "next thing" that just never gets done. Have no fear, testing an API is not only easy it is actually really quite fun. 
+
+## Concepts & Tools
+
+With an API there are a few things to test, but the most basic idea is "when I request this URL, I want to see a 'foo' resource", and "when I throw this JSON at the API, it should accept it or freak out." 
+
+This can be done in several ways and a lot of people will instantly try to unit-test it, but that quickly becomes a nightmare as while you might think just writing a bit of code with your favorite HTTP client is simple, if you have over 50 endpoints and want to do multiple checks per endpoint you end up with a MESS of code and it's no fun for anyone.
+
+The more code you have in your tests, the higher the chances of your tests being rubbish and you run the risk of false positives, which are super dangerous.
+
+So, the most simplistic approach will be to use a BDD tool. A very popular BDD tool is [Cucumber](http://cukes.info/) and this is considered by many to be a Ruby tool. It can in fact be used for Python, PHP and probably a whole bevy of other languages but some of the integrations can be tricky. For the PHP users here, we will be using Behat which is pretty much the same thing, along with [Gherkin](http://docs.behat.org/guides/1.gherkin.html) (the same DSL that Cucumber uses, so all of us are on basically the same page.)
+
+## Setup
+
+If you are a Ruby user you have the ease of simply running `get install cucumber`, or shove it in your `Gemfile`, whatever.
+
+As a PHP developer you simply need to install Behat, and this can be done with [Composer](http://getcomposer.org/). It is fair to assume that if you are using any sort of modern PHP framework you are already familiar with this so I won't bore the non-PHP devs by getting stuck into it, but your `composer.json` file should have these items inside:
+
+{title="Basic composer.json requirements for Behat", lang=javascript}
+~~~~~~~~
+{
+    "require": {
+        "behat/behat": "2.4.*@stable"
+    },
+
+    "config": {
+        "bin-dir": "bin/"
+    }
+}
+~~~~~~~~
+
+Run `$ composer install` and you should be good to go.
+
+God knows what to do with Python. Google should help you there. This could get complicated so I'm going to stick with PHP and Behat and you folks can just convert in your head as we go. 
+
+## Initialise
+
+Make a folder inside your codebase repo called "tests" and another inside that called "behat" - because one day maybe there will be lots of different types of test.
+
+    $ cd /path/to/my/app
+    $ mkdir tests && mkdir tests/behat
+    $ cd tests/behat
+    $ ../../bin/behat --init
+
+This will have the following output:
+    
+    +d features - place your *.feature files here
+    +d features/bootstrap - place bootstrap scripts and static files here
+    +f features/bootstrap/FeatureContext.php - place your feature related code here
+
+Next.
+
+## Features
+
+Features are a way to group your various tests together. For me I keep things fairly simple and consider each "resource" and "sub-resource" to be its own "feature".
+
+Looking at our users example from Chapter 2:
+
+|Action    |Endpoint               |Feature                           |
+|----------|-----------------------|----------------------------------|
+|Create    |POST /users            |features/users.feature            |
+|Read      |GET /users/X           |features/users.feature            |
+|Update    |POST /users/X          |features/users.feature            |
+|Delete    |DELETE /users/X        |features/users.feature            |
+|List      |GET /users             |features/users.feature            |
+|Image     |PUT /users/X/image     |features/users-image.feature      |
+|Favorites |GET /users/X/favorites |features/users-favorites.feature  |
+|Checkins  |GET /users/X/checkins  |features/users-checkins.feature   |
+
+So, anything to do with `/places` and `/places/X` would be the same, but as soon as you start looking at `/places/X/checkins` that becomes a new feature because we are talking about something else.
+
+You can use that convention or try something else, but this grows pretty well without having a bazillion files to sift through.
+
+## Scenarios
+
+Gherkin uses "Scenarios" as its core structure and they each contain "steps". In a unit-testing word these would be their own methods, and the "steps" would be "assertions". 
+
+These Features and Scenarios line up with the "Action Plan" created in Chapter 2. Each RESTful Resource needs at least one "Feature", and because each "Action" has an "Endpoint" we need _at least_ one "Scenario" for each "Action".
+
+Too much jargon? Time for an example:
+
+~~~~~~~~
+Feature: Places
+
+Scenario: Finding a specific place
+    When I request "GET /places/1"
+    Then I get a "200" response
+    And the properties exist:
+        """
+        id
+        name
+        lat
+        lon
+        address1
+        address2
+        city
+        state
+        zip
+        website
+        phone
+        created_at
+        """
+    And the "id" property is an integer
+
+Scenario: Listing all places is not possible
+    When I request "GET /places"
+    Then I get a "400" response
+
+Scenario: Searching non-existent places
+    When I request "GET /places?q=c800e42c377881f8202e7dae509cf9a516d4eb59&lat=1&lon=1"
+    Then I get a "200" response
+    And the "places" property is an empty array
+
+
+Scenario: Searching places with filters
+    When I request "GET /places?lat=40.76855&lon=-73.9945&q=cheese"
+    Then I get a "200" response
+    And the "places" property exists
+    And the "places" property is an array
+    And scope into the first "places" property
+        And the properties exist:
+            """
+            id
+sti
+            created_at
+            """
+    And reset scope
+
+~~~~~~~~
+
+This uses some custom rules which have been defined in `features/bootstrap/FeatureContext.php` but more on that shortly. 
+
+The Feature file is called `places.feature` and has 4 scenarios. One to show that listing all places is not allowed (400 means bad input, your should specify lat lon), another to find a specific place and two more to test how well searching works. 
+
+I try to think up the guard clauses that my endpoints will need, then make a "Scenario" for each of those. So, if you don't send a lat/lon to search then it errors. Test that.
+
+Expecting a boolean value but get a string? Test that:
+
+~~~~~~~~~
+Scenario: Wrong Arguments for user follow
+    Given I have the payload:
+        """
+        {"is_following": "foo"}
+        """
+    When I request "PUT /users/1"
+    Then I get a "400" response
+~~~~~~~~~
+
+Want to be sure your controllers can handle weird requests with a 404 instead of freaking out and going all 500 Internal Error? Test that.
+
+~~~~~~~~
+Scenario: Try to find an invalid moments
+    When I request "GET /moments/nope"
+    Then I get a "404" response
+~~~~~~~~~
+
+Sure you don't actually have any code yet, but you can write all of these tests based off of nothing but your "Action Plan" and your Routes. You should use what you know about the output content structure from [Chapter 3](#chapter-3) to plan what output you expect to see. 
+
+Then all you need to do is… you know… build your entire API. We'll get there. 
+
+## Prepping Behat
+
+You are probably wondering how you actually run these tests, because Behat involves making HTTP requests and you've just been writing text-files. Well, the class in `FeatureContext.php` handles all of that and a lot more, but first we need to configure Behat so we know what the hostname is going to be for these requests.
+
+    $ vim tests/behat/behat-dev.yml
+
+In this file put in something along the lines of:
+
+~~~~~~~~
+default:
+  context:
+    parameters:
+        base_url: http://localhost
+~~~~~~~~
+
+If you have virtual hosts set up on your machine then use those, and if you are running a local web-server on a different port then obviously you can use that too. That value could be `http://localhost:4000` or `http://dev-api.example.com`, it does not matter.
+
+With that ready - and if you wish to use the extra functionality provided in the examples above - you will need to use the file located in the resource ZIP listed in the intro. The file is `build-apis-you-wont-hate/behat/FeatureContext.php` and it replaces the default `tests/behat/bootstrap/FeatureContext.php`.
+
+## Running Behat
+
+This is the easiest bit:
+
+    $ ./vendor/bin/behat -c tests/behat/behat-dev.yml
+
+Everything is broken. Yaaay! 
+
+In the next chapter we will start to turn some of these tests green by putting actual data in there.

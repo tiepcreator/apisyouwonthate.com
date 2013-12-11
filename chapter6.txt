@@ -1,0 +1,402 @@
+# Outputting Data {#chapter-6}
+
+In [Chapter 3: Input and Output Theory](#chapter-3) we looked at the theory of the output structure and the pros and cons for various different formats. This book assumes you have picked your favorite, and it assumes that favorite is my favorite. This doesn't matter all that much but doing everything for everyone would be an exercise in futility and boredom. 
+
+The aim of this chapter is to help you build out your controller endpoints so that you can fill up a few of those tests with green lights, instead of the omnishambles of errors and fails you are most likely facing. 
+
+The examples in the first section will be trying to show off a list of places, and show of one specific place:
+
+~~~~~~~~
+{
+    "data": [
+        {
+            "id": 2,
+            "name": "Videology",
+            "lat": 40.713857,
+            "lon": -73.961936,
+            "created_at": "2013-04-02"
+        },
+        {
+            "id": 1,
+            "name": "Barcade",
+            "lat": 40.712017,
+            "lon": -73.950995,
+            "created_at": "2012-09-23"
+        }
+    ]
+}
+~~~~~~~~
+
+~~~~~~~~
+{
+    "data": [
+        "id": 2,
+        "name": "Videology",
+        "lat": 40.713857,
+        "lon": -73.961936,
+        "created_at": "2013-04-02"
+    ]
+}
+~~~~~~~~
+
+
+### The Direct Approach
+
+The first thing that every developer tries to do is take their favorite ORM, ODM, DataMapper or Query Builder, pull up a query and wang that result directly into the output.
+
+~~~~~~~~
+<?php
+class PlaceController extends ApiController
+{
+    public function show($id)
+    {
+        return json_encode([
+            'data' => Place::find($id)->toArray(),
+        ]);
+    }
+
+    public function list()
+    {
+        return json_encode([
+            'data' => Place::all()->toArray(),
+        ]);
+    }
+}
+~~~~~~~~
+
+This is the absolute worst idea you could have for enough reasons for me to fill up a chapter on its own, but I will try to keep it to a sub-section. 
+
+Your controller needs to not have all sorts of ORM logic scattered through it all, but even if you decide to wrap this up in some methods you still have these fundamental issues;
+
+**Performance:** If you return "all" items then that will be fine during development, but suck when you have a thousand records in that table... or a million.
+
+**Display:** PHP's popular SQL extensions all type-cast all data coming out of a query as a string, so if you have a MySQL "boolean" field (generally this is a `tinyint(1)` field with a value of `0` or `1`) will display in the JSON output as a string, with a value of `"0"` or `"1"` which is lunacy. If you're using PostgreSQL it is even worse, the value directly output by PHP's PostgreSQL driver is `"f"` or `"t"`. Your mobile developers won't like it one bit, and anyone looking at your public API is going to immediately consider this an amateur API. You want `true` or `false` as an actual JSON boolean, not a numeric string or a `char(1)`.
+
+**Security:** Outputting all fields can lead to API clients (users of all sorts) being able to view your users passwords, see sensitive information like email addresses for businesses involved (venues, partners, events, etc), gain access to secret keys and tokens generally not allowed. If you leak your forgotten password tokens for example then you're going to have an EXTREMELY bad time, its as bad as leaking the password itself.
+
+Some ORM's have a "hidden" option to hide specific fields from being output. If you can promise that you and every single other developer on your team (now, next year and for the entire lifetime of this application) will remember about that then congratulations, you could also achieve world peace with a team that focused. 
+
+**Stability:** If you change the name of a database field, or modify your MongoDB document, or change the statuses available for a field between v3 and v4 then your API will continue to behave perfectly, but all of your iPhone users are going to have busted crashing applications and it is your fault. You'll promise yourself that you won't change things, but you absolutely will. Change happens.
+
+So, next our theoretical developer friend will try hard-coding the output.
+
+~~~~~~~~
+<?php
+class PlaceController extends ApiController
+{
+    public function show($id)
+    {
+        $place = Place::find($id);
+
+        return json_encode([
+            'data' => [
+                'id'         => (int) $place->id,
+                'name'       => $place->name,
+                'lat'        => (float) $place->lat,
+                'lon'        => (float) $place->lon,
+                'created_at' => (string) $place->created_at,
+            ],
+        ]);
+    }
+
+    public function list()
+    {
+        $places = array();
+
+        foreach (Place::all() as $place) {
+            $places[] = [
+                'id'         => (int) $place->id,
+                'name'       => $place->name,
+                'lat'        => (float) $place->lat,
+                'lon'        => (float) $place->lon,
+                'created_at' => (string) $place->created_at,
+            ];
+        }
+
+        return json_encode([
+            'data' => $places,
+        ]);
+    }
+}
+~~~~~~~~
+
+Thanks to specifying exactly what fields to return in the JSON array the security issues are taken care of. The type-casting of various fields turn numeric strings into integers, coordinates into floats, and that pesky `Carbon` (DateTime) object from Laravel into a string, instead of letting the object turn itself into an array.
+
+The only issue this has not taken care of from the above example is performance, but that is a job for pagination which will be covered in a later chapter. 
+
+A new issue has however been created, which should be a fairly obvious one: This is icky. Our theoretical developer now tries something else.
+
+~~~~~~~~
+<?php
+class PlaceController extends ApiController
+{
+    public function show($id)
+    {
+        $place = Place::find($id);
+
+        return json_encode([
+            'data' => $this->transformPlaceToJson($place),
+        ]);
+    }
+
+    public function list()
+    {
+        $places = array();
+        foreach (Place::all() as $place) {
+            $places[] = $this->transformPlaceToJson($place);
+        }
+
+        return json_encode([
+            'data' => $places,
+        ]);
+    }
+
+    private function transformPlaceToJson(Place $place)
+    {
+        return [
+            'id'         => (int) $place->id,
+            'name'       => $place->name,
+            'lat'        => (float) $place->lat,
+            'lon'        => (float) $place->lon,
+            'created_at' => (string) $place->created_at,
+        ];
+    }
+}
+~~~~~~~~
+
+Certainly much better, but what if a different controller wants to show a place at any point? You could theoretically move all of these transform methods to a new class or shove them in the `ApiController`, but that would just be odd. 
+
+Really you want to make what I have come to call "Transformers", partially because the name is awesome and because that is what they are doing. 
+
+These are essentially just classes which have a transform method, which does the same as the `transformPlaceToJson()` above, but to avoid you having to learn how to make your own I have released a PHP package which takes care of it: [Fractal](https://packagist.org/packages/league/fractal).
+
+### Transformations with Fractal
+
+With Fractal, Transformers are created as either a callback or an instance of an object implementing `League\Fractal\TransformerAbstract`. They do exactly the job that our `transformPlaceToJson()` method did but they live on their own, are easily unit-testable (if that floats your boat) and remove a lot of presentation clutter from the controller.
+
+Fractal does a lot more than that which will be explored later on, but it covers concerns with transformation perfectly, removes the security, stability and display concerns addressed earlier.
+
+While other languages have great solutions for this already, PHP seemed to be rather lacking for this exact purpose. Some call it "Data Marshalling" or "Nested Serialization", but it is all achieving roughly the same goal: take potentially complicated data from a range of stores and turn it into a consistent output.
+
+* [Jbuilder](https://github.com/rails/jbuilder) looks fairly slick for the Ruby crowd
+* Tweet other suggestions to @philsturgeon
+
+That is the end of theory in this book. We will now be working with code. Open up the Sample Code ZIP file or head to the [GitHub repo](https://github.com/philsturgeon/build-apis-you-wont-hate) and extract it somewhere useful.
+
+    $ cd chapter6
+    $ php artisan migrate
+    $ php artisan db:seed
+    $ ./run-demo.sh
+    PHP 5.5.6 Development Server started at Tue Dec 10 23:30:32 2013
+    Listening on http://localhost:5000
+    Document root is /some/place/chapter6/public
+    Press Ctrl-C to quit.
+
+Open your browser and go to `http://localhost:5000/places`, and there is a list of places looking like this:
+
+![Fractal default JSON structure](images/chapter6/fractal-json.png)
+
+This is a Laravel 4 application but only because it has migrations and seeding and I like it. This is made up of a few bits of PHP that would work in any framework, and the approach works in any language.
+
+* **composer.json** - Added an autoloadable folder using PSR-0 to allow my own code to be loaded
+* **app/controllers/ApiController.php** - Insanely simple base controller for wrapping responses
+* **app/controllers/PlaceController.php** - Grab some data and pass it to the `ApiController`
+
+Other than defining some basic GET routes in `app/routes.php` that is basically all that is being done. 
+
+The `PlaceController` looks like this:
+
+~~~~~~~~
+<?php
+use App\Transformer\PlaceTransformer;
+
+class PlaceController extends ApiController
+{
+    public function index()
+    {
+        $places = Place::take(10)->get();
+        return $this->respondWithCollection($places, new PlaceTransformer);
+    }
+
+    public function show($id)
+    {
+        $place = Place::find($id);
+        return $this->respondWithItem($place, new PlaceTransformer);
+    }
+}
+~~~~~~~~
+
+The "raw data" (happens to be an ORM model but could be anything) is sent back with the appropriate convenience method and a transformer instance is provided too. These `respondWithCollection()` and `respondWithItem()` methods come from ApiController, and their job is just to create Fractal instances without exposing as many classes to interact with. 
+
+The ApiController is kept super simple at this point too:
+
+~~~~~~~~
+<?php
+
+use League\Fractal\Resource\Collection;
+use League\Fractal\Resource\Item;
+use League\Fractal\Manager;
+
+class ApiController extends Controller
+{
+    protected $statusCode = 200;
+
+    public function __construct(Manager $fractal)
+    {
+        $this->fractal = $fractal;
+    }
+
+    public function getStatusCode()
+    {
+        return $this->statusCode;
+    }
+    
+    public function setStatusCode($statusCode)
+    {
+        $this->statusCode = $statusCode;
+        return $this;
+    }
+    
+    protected function respondWithItem($item, $callback)
+    {
+        $resource = new Item($item, $callback);
+
+        $rootScope = $this->fractal->createData($resource);
+
+        return $this->respondWithArray($rootScope->toArray());
+    }
+
+    protected function respondWithCollection($collection, $callback)
+    {
+        $resource = new Collection($collection, $callback);
+
+        $rootScope = $this->fractal->createData($resource);
+
+        return $this->respondWithArray($rootScope->toArray());
+    }
+
+    protected function respondWithArray(array $array, array $headers = [])
+    {
+        return Response::json($array, $this->statusCode, $headers);
+    }
+
+}
+~~~~~~~~
+
+The method `respondWithArray()` takes a general array to convert into JSON, which will prove useful with errors. Other than that everything you return will be a Fractal Item, or a Collection.
+
+That for me was one of the most complicated parts of building an API at first. Literally everything else is just business as usual as far as application development goes, but understanding how to send back formatted data in a nice manageable fashion was complicated. 
+
+### Outputting Errors
+
+Exactly how to output errors is something I personally am still toying with. The current front-runner is adding convenience methods to the ApiController which handle global routes with a constant as the code and a HTTP error code set, with an optional message in case I want to override the message.
+
+~~~~~~~~
+
+    // ...
+    
+    const CODE_WRONG_ARGS = 'GEN-FUBARGS';
+    const CODE_NOT_FOUND = 'GEN-LIKETHEWIND';
+    const CODE_INTERNAL_ERROR = 'GEN-AAAGGH';
+    const CODE_UNAUTHORIZED = 'GEN-MAYBGTFO';
+    const CODE_FORBIDDEN = 'GEN-GTFO';
+    
+	// ...
+
+    protected function respondWithError($message, $errorCode, $statusCode = null)
+    {
+        $statusCode = $statusCode ?: $this->statusCode;
+
+        if ($statusCode === 200) {
+            trigger_error("You better have a really good reason for erroring on a 200...", E_USER_WARNING);
+        }
+
+        return $this->respondWithArray([
+            'error' => [
+                'code' => $errorCode,
+                'http_code' => $statusCode,
+                'message' => $message,
+            ]
+        ]);
+    }
+
+    /**
+     * Generates a Response with a 403 HTTP header and a given message.
+     *
+     * @return  Response
+     */
+    public function errorForbidden($message = 'Forbidden')
+    {
+        return $this->responseWithError($message, self::CODE_FORBIDDEN, 403);
+    }
+
+    /**
+     * Generates a Response with a 500 HTTP header and a given message.
+     *
+     * @return  Response
+     */
+    public function errorInternalError($message = 'Internal Error')
+    {
+        return $this->responseWithError($message, self::CODE_INTERNAL_ERROR, 500);
+    }
+    
+    /**
+     * Generates a Response with a 404 HTTP header and a given message.
+     *
+     * @return  Response
+     */
+    public function errorNotFound($message = 'Resource Not Found')
+    {
+        return $this->responseWithError($message, self::CODE_NOT_FOUND, 404);
+    }
+
+    /**
+     * Generates a Response with a 401 HTTP header and a given message.
+     *
+     * @return  Response
+     */
+    public function errorUnauthorized($message = 'Unauthorized')
+    {
+        return $this->responseWithError($message, self::CODE_UNAUTHORIZED, 401);
+    }
+
+    /**
+     * Generates a Response with a 400 HTTP header and a given message.
+     *
+     * @return  Response
+     */
+    public function errorWrongArgs($message = 'Wrong Arguments')
+    {
+        return $this->responseWithError($message, self::CODE_WRONG_ARGS, 400);
+    }
+~~~~~~~~
+
+This basically allows for generic error messages to be returned in your controller without having to think too much about the specifics.
+
+~~~~~~~~
+<?php
+use App\Transformer\PlaceTransformer;
+
+class PlaceController extends ApiController
+{
+    public function index()
+    {
+        $places = Place::take(10)->get();
+        return $this->respondWithCollection($places, new PlaceTransformer);
+    }
+
+    public function show($id)
+    {
+        $place = Place::find($id);
+        
+        if (! $place) {
+        	return $this->errorNotFound('Did you just invent an ID and try loading a place? Muppet.');
+		}
+		
+        return $this->respondWithItem($place, new PlaceTransformer);
+    }
+}
+~~~~~~~~
+
+Other "Place" specific errors could go directly into the `PlaceController` as methods just like these, with their own constants in the controller, picking a statusCode in the method or relying on one as an argument. 
+

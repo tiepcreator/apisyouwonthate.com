@@ -1,0 +1,15 @@
+# Sample Code
+
+Throughout this book I will refer to source code which exists on a GitHub repo, which can be downloaded in a few ways. You can clone it:
+
+    git clone git@github.com:philsturgeon/build-apis-you-wont-hate.git
+
+Browse around it:
+
+    https://github.com/philsturgeon/build-apis-you-wont-hate
+
+Download it as a `.zip` file:
+
+    http://bit.ly/apisyouwonthate-zip
+
+This contains a few bits and bobs that will save you having to copy and paste things out of the ebook, which would probably be horrendous.

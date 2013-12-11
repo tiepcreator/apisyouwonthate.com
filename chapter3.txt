@@ -1,0 +1,368 @@
+# Input and Output Theory {#chapter-3}
+
+Now that we have a good idea how endpoints work the next glass of theory to swallow down is input and output. This is the easiest of all really as it's just HTTP "requests" and "responses", which is the same as AJAX or anything else. If you have ever been forced to work with SOAP you will know all about WSDLs. If you know what they are, be happy you don't have to work with them anymore. If you don't know what they are then be happy you never had to learn. SOAP was the worst.
+
+Input is purely a HTTP request and there are multiple parts to this. Here is an example:
+
+## Requests
+
+~~~~~~~~
+GET /places?lat=40.759211&lon=-73.984638 HTTP/1.1
+Host: api.example.com
+~~~~~~~~
+
+This is a very simple `GET` request. We can see the URL path being requested is `/places` with a query string of `lat=40.759211&lon=-73.984638`. The HTTP version in use is HTTP/1.1, the host name is defined. This is essentially what your browser does when you go to any website. Rather boring I'm sure.
+
+~~~~~~~~
+POST /moments/1/gift HTTP/1.1
+Host: api.example.com
+Authorization: vr5HmMkzlxKE70W1y4MibiJUusZwZC25NOVBEx3BD1
+Content-Type: application/json
+
+{ "user_id" : 2 }
+~~~~~~~~
+
+Here we make a POST request with a "HTTP Body" The `Content-Type` header points out we are sending JSON and the blank line above the JSON separates the "HTTP Headers" from the "HTTP Body". HTTP really is amazingly simple, this is all you need to do for anything and you can do all of this with a HTTP client in whatever programming language you feel like using this week:
+
+{title="Using PHP and the Guzzle HTTP library to make a HTTP Request ", lang=php}
+~~~~~~~~
+use Guzzle\Http\Client;
+
+$headers = [
+    'Authorization' => 'vr5HmMkzlxKE70W1y4MibiJUusZwZC25NOVBEx3BD1',
+    'Content-Type' => 'application/json',
+];
+$payload = [
+    'user_id' => 2
+];
+
+// Create a client and provide a base URL
+$client = new Client('http://api.example.com');
+
+$req = $client->post('/moments/1/gift, $headers, json_encode($payload))
+~~~~~~~~
+
+{title="Using Python and the Requests HTTP library to make a HTTP Request ", lang=python}
+~~~~~~~~
+import requests
+
+headers = {
+    'Authorization': 'vr5HmMkzlxKE70W1y4MibiJUusZwZC25NOVBEx3BD1',
+    'Content-Type': 'application/json',
+}
+payload = {
+    'user_id': 2
+}
+req = requests.post('http://api.example.com/moments/1/gift', data=json.dumps(payload), headers=headers)
+~~~~~~~~
+
+It's all the same. Define your headers, define the body in an appropriate format and send it on its way. Then you get a response, so let's talk about those.
+
+## Responses
+
+Much the same as a HTTP Request your HTTP Response is going to end up as plain text (unless you're using SSL but shut up we aren't there yet).
+
+{title="Example HTTP response containing a JSON body"}
+~~~~~~~~
+HTTP/1.1 200 OK
+Server: nginx
+Content-Type: application/json
+Connection: close
+X-Powered-By: PHP/5.5.5-1+debphp.org~quantal+2
+Cache-Control: no-cache, private
+Date: Fri, 22 Nov 2013 16:37:57 GMT
+Transfer-Encoding: Identity
+
+{"id":1690,"is_gift":true,"user":{"id":1,"name":"Theron Weissnat","bio":"Occaecati excepturi magni odio distinctio dolores illum voluptas voluptatem in repellendus eum enim ","gender":"female","picture_url":"https:\/\/si0.twimg.com\/profile_images\/711293289\/hhdl-twitter_normal.png","cover_url":null,"location":null,"timezone":-1,"birthday":"1989-09-17 16:27:36","status":"available","created_at":"2013-11-22 16:37:57","redeem_by":"2013-12-22 16:37:57"}
+~~~~~~~~
+
+We can spot some fairly obvious things here. `200 OK` is a standard "no issues here buddy" response. We have a `Content-Type` again, and the API is pointing out that caching this is not ok. The `X-Powered-By` header is also a nice little reminder that I should switch `expose_php = On` to `expose_php = Off` in php.ini. Oops.
+
+This is essentially the majority of how an API works. Just like learning a programming language you will always come across new functions and utilities which will improve the RESTful-ness of your API and I will point out a bunch of them as we go, but just like the [levenshtein()](http://php.net/manual/en/function.levenshtein.php) there will be HTTP Headers that you had no idea existed popping up that you will think "How the shit did I not notice that?". 
+
+## Supporting Formats
+
+Picking what formats to support is hard, but there are a few easy wins to make early on.
+
+### No Form Data
+
+PHP developers always try to do something that literally nobody else does, and that is to send data to the API using: `application/x-www-form-urlencoded`. 
+
+This mime-type is one of the few ways that browsers send data via a form when you use HTTP POST, and PHP will take that data, slice it up and make it available in `$_POST`. Because of this convenient feature many PHP developers will make their API send data that way, then wonder why sending data with PUT is "different".
+
+Urf.
+
+`$_GET` and `$_POST` have nothing to do with HTTP GET and HTTP POST. `$_GET` just contains query string content _regardless_ of the HTTP method. `$_POST` contains the values of the HTTP Body if it was in the right format and the Content-Type header is `application/x-www-form-urlencoded`.
+
+So knowing that PHP just has some silly names for things, we can move on and completely ignore $_POST. Pour one out in the ground, because it is dead to you. 
+
+Why? So many reasons, including the fact that once again everything in `application/x-www-form-urlencoded` is a string.
+
+~~~~~~~~
+foo=something&bar=1&baz=0
+~~~~~~~~
+
+Yeah you have to use 1 or 0 because `bar=true` would be `string("true")` on the server-side. Data-types are important, so lets not just throw them out the window for the sake of "easy access to our data". That argument is also moronic as `Input::json('foo')` is possible in most decent PHP frameworks and even without it you just have to `file_get_contents('php://input')` to read the HTTP body yourself.
+
+~~~~~~~~
+POST /checkins HTTP/1.1
+Host: api.example.com
+Authorization: vr5HmMkzlxKE70W1y4MibiJUusZwZC25NOVBEx3BD1
+Content-Type: application/json
+
+{
+    "checkin": {
+        "place_id" : 1,
+        "message": "This is a bunch of text.",
+        "with_frinds": [1, 2, 3, 4, 5]
+    }
+}
+~~~~~~~~
+
+This is a perfectly valid HTTP body for a checkin. You know what they are saying, you know who the user is from their auth token, you know who they are with and you get the benefit of having it wrapped up in a single `checkin` key for simple documentation and easy "You sent a checkin object to the user settings page… dumbass." responses.
+
+That same request using form data is a mess.
+
+~~~~~~~~
+POST /checkins HTTP/1.1
+Host: api.example.com
+Authorization: vr5HmMkzlxKE70W1y4MibiJUusZwZC25NOVBEx3BD1
+Content-Type: application/x-www-form-urlencoded
+
+checkin[place_id]=1&checkin[message]=This is a bunch of text&checkin[with_frinds][]=1&checkin[with_frinds][]=2&checkin[with_frinds][]=3&checkin[with_frinds][]=4&checkin[with_frinds][]=5
+~~~~~~~~
+
+This makes me upset _and_ angry. Do not do it in your API.
+
+Finally, do not try to be clever by mixing JSON with form data:
+
+~~~~~~~~
+POST /checkins HTTP/1.1
+Host: api.example.com
+Authorization: vr5HmMkzlxKE70W1y4MibiJUusZwZC25NOVBEx3BD1
+Content-Type: application/x-www-form-urlencoded
+
+json="{
+    \"checkin\": {
+        \"place_id\" : 1,
+        \"message\": \"This is a bunch of text.\",
+        \"with_frinds\": [1, 2, 3, 4, 5]
+    }
+}"
+~~~~~~~~
+
+Who the hell is the developer trying to impress with stuff like that? It is insanity and anyone who tries this needs to have their badge and gun revoked. 
+
+### JSON and XML
+
+Any modern API you talk to will support JSON unless it is a financial services API or the developer is a moron - probably both to be fair. Sometimes they will support XML too. XML used to be a the popular format for data transfer with both SOAP and XML-RPC (duh). XML is however a nasty-ass disgusting mess of tags and the file-size of an XML file containing the same data as a JSON file is often much larger.
+
+Beyond purely the size of the data being stored, XML is horribly bad at storing type. That might not worry a PHP developer all that much as PHP is not really any better when it comes to type, but look at this:
+
+~~~~~~~~
+{
+    "place": {
+        "id" : 1,
+        "name": "This is a bunch of text.",
+        "is_true": false,
+        "maybe": null,
+        "empty_string": ""
+    }
+}
+~~~~~~~~
+
+That response in XML:
+
+~~~~~~~~
+<places>
+    <place>
+        <id>1</id>,
+        <name>This is a bunch of text.</name>
+        <is_true>0</is_true>
+        <maybe />
+        <empty_string />
+    </place>
+</places>
+~~~~~~~~
+
+Basically in XML _everything_ is considered a string, meaning integers, booleans and nulls can be confused. Both `maybe` and `empty_string` have the same value, because there is no way to denote null either. Gross...
+
+Now, the XML-savvy among you will be wondering why I am not using attributes to simplify it? Well, this XML structure is a typical "auto-generated" chunk of XML converted from an array in the same way that JSON is built - but this of course ignores attributes and does not allow for all the specific structure that your average XML consumer will demand. 
+
+If you want to start using attributes for some bits of data but not others then your conversion logic becomes INSANELY complicated. How would we build something like this?
+
+~~~~~~~~
+<places>
+    <place id="1" is_true="1">
+        <name>This is a bunch of text.</name>
+        <empty_string />
+    </place>
+</places>
+~~~~~~~~
+
+The answer is unless you seek specific fields and try to guess that an "id" is probably an attribute, etc then there is no programatic way in your API to take the same array and make JSON AND XML. Instead you realistically need to use a "view" (from the MVC pattern) to represent this data just like you would with HTML or work with XML generation in a more OOP way. Either way it is an abomination and I refuse to work in those conditions. Luckily nobody at Kapture wants XML so I don't have to move back to England just yet.
+
+If your team is on the fence about XML and you don't 100% need it, then don't bother using it. I know it is fun to show off your API switching formats and supporting all sorts of stuff, but I would strongly urge you to work out what format(s) you actually need and STICK TO THOSE. Sure Flickr supports lolcat as input and output, but they have a much bigger team so you don't need to worry about it. JSON is fine. If you have a lot of Ruby bros around then you will probably want to output YML too, which is as easy to generate as JSON in most cases.
+
+## Content Structure
+
+This is a tough topic and there is no right answer and whether you use EmberJS, RestKit or any other framework with knowledge of REST you will find somebody annoyed that the data is not in their preferred format. There are a lot of factors and I will simply explain them all and let you know where I landed.
+
+### JSON API
+
+There is one recommended format on [JSON API](http://jsonapi.org/format/) which maybe you all just want to use. It suggests that both single resources and resource collections should both be inside a plural key.
+
+~~~~~~~~
+{
+  "posts": [{
+    "id": "1",
+    "title": "Rails is Omakase"
+  }]
+}
+~~~~~~~~
+
+**Pros**
+
+* Consistent response, _always_ has the same structure
+
+**Cons**
+
+* Some RESTful/Data utilities freak about have single responses in an array
+* Potentially confusing to humans
+
+EmberJS (EmberData) out of the box will get fairly sad about this and I had trouble hacking it to support the fact that only requesting one item would still return an array that looks like it could contain multiple. It seems (to me) to be a weird rule. Imagine you call `/me` to get the current user, and it gives you a collection? What the hell?
+
+Do not discount JSON API as it is a wonderful resource with a lot of great ideas, but it strikes me as over-complicated in multiple areas.
+
+### Twitter-style
+
+Ask for one user get one user:
+
+~~~~~~~~
+{
+  "name": "Phil Sturgeon", 
+  "id": "511501255"
+}
+~~~~~~~~
+
+Ask for a collection of things and get a collection of things:
+
+~~~~~~~~
+[
+  {
+    "name": "Hulk Hogan", 
+    "id": "100002"
+  }, 
+  {
+    "name": "Mick Foley", 
+    "id": "100003"
+  }
+]
+~~~~~~~~
+
+**Pros**
+
+* Minimalistic response
+* Almost every framework/utility can comprehend it
+
+**Cons**
+
+* No space for pagination or other meta data
+
+This is potentially a reasonable solution if you will never use pagination or meta data.
+
+### Facebook-style
+
+Ask for one user get one user:
+
+~~~~~~~~
+{
+  "name": "Phil Sturgeon", 
+  "id": "511501255"
+}
+~~~~~~~~
+
+Ask for a collection of things and get a collection of things, but namespaced:
+
+~~~~~~~~
+{
+  "data": [
+    {
+      "name": "Hulk Hogan", 
+      "id": "100002"
+    }, 
+    {
+      "name": "Mick Foley", 
+      "id": "100003"
+    }
+  ]
+}
+~~~~~~~~
+
+**Pros**
+
+* Space for pagination and other meta data in collection
+* Simplistic response even with the extra namespace
+
+**Cons**
+
+* Single items still can only have meta data by embedding it item resource
+
+By placing the collection into the "data" namespace you can easily add other content next to it which relates to the response but is not part of the list of resources at all. Counts, links, etc can all go here (more on this later). It also means when you embed other nested relationships you can include a "data" element for them and even include meta data for those embedded relationships. More on that latr too. 
+
+The only potential "con" left with Facebook is that the single resources are not namespaced, meaning that adding any sort of meta data would pollute the global namespace - something which PHP developers are against after a decade of flagrantly doing so.
+
+So the final output example (and the one which I am starting to use at Kapture for v4) is this;
+
+### Much Namespace, Nice Output
+
+Namespace the single items.
+
+~~~~~~~~
+{
+  "data": {
+    "name": "Phil Sturgeon", 
+    "id": "511501255"
+  }
+}
+~~~~~~~~
+
+Namespace the multiple items.
+
+~~~~~~~~
+{
+  "data": [
+    {
+      "name": "Hulk Hogan", 
+      "id": "100002"
+    }, 
+    {
+      "name": "Mick Foley", 
+      "id": "100003"
+    }
+  ]
+}
+~~~~~~~~
+
+This is close to the JSON API response, has the benefits of the Facebook approach and is just like Twitter but everything is namespaced. Some folks (including me in the past) will suggest that you should change "data" to "users" but when you start to nest your data you want to keep that special name for the name of the relationship. For example:
+
+~~~~~~~~
+{
+  "data": {
+    "name": "Phil Sturgeon", 
+    "id": "511501255"
+    "comments": {
+        "data": [
+            {
+              "id": 123423
+              "text": "MongoDB is web-scale!"
+            }
+        ]
+    }
+  }
+}
+~~~~~~~~
+
+So here we can see the benefits of keeping the root scope generic. We know that a user is being returned because we are requesting a user, and when comments are being returned we wrap that in a "data" item so that pagination or links can be added to that nested data too. This is the structure I will be testing against and using for examples, but it is only a simple tweak between any of these structures.
+
+We will get to links, relationships, side-loading, pagination, etc in later chapters, but for now forget about it. All you want to worry about is your response, which consists of this chunk of data or an error.
