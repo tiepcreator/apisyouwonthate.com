@@ -1,3 +1,3 @@
-# Coming Soon... {#chapter-7}
+# Embedding Data {#chapter-7}
 
-The next chapter will hopefully be with you by December 17th, 2013.
+This chapter will hopefully be with you by December 17th, 2013.
