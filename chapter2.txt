@@ -111,11 +111,15 @@ Turning this "Action Plan" into actual endpoints requires knowing a little theor
 
 * `GET /resources/X,Y,Z` - The client wants multiple things, so give them multiple things.
 
-It can be hard to pick between sub-resource URLs or nested data. Well, nested data is really hard so that will be covered later. For now the answer is "just sub-resources", but eventually the answer will be "both". This is how sub-resources look:
+It can be hard to pick between sub-resource URLs or embedded data. Embedded data can be rather difficult to pull off so that will be saved for [Chapter 7: Embedding Data](#chapter7). For now the answer is "just sub-resources", but eventually the answer will be "both". This is how sub-resources look:
 
-* `GET /places/X/checkins` - Find all the checkins for a specific place.  
+* `GET /places/X/checkins` - Find all the checkins for a specific place.
 
 * `GET /users/X/checkins` - Find all the checkins for a specific user.
+
+* `GET /users/X/checkins/Y` - Find a specific checkin for a specific user.
+
+The latter is questionable, and not something I have ever personally done. At that point I would prefer to simply use /place 
 
 ### DELETE Resources
 

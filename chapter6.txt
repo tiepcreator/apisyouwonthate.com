@@ -176,7 +176,7 @@ Really you want to make what I have come to call "Transformers", partially becau
 
 These are essentially just classes which have a transform method, which does the same as the `transformPlaceToJson()` above, but to avoid you having to learn how to make your own I have released a PHP package which takes care of it: [Fractal](https://packagist.org/packages/league/fractal).
 
-### Transformations with Fractal
+## Transformations with Fractal
 
 With Fractal, Transformers are created as either a callback or an instance of an object implementing `League\Fractal\TransformerAbstract`. They do exactly the job that our `transformPlaceToJson()` method did but they live on their own, are easily unit-testable (if that floats your boat) and remove a lot of presentation clutter from the controller.
 
@@ -190,8 +190,6 @@ While other languages have great solutions for this already, PHP seemed to be ra
 That is the end of theory in this book. We will now be working with code. Open up the Sample Code ZIP file or head to the [GitHub repo](https://github.com/philsturgeon/build-apis-you-wont-hate) and extract it somewhere useful.
 
     $ cd chapter6
-    $ php artisan migrate
-    $ php artisan db:seed
     $ ./run-demo.sh
     PHP 5.5.6 Development Server started at Tue Dec 10 23:30:32 2013
     Listening on http://localhost:5000
@@ -234,6 +232,42 @@ class PlaceController extends ApiController
 ~~~~~~~~
 
 The "raw data" (happens to be an ORM model but could be anything) is sent back with the appropriate convenience method and a transformer instance is provided too. These `respondWithCollection()` and `respondWithItem()` methods come from ApiController, and their job is just to create Fractal instances without exposing as many classes to interact with. 
+
+The `PlaceTransformer` looks like this:
+
+~~~~~~~~
+<?php namespace App\Transformer;
+
+use Place;
+use League\Fractal\TransformerAbstract;
+
+class PlaceTransformer extends TransformerAbstract
+{
+    /**
+     * Turn this item object into a generic array
+     *
+     * @return array
+     */
+    public function transform(Place $place)
+    {
+        return [
+            'id'           => (int) $place->id,
+            'name'         => $place->name,
+            'lat'          => (float) $place->lat,
+            'lon'          => (float) $place->lon,
+            'address1'     => $place->address1,
+            'address2'     => $place->address2,
+            'city'         => $place->city,
+            'state'        => $place->state,
+            'zip'          => (float) $place->zip,
+            'website'      => $place->website,
+            'phone'        => $place->phone,
+        ];
+    }
+}
+~~~~~~~~
+
+Simple.
 
 The ApiController is kept super simple at this point too:
 
@@ -293,7 +327,39 @@ class ApiController extends Controller
 
 The method `respondWithArray()` takes a general array to convert into JSON, which will prove useful with errors. Other than that everything you return will be a Fractal Item, or a Collection.
 
-That for me was one of the most complicated parts of building an API at first. Literally everything else is just business as usual as far as application development goes, but understanding how to send back formatted data in a nice manageable fashion was complicated. 
+## Hiding Schema Updates
+
+Schema updates happen, and they can be hard to avoid. If the change in question is simply a renamed field then this is insanely easy to handle:
+
+**Before**
+
+~~~~~~~~
+        'website' => $place->website,
+~~~~~~~~
+
+**After**
+
+~~~~~~~~
+        'website' => $place->url,
+~~~~~~~~
+
+By changing the right (our internal data structure) and keeping the left the same (the external field name) we maintain control over the stability for the client applications.
+
+Sometimes it is a status change. A new status is added, or the change is fairly drastic and the status all change, but the old API version is still expecting the old one. Maybe someone changed "available" to "active" to be consistent with the other tables, because the original developer was as consistent and logical as a rabid ferrit. 
+
+**Before**
+
+~~~~~~~~
+        'status' => $place->status,
+~~~~~~~~
+
+**After**
+
+~~~~~~~~
+        'status' => $place->status === 'available' ? 'active' : $place->status,
+~~~~~~~~
+
+Gross, but useful.
 
 ## Outputting Errors
 
@@ -317,18 +383,19 @@ class ApiController extends Controller
     
 	// ...
 
-    protected function respondWithError($message, $errorCode, $statusCode = null)
+    protected function respondWithError($message, $errorCode)
     {
-        $statusCode = $statusCode ?: $this->statusCode;
-
-        if ($statusCode === 200) {
-            trigger_error("You better have a really good reason for erroring on a 200...", E_USER_WARNING);
+        if ($this->statusCode === 200) {
+            trigger_error(
+                "You better have a really good reason for erroring on a 200...",
+                E_USER_WARNING
+            );
         }
 
         return $this->respondWithArray([
             'error' => [
                 'code' => $errorCode,
-                'http_code' => $statusCode,
+                'http_code' => $this->statusCode,
                 'message' => $message,
             ]
         ]);
@@ -341,7 +408,7 @@ class ApiController extends Controller
      */
     public function errorForbidden($message = 'Forbidden')
     {
-        return $this->responseWithError($message, self::CODE_FORBIDDEN, 403);
+        return $this->setStatusCode(403)->responseWithError($message, self::CODE_FORBIDDEN);
     }
 
     /**
@@ -351,7 +418,7 @@ class ApiController extends Controller
      */
     public function errorInternalError($message = 'Internal Error')
     {
-        return $this->responseWithError($message, self::CODE_INTERNAL_ERROR, 500);
+        return $this->setStatusCode(500)->responseWithError($message, self::CODE_INTERNAL_ERROR);
     }
     
     /**
@@ -361,7 +428,7 @@ class ApiController extends Controller
      */
     public function errorNotFound($message = 'Resource Not Found')
     {
-        return $this->responseWithError($message, self::CODE_NOT_FOUND, 404);
+        return $this->setStatusCode(404)->responseWithError($message, self::CODE_NOT_FOUND);
     }
 
     /**
@@ -371,7 +438,7 @@ class ApiController extends Controller
      */
     public function errorUnauthorized($message = 'Unauthorized')
     {
-        return $this->responseWithError($message, self::CODE_UNAUTHORIZED, 401);
+        return $this->setStatusCode(401)->responseWithError($message, self::CODE_UNAUTHORIZED);
     }
 
     /**
@@ -381,7 +448,7 @@ class ApiController extends Controller
      */
     public function errorWrongArgs($message = 'Wrong Arguments')
     {
-        return $this->responseWithError($message, self::CODE_WRONG_ARGS, 400);
+        return $this->setStatusCode(400)->responseWithError($message, self::CODE_WRONG_ARGS);
     }
 ~~~~~~~~
 
@@ -415,4 +482,81 @@ class PlaceController extends ApiController
 
 Other "Place" specific errors could go directly into the `PlaceController` as methods just like these, with their own constants in the controller, picking a statusCode in the method or relying on one as an argument. 
 
-With valid output covered and basic errors covered, what is next? The most complicated part of API generation, which at some point every developer has to try and work out: embedding/nesting resources.
+## Testing this Output
+
+You have already seen how to test your endpoints using the Gherkin syntax in [Chapter 5: Endpoint Testing](#chapter-5), so we can apply that testing logic to this output:
+
+~~~~~~~~
+Feature: Places
+
+Scenario: Listing places without search criteria is not possible
+    When I request "GET /places"
+    Then I get a "400" response
+
+Scenario: Finding a specific place
+    When I request "GET /places/1"
+    Then I get a "200" response
+    And scope into the "data" property
+        And the properties exist:
+            """
+            id
+            name
+            lat
+            lon
+            address1
+            address2
+            city
+            state
+            zip
+            website
+            phone
+            created_at
+            """
+        And the "id" property is an integer
+
+Scenario: Searching non-existent place
+    When I request "GET /places?q=c800e42c377881f8202e7dae509cf9a516d4eb59&lat=1&lon=1"
+    Then I get a "200" response
+    And the "data" property contains 0 items
+
+
+Scenario: Searching places with filters
+    When I request "GET /places?lat=40.76855&lon=-73.9945&q=cheese"
+    Then I get a "200" response
+    And the "data" property is an array
+    And scope into the first "data" property
+        And the properties exist:
+            """
+            id
+            name
+            lat
+            lon
+            address1
+            address2
+            city
+            state
+            zip
+            website
+            phone
+            created_at
+            """
+    And reset scope
+~~~~~~~~
+
+This is again using the `FeatureContext.php` provided in the sample code, which makes it really easy to test output. We are again assuming that all output is in a `"data"` element, which is either an object (when one resource has been requested) or an array of objects (multiple resources or a collection have been requested).
+
+When you are searching for data you want to ensure that not finding any data doesn't explode. This can be down to your controller processing on output and failing because what should be an array is null, or because some PHP collection class is missing methods, etc. This is why we perform the search with a hardcoded invalid search term, then check that it returns an empty collection:
+
+~~~~~~~~
+{
+    "data": []
+}
+~~~~~~~~
+
+The line `And the "data" property contains 0 items` will cover this. Then we can search for valid terms, knowing that our database seeder has made sure at least one Place has the keyword "cheese" in the name. Using the line `And scope into the first "data" property` the scope changes to be inside the first data item returned, and the properties can be checked for existence too. If no data, or required fields are missing, this test will fail.
+
+## Homework
+
+Your homework is to take apart the sample application, fit it into your API and try to build valid output for as many of your GET endpoints as possible. Check the data types and make sure the array structure is being output in the way you expect using the test example above.
+
+With valid output covered and basic errors covered, what is next? The most complicated part of API generation, which at some point every developer has to try and work out: embedding/nesting resources, or making "relationships".

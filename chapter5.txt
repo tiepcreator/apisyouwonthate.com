@@ -14,7 +14,7 @@ So, the most simplistic approach will be to use a BDD tool. A very popular BDD t
 
 ## Setup
 
-If you are a Ruby user you have the ease of simply running `get install cucumber`, or shove it in your `Gemfile`, whatever.
+If you are a Ruby user you have the ease of simply running `$ gem install cucumber`, or shove it in your `Gemfile`, whatever.
 
 As a PHP developer you simply need to install Behat, and this can be done with [Composer](http://getcomposer.org/). It is fair to assume that if you are using any sort of modern PHP framework you are already familiar with this so I won't bore the non-PHP devs by getting stuck into it, but your `composer.json` file should have these items inside:
 
@@ -87,22 +87,23 @@ Feature: Places
 Scenario: Finding a specific place
     When I request "GET /places/1"
     Then I get a "200" response
-    And the properties exist:
-        """
-        id
-        name
-        lat
-        lon
-        address1
-        address2
-        city
-        state
-        zip
-        website
-        phone
-        created_at
-        """
-    And the "id" property is an integer
+    And scope into the "data" property
+        And the properties exist:
+            """
+            id
+            name
+            lat
+            lon
+            address1
+            address2
+            city
+            state
+            zip
+            website
+            phone
+            created_at
+            """
+        And the "id" property is an integer
 
 Scenario: Listing all places is not possible
     When I request "GET /places"
@@ -111,23 +112,30 @@ Scenario: Listing all places is not possible
 Scenario: Searching non-existent places
     When I request "GET /places?q=c800e42c377881f8202e7dae509cf9a516d4eb59&lat=1&lon=1"
     Then I get a "200" response
-    And the "places" property is an empty array
-
+    And the "data" property contains 0 items
 
 Scenario: Searching places with filters
     When I request "GET /places?lat=40.76855&lon=-73.9945&q=cheese"
     Then I get a "200" response
-    And the "places" property exists
-    And the "places" property is an array
-    And scope into the first "places" property
+    And the "pagination" property is an object
+    And the "data" property is an array
+    And scope into the first "data" property
         And the properties exist:
             """
             id
-sti
+            name
+            lat
+            lon
+            address1
+            address2
+            city
+            state
+            zip
+            website
+            phone
             created_at
             """
     And reset scope
-
 ~~~~~~~~
 
 This uses some custom rules which have been defined in `features/bootstrap/FeatureContext.php` but more on that shortly. 

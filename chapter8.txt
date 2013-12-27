@@ -1,0 +1,5 @@
+# Debugging {#chapter-8}
+
+## Coming Soon
+
+This chapter will hopefully be with you by January 5th, 2014.

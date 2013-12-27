@@ -8,4 +8,4 @@ The API in question was v2 when I joined the company and written in FuelPHP, uti
 
 By passing on some best practices and general good advice you can hit the ground running if you are new to API development. On the flip side, by recounting some horror stories (and how they were overcome/avoided/averted) you can hopefully avoid a lot of the pitfalls I either fell into, or nearly fell into, or saw others fall into. This book will discuss the theory of designing and building APIs in any language or framework with this theory applied in examples built in PHP. I'm going to try and avoid making it code-heavy to stop you falling asleep and to keep the non-PHP developers happy. 
 
-This book will be updated with a new chapter every week or two, so don't worry about that abrupt ending.
+Some of the more advanced topics covered here are endpoint testing, embedding data objects in a consistent and scalable maner, paginating responses (including embedded objects) and HATEOAS links.

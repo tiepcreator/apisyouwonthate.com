@@ -1,3 +1,255 @@
-# Embedding Data {#chapter-7}
+# Data Relationships {#chapter-7}
 
-This chapter will hopefully be with you by December 17th, 2013.
+If you've ever worked with relational databases the chances are you understand relationships. Users have 
+comments. Authors have one or many books. Books belong to a Publisher. Southerners have one or more teeth.
+ Whatever the example, relationships are incredibly important to any application and therefore an API too. 
+
+RESTful Relationships don't necessarily need to be directly mapped to database relationships. 
+If your database relationships are built properly, RESTful relationships will often be similar, but your RESTful output might have extra dynamic relationships that aren't defined by a JOIN, and might not necessarily include every possible database relationship.
+
+Put more eloquently:
+
+> REST components communicate by transferring a representation of a resource in a format matching one of 
+an evolving set of standard data types, selected dynamically based on the capabilities or desires of 
+the recipient and the nature of the resource. Whether the representation is in the same format as the raw 
+source, or is derived from the source, remains hidden behind the interface.
+> -- [Roy Fielding](http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm#sec_5_2)
+
+This explanation highlights an important factor: the output has to be based on the "desires of 
+the recipient". There are many popular approaches to designing RESTful relationships, but 
+many of them don't satisfy the "desires of the recipient". Still, I will cover the popular approaches 
+with their pros and cons regardless.
+
+## Sub-Resources
+
+One very simplistic way to approach related data is to offer up new URL's for your API consumers 
+to digest. This was covered lightly in [Chapter 2: Planning and Creating Endpoints](#chapter-2), and is 
+a perfectly valid approach.
+
+If an API has `places` as a resource and wants to allow access to a place's checkins, an 
+endpoint could be made to handle exactly that:
+
+> /places/X/checkins
+
+The downside here is that it is an extra HTTP request. Imagine an iPhone application that wants to get 
+all `places` in an area and put them on a map, then allow a user to browse through them. If the `place` 
+search happens as one request, then the `/places/X/checkins` is executed each time the user clicks on a 
+place, and they will end up doing a lot of unecessary waiting. This is known as "n+1", meaning your work 
+done is increased by an extra one request for each place you look up.
+
+That also assumes the only related data is checkins. At Kapture our API also has `merchant`, `images`,
+`current_campaign` and `previous_campaigns` to look up. Using "sub-resources" only would mean that 4 
+extra HTTP requests per place need to happen, which is n+4. 
+
+If 50 `places` were returned and each time the related data had to be loaded, assuming the app user looked 
+through all 50 `places` there would be 1 initial request to get 50 results. For each of those results 
+would be 4 more, meaning: `1 + (50 x 4) = 251`. 251 HTTP requests happening (even assuming they are 
+asyncronous) is just unecessary and going over HTTP on a mobile is the slowest things you can do. Even with 
+caching, depending on the data set it could still be 251 requests.
+
+Some API developers try to avoid going over HTTP too many times by shoving as much data as possible into one request, so when you call the `/places` endpoint you automatically get `checkins`, `current_opps`, 
+`merchants` and `images`. Well, if you do not want that information you are waiting for huge file 
+downloads full of irrelevant JSON! Even with GZIP compression enabled on the web-server, downloading 
+something you don't need is obviously not desirable, and can be avoided. This can mean major performance 
+gains on mobile, and minor gains over a slow network or weak Wi-Fi for desktop or tablets.
+
+The trade-off here between "downloading enough data to avoid making the user wait for subsequent loads" 
+and "downloading too much data to make them wait for the initial load". It's hard, but you need the 
+flexibility and making sub-resources your only related data approach does not give the API consumer 
+any flexibility.
+
+## Foreign Key Arrays
+
+Another approach to related data is to provide an array of foreign keys in the output. To use 
+[an example from EmberJS](http://emberjs.com/guides/models/defining-models/), if a `post` has 
+multiple `comments`, the `/posts` endpoint could contain the following:
+
+~~~~~~~~
+{
+  "post": {
+    "id": 1
+    "title": "Progressive Enhancement is Dead",
+    "comments": ["1", "2"],
+    "_links": {
+      "user": "/people/tomdale"
+    }
+  }
+}
+~~~~~~~~
+
+This is better. You still end up with n+1 requests, but at least you can take those ID's and make a grouped 
+request like `/comments/1,2` or `/comments?ids=1,2` to reduce how many HTTP requests are being made. 
+
+Back to the places example, if you have 50 places returned and need 4 extra pieces of data, you could 
+itterate through the 50, map which items expect which pieces of data, request all unique pieces of data 
+and only end up with `1 + 4 = 5` HTTP requests instead of 251.
+
+The downside is that your API consumer has to stitch all of that data together, which could be a lot of 
+work if it is a large dataset, so it is still not ideal.
+
+## Compound Documents (a.k.a Side-Loading)
+
+Instead of just putting the foreign keys into the resource you can optionally side-load the data. I was 
+having a rough time of things trying to word an introduction, so I'll let somebody else do it:
+
+> Compound documents contain multiple collections to allow for side-loading of related objects. 
+Side-loading is desirable when nested representation of related objects would result in potentially 
+expensive repetition. For example, given a list of 50 comments by only 3 authors, a nested representation 
+would include 50 author objects where a side-loaded representation would contain only 3 author objects.
+> **Source: ** https://canvas.instructure.com/doc/api/file.compound_documents.html
+
+I found that by searching for "compound document". I found that term by searching for "REST Side-Loading".
+I found that after having a horrible time with EmberJS forcing me to use the "side-loading" approach 
+for Ember Data, and they barely explain it themselves.
+
+It looks a little like this:
+
+~~~~~~~~
+{
+  "meta": {"primaryCollection": "comments"},
+  "comments": [...],
+  "authors": [...]
+}
+~~~~~~~~
+
+The pro suggested in the quote above is: if an embedded piece of data is commonly recuring, you do 
+not have to download the same resource multiple times. The con is that context gets lost in larger data 
+structures and it has the same issue as the "Foreign Key Array": the mapping of data to create an 
+acurate structure is left to the API consumer, and that can be hard work.
+
+## Embedded Documents (a.k.a Nesting)
+
+This is the approach I have been using in the latest two versions of the API at Kapture, and I will 
+continue to use it for the foreseeable future. It offers the most flexibility for the API consumer: 
+meaning it can reduce HTTP requests or reduce download size depending on what the consumer wants.
+
+If a API consumer were to call the URL `/places?embed=checkins,merchant` then they would see checkin 
+and merchant data in the response inside the book resource:
+
+~~~~~~~~
+{
+    "data": [
+        {
+            "id": 2,
+            "name": "Videology",
+            "lat": 40.713857,
+            "lon": -73.961936,
+            "created_at": "2013-04-02",
+            "checkins" : [
+                // ...
+            ],
+            "merchant" : {
+                // ...
+            }
+        },
+        {
+            "id": 1,
+            "name": "Barcade",
+            "lat": 40.712017,
+            "lon": -73.950995,
+            "created_at": "2012-09-23",
+            "checkins" : [
+                // ...
+            ],
+            "merchant" : {
+                // ...
+            }
+        }
+    ]
+}
+~~~~~~~~
+
+Some systems (like Facebook, or any API using Fractal) will let you nest those embeds with dot notation:
+
+**E.g:** `/places?embed=checkins,merchant,current_opp.images`
+
+### Embedding with Fractal
+
+Picking back up from Chapter 6, your transformer at this point is mainly just giving you a method to 
+handle array conversion from your data source to a simple array. Fractal can however embed resources 
+and collections too. Going back to the book example in Chapter 6, the `BookTransformer` might contain 
+an optional embed for an author.
+
+``` php
+<?php namespace App\Transformer;
+
+use Book;
+use League\Fractal\TransformerAbstract;
+
+class BookTransformer extends TransformerAbstract
+{
+    /**
+     * List of resources possible to embed via this transformer
+     *
+     * @var array
+     */
+    protected $availableEmbeds = [
+        'author'
+    ];
+
+    /**
+     * Turn this item object into a generic array
+     *
+     * @return array
+     */
+    public function transform(Book $book)
+    {
+        return [
+            'id'    => (int) $book->id,
+            'title' => $book->title,
+            'year'  => $book->yr,
+        ];
+    }
+
+    /**
+     * Embed Author
+     *
+     * @return League\Fractal\ItemResource
+     */
+    public function embedAuthor(Book $book)
+    {
+        $author = $book->author;
+
+        return $this->item($author, new AuthorTransformer);
+    }
+}
+```
+
+This example happens to be using the lazy-loading functionality of an ORM for `$book->author`, but 
+there is no reason that eager-loading could not also be used by inspecting the `$_GET['embed']` list 
+of requested scopes. Something like this can easily go in your controller constructor, somewhere in the base controller or... something:
+
+~~~~~~~~~
+$requestedEmbeds = Input::get('embed');
+
+// Left is the embed names, right is relationship names.
+// avoids exposing relationships and whatnot directly
+$possibleRelationships = [
+    'publisher' => 'publisher',
+    'author' => 'user',
+];
+
+// Check for potential ORM relationships, and convert from generic "embed" names
+$eagerLoad = array_values(array_intersect($possibleRelationships, $requestedEmbeds));
+
+$books = Book::with($eagerLoad)->get();
+~~~~~~~~~
+
+### Being a RESTful Rebel
+
+I read a blog article by [Ian Bentley](http://idbentley.com/blog/2013/03/14/should-restful-apis-include-relationships/) suggesting that this approach is not entirely RESTful. It points to a Roy Fielding quote:
+
+> The central feature that distinguishes the REST architectural style from other network-based styles is 
+> its emphasis on a uniform interface between components (Figure 5-6). By applying the software 
+> engineering principle of generality to the component interface, the overall system architecture is 
+> simplified and the visibility of interactions is improved.
+> [Roy Fielding](http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm#sec_5_1)
+
+All of these solutions are - according to somebody - "wrong". There are technical pros and cons and what 
+I refer to as "moral" issues, but those moral issues are just down to how technically RESTful you care 
+about being. The technical benefits that optional embedded relationships provide are so beneficial I do 
+not care about crossing Roy and his RESTful spec to do it. 
+
+Make your own choices. Facebook, Twitter and most popular "RESTful API's" fundamentally ignore parts of 
+(or dump all over the entirety of) the RESTful spec, so respecting everything else and popping your toe 
+over the line here a little would not be the biggest travesty for your API.
