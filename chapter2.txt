@@ -107,7 +107,7 @@ Turning this "Action Plan" into actual endpoints requires knowing a little theor
 
 * `GET /resources` - Some paginated list of stuff, in some logical default order for that specific data.
 
-* `GET /resources/X` - Just entity X. That can be a key or an ID, but really shouldn't be an auto-incrementing ID unless you want everyone to know how many users, merchants, etc you have. They can also write a script which +1's the data to scrape it all, but they could probably do that from the "list" endpoints anyway - so just think about it.
+* `GET /resources/X` - Just entity X. That can be an ID, hash, slug, username, etc as long as it unique to one "resource". 
 
 * `GET /resources/X,Y,Z` - The client wants multiple things, so give them multiple things.
 
@@ -119,7 +119,15 @@ It can be hard to pick between sub-resource URLs or embedded data. Embedded data
 
 * `GET /users/X/checkins/Y` - Find a specific checkin for a specific user.
 
-The latter is questionable, and not something I have ever personally done. At that point I would prefer to simply use /place 
+The latter is questionable, and not something I have ever personally done. At that point I would prefer to simply use `/checkins/X`.
+
+W> ## Auto-Increment is the Devil
+W>
+W> In these examples X and Y can be an auto-incrementing ID as many developers will assume. One important factor with auto-incrementing ID's is that anyone with access to your API will know exactly how many resources you have, which might not be a statistic you want your competitors to have. 
+W> 
+W> Consumers could also write a script which hits `/users/1`, then `/users/2` and `/users/3`, etc scraping all data as it goes. Sure they could probably do that from the "list" endpoints anyway, but not all resources should have a "get all" approach.
+W> 
+W> Instead a unique identifier is often a good idea. A universal unique identifier (UUID) seems like a logical thing to do: [ramsey\uuid for PHP](https://github.com/ramsey/uuid), [uuid for Ruby](https://rubygems.org/gems/uuid), [uuid in Python 2.5+](http://docs.python.org/2/library/uuid.html).
 
 ### DELETE Resources
 
