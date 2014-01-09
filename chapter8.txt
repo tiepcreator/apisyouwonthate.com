@@ -1,5 +1,116 @@
 # Debugging {#chapter-8}
 
-## Coming Soon
+There are a few approaches to debugging relevant to developing an API. 
 
-This chapter will hopefully be with you by January 5th, 2014.
+* Command-line Debugging
+* Browser Debugging
+* Network Debugging
+
+## Command-line Debugging
+
+Command-line curl is a great option for some, touting the benefits of being able to do it from inside a network firewall. 
+Certainly this can be an option for debugging live servers, but for development purposes (which is what we are doing here) 
+then using curl is just a lot of commands to remember for no reason.
+
+    curl -X POST http://localhost/places/fg345d/checkins --data @payload.json
+
+It is not the most complicated way, but it is not the easiest. You'll need to update that payload.json each time, or have a 
+bunch of JSON in the CLI, and either way that is a pain in the backside when you have a lot of endpoints with lots of 
+potential values.
+
+## Browser Debugging
+
+Working in the browser is a great way to do things and developers are fairly used to it. Sadly 
+most browsers can only really handle `GET` and `POST` requests by default, and a RESTful API requires 
+much more than that. Beyond that a good RESTful API will need to handle headers, which can be hard to 
+do in a browser too. Some extensions can make it easier, but there are easier ways.
+
+### HTTP Clients
+
+Called "HTTP Clients" or "REST Client" interchangably, these bits of software help perfectly with the job this book
+sets out to achieve: building non-trivial APIs. They allow you to format your HTTP Request through a convenient GUI, 
+chosing the verb, adding headers, entering a body, etc then present the HTTP Response to you with formatting or in 
+source view if you prefer. Many of these GUIs will let you save common requests or build "collections".
+
+These clients exist for Windows, OSX and Linux but one that has really stood out to me is a Chrome extension called 
+[Postman][].
+
+  [Postman]: http://getpostman.com
+
+[!! image of postman!!]
+
+I have a collection which almost mirrors my Behat tests, and have at least one for each endpoint - some with more.
+
+Using Postman I can develop "in the browser" and see errors easily, and keep changing things and clicking "Send" for 
+as long as I have to to make it work. When I expect it to work I run the Behat scenario that covers the endpoint, and see 
+if the tests are green. If Behat fails and the errors are not enough to resolve the problem then simply go back to Postman 
+and try again.
+
+Repeat until it works.
+
+### Debug Panel
+
+The approach above works fine if the problem is one that you can see. Anything to do with a slow page return, 
+silent fails, unexpected results, etc. all need more information, and to do that you probably need another extension. 
+
+**[RailsPanel][]:** Chrome-only DevTool panel with logging and profiling for Ruby on Rails. ([RailsCasts Video][RailsPanelCast]).
+
+**[Clockwork][]:** Chrome DevTool panel and standalone web app with logging and profiling for PHP.
+
+**[Chrome Logger]:** Chrome Logger only for Python, PHP, Ruby, Node, .NET, CF and Go.
+
+The first two are very similar and are the most feature filled, but the latter covers basic logging for the wider selection 
+of languages.
+
+[RailsPanel]: https://github.com/dejan/rails_panel
+[RailsPanelCast]: http://railscasts.com/episodes/402-better-errors-railspanel?view=asciicast
+[Clockwork]: https://github.com/itsgoingd/clockwork-chrome
+[Chrome Logger]: http://craig.is/writing/chrome-logger
+
+![Clockwork showing the Laravel timeline in Chromium Browser](images/chapter8/clockwork-timeline.png)
+
+This timeline can be useful for working out where things are slowing down. Define your own events to see where the time is going.
+
+Seeing logs in this panel is another benefit, and it helps keep you from switching back to the console all the time. Any time 
+you would normally var_dump() something or use breakpoints you could simply use Clockwork/RailsPanel/Chrome Logger to do it, and see 
+it in the panel.
+
+<<[CheckinTransformer using Fractal, with added Logging](../src/chapter8/app/src/App/Transformer/CheckinTransformer.php)
+
+That will look a little something like this:
+
+![Clockwork showing the Log in Chromium Browser](images/chapter8/clockwork-log.png)
+
+You can log arrays and objects too:
+
+![Clockwork showing the Log in Chromium Browser](images/chapter8/clockwork-log-object.png)
+
+If logging something can't help you with a problem, you need to log more things. Eventually you'll work it out.
+
+
+## Network Debugging
+
+The previous approach of debugging was very much about being in control: create a Request, see what happens with the Response.
+That is great for development, but when your iPhone developer comes over and says "the API is broken" it can be hard to work out 
+why. Maybe its because the request is hard to recreate (like anything to do with upload images as a PUT after getting them from 
+the camera), or because there are multiple requests that the iPhone app is executing in order.
+
+Whatever the reason, sometimes you need to debug network activity to find out what is happening.
+
+### Charles
+
+If these are non-production errors that you want to debug against your local API and development iOS devices (a.k.a the iPhone 4S 
+you haven't bothered to put on eBay yet) then a great application to help out is [Charles](http://www.charlesproxy.com/).
+
+Charles essentially acts as a HTTP/HTTPS proxy, which means stuff comes in, stuff goes out, and Charles can show you what 
+that was. Beyond that it can rewrite headers and even let you modify the content of the request or response if you want to.
+
+To set the basics of this up, you first need to know the internal network of your machine.
+
+![Network Settings on Mac OSX, showing local IP](images/chapter8/network-ip.png)
+
+point your mobile at the IP of your machine. 
+
+[image of network setup on iphone]
+
+everything you then do on the iphone will point at the API on your local machine, allowing you to...

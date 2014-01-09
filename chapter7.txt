@@ -167,57 +167,21 @@ Some systems (like Facebook, or any API using Fractal) will let you nest those e
 
 Picking back up from Chapter 6, your transformer at this point is mainly just giving you a method to 
 handle array conversion from your data source to a simple array. Fractal can however embed resources 
-and collections too. Going back to the book example in Chapter 6, the `BookTransformer` might contain 
-an optional embed for an author.
+and collections too. Continuing the theme of users, places and checkins, the `UserTransformer` might
+have a checkins list, so see a users checkin history.
 
-``` php
-<?php namespace App\Transformer;
+<<[UserTransformer using Fractal](../src/chapter7/app/src/App/Transformer/UserTransformer.php)
 
-use Book;
-use League\Fractal\TransformerAbstract;
+The `CheckinTransfer` can then have both a `user` and a `place`. There is no benefit to requesting the user in this 
+context, because we know that already, but asking for the place would return information about the location that is 
+being checked into. 
 
-class BookTransformer extends TransformerAbstract
-{
-    /**
-     * List of resources possible to embed via this transformer
-     *
-     * @var array
-     */
-    protected $availableEmbeds = [
-        'author'
-    ];
+<<[CheckinTransformer using Fractal](../src/chapter7/app/src/App/Transformer/CheckinTransformer.php)
 
-    /**
-     * Turn this item object into a generic array
-     *
-     * @return array
-     */
-    public function transform(Book $book)
-    {
-        return [
-            'id'    => (int) $book->id,
-            'title' => $book->title,
-            'year'  => $book->yr,
-        ];
-    }
-
-    /**
-     * Embed Author
-     *
-     * @return League\Fractal\ItemResource
-     */
-    public function embedAuthor(Book $book)
-    {
-        $author = $book->author;
-
-        return $this->item($author, new AuthorTransformer);
-    }
-}
-```
-
-This example happens to be using the lazy-loading functionality of an ORM for `$book->author`, but 
+These examples happen to be using the lazy-loading functionality of an ORM for `$user->checkins` and `$checkin->place`, but 
 there is no reason that eager-loading could not also be used by inspecting the `$_GET['embed']` list 
-of requested scopes. Something like this can easily go in your controller constructor, somewhere in the base controller or... something:
+of requested scopes. Something like this can easily go in your controller constructor, somewhere in the 
+base controller or... something:
 
 ~~~~~~~~~
 $requestedEmbeds = Input::get('embed');
@@ -225,15 +189,104 @@ $requestedEmbeds = Input::get('embed');
 // Left is the embed names, right is relationship names.
 // avoids exposing relationships and whatnot directly
 $possibleRelationships = [
-    'publisher' => 'publisher',
-    'author' => 'user',
+    'checkins' => 'checkins',
+    'place' => 'venue',
 ];
 
 // Check for potential ORM relationships, and convert from generic "embed" names
 $eagerLoad = array_values(array_intersect($possibleRelationships, $requestedEmbeds));
 
 $books = Book::with($eagerLoad)->get();
+
+// do the usual fractal stuff
 ~~~~~~~~~
+
+Somewhere in the ApiController, or in your bootstrap somewhere having the following will make this all work:
+
+~~~~~~~~~
+class ApiController
+{
+    // ... 
+
+    public function __construct(Manager $fractal)
+    {
+        $this->fractal = $fractal;
+
+        // Are we going to try and include embedded data?
+        $this->fractal->setRequestedScopes(explode(',', Input::get('embed')));
+    }
+
+    // ... 
+}
+~~~~~~~~
+
+That's how you'd do things in Laravel at least.
+
+### Embedding with Rails
+
+The Rails lot are big fans of their ActiveRecord package, and most suggest to use it to embed data. The 
+specific part is in the [Serializaton::to_json Documentation](http://apidock.com/rails/ActiveRecord/Serialization/to_json).
+
+To include associations, use `blog.to_json(:include => :posts)`.
+
+~~~~~~~~~
+{
+  "id": 1, "name": "Konata Izumi", "age": 16,
+  "created_at": "2006/08/01", "awesome": true,
+  "posts": [{
+    "id": 1,
+    "author_id": 1,
+    "title": "Welcome to the weblog"
+  }, {
+    "id": 2, 
+    author_id: 1,
+    "title": "So I was thinking"
+  }]
+}
+~~~~~~~~~
+
+2nd level and higher order associations work as well.
+
+~~~~~~~~~
+blog.to_json(:include => { 
+  :posts => {
+    :include => {
+      :comments => {
+        :only => :body
+      }
+    },
+    :only => :title
+  }
+})
+~~~~~~~~~
+
+A little more complicated, but you get more control over what is returned.
+
+~~~~~~~~~
+{
+  "id": 1,
+  "name": "Konata Izumi",
+  "age": 16,
+  "created_at": "2006/08/01",
+  "awesome": true,
+  "posts": [{
+    "comments": [{
+      "body": "1st post!"
+    }, {
+      "body": "Second!"
+    }],
+    "title": "Welcome to the weblog"
+  },
+  {
+    "comments": [{
+      "body": "Don't think too hard"
+    }],
+    "title": "So I was thinking"
+  }]
+}
+~~~~~~~~~
+
+This will work well assuming everything is represented as ActiveRecord, which who knows, it might be.
 
 ### Being a RESTful Rebel
 

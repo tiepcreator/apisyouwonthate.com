@@ -190,11 +190,8 @@ While other languages have great solutions for this already, PHP seemed to be ra
 That is the end of theory in this book. We will now be working with code. Open up the Sample Code ZIP file or head to the [GitHub repo](https://github.com/philsturgeon/build-apis-you-wont-hate) and extract it somewhere useful.
 
     $ cd chapter6
-    $ ./run-demo.sh
-    PHP 5.5.6 Development Server started at Tue Dec 10 23:30:32 2013
-    Listening on http://localhost:5000
-    Document root is /some/place/chapter6/public
-    Press Ctrl-C to quit.
+    $ php artisan serve
+    Laravel development server started on http://localhost:8000
 
 Open your browser and go to `http://localhost:5000/places`, and there is a list of places looking like this:
 
@@ -408,7 +405,7 @@ class ApiController extends Controller
      */
     public function errorForbidden($message = 'Forbidden')
     {
-        return $this->setStatusCode(403)->responseWithError($message, self::CODE_FORBIDDEN);
+        return $this->setStatusCode(403)->respondWithError($message, self::CODE_FORBIDDEN);
     }
 
     /**
@@ -418,7 +415,7 @@ class ApiController extends Controller
      */
     public function errorInternalError($message = 'Internal Error')
     {
-        return $this->setStatusCode(500)->responseWithError($message, self::CODE_INTERNAL_ERROR);
+        return $this->setStatusCode(500)->respondWithError($message, self::CODE_INTERNAL_ERROR);
     }
     
     /**
@@ -428,7 +425,7 @@ class ApiController extends Controller
      */
     public function errorNotFound($message = 'Resource Not Found')
     {
-        return $this->setStatusCode(404)->responseWithError($message, self::CODE_NOT_FOUND);
+        return $this->setStatusCode(404)->respondWithError($message, self::CODE_NOT_FOUND);
     }
 
     /**
@@ -438,7 +435,7 @@ class ApiController extends Controller
      */
     public function errorUnauthorized($message = 'Unauthorized')
     {
-        return $this->setStatusCode(401)->responseWithError($message, self::CODE_UNAUTHORIZED);
+        return $this->setStatusCode(401)->respondWithError($message, self::CODE_UNAUTHORIZED);
     }
 
     /**
@@ -448,7 +445,7 @@ class ApiController extends Controller
      */
     public function errorWrongArgs($message = 'Wrong Arguments')
     {
-        return $this->setStatusCode(400)->responseWithError($message, self::CODE_WRONG_ARGS);
+        return $this->setStatusCode(400)->respondWithError($message, self::CODE_WRONG_ARGS);
     }
 ~~~~~~~~
 

@@ -1,0 +1,5 @@
+# Authentication {#chapter-9}
+
+## Coming Soon
+
+This chapter will hopefully be with you by January 11th, 2014.
