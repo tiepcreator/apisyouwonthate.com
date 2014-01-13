@@ -1,7 +1,11 @@
 # Planning and Creating Endpoints {#chapter-2}
 
-With your database planned and full of fake but useful data it is time to plan what your endpoints are going to look like. The first step is to work out the requirements 
-of an API, then we'll move onto some theory and finally see the theory implemented in some examples.
+With your database planned and full of fake but useful data it is time to plan what your endpoints are going to look like. An endpoint is simply a URL. When you go to `http://exmample.com/foo/bar` then that is an 
+endpoint. For planning purposes (because the domain will be the same for all of them) you simply need to 
+call that endpoint `/foo/bar`.
+
+The first step is to work out the requirements of an API, then we'll move onto some theory and finally 
+see the theory implemented in some examples.
 
 ## Functional Requirements
 

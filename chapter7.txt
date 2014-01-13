@@ -124,7 +124,7 @@ continue to use it for the foreseeable future. It offers the most flexibility fo
 meaning it can reduce HTTP requests or reduce download size depending on what the consumer wants.
 
 If a API consumer were to call the URL `/places?embed=checkins,merchant` then they would see checkin 
-and merchant data in the response inside the book resource:
+and merchant data in the response inside the `place` resource:
 
 ~~~~~~~~
 {
