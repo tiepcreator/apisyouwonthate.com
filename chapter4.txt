@@ -32,7 +32,7 @@ Arguments between developers will continue for the rest of time over the exact a
 * 200 - Generic everything is OK
 * 201 - Created something OK
 * 202 - Accepted but is being processed async (video is encoding, image is resizing, etc)
-* 400 - Wrong arguments (missing validation)
+* 400 - Bad Request (should really be for invalid syntax, but some folks use for validation)
 * 401 - Unauthorized (no current user and there should be)
 * 403 - The current user is forbidden from accessing this data
 * 404 - That URL is not a valid route, or the item resource does not exist
@@ -127,6 +127,12 @@ Compare this sort of logic with Facebook - and their lack of error codes:
             log.error("-- Unknown Facebook Error", exec_info=True)
             
 If they change their error messages then this might stop working, which would be shitty.
+
+## Error or Errors
+
+When returning errors, especially for validation, it can seem like a great idea to try and return multiple errors at a time to make things quicker for whatever client is interacting with the API. This sounds good in practice, but I find it’s best to simply stop processing (exit out) after the first error to avoid further controller interaction. This means less work goes into making a maintainable state for your controller after something goes wrong, and really is how most APIs work. 
+
+Try A, get error 1. Try B, get error 2. Try C, it works!
 
 ## Common Pitfalls
 

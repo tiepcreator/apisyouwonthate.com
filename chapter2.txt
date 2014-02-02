@@ -214,16 +214,16 @@ Later on we will look at some things that are not resources. Sub-resources can s
 Try to avoid the temptation to [screw around with magic routing conventions](http://philsturgeon.co.uk/blog/2013/07/beware-the-route-to-evil), just make them manually. I will keep going with the previous examples and show the process of turning the action plan into routes, using Laravel 4 syntax because why not:
 
 
-|Action     |Endpoint               |Route                                                               |
-|-----------|-----------------------|--------------------------------------------------------------------|
-|Create     |POST /users            |Route::post('users', 'UsersController@create');                     |
-|Read       |GET /users/X           |Route::get('users/{id}', 'UsersController@show');                   |
-|Update     |POST /users/X          |Route::post('users/{id}', 'UsersController@update');                |
-|Delete     |DELETE /users/X        |Route::delete('users/{id}', 'UsersController@delete');              |
-|List       |GET /users             |Route::get('users', 'UsersController@list');                        |
-|Image      |PUT /users/X/image     |Route::put('users/{id}/image', 'UsersController@uploadImage');      |
-|Favorites  |GET /users/X/favorites |Route::get('users/{id}/favorites', 'UsersController@favorites');    |
-|Checkins   |GET /users/X/checkins  |Route::get('users/{user_id}/checkins', 'CheckinsController@index'); |
+|Action     |Endpoint                 |Route                                                                 |
+|-----------|-------------------------|----------------------------------------------------------------------|
+|Create     |`POST /users`            |`Route::post('users', 'UsersController@create'); `                    |
+|Read       |`GET /users/X`           |`Route::get('users/{id}', 'UsersController@show');`                   |
+|Update     |`POST /users/X`          |`Route::post('users/{id}', 'UsersController@update');`                |
+|Delete     |`DELETE /users/X`        |`Route::delete('users/{id}', 'UsersController@delete');`              |
+|List       |`GET /users`             |`Route::get('users', 'UsersController@list');`                        |
+|Image      |`PUT /users/X/image`     |`Route::put('users/{id}/image', 'UsersController@uploadImage');`      |
+|Favorites  |`GET /users/X/favorites` |`Route::get('users/{id}/favorites', 'UsersController@favorites');`    |
+|Checkins   |`GET /users/X/checkins`  |`Route::get('users/{user_id}/checkins', 'CheckinsController@index');` |
   
 There are a few things in here worth considering. 
 

@@ -16,7 +16,7 @@ This is a very simple `GET` request. We can see the URL path being requested is 
 ~~~~~~~~
 POST /moments/1/gift HTTP/1.1
 Host: api.example.com
-Authorization: vr5HmMkzlxKE70W1y4MibiJUusZwZC25NOVBEx3BD1
+Authorization: Bearer vr5HmMkzlxKE70W1y4MibiJUusZwZC25NOVBEx3BD1
 Content-Type: application/json
 
 { "user_id" : 2 }
@@ -29,7 +29,7 @@ Here we make a POST request with a "HTTP Body" The `Content-Type` header points 
 use Guzzle\Http\Client;
 
 $headers = [
-    'Authorization' => 'vr5HmMkzlxKE70W1y4MibiJUusZwZC25NOVBEx3BD1',
+    'Authorization' => 'Bearer vr5HmMkzlxKE70W1y4MibiJUusZwZC25NOVBEx3BD1',
     'Content-Type' => 'application/json',
 ];
 $payload = [
@@ -47,7 +47,7 @@ $req = $client->post('/moments/1/gift, $headers, json_encode($payload))
 import requests
 
 headers = {
-    'Authorization': 'vr5HmMkzlxKE70W1y4MibiJUusZwZC25NOVBEx3BD1',
+    'Authorization': 'Bearer vr5HmMkzlxKE70W1y4MibiJUusZwZC25NOVBEx3BD1',
     'Content-Type': 'application/json',
 }
 payload = {
@@ -78,7 +78,7 @@ Transfer-Encoding: Identity
 
 We can spot some fairly obvious things here. `200 OK` is a standard "no issues here buddy" response. We have a `Content-Type` again, and the API is pointing out that caching this is not ok. The `X-Powered-By` header is also a nice little reminder that I should switch `expose_php = On` to `expose_php = Off` in php.ini. Oops.
 
-This is essentially the majority of how an API works. Just like learning a programming language you will always come across new functions and utilities which will improve the RESTful-ness of your API and I will point out a bunch of them as we go, but just like the [levenshtein()](http://php.net/manual/en/function.levenshtein.php) there will be HTTP Headers that you had no idea existed popping up that you will think "How the shit did I not notice that?". 
+This is essentially the majority of how an API works. Just like learning a programming language you will always come across new functions and utilities which will improve the RESTful-ness of your API and I will point out a bunch of them as we go, but just like the [levenshtein()](http://php.net/manual/en/function.levenshtein.php) function in PHP there will be HTTP Headers that you had no idea existed popping up that you will think "How the shit did I not notice that?". 
 
 ## Supporting Formats
 

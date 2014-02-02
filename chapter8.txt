@@ -85,7 +85,7 @@ the output of your logs via `tail -f`. Certainly you should be in the command li
 cause distractions which slow you down. 
 
 For those of you who normally debug with `var_dump()` or breakpoints, you could simply use Clockwork/RailsPanel/Chrome Logger to 
-do it, and see it in the panel - leaving your output untouch and avoiding tricky setup with IDE or other GUI programs.
+do it, and see it in the panel - leaving your output untouched and avoiding tricky setup with IDE or other GUI programs.
 
 <<[CheckinTransformer using Fractal, with added Logging](../src/chapter8/app/src/App/Transformer/CheckinTransformer.php)
 
