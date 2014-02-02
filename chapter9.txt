@@ -281,13 +281,13 @@ The only active and documented Ruby OAuth 2.0 Server I found was a Rack module n
 
 ## Where the OAuth 2.0 Server Lives
 
-Many assume that the OAuth 2.0 server should be part of their API server. While it certainly could do, it certainly does not need to be. 
+Many assume that the OAuth 2.0 server should be part of their API server. While it certainly could, it certainly does not need to. 
 
 An OAuth server usually has a web interface, which has HTML forms, form validation, and all sorts of static resources like images, CSS, JavaScript, etc. That makes it more fitting with a general website, so if you API and web-site are different servers then the OAuth server would be more fitting on the website.
 
-Generally speaking its better to keep all of these things autonomous, as if you decide to build a new version of your website in AngularJS instead of server-side logic then it would be a pain to have to switch your OAuth server implementation too. If the OAuth server is on its own server, or at very least its own codebase, then you do not have this concern.
+Generally speaking its better to keep all of these things autonomous, as if you decide to build a new version of your website in AngularJS instead of server-side code then it would be a pain to have to switch your OAuth server implementation too. If the OAuth server is on its own server, or at very least its own codebase, then you do not have this concern.
 
-The only thing you API needs to do is look for an Access Token (as a header or get variable) then hit whichever datastore (SQL database, Mongo, etc) that contains the access tokens. Check its valid (in the DB and not expired) then grab whichever user is tied to it, and pull that record for use throughout the API code.
+The only thing your API needs to do is look for an Access Token (as a header or get variable) then hit whichever datastore (SQL database, Mongo, etc) that contains the access tokens. Check its valid (in the DB and not expired) then grab whichever user is tied to it, and pull that record for use throughout the API code.
 
 None of that is complicated, so trying to tie the API server and OAuth server together in the same application codebase is not just required.
 
