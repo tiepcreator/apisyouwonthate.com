@@ -19,7 +19,7 @@ development purposes (which is what we are doing here) then using curl is just a
 
     curl -X POST http://localhost/places/fg345d/checkins --data @payload.json
 
-It is not the most complicated way to initiate a request, but it is not the easiest. You'll need to update that payload.json each time, or have a 
+It is not the most complicated way to initiate a request, but it is not the easiest. You will need to update that payload.json each time, or have a 
 bunch of JSON in the CLI, and either way that is a pain in the backside when you have a lot of endpoints with lots of 
 potential values.
 
@@ -97,7 +97,7 @@ You can log arrays and objects too:
 
 ![Clockwork showing the Log in Chromium Browser](images/chapter8/clockwork-log-object.png)
 
-If logging something can't help you with a problem, you need to log more things. Eventually you'll work it out.
+If logging something cannot help you with a problem, you need to log more things. Eventually you will work it out.
 
 
 ## Network Debugging
@@ -116,7 +116,7 @@ Whatever the reason, sometimes you need to debug network activity to find out wh
 ### Charles
 
 If these are non-production errors that you want to debug against your local API and development iOS devices (a.k.a the iPhone 4S 
-you haven't bothered to put on eBay yet) then a great application to help out is [Charles](http://www.charlesproxy.com/).
+you have not sold on eBay yet) then a great application is [Charles](http://www.charlesproxy.com/).
 
 Charles essentially acts as a HTTP proxy, which means stuff comes in, stuff goes out, and Charles can show you what 
 that was. Beyond that it can rewrite headers and even let you modify the content of the request or response if you want to.
@@ -141,7 +141,7 @@ W> Charles seems to have trouble proxying traffic if the end result is local tra
 W> running on `localhost:8000` will not work. I personally have Charles pointing to a Vagrant box running, on its own IP address with its own virtual host
 W> enabled. This is not something that the book will cover, but is certainly something you should look into doing.
 W> 
-W> If you know how the development server running on localhost could be enabled then, please get in touch. I'll give two free coupons to the first 
+W> If you know how the development server running on localhost could be enabled then, please get in touch. I will give two free coupons to the first 
 W> person who can correct me on this (allowing you to refund, or exchange them for beers with two friends).
 
 To make `dev-api.example.com` mean something on your mobile device, enter a "Map Remote" rule in Charles. 

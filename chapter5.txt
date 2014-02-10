@@ -166,7 +166,7 @@ Scenario: Try to find an invalid moments
 
 Sure you don't actually have any code yet, but you can write all of these tests based off of nothing but your "Action Plan" and your Routes. You should use what you know about the output content structure from [Chapter 3](#chapter-3) to plan what output you expect to see. 
 
-Then all you need to do is… you know… build your entire API. We'll get there. 
+Then all you need to do is… you know… build your entire API.
 
 ## Prepping Behat
 

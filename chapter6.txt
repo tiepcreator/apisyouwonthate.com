@@ -80,7 +80,7 @@ W> Your controller should definitely not have this sort of ORM/Query Builder log
 
 Some ORM's have a "hidden" option to hide specific fields from being output. If you can promise that you and every single other developer on your team (now, next year and for the entire lifetime of this application) will remember about that then congratulations, you could also achieve world peace with a team that focused. 
 
-**Stability:** If you change the name of a database field, or modify your MongoDB document, or change the statuses available for a field between v3 and v4 then your API will continue to behave perfectly, but all of your iPhone users are going to have busted crashing applications and it is your fault. You'll promise yourself that you won't change things, but you absolutely will. Change happens.
+**Stability:** If you change the name of a database field, or modify your MongoDB document, or change the statuses available for a field between v3 and v4 then your API will continue to behave perfectly, but all of your iPhone users are going to have busted crashing applications and it is your fault. You will promise yourself that you won't change things, but you absolutely will. Change happens.
 
 So, next our theoretical developer friend will try hard-coding the output.
 

@@ -1,15 +1,17 @@
 # Sample Code
 
-Throughout this book I will refer to source code which exists on a GitHub repo, which can be downloaded in a few ways. You can clone it:
+Throughout this book I will refer to source code which exists on a GitHub repo, which can be downloaded in a few ways. 
 
-    git clone git@github.com:philsturgeon/build-apis-you-wont-hate.git
+a) You can clone it:
 
-Browse around it:
+  git clone git@github.com:philsturgeon/build-apis-you-wont-hate.git
 
-    https://github.com/philsturgeon/build-apis-you-wont-hate
+b) Browse around it:
 
-Download it as a `.zip` file:
+  https://github.com/philsturgeon/build-apis-you-wont-hate
 
-    http://bit.ly/apisyouwonthate-zip
+c) Download it as a `.zip` file:
 
-This contains a few bits and bobs that will save you having to copy and paste things out of the ebook, which would probably be horrendous.
+  http://bit.ly/apisyouwonthate-zip
+
+This contains a few bits and bobs that will save you from copying and pasting things out of the ebook, which would probably be horrendous.

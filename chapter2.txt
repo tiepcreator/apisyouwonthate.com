@@ -4,8 +4,7 @@ With your database planned and full of fake but useful data it is time to plan w
 endpoint. For planning purposes (because the domain will be the same for all of them) you simply need to 
 call that endpoint `/foo/bar`.
 
-The first step is to work out the requirements of an API, then we'll move onto some theory and finally 
-see the theory implemented in some examples.
+The first step is to work out the requirements of an API, then we can move onto some theory and finally see the theory implemented in some examples.
 
 ## Functional Requirements
 
@@ -163,7 +162,7 @@ That would be a perfect example of when to use a `PUT` because you already know 
 
 At Kapture we use a POST to `/checkins` to create the metadata for that new checkin, then that will return the URL for us to PUT the image to. You could try checking in multiple times and it wouldn't matter because none of those processes would be complete, but POSTing multiple times is not idempotent because each checkin is different. PUT is idempotent because you are uploading that image to the full URL and you can do it over and over again if you like (because the upload failed and it has to try again).
 
-So, if you have multiple images for places maybe you could `POST /places/X/images` and multiple attempts would be different images. If you know you're only going to have one image and a new attempt is an override then `PUT /places/X/image` would be ideal.
+So, if you have multiple images for places maybe you could `POST /places/X/images` and multiple attempts would be different images. If you know you are only going to have one image and a new attempt is an override then `PUT /places/X/image` would be ideal.
 
 Another example could be user settings:
 
@@ -174,9 +173,9 @@ It's a tricky difference, but do not try and tie a HTTP Method to one CRUD actio
 
 ### Plural, Singular or Both?
 
-Some developers decide to make all endpoints singular but I take issue with that. Given `/user/1` and `/user`, which user is that last one returning? Is it "me"? What about `/place`? It returns multiple? Meh.
+Some developers decide to make all endpoints singular but I take issue with that. Given `/user/1` and `/user`, which user is that last one returning? Is it "me"? What about `/place`? It returns multiple? Confusing.
 
-I know it can be tempting to create `/user/1` and `/users` because the two endpoints do different things, right? I started off down this route (#pun) with my original planning, but in my experience this convention grows badly. Sure it works with the example of "users", but what about those fun English words that create exceptions, like `/opportunity/1` which becomes `/opportunities`. Gross. 
+I know it can be tempting to create `/user/1` and `/users` because the two endpoints do different things, right? I started off down this route (#pun) originally, but in my experience this convention grows badly. Sure it works with the example of "users", but what about those fun English words that create exceptions, like `/opportunity/1` which becomes `/opportunities`. Gross. 
 
 I pick plural for everything as it is the most obvious:
 
@@ -229,7 +228,7 @@ There are a few things in here worth considering.
 
 1. Create and Update are both `POST`. Not because `PUT` is evil, but because when we create a user in this example we do not know what their URL would be because our URLs are auto-generated with their ID. If we knew their username for example we could have `PUT /users/philsturgeon` but then it would be hard to work out if we are accidentally making the same HTTP request a second time, or trying to override an existing user.
 1. Favorites go to the `UserController`, because favorites are only ever relevant to the user.
-1. Checkins go to the `CheckinController`, because we might already have a checkin controller handling `/checkins` and the logic is basically identical. We'll know if there is a `user_id` param in the URL if our router is nice enough to let us know, so we can use that to make it user specific if needs be. 
+1. Checkins go to the `CheckinController`, because we might already have a checkin controller handling `/checkins` and the logic is basically identical. We will know if there is a `user_id` param in the URL if our router is nice enough to let us know, so we can use that to make it user specific if needs be. 
 
 Those last two are kinda complex, but are examples of things you can be thinking about at this point. You don't want to have multiple endpoints doing painfully similar things with copy and paste logic because A) [PHP Copy/Paste Detector](https://github.com/sebastianbergmann/phpcpd) will be angry, B) your iPhone developer will be mad that different endpoints are acting differently - therefore confusing RestKit and C) it's boring and ain't nobody got time for that.
 

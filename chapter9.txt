@@ -132,9 +132,7 @@ Not quite as popular these days, but OAuth 1.0a was a big player on the web-base
 
 Previously we have looked at authentication technologies that were essentially "built into the browser" and were not particularly flexible in their usages. OAuth 1.0 was a great way for services such as social networks to implement web-based HTML login forms that looked the same as any other login form (were branded with logos, color schemes, etc), but could then send you back to the third-party website for all sorts of awesome integration purposes. 
 
-For example, when Twitter swapped from HTTP Basic integration to OAuth 1.0 it meant that instead of third-parties (iPhone apps, other websites, CMSs, whatever) asking end-users to enter their username and password (which would be saved somewhere in plain-text), the third-party could redirect the user to the Twitter website, get them to log in, have them come back to their service and save a special token, instead of saving a password.
-
-OAuth 1.0a called these tokens a "OAuth Token" and a "OAuth Token Secret". Well, everyone called them all sorts of different things, but that is what we'll be calling them. 
+For example, when Twitter swapped from HTTP Basic integration to OAuth 1.0 it meant that instead of third-parties (iPhone apps, other websites, CMSs, whatever) asking end-users to enter their username and password (which would be saved somewhere in plain-text), the third-party could redirect the user to the Twitter website, get them to log in, have them come back to their service and save a special token, instead of saving a password. OAuth 1.0a called these tokens a "OAuth Token" and a "OAuth Token Secret".
 
 OAuth 1.0a was built to be very secure even when not running over SSL. That meant of course that it was incredibly complicated, having to set up signatures (of which there were a few different algorithms, including HMAC-SHA1 and RSA-SHA1 or just plaintext. That got a bit tricky when trying to write client code, as you had to make sure you supported the right signature and most of the PHP implementations out there (including my own old CodeIgniter spark) didn't support all of them.
 
@@ -218,7 +216,7 @@ This extra "access tokens expire and you have to refresh them" step initially se
 
 One further massive benefit was the ability to have multiple (even custom) grant types, meaning you can create some amazing implementations. 
 
-The most common OAuth 2.0 Grant Type that a user will be familiar with is `authorization_code`, which is a very OAuth 1.0a-like flow. 
+The most common OAuth 2.0 Grant Type that a user will be familiar wi	th is `authorization_code`, which is a very OAuth 1.0a-like flow. 
 
 A client web-app creates a link to the OAuth Server of the service they would like to log into (e.g: Facebook) and the user logs in. Facebook redirects the user back to the client web-app's "Callback URL", with a `?code=FOO` variable in the query string. The web-app then takes that code and makes a second request (usually a `POST`, but sometimes a `GET`...) to Facebook and Facebook then offers up an access token in the response (and other services then provide expires and a refresh token).
 

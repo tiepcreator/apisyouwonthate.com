@@ -1,10 +1,10 @@
 # Useful Database Seeding {#chapter-1}
 
-The first step to creating any sort of application is creating the database. Whether you are using some sort of relational platform, MongoDB, Riak, or whatever, you'll need a vague idea of how your data is going to be stored.
+The first step to creating any sort of application is creating the database. Whether you are using some sort of relational platform, MongoDB, Riak, or whatever, you will need a vague idea of how your data is going to be stored.
 
 For relational databases it is very likely you will start off your planning with an entity-relationship diagram and for document based databases such as MongoDB, CouchDB or ElasticSearch you will just let your application magically build a schema, but either way you need to create a plan - even if it is on a napkin. This book will assume a traditional relational database is storing your data but the principles are easily adapted for NoSQL systems too.
 
-This chapter assumes you've already got a database designed and built. I'll skip the "planning a database" section because it is incredibly boring, and there are plenty of other books on that. We're going straight onto the next step.
+This chapter assumes you've already got a database designed and built. This chapter skips the "planning a database" section because there are plenty of other books on that already.
 
 ## Introduction to Database Seeding
 
@@ -12,7 +12,13 @@ With a database schema designed and implemented it's time to store some data, bu
 
 The process of populating a database is known as "seeding".
 
-This data could be test users, content entries with a bunch of comments, fake locations available for check-in, fake notifications to display in an iPhone app (one of each type) or credit-card payments at various stages of processing - with some complete, some half done and some super-fraudulent looking ones.
+This data could be:
+
+* test users
+* content entries with a bunch of comments
+* fake locations available for check-in
+* fake notifications to display in an iPhone app (one of each type)
+* credit-card payments at various stages of processing - with some complete, some half done and some super-fraudulent looking ones
 
 The process of creating seeding scripts means you don't need to waste time creating this manually over and over again. Ultimately, the more processes you can automate during the development of your API, the more time you've got to consider the intricacies of your applications which need much more consideration.
 
@@ -20,7 +26,7 @@ Dummy data is necessary for realistic acceptance testing, getting freelancers/ne
 
 ### Why is using production data in development bad?
 
-Have you ever been writing a script that sends out emails and used some dummy copy while you're building it? Ever used some cheeky words in that content? Ever accidentally sent that email out to 10,000 real customers email addresses? Ever been fired for losing a company north of £200,000?
+Have you ever been writing a script that sends out emails and used some dummy copy while you're building it? Ever used some cheeky words in that content? Ever accidentally sent that email out to 10,000 real customers email addresses? Ever been fired for losing a company over £200,000?
 
 I haven't, but I know a guy that has. Don't be that guy.
 
@@ -34,7 +40,7 @@ Kapture uses the Laravel framework which has the joys of having [Database Seedin
 
 Break your Database Seeders down into logical groupings. This doesn't need to be "one seeder-per-table" but it can be. The reason I don't try to stick to that rule is that sometimes your data needs to be built at the same time as other types of data, so for us Users are created in the same "seeder" as their settings, OAuth tokens, and friendship data is made. Putting that stuff into multiple seeders purely to keep things tidy would be an exercise in futility, and slow everything down for no reason.
 
-So, this is a drastically simplified version of our user seeder all in one go, ignoring the Laravel specific structure. _If you're using Laravel 4, just shove this in your `run()` method._
+So, this is a drastically simplified version of our user seeder all in one go, ignoring the Laravel specific structure. _If you are using Laravel 4, just shove this in your `run()` method._
 
 {title="Creating a user with Faker and Eloquent ORM", lang=php}
 ~~~~~~~~
@@ -70,7 +76,7 @@ An instance of Faker, our bullshit artist for-hire.
 for ($i = 0; $i < Config::get('seeding.users'); $i++) {
 ~~~~~~~~
 
-We're going to want a certain number of users, but I'd recommend you have a few less on development than you do on testing or staging, because time.
+We are going to want a certain number of users, but I'd recommend you have a few less on development than you do on testing or staging, because time.
 
 ~~~~~~~~
     $user = User::create([
@@ -96,7 +102,14 @@ Gender equality is important.
         'timezone'           => mt_rand(-10, 10),
 ~~~~~~~~
 
-Our original developer decided that saving timezones as an integer was a clever thing to do. Bellend. How you gonna handle countries with +4.45 timezones bro? I still need to refactor this, but it's fine for now.
+Our original developer decided that saving timezones as an integer was a clever thing to do. 
+
+A> ### Store Timezones, Not Offsets
+A> Did you know that some timezones are not complete hours? Did you know that Nepal is UTC/GMT +05:45? Did you know that Chatham Island (New Zealand) goes from 
+A> UTC/GMT +12:45 to UTC/GMT +13:45 in their local summer? Did you know that some places add 30 minutes when in daylight savings time? Don't use integers as 
+A> timestamps.  
+A> PHP implements the [IANI](http://www.iana.org/time-zones) tinmezone database, which is an industry standard. If you store `America/New_York` or `Asia/Khandyga` for
+A> users, then the offset and daylight savings time will be automatically calculated.
 
 ~~~~~~~~
         'birthday'           => rand(0, 1) ? $faker->dateTimeBetween('-40 years', '-18 years') : null,
@@ -126,7 +139,7 @@ Make a sentence with 100 characters in it.
 
 ## That's about it
 
-You will end up making a lot of these files, and you'll want to populate pretty much every table you have with data. You'll also want to tell your Database Seeder to wipe all the tables you're going to populate. Do this globally right at the start of the process, don't wipe each table at the top of each seeder or you'll be wiping out content in that table from other seeders in the same process.
+You will end up making a lot of these files, and you will want to populate pretty much every table you have with data. You will also want to tell your Database Seeder to wipe all the tables that will be populated. Do this globally right at the start of the process. Do not wipe tables at the top of each seeder, or content in that table from other seeders will be deleted.
 
 {title="Example of an overall system in Laravel 4", lang=php}
 ~~~~~~~~
