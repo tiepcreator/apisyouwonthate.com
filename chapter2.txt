@@ -1,8 +1,7 @@
 # Planning and Creating Endpoints {#chapter-2}
 
-With your database planned and full of fake but useful data it is time to plan what your endpoints are going to look like. An endpoint is simply a URL. When you go to `http://exmample.com/foo/bar` then that is an 
-endpoint. For planning purposes (because the domain will be the same for all of them) you simply need to 
-call that endpoint `/foo/bar`.
+With your database planned and full of fake but useful data it is time to plan what your endpoints are going to look like. An endpoint is simply a URL. When you go to `http://example.com/foo/bar` then that is an 
+endpoint and you simply need to call it `/foo/bar` because the domain will be the same for all of them.
 
 The first step is to work out the requirements of an API, then we can move onto some theory and finally see the theory implemented in some examples.
 
@@ -146,9 +145,9 @@ Want to delete things? Easy:
 
 * `DELETE /places/X/images` - If you chose to have multiple images this would remove all of them.
 
-### POST v PUT: FIGHT!
+### POST vs PUT: FIGHT!
 
-What about creating and updating? This is where it gets almost religious. There are lots of people who will try to pair the HTTP POST or HTTP PUT verb to a specific CRUD action and always only ever do that one action with that one verb. That sucks and is not productive or functionally scalable. 
+What about creating and updating? This is where it gets almost religious. There are lots of people who will try to pair the HTTP POST or HTTP PUT verb (verb, i.e. a HTTP method) to a specific CRUD action and always only ever do that one action with that one verb. That sucks and is not productive or functionally scalable. 
 
 Generally speaking, PUT is used if you know the entire URL before hand and the action is idempotent. Idempotent is a fancy word for "can do it over and over again without causing different results". 
 
@@ -158,9 +157,9 @@ For example, create _could_ be a PUT if you are creating one image for a place. 
 > Host: example.com  
 > Content-Type: image/jpeg  
 
-That would be a perfect example of when to use a `PUT` because you already know the entire URL and you can do it time and time again. 
+That would be a perfect example of when to use a `PUT` because you already know the entire URL ( /places/1/image ) and you can do it time and time again. 
 
-At Kapture we use a POST to `/checkins` to create the metadata for that new checkin, then that will return the URL for us to PUT the image to. You could try checking in multiple times and it wouldn't matter because none of those processes would be complete, but POSTing multiple times is not idempotent because each checkin is different. PUT is idempotent because you are uploading that image to the full URL and you can do it over and over again if you like (because the upload failed and it has to try again).
+At Kapture we use a POST to `/checkins` to create the metadata for that new checkin, then that will return the URL for us to PUT the image to. You could try checking in multiple times and it wouldn't matter because none of those processes would be complete, but POSTing multiple times is not idempotent because each checkin is different. PUT is idempotent because you are uploading that image to the full URL and you can do it over and over again if you like (for instance, because the upload failed and it has to try again).
 
 So, if you have multiple images for places maybe you could `POST /places/X/images` and multiple attempts would be different images. If you know you are only going to have one image and a new attempt is an override then `PUT /places/X/image` would be ideal.
 
@@ -234,4 +233,4 @@ Those last two are kinda complex, but are examples of things you can be thinking
 
 ### Methods
 
-When you have listed all of the routes you will need for your application go and make them all in their controllers. Make them all empty and have one of them `return "Oh hai!";` and check the output. `GET /places` for example should `Oh hai!` in the browser. You just wrote an API.
+When you have listed all of the routes you will need for your application go and make them all as methods in their controllers. Make them all empty and have one of them `return "Oh hai!";` and check the output. `GET /places` for example should `Oh hai!` in the browser. You just wrote an API.
