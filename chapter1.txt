@@ -36,7 +36,7 @@ Garbage! Use absolute nonsense for your development database, but nonsense of th
 
 ## Building Seeders
 
-Kapture uses the Laravel framework which has the joys of having [Database Seeding]() baked in. This is essentially a tarted up <abbr title="Command Line Interface">CLI</abbr> task which almost any modern PHP framework will have (or bloody well should do) so the principles are applicable to all.
+Kapture, the company I work for, uses the Laravel framework which has the joys of having [Database Seeding]() baked in. This is essentially a tarted up <abbr title="Command Line Interface">CLI</abbr> task which almost any modern PHP framework will have (or bloody well should do) so the principles are applicable to all.
 
 Break your Database Seeders down into logical groupings. This doesn't need to be "one seeder-per-table" but it can be. The reason I don't try to stick to that rule is that sometimes your data needs to be built at the same time as other types of data, so for us Users are created in the same "seeder" as their settings, OAuth tokens, and friendship data is made. Putting that stuff into multiple seeders purely to keep things tidy would be an exercise in futility, and slow everything down for no reason.
 
@@ -108,7 +108,7 @@ A> ### Store Timezones, Not Offsets
 A> Did you know that some timezones are not complete hours? Did you know that Nepal is UTC/GMT +05:45? Did you know that Chatham Island (New Zealand) goes from 
 A> UTC/GMT +12:45 to UTC/GMT +13:45 in their local summer? Did you know that some places add 30 minutes when in daylight savings time? Don't use integers as 
 A> timestamps.  
-A> PHP implements the [IANI](http://www.iana.org/time-zones) tinmezone database, which is an industry standard. If you store `America/New_York` or `Asia/Khandyga` for
+A> PHP implements the [IANI](http://www.iana.org/time-zones) timezone database, which is an industry standard. If you store `America/New_York` or `Asia/Khandyga` for
 A> users, then the offset and daylight savings time will be automatically calculated.
 
 ~~~~~~~~
