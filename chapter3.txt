@@ -22,7 +22,7 @@ Content-Type: application/json
 { "user_id" : 2 }
 ~~~~~~~~
 
-Here we make a POST request with a "HTTP Body" The `Content-Type` header points out we are sending JSON and the blank line above the JSON separates the "HTTP Headers" from the "HTTP Body". HTTP really is amazingly simple, this is all you need to do for anything and you can do all of this with a HTTP client in whatever programming language you feel like using this week:
+Here we make a POST request with a "HTTP Body". The `Content-Type` header points out we are sending JSON and the blank line above the JSON separates the "HTTP Headers" from the "HTTP Body". HTTP really is amazingly simple, this is all you need to do for anything and you can do all of this with a HTTP client in whatever programming language you feel like using this week:
 
 {title="Using PHP and the Guzzle HTTP library to make a HTTP Request ", lang=php}
 ~~~~~~~~
@@ -60,7 +60,7 @@ It's all the same. Define your headers, define the body in an appropriate format
 
 ## Responses
 
-Much the same as a HTTP Request your HTTP Response is going to end up as plain text (unless you're using SSL but shut up we aren't there yet).
+Much the same as a HTTP Request, your HTTP Response is going to end up as plain text (unless you're using SSL but shut up we aren't there yet).
 
 {title="Example HTTP response containing a JSON body"}
 ~~~~~~~~
@@ -146,7 +146,7 @@ json="{
     \"checkin\": {
         \"place_id\" : 1,
         \"message\": \"This is a bunch of text.\",
-        \"with_frinds\": [1, 2, 3, 4, 5]
+        \"with_friends\": [1, 2, 3, 4, 5]
     }
 }"
 ~~~~~~~~
@@ -306,13 +306,13 @@ Ask for a collection of things and get a collection of things, but namespaced:
 
 **Cons**
 
-* Single items still can only have meta data by embedding it item resource
+* Single items still can only have meta data by embedding it in the item resource
 
-By placing the collection into the "data" namespace you can easily add other content next to it which relates to the response but is not part of the list of resources at all. Counts, links, etc can all go here (more on this later). It also means when you embed other nested relationships you can include a "data" element for them and even include meta data for those embedded relationships. More on that latr too. 
+By placing the collection into the "data" namespace you can easily add other content next to it which relates to the response but is not part of the list of resources at all. Counts, links, etc can all go here (more on this later). It also means when you embed other nested relationships you can include a "data" element for them and even include meta data for those embedded relationships. More on that later on too. 
 
 The only potential "con" left with Facebook is that the single resources are not namespaced, meaning that adding any sort of meta data would pollute the global namespace - something which PHP developers are against after a decade of flagrantly doing so.
 
-So the final output example (and the one which I am starting to use at Kapture for v4) is this;
+So the final output example (and the one which I am starting to use at Kapture for v4) is this:
 
 ### Much Namespace, Nice Output
 
