@@ -1,0 +1,5 @@
+# HATEOAS / Links {#chapter-11}
+
+## Coming Soon
+
+This chapter will hopefully be with you by March 6th, 2014. 
