@@ -1,12 +1,14 @@
 # Endpoint Testing {#chapter-5}
 
+## Introduction
+
 You might be sitting there thinking "This really escalated quickly, I'm not ready for testing!" but this is essentially the point. You have to set up your tests as early as possible so you actually bother using them, otherwise they become the "next thing" that just never gets done. Have no fear, testing an API is not only easy it is actually really quite fun. 
 
 ## Concepts & Tools
 
 With an API there are a few things to test, but the most basic idea is "when I request this URL, I want to see a 'foo' resource", and "when I throw this JSON at the API, it should accept it or freak out." 
 
-This can be done in several ways and a lot of people will instantly try to unit-test it, but that quickly becomes a nightmare as while you might think just writing a bit of code with your favorite HTTP client is simple, if you have over 50 endpoints and want to do multiple checks per endpoint you end up with a MESS of code and it's no fun for anyone.
+This can be done in several ways and a lot of people will instantly try to unit-test it, but that quickly becomes a nightmare as while you might think just writing a bit of code with your favorite HTTP client is simple, if you have over 50 endpoints and want to do multiple checks per endpoint you end up with a mess of code and that is no fun for anyone.
 
 The more code you have in your tests, the higher the chances of your tests being rubbish and you run the risk of false positives, which are super dangerous.
 

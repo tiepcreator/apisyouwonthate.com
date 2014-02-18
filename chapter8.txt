@@ -1,5 +1,7 @@
 # Debugging {#chapter-8}
 
+## Introduction
+
 Debugging is the art of working out why something is broken, which can be pretty difficult in an API. In much of web 
 development you are simply looking at what is output to the page, overusing `var_dump()` or checking the browsers console
 for JavaScript errors. Working with an API you are mostly just working with Requests and Responses, but you need to 

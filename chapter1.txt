@@ -1,5 +1,7 @@
 # Useful Database Seeding {#chapter-1}
 
+## Introduction
+
 The first step to creating any sort of application is creating the database. Whether you are using some sort of relational platform, MongoDB, Riak, or whatever, you will need a vague idea of how your data is going to be stored.
 
 For relational databases it is very likely you will start off your planning with an entity-relationship diagram and for document based databases such as MongoDB, CouchDB or ElasticSearch you will just let your application magically build a schema, but either way you need to create a plan - even if it is on a napkin. This book will assume a traditional relational database is storing your data but the principles are easily adapted for NoSQL systems too.
@@ -8,7 +10,7 @@ This chapter assumes you've already got a database designed and built. This chap
 
 ## Introduction to Database Seeding
 
-With a database schema designed and implemented it's time to store some data, but hold off entering your real data. It is far easier to use "dummy data" to test if the schema is appropriate for your API application as you can ditch the database and try again without worrying about keeping your data.
+With a database schema designed and implemented, the next step is to store some data. Instead of entering your real data, it is far easier to use "dummy data" to test if the schema is appropriate for your API application. This brings the added benefit of letting you ditch the database and try again without worrying about maintaining the data.
 
 The process of populating a database is known as "seeding".
 

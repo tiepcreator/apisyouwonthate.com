@@ -230,7 +230,7 @@ There are a few things in here worth considering.
 1. Favorites go to the `UserController`, because favorites are only ever relevant to the user.
 1. Checkins go to the `CheckinController`, because we might already have a checkin controller handling `/checkins` and the logic is basically identical. We will know if there is a `user_id` param in the URL if our router is nice enough to let us know, so we can use that to make it user specific if needs be. 
 
-Those last two are kinda complex, but are examples of things you can be thinking about at this point. You don't want to have multiple endpoints doing painfully similar things with copy and paste logic because A) [PHP Copy/Paste Detector](https://github.com/sebastianbergmann/phpcpd) will be angry, B) your iPhone developer will be mad that different endpoints are acting differently - therefore confusing RestKit and C) it's boring and ain't nobody got time for that.
+Those last two are kinda complex, but are examples of things you can be thinking about at this point. You don't want to have multiple endpoints doing painfully similar things with copy and paste logic because A) [PHP Copy/Paste Detector](https://github.com/sebastianbergmann/phpcpd) will be angry, B) your iPhone developer will be mad that different endpoints are acting differently - therefore confusing RestKit and C) it is boring and "ain't nobody got time for that".
 
 ### Methods
 

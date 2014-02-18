@@ -1,5 +1,7 @@
 # Status Codes, Errors and Messages {#chapter-4}
 
+## Introduction
+
 If everything goes smoothly you want to show some data. If a valid request comes in for a data which is valid you show data, if creating something on the API with valid data, you show the created object. If something goes wrong, however, you want to let people know what is wrong using two simultaneous approaches: 
 
 1. HTTP status codes

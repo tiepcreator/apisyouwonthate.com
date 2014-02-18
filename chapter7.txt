@@ -1,5 +1,7 @@
 # Data Relationships {#chapter-7}
 
+## Introduction
+
 If you've ever worked with relational databases the chances are you understand relationships. Users have 
 comments. Authors have one or many books. Books belong to a Publisher. Southerners have one or more teeth.
  Whatever the example, relationships are incredibly important to any application and therefore an API too. 

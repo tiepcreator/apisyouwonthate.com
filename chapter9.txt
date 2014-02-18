@@ -79,7 +79,7 @@ Aladdin:open sesame
 
 If real life was like the movie Swordfish, Halle Berry wouldn't even be on her knees before I was in the bank.
 
-This is no more or less secure than a HTML login form, but it's certainly not secure enough for any API with sensitive data.
+This is no more or less secure than a HTML login form, but is certainly not secure enough for any API with sensitive data.
 
 Using SSL improves the concerns greatly, but as the password is sent in every single HTTP Request there is still the potential for cracking it - but at this point somebody has to _really_ want to get in.
 
@@ -206,7 +206,7 @@ W> You should always try to use the `Authorization` header to send your tokens w
 
 **"Short"-life Tokens**
 
-As discussed OAuth 1.0a also used the same tokens essentially forever. OAuth 2.0's access tokens will (can) expire after an arbitrary period of time, defined by the OAuth server. When you request an access token you will usually be provided with a "Refresh Token" and an expiry offset, which is the number of seconds until the token expires. Some servers send you a unix time at which it expires. Folks like to do things different for some reason, but if you know what to look out for it's not so bad.
+As discussed OAuth 1.0a also used the same tokens essentially forever. OAuth 2.0's access tokens will (can) expire after an arbitrary period of time, defined by the OAuth server. When you request an access token you will usually be provided with a "Refresh Token" and an expiry offset, which is the number of seconds until the token expires. Some servers send you a unix time at which it expires. Folks like to do things different for some reason, but if you know what to look out for it is not so bad.
 
 Using the expire time you know when your access token will not be valid, so you can proactively create a cron job that refreshes the access tokens, or you can wrap your HTTP requests in an exception handler that looks for a "Not Authorized" error and refresh them then as the OAuth 2.0 spec recommends. 
 
@@ -259,7 +259,7 @@ As with any complicated subject matter, installing a package that is specificall
 
 One implementation stands out above the rest in PHP-land, and not just because it is written by a friend of mine: [Alex Bilbie](http://alexbilbie.com/). The main reason we are friends is because not only is he a all-round good guy, but he has studied both OAuth specs religiously, and has built some great tools for them over the years. In his last job he worked at University of Lincoln, using OAuth for all sorts of cool things. 
 
-He then had a funded research project to build awesome open-source code for improving authentication and interoperability. That project resulted in a few cool packages, including the [PHP OAuth 2.0 Server](https://github.com/thephpleague/oauth2-server), which now has a home with [The League of Extraordinary Packages](http://thephpleague.com/). It is the only PHP package to implement the entire OAuth 2.0 spec, so it's very worth trying out.
+He then had a funded research project to build awesome open-source code for improving authentication and interoperability. That project resulted in a few cool packages, including the [PHP OAuth 2.0 Server](https://github.com/thephpleague/oauth2-server), which now has a home with [The League of Extraordinary Packages](http://thephpleague.com/). It is the only PHP package to implement the entire OAuth 2.0 spec, so is very worth trying out.
 
 A> ### OAuthello 
 A> Alex is writing [a book](http://leanpub.com/oauthello-a-book-about-oauth/c/apisyouwonthate) covering implementation of this server in great detail amongst all other things OAuth, so you should definitely pick up a copy. That URL contains a coupon code `apisyouwonthate`, which may knock a significant chunk off the price.
