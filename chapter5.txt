@@ -10,7 +10,7 @@ This can be done in several ways and a lot of people will instantly try to unit-
 
 The more code you have in your tests, the higher the chances of your tests being rubbish and you run the risk of false positives, which are super dangerous.
 
-So, the most simplistic approach will be to use a BDD tool. A very popular BDD tool is [Cucumber](http://cukes.info/) and this is considered by many to be a Ruby tool. It can in fact be used for Python, PHP and probably a whole bevy of other languages but some of the integrations can be tricky. For the PHP users here, we will be using Behat which is pretty much the same thing, along with [Gherkin](http://docs.behat.org/guides/1.gherkin.html) (the same DSL that Cucumber uses, so all of us are on basically the same page.)
+So, the most simplistic approach will be to use a BDD (Behaviour Driven Development) tool. A very popular BDD tool is [Cucumber](http://cukes.info/) and this is considered by many to be a Ruby tool. It can in fact be used for Python, PHP and probably a whole bevy of other languages but some of the integrations can be tricky. For the PHP users here, we will be using Behat which is pretty much the same thing, along with [Gherkin](http://docs.behat.org/guides/1.gherkin.html) (the same DSL (Domain-Specific Language) that Cucumber uses, so all of us are on basically the same page.)
 
 ## Setup
 
@@ -75,7 +75,7 @@ You can use that convention or try something else, but this grows pretty well wi
 
 ## Scenarios
 
-Gherkin uses "Scenarios" as its core structure and they each contain "steps". In a unit-testing word these would be their own methods, and the "steps" would be "assertions". 
+Gherkin uses "Scenarios" as its core structure and they each contain "steps". In a unit-testing word the "scenarios" would be their own "methods", and the "steps" would be "assertions". 
 
 These Features and Scenarios line up with the "Action Plan" created in Chapter 2. Each RESTful Resource needs at least one "Feature", and because each "Action" has an "Endpoint" we need _at least_ one "Scenario" for each "Action".
 
@@ -140,7 +140,7 @@ Scenario: Searching places with filters
 
 This uses some custom rules which have been defined in `features/bootstrap/FeatureContext.php` but more on that shortly. 
 
-The Feature file is called `places.feature` and has 4 scenarios. One to show that listing all places is not allowed (400 means bad input, your should specify lat lon), another to find a specific place and two more to test how well searching works. 
+The Feature file is called `places.feature` and has 4 scenarios. One to find a specific place, another to show that listing all places is not allowed (400 means bad input, your should specify lat lon) and two more to test how well searching works. 
 
 I try to think up the guard clauses that my endpoints will need, then make a "Scenario" for each of those. So, if you don't send a lat/lon to search then it errors. Test that.
 
@@ -158,7 +158,7 @@ Scenario: Wrong Arguments for user follow
 
 Want to be sure your controllers can handle weird requests with a 404 instead of freaking out and going all 500 Internal Error? Test that.
 
-~~~~~~~~
+~~~~~~~~~
 Scenario: Try to find an invalid moments
     When I request "GET /moments/nope"
     Then I get a "404" response
