@@ -33,7 +33,7 @@ Arguments between developers will continue for the rest of time over the exact a
 
 * 200 - Generic everything is OK
 * 201 - Created something OK
-* 202 - Accepted but is being processed async (video is encoding, image is resizing, etc)
+* 202 - Accepted but is being processed async (for a video means encoding, for an image means resizing, etc)
 * 400 - Bad Request (should really be for invalid syntax, but some folks use for validation)
 * 401 - Unauthorized (no current user and there should be)
 * 403 - The current user is forbidden from accessing this data
@@ -64,7 +64,9 @@ For example, an issue with the access token will always result in the user not b
 }
 ~~~~~~~~
 
-Everyone can understand that. Facebook sadly is missing an error code, so sometimes you find yourself doing string checking on the message which is lunacy, so throw in a code too. 
+Everyone can understand that. 
+
+Facebook sadly is missing an error code, so sometimes you find yourself doing string checking on the message which is lunacy. 
 
 A> Foursquare is not a bad example of using both, but they place an emphasis on tying their errors to a status code.
 A> 
@@ -150,4 +152,5 @@ If you get a 403 this could be because the requesting user is in not in the corr
 
 A 410 on a resource could be due to a user deleting that entire piece of content or it could be down to the user deleting their entire account.
 
-In all of these situations the ideal solution is to compliment the HTTP status code with an error code, which can be whatever you want as long as they are unique within your API and documented somewhere. Do not do what Google does and supply a list of error codes then have other error codes which are not documented anywhere, because if I see that I will come for you.
+In all of these situations the ideal solution is to complete the HTTP status code with an error code, which can be whatever you want as long as they are unique within your API and documented somewhere. Do not do what Google does and supply a list of error codes then have other error codes which are not documented anywhere, because if I see that I will come for you.
+
