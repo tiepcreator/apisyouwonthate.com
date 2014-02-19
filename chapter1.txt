@@ -358,6 +358,5 @@ This is also great of course when a freelancer comes in to do some work, or a ne
 
 This is also occasionally run manually on the staging server, and automatically on the Jenkins testing server when we deploy new builds of the API.
 
-[Building a Decent API]: http://philsturgeon.co.uk/blog/2013/07/building-a-decent-api
 [Faker]: https://github.com/fzaninotto/Faker
 [Database Seeding]: http://laravel.com/docs/migrations#database-seeding

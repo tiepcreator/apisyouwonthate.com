@@ -34,10 +34,10 @@ W> make sure it is over 0 and depending on the data source you might want to mak
 W> could have some interesting effects. 
 
 
-## Pages / Paginators
+## Paginators
 
 I stole the word "Paginator" from Laravel, which uses a `Paginator` class for a very specific type of pagination. It 
-is not the most efficient form of pagnation by any means, but it is rather easy to understand and works fine on 
+is not the most efficient form of pagination by any means, but it is rather easy to understand and works fine on 
 relatively small data sets.
 
 ### How do Paginators Work
@@ -51,7 +51,7 @@ SELECT count(*) as `total` FROM `places`
 
 When the answer to that query comes back as 1000 back, the following code will be executed: 
 
-~~~ ~~~~~
+~~~~~~~~
 $total = count_all_the_places();
 $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 $per_page = isset($_GET['number']) ? (int) $_GET['number'] : 20;
@@ -59,7 +59,7 @@ $page_count = ceil($total / $per_page);
 ~~~~~~~~
 
 With that basic math take care of we now know how many pages there are in total, and have rounded it up with `ceil()`.
-That is a PHP function equivilent of `Math.round()`, which rounds it up to the nearest integer. If `$total` is 1000, 
+That is a PHP function equivalent of `Math.round()`, which rounds it up to the nearest integer. If `$total` is 1000, 
 then `$page_count` will be 83.333. Obviously nobody wants to go to page 83.333 so round that up to page 84. 
 
 Using these variables, an API can output some simple meta-data that goes next to the main `data` namespace:
@@ -67,20 +67,6 @@ Using these variables, an API can output some simple meta-data that goes next to
 ~~~~~~~~
 {
     "data": [
-        {
-            "id": 1,
-            "name": "Barcade",
-            "lat": 40.712017,
-            "lon": -73.950995,
-            "created_at": "2012-09-23"
-        },
-        {
-            "id": 2,
-            "name": "Videology",
-            "lat": 40.713857,
-            "lon": -73.961936,
-            "created_at": "2013-04-02"
-        },
         ...
     ],
     "pagination" : {
@@ -98,7 +84,7 @@ The names of items in this pagination example are purely based off what Kapture'
 time, but should portray the intent.
 
 You basically give the client enough information to do math itself if that is something it wants to do, or you let them
-injest basic HTTP links too. 
+ingest basic HTTP links too. 
 
 ### Counting lots of Data is Hard
 
@@ -115,8 +101,8 @@ cached or pre-populated, but when it comes to geo data you have no chance:
 
 > /places?lat=42.2345&lon=1.234
 
-Unforuntately the chances of having multiple people request the exact same set of coordinates reguarly enough to make a 
-cache worthwile is unlikely, especially seeing as those requests are in a remote mountainous region of Spain. 
+Unforuntately the chances of having multiple people request the exact same set of coordinates regularly enough to make a 
+cache worthwhile is unlikely, especially as those coordinates point to a remote, mountainous region of Spain. 
 
 Pre-population for those results also seems highly unlikely. If you have literally millions of places then trying to 
 count all places for somebody in Spain is just silly. Indexes can help. Slicing your data into geographic buckets and 
@@ -135,10 +121,10 @@ Imagine the scenario, where the `number` per page is set to 1, `places` are orde
 in Brooklyn, NY:
 
 * Page 1
-* * Barcade
-* * Pickle Shack
-* Page 2
-* * Videology
+ * Barcade
+ * Pickle Shack
+  Page 2
+ * Videology
 
 If the client requests Page 1, then they will see the first two results. While the results for Page 1 are being 
 displayed to the end user, some hip new bar opens up with the name "Lucky Dog" and joins the platform.
@@ -146,18 +132,18 @@ displayed to the end user, some hip new bar opens up with the name "Lucky Dog" a
 Now the data set looks like this:
 
 * Page 1
-* * Barcade
-* * Lucky Dog
+ * Barcade
+ * Lucky Dog
 * Page 2
-* * Pickle Shack
-* * Videology
+ * Pickle Shack
+ * Videology
 
 If the client does not refresh Page 1 (which most would not do for the sake of speed) then "Pickle Shack" is going to 
 show up twice, and "Lucky Dog" will not be on the list at all.
 
 ### Using Paginators with Fractal
 
-This is a rather specific example, requring Laravel's Eloquent and Pagination packages, and [Fractal](http://fractal.thephpleague.com/). If you are not using any of those things then you can skip it and just use some simple math like the 
+This is a rather specific example, requiring Laravel's Eloquent and Pagination packages, and [Fractal](http://fractal.thephpleague.com/). If you are not using any of those things then you can skip it and just use some simple math like the 
 example JSON above. Otherwise, follow on:
 
 ~~~~~~~
@@ -174,7 +160,7 @@ $resource = new Collection($places, new PlaceTransformer);
 $resource->setPaginator(new IlluminatePaginatorAdapter($paginator));
 ~~~~~~~
 
-## Cursors / Markers
+## Offsets and Cursors
 
 Another common pagination method is to use "cursors" (sometimes called "markers"). A cursor is usually a unique 
 identifier, or an offset, so that the API can just request "more" data. 
@@ -191,20 +177,6 @@ To try the same example:
 ~~~~~~~~
 {
     "data": [
-        {
-            "id": 1,
-            "name": "Barcade",
-            "lat": 40.712017,
-            "lon": -73.950995,
-            "created_at": "2012-09-23"
-        },
-        {
-            "id": 2,
-            "name": "Videology",
-            "lat": 40.713857,
-            "lon": -73.961936,
-            "created_at": "2013-04-02"
-        },
         ...
     ],
     "pagination" : {
@@ -216,13 +188,13 @@ To try the same example:
 }
 ~~~~~~~~
 
-This example has `after` we've requested 12 records; 1-12 were all avaialable, and (for the sake of example) were all 
+This example has `after` we've requested 12 records; 1-12 were all available, and (for the sake of example) were all 
 auto-increment integers, so in this example we would like content that is _after_ 12, meaning 13-24 would be on the 
 next page. 
 
 While this provides an incredibly simplistic explanation, generally speaking using IDs is a tricky idea. A specific 
 record can move from one category to another, or could be deactivated, or all sorts of things. You _can_ use IDs, but 
-it is generally considered best bractise to use an offset instead.
+it is generally considered best practise to use an offset instead.
 
 Using an offset is simple. Regardless of your IDs, hashed, etc, you simply put 12 in there and say "I would like 12 records, with an offset of 12", instead of saying "I would like records after id=12".
 
@@ -244,7 +216,7 @@ php > var_dump(base64_decode('MQ=='));
 string(1) "1"
 ~~~~~~~~~
 
-Obfuscaring the values is not done for security, but - I assume - to avoid people trying to do math on the values. Ignorance is bliss in this scenario, as somebody doing maths on an offset-based paginated result might end up doing the 
+Obfuscating the values is not done for security, but - I assume - to avoid people trying to do math on the values. Ignorance is bliss in this scenario, as somebody doing maths on an offset-based paginated result might end up doing the 
 same math on a primary key integer. If everything is an opaque cursor or marker then nobody can do that.
 
 ### Extra Requests = Sadness
@@ -284,4 +256,4 @@ $resource->setCursor($cursor);
 
 This will take the current cursor, use it as an offset, then work out the base64 version and convert it. There is a 
 bit of work to do in this example because the Cursor class is intentionally vauge. Instead of using an offset it could 
-be a specifc ID and you use it for an SQL `WHERE id > X` clause, but better not. 
+be a specific ID and you use it for an SQL `WHERE id > X` clause, but better not. 
