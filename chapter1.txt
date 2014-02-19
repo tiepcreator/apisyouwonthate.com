@@ -42,6 +42,8 @@ Kapture, the company I work for, uses the Laravel framework which has the joys o
 
 Break your Database Seeders down into logical groupings. This doesn't need to be "one seeder-per-table" but it can be. The reason I don't try to stick to that rule is that sometimes your data needs to be built at the same time as other types of data, so for us Users are created in the same "seeder" as their settings, OAuth tokens, and friendship data is made. Putting that stuff into multiple seeders purely to keep things tidy would be an exercise in futility, and slow everything down for no reason.
 
+In this chapter I will take in consideration, as an example, a check-in application. The application handles "users" and tracks their "check-ins" into "merchants" (or "venues"). "Merchants" also provide "campaigns" (or "opportunities").
+
 So, this is a drastically simplified version of our user seeder all in one go, ignoring the Laravel specific structure. _If you are using Laravel 4, just shove this in your `run()` method._
 
 {title="Creating a user with Faker and Eloquent ORM", lang=php}
@@ -188,9 +190,9 @@ This wipes everything, then runs other seeder classes to do their thing.
 
 ## Secondary Data
 
-As I said it is quite likely that you will need to insert data that relates to each other. To do this you work out which data will be primary (like users) and in the case of a check-in system probably "venues" or "merchants" depending on the nomenclature of your system.
+As I said it is quite likely that you will need to insert data that relates to each other. To do this you work out which data will be primary (like users); in the case of a check-in system probably you will also consider "venues" or "merchants" depending on the nomenclature of your system.
 
-For this example I will show how to create merchants, then attach "opportunities", which are essentially "campaigns".
+For this example I will show how to create "merchants", then attach "opportunities", which are essentially "campaigns".
 
 {title="Primary Seeder for the Merchant Table", lang=php}
 ~~~~~~~~
@@ -348,7 +350,7 @@ The rest should all be relatively obvious.
 
 If you're using Laravel 4 you can run the above commands on the command line with: `$ php artisan db:seed`.
 
-## When to run this
+## When to run this?
 
 This is often run manually, and automatically depending on the instances.
 
