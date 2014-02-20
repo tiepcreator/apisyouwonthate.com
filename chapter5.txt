@@ -77,7 +77,7 @@ You can use that convention or try something else, but this grows pretty well wi
 
 ## Scenarios
 
-Gherkin uses "Scenarios" as its core structure and they each contain "steps". In a unit-testing word the "scenarios" would be their own "methods", and the "steps" would be "assertions". 
+Gherkin uses "Scenarios" as its core structure and they each contain "steps". In a unit-testing world the "scenarios" would be their own "methods", and the "steps" would be "assertions". 
 
 These Features and Scenarios line up with the "Action Plan" created in Chapter 2. Each RESTful Resource needs at least one "Feature", and because each "Action" has an "Endpoint" we need _at least_ one "Scenario" for each "Action".
 
