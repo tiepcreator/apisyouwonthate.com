@@ -118,7 +118,7 @@ Content-Type: application/json
     "checkin": {
         "place_id" : 1,
         "message": "This is a bunch of text.",
-        "with_frinds": [1, 2, 3, 4, 5]
+        "with_friends": [1, 2, 3, 4, 5]
     }
 }
 ~~~~~~~~
@@ -133,7 +133,7 @@ Host: api.example.com
 Authorization: vr5HmMkzlxKE70W1y4MibiJUusZwZC25NOVBEx3BD1
 Content-Type: application/x-www-form-urlencoded
 
-checkin[place_id]=1&checkin[message]=This is a bunch of text&checkin[with_frinds][]=1&checkin[with_frinds][]=2&checkin[with_frinds][]=3&checkin[with_frinds][]=4&checkin[with_frinds][]=5
+checkin[place_id]=1&checkin[message]=This is a bunch of text&checkin[with_friends][]=1&checkin[with_friends][]=2&checkin[with_friends][]=3&checkin[with_friends][]=4&checkin[with_friends][]=5
 ~~~~~~~~
 
 This makes me upset _and_ angry. Do not do it in your API.
@@ -191,7 +191,7 @@ That response in XML:
 
 Basically in XML _everything_ is considered a string, meaning integers, booleans and nulls can be confused. Both `maybe` and `empty_string` have the same value, because there is no way to denote null either. Gross...
 
-Now, the XML-savvy among you will be wondering why I am not using attributes to simplify it? Well, this XML structure is a typical "auto-generated" chunk of XML converted from an array in the same way that JSON is built - but this of course ignores attributes and does not allow for all the specific structure that your average XML consumer will demand. 
+Now, the XML-savvy among you will be wondering why I am not using attributes to simplify it? Well, this XML structure is a typical "auto-generated" chunk of XML converted from an array, in the same way that JSON is built - but this of course ignores attributes and does not allow for all the specific structure that your average XML consumer will demand. 
 
 If you want to start using attributes for some bits of data but not others then your conversion logic becomes INSANELY complicated. How would we build something like this?
 
