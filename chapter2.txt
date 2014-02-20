@@ -11,7 +11,9 @@ Try thinking of _everything_ your API will need to handle. This will initially b
 
 Definitely talk to your customers or "the business" (they are the customers) and get them to help you think of functionality too, but don't expect them to know what an endpoint is. 
 
-When you have a relatively extensive list the next step is to make a simple list of "Actions". This is very much like planning a PHP class, you first write up pseudo-code referencing the classes and methods like they exist, right? TDD? If not that is how you should do it, or Chris Hartjes will find you, and he _will_ kill you.
+When you have a relatively extensive list the next step is to make a simple list of "Actions". This is very much like planning a PHP class, you first write up pseudo-code referencing the classes and methods like they exist, right? TDD (Test Driven Development)? If not that is how you should do it, or Chris Hartjes will find you, and he _will_ kill you.
+
+I will go ahead with the check-in application, introduced in the previous chapter, to show how these principles can be put in practice.
 
 So if I have a "Places" resource in mind, I need to list out with just bullet points what it will do:
 
@@ -205,7 +207,7 @@ You need to list events, venues, users and categories? Easy. One controller for 
 
 Everything in REST is a resource, so each resource needs a controller. 
 
-Later on we will look at some things that are not resources. Sub-resources can sometimes just be a method, for example profile and settings are a sub-resource of Users, so maybe they can go in the User controller. These rules are flexible.
+Later on we will look at some things that are not resources. Sub-resources can sometimes just be a method, for example profile and settings are a sub-resource of "Users", so maybe they can go in the "User" controller. These rules are flexible.
 
 ### Routes
 
