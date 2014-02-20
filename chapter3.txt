@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Now that we have a good idea how endpoints work the next glass of theory to swallow down is input and output. This is the easiest of all really as is really just HTTP "requests" and "responses". This is the same as AJAX or anything else. 
+Now that we have a good idea how endpoints work the next glass of theory to swallow down is input and output. This is the easiest of all, really, as is really just HTTP "requests" and "responses". This is the same as AJAX or anything else. 
 
 If you have ever been forced to work with SOAP you will know all about WSDLs. If you know what they are, be happy you no longer need them. If you do not know what a WSDL is then be happy you never have to learn. SOAP was the worst.
 
