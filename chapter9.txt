@@ -77,8 +77,6 @@ php > echo base64_decode('QWxhZGRpbjpvcGVuIHNlc2FtZQ==');
 Aladdin:open sesame
 ~~~~~~~~
 
-If real life was like the movie Swordfish, Halle Berry wouldn't even be on her knees before I was in the bank.
-
 This is no more or less secure than a HTML login form, but is certainly not secure enough for any API with sensitive data.
 
 Using SSL improves the concerns greatly, but as the password is sent in every single HTTP Request there is still the potential for cracking it - but at this point somebody has to _really_ want to get in.

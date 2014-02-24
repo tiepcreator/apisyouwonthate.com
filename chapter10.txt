@@ -52,6 +52,7 @@ SELECT count(*) as `total` FROM `places`
 When the answer to that query comes back as 1000 back, the following code will be executed: 
 
 ~~~~~~~~
+<?php
 $total = count_all_the_places();
 $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 $per_page = isset($_GET['number']) ? (int) $_GET['number'] : 20;
@@ -92,7 +93,8 @@ The main trouble with this method is the `SELECT count(*)` that is required to f
 expensive request. 
 
 The first thing to mind will be caching. Sure you can cache the count, or even pre-populate the request. In many cases 
-you certainly could, but you have to take into account the fact that most endpoints will have multiple query string parameters to customise the data returned.
+you certainly could, but you have to consider that most endpoints will have multiple query string parameters 
+to customise the data returned.
 
 > /places?merchant=X
 
@@ -121,10 +123,10 @@ Imagine the scenario, where the `number` per page is set to 1, `places` are orde
 in Brooklyn, NY:
 
 * Page 1
- * Barcade
- * Pickle Shack
-  Page 2
- * Videology
+  * Barcade
+  * Pickle Shack
+* Page 2
+  * Videology
 
 If the client requests Page 1, then they will see the first two results. While the results for Page 1 are being 
 displayed to the end user, some hip new bar opens up with the name "Lucky Dog" and joins the platform.
@@ -132,11 +134,11 @@ displayed to the end user, some hip new bar opens up with the name "Lucky Dog" a
 Now the data set looks like this:
 
 * Page 1
- * Barcade
- * Lucky Dog
+  * Barcade
+  * Lucky Dog
 * Page 2
- * Pickle Shack
- * Videology
+  * Pickle Shack
+  * Videology
 
 If the client does not refresh Page 1 (which most would not do for the sake of speed) then "Pickle Shack" is going to 
 show up twice, and "Lucky Dog" will not be on the list at all.
@@ -221,11 +223,10 @@ same math on a primary key integer. If everything is an opaque cursor or marker 
 
 ### Extra Requests = Sadness
 
-This approach is not favored by some clients as they do not like the idea of having to make extra HTTP requests to find 
-out that there is no data, but this just seems like the only realistic way to achieve a performant pagination system 
-for large data. Even with a "pages" system, if there is only 1 record on the last page and that record (or any other 
-in any page) is removed then the last page will be empty anyway, so... every pagination system needs to respond to an 
-empty collection.
+This approach is not favored by some client developers as they do not like the idea of having to make extra HTTP 
+requests to find out that there is no data, but this just seems like the only realistic way to achieve a performant pagination system for large data. Even with a "pages" system, if there is only 1 record on the last page and that 
+record (or any other in any page) is removed then the last page will be empty anyway, so... every pagination system 
+needs to respond to an empty collection.
 
 ### Using Cursors with Fractal
 

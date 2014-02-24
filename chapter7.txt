@@ -36,12 +36,12 @@ endpoint could be made to handle exactly that:
 The downside here is that it is an extra HTTP request. Imagine an iPhone application that wants to get 
 all `places` in an area and put them on a map, then allow a user to browse through them. If the `place` 
 search happens as one request, then the `/places/X/checkins` is executed each time the user clicks on a 
-place, and they will end up doing a lot of unecessary waiting. This is known as "n+1", meaning your work 
-done is increased by an extra one request for each place you look up.
+place, and they will end up doing a lot of unecessary waiting. This is known as `1 + n`, meaning the work 
+done is increased by an extra one request for each `place` you look up.
 
 That also assumes the only related data is checkins. At Kapture our API also has `merchant`, `images`,
-`current_campaign` and `previous_campaigns` to look up. Using "sub-resources" only would mean that 4 
-extra HTTP requests per place need to happen, which is n+4. 
+`current_campaign` and `previous_campaigns` to look up. Using "sub-resources" only would mean that four 
+extra HTTP requests per place need to happen, which is `1 + 4n`. 
 
 If 50 `places` were returned and each time the related data had to be loaded, assuming the app user looked 
 through all 50 `places` there would be 1 initial request to get 50 results. For each of those results 
@@ -56,8 +56,8 @@ something you don't need is obviously not desirable, and can be avoided. This ca
 gains on mobile, and minor gains over a slow network or weak Wi-Fi for desktop or tablets.
 
 The trade-off here between "downloading enough data to avoid making the user wait for subsequent loads" 
-and "downloading too much data to make them wait for the initial load". It's hard, but you need the 
-flexibility and making sub-resources your only related data approach does not give the API consumer 
+and "downloading too much data to make them wait for the initial load". It is hard, but you need the 
+flexibility and making sub-resources the only related data approach does not give the API consumer 
 any flexibility.
 
 ## Foreign Key Arrays
@@ -86,13 +86,13 @@ Back to the places example, if you have 50 places returned and need 4 extra piec
 itterate through the 50, map which items expect which pieces of data, request all unique pieces of data 
 and only end up with `1 + 4 = 5` HTTP requests instead of 251.
 
-The downside is that your API consumer has to stitch all of that data together, which could be a lot of 
-work if it is a large dataset, so it is still not ideal.
+The downside is that the API consumer has to stitch all of that data together, which could be a lot of 
+work for a large dataset.
 
 ## Compound Documents (a.k.a Side-Loading)
 
 Instead of just putting the foreign keys into the resource you can optionally side-load the data. I was 
-having a rough time of things trying to word an introduction, so I'll let somebody else do it:
+having a rough time of things trying to word an introduction, so I will let somebody else do it:
 
 > Compound documents contain multiple collections to allow for side-loading of related objects. 
 Side-loading is desirable when nested representation of related objects would result in potentially 
