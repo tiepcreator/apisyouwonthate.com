@@ -200,7 +200,10 @@ Content-Type: application/json
 That looks a little easier to work with than OAuth 1.0a, right?
 
 W> ### Headers v URL
-W> You should always try to use the `Authorization` header to send your tokens whenever possible, as headers are encrypted in SSL where-as the URL is not. 
+W> You should always try to use the `Authorization` header to send your tokens whenever possible. The query-string is
+W> secured when using SSL, but unless they are intentionally blocked then access tokens could start turning up in server
+W> logs and various other places. Also, browsers will store the full URL (including query-string) in history. This could
+W> easily comprimise a users the integrity if their computer is stolen or if a sibling decides to play a prank. 
 
 **"Short"-life Tokens**
 
@@ -208,17 +211,30 @@ As discussed OAuth 1.0a also used the same tokens essentially forever. OAuth 2.0
 
 Using the expire time you know when your access token will not be valid, so you can proactively create a cron job that refreshes the access tokens, or you can wrap your HTTP requests in an exception handler that looks for a "Not Authorized" error and refresh them then as the OAuth 2.0 spec recommends. 
 
-This extra "access tokens expire and you have to refresh them" step initially seems confusing and annoying, especially when you are used to "once I have this token it works forever" but its much more secure. OAuth 1.0a stopped you handing out your username and password by essentially giving you another username and password (the token and the secret) which worked for one specific client. Any good network admin will tell you that you should regularly change your password (at least every month), and OAuth is no different, as the more you use the same password/token the greater your chance of somebody finding out what it is. 
+This extra "access tokens expire and you have to refresh them" step initially seems confusing and annoying, especially
+when you are used to "once I have this token it works forever" but its much more secure. OAuth 1.0a stopped you handing
+out your username and password by essentially giving you another username and password (the token and the secret) which
+worked for one specific client. Any good network admin will tell you that you should regularly change your password (at
+least every month), and OAuth is no different, as the more you use the same password/token the greater your chance of
+somebody finding out what it is. 
 
 **Grant Types**
 
 One further massive benefit was the ability to have multiple (even custom) grant types, meaning you can create some amazing implementations. 
 
-The most common OAuth 2.0 Grant Type that a user will be familiar wi	th is `authorization_code`, which is a very OAuth 1.0a-like flow. 
+The most common OAuth 2.0 Grant Type that a user will be familiar with is `authorization_code`, which is a very OAuth 
+1.0a-like flow. 
 
-A client web-app creates a link to the OAuth Server of the service they would like to log into (e.g: Facebook) and the user logs in. Facebook redirects the user back to the client web-app's "Callback URL", with a `?code=FOO` variable in the query string. The web-app then takes that code and makes a second request (usually a `POST`, but sometimes a `GET`...) to Facebook and Facebook then offers up an access token in the response (and other services then provide expires and a refresh token).
+A client web-app creates a link to the OAuth Server of the service they would like to log into (e.g: Facebook) and the
+user logs in. Facebook redirects the user back to the client web-app's "Callback URL", with a `?code=FOO` variable in
+the query string. The web-app then takes that code and makes a second request (usually a `POST`, but sometimes a `GET`...)
+to Facebook and Facebook then offers up an access token in the response (and other services then provide expires and a
+refresh token).
 
-Other grant-types include `password` (you throw a username / password at the server and get some tokens back), and `client_credentials` - give the server your `client_id` and `client_secret`, and get an `access_token` back. This is a generic `access_token` which is usually somewhat limited as it has no "user-context", as as such can't post messages on a Twitter profile or similar.
+Other grant-types include `password` (you throw a username / password at the server and get some tokens back), and
+`client_credentials` - give the server your `client_id` and `client_secret`, and get an `access_token` back. This is a
+generic `access_token` which is usually somewhat limited as it has no "user-context", as as such can't post messages on a
+Twitter profile or similar.
 
 A> ### Twitter's Chocolate Teapot
 A> Twitter have implemented OAuth 2, which at this point only has `client_credentials` available. Their [documentation](https://dev.twitter.com/docs/auth/application-only-auth) explains further. It's kinda handy for public crawling of tags or public tweets, but you can't do a whole lot of anything else.
@@ -233,13 +249,17 @@ A> 2. People have implemented OAuth 2.0 badly (looking at you Facebook/Google/EV
 A> 3. He thinks Refresh Tokens are annoying, but I think they are great.  
 A> Generally speaking his departure from the project is no major loss. I'm sure the IETF are bike-shedding hard, but after using both for years I am much happier with OAuth 2.0 and really wish Twitter would get on with a full upgrade so I never have to use OAuth 1.0a again.
 
-OAuth 2.0 is good for pretty much any scenario when authenticating an API. The flexibility of custom grant-types mean you can do absolutely anything. For example, at Kapture we created a `social` grant, where a user would provide a string matching "facebook" or "twitter" and an `access_token` (with maybe a `secret` too because Twitter is still stuck in the past) and that would do the following:
+OAuth 2.0 is good for pretty much any scenario when authenticating an API. The flexibility of custom grant-types mean 
+you can do absolutely anything. For example, at Kapture we created a `social` grant, where a user would provide a string 
+matching "facebook" or "twitter" and an `access_token` (with maybe a `secret` too because Twitter is still stuck in the 
+past) and that would do the following:
 
 1. Grab the users data
 1. Find out if they are a Kapture user, and if not create a Kapture user record
 3. Create an access token, refresh token, etc to give that user access
 
-That gave us a completely seamless instant "sign-up or login" experience for our iPhone application, and let our admin panel AND merchant dashboard use the exact same OAuth 2.0 server to handle logins for everyone. Very handy, for everything.
+That gave us a completely seamless instant "sign-up or login" experience for our iPhone application, and let our admin
+panel AND merchant dashboard use the exact same OAuth 2.0 server to handle logins for everyone. Very handy, for everything.
 
 ### Other Approaches
 
@@ -249,9 +269,13 @@ That gave us a completely seamless instant "sign-up or login" experience for our
 
 ## Implementing an OAuth 2.0 Server
 
-Implementation by hand of a OAuth 2.0 server (or any of these authentication methods for that matter) can be very difficult. This chapter aimed to explain the pros, cons and use-cases for each, and implementation is sadly out of its scope. 
+Implementation by hand of a OAuth 2.0 server (or any of these authentication methods for that matter) can be very
+difficult. This chapter aimed to explain the pros, cons and use-cases for each, and implementation is sadly out of its
+scope. 
 
-As with any complicated subject matter, installing a package that is specifically designed to do the hard work for you is almost certainly a good idea. Python, Ruby and PHP all have some great packages already, so linking to them should offload the hard work of explaining how to do it for each language.
+As with any complicated subject matter, installing a package that is specifically designed to do the hard work for you 
+is almost certainly a good idea. Python, Ruby and PHP all have some great packages already, so linking to them should 
+offload the hard work of explaining how to do it for each language.
 
 ### PHP Implementations
 
