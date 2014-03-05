@@ -312,7 +312,6 @@ Ask for a collection of things and get a collection of things, but namespaced:
 
 * Single items still can only have meta data by embedding it in the item resource
 
-<<<<<<< HEAD
 By placing the collection into the `"data"` namespace you can easily add other content next to it which relates to the response but is not part of the list of resources at all. Counts, links, etc can all go here (more on this later). It also
 means when you embed other nested relationships you can include a `”data”` element for them and even include meta data for those embedded relationships. More on that later on too.
 
