@@ -1,5 +1,150 @@
-# HATEOAS / Links {#chapter-11}
+# Documentation {#chapter-11}
 
-## Coming Soon
+## Introduction
 
-This chapter will hopefully be with you by March 6th, 2014. 
+Regardless of whether you decide to keep an API private or release it to the
+general public, documentation is incredibly important.
+
+In the very early stages of development some API developers will rely soley on a Postman collection (discussed in [Chapter 8: Debugging](#chapter-8)) to be a sufficient source of documentation for their API. This may be the case but as soon as the API is in use by more people than just the one developer with their one collection this becauses a nightmare.
+
+Even if the API is in use internally, without a single source of regularly updated documentation for your API you will be answering questions from anyone using the API about how that works non-stop.
+
+If the API is public then... well without documentation nobody will use your API at all, which could drastically effect the successes of your company. Integration with services via an API these days is a very important factor for many companies, from startups to huge corporations, so do not go through the trouble of building something amazing only to have it completely ignored due to a lack of documentation.
+
+## Types of Documentation
+
+There should be a few different types of documentation:
+
+### API Reference
+
+The "API Reference" is sometimes refered to as "Endpoint Reference" and is essentially a list of all endpoints and their associated HTTP Methods, descriptions of what they and a list of all arguments that can be passed with descriptions about what values work and in what format those values could be. That is a lot of work. But, it can be made easier wit some tools. More on that later.
+
+### Sample Code
+
+"Sample Code" is generally just a case of building one or two libraries or code packages in different languages and documenting _their_ API with tools like [phpDocumentor](http://phpdoc.org/) and showing lots of common scenarios, like "Search venues by name" and "Create a checkin with a photograph" to show the basics of how that code works. These examples reduce the mental barrier for a developer because they can see concrete examples in a language familiar to them, instead of being forced to think in terms of HTTP requests.
+
+Despite your own personal preferences, please for the love of every good in the world make your sample code look as good as you can in each language. Words cannot express how frustrating it is when some Ruby developer smashes out some _awful_ PHP code - because they are bad with PHP - and passes that off as a finished product.
+
+Regardless of the language, most sample code should look very similar. This has the benefit of letting users switch between languages without having to start from scratch learning a new code package. PHP, Ruby and Python all have some concept of namespaces, they all have blocks or callbacks, they all have objects and hashes, they all support variadics and one day PHP will support named parameters. One day.
+
+### Guides or Tutorials
+
+This is the easiest of the lot. Take a subject like "Authentication" and talk through it like a blog post. Images, diagrams, code examples of the libraries handling various situations in one or multiple languages using tabs, etc. Some people show examples using command line curl, but that can get pretty nasty as curl is not exactly known for being an interface full of sugar.
+
+A great example of a set of tutorials is the [SoundCloud API](http://developers.soundcloud.com/docs/api/guide). Their "Using the API" page is a central resource which links to the API Reference for those who want to get their hands dirty, but also contains simple scenarios like "Uploading Audio Files" in multiple languages.
+
+![SoundCloud API Documentation - "Using the API"](images/chapter11/soundcloud-upload.png)
+
+If you check the examples out here Ruby, Python and PHP all look near idential (although I am not sure what happened to JavaScript.)
+
+Writing these guides takes a bit of time but that time will be given back in buckets, saving you answering the same questions over and over again. The other time saver is for when future you forgets how things work in 3 months, or you come back from a holiday rather frazzled and need a tutorial to step you through how things work. The amount of times I Google search a problem and find a blog I have written a few months ago answering it... It happens.
+
+
+## Generating Endpoint References
+
+There are no doubt multiple tools out there for generating your API/Endpoint documentation, but none I know of that work with as many different languages and frameworks to build such high quality documentation as [Swagger].
+
+Urban Dictionary, help me out:
+
+> "**Swagger:** How one presents him or her self to the world. Swagger is shown from how the person handles a situation."
+> -- [UrbanDictionary.com](http://www.urbandictionary.com/define.php?term=swagger)
+
+Sounds about right.
+
+Swagger is a tool (and a specification) that utilizes static analysis to generate API Reference documentation from your actual code. That saves you the trouble of maintaining multiple repos, trying to jam your docs into the main code repo, or any of those other potential headaches.
+
+As this a language agnostic book, Swagger fits perfectly. Their client generators are available in Scala, Java, Javascript, Ruby, PHP, and Actionscript 3. There are a lot of ways to use Swagger:
+
+<ul>
+<li><p><a href="https://github.com/marcgibbons/django-rest-swagger">Django</a></p></li>
+<li><p><a href="https://github.com/wordnik/swagger-node-express">node.js</a> with express framework</p></li>
+<li><p><a href="https://github.com/wordnik/swagger-core/tree/master/modules/swagger-jaxrs">Java/Scala JAX-RS</a></p></li>
+<li><p><a href="http://www.jboss.org/resteasy">RESTEasy</a></p></li>
+<li><p><a href="http://grails.org">Grails 2</a></p></li>
+<li><p><a href="https://github.com/wordnik/swagger-core/tree/master/modules/swagger-play">Scala Play 1.4</a></p></li>
+<li><p><a href="https://github.com/wordnik/swagger-core/tree/master/modules/swagger-play2">Scala Play 2</a></p></li>
+<li><p><a href="http://www.scalatra.org/">Scalatra</a> via <a href="https://github.com/scalatra/scalatra/tree/master/swagger/src/main/scala/org/scalatra/swagger">swagger-support</a>, see <a href="http://www.scalatra.org/2.2/guides/swagger.html">Swagger Guide</a></p></li>
+<li><p><a href="http://projects.spring.io/spring-framework/">Spring MVC</a> via <a href="https://github.com/martypitt/swagger-springmvc">swagger-springmvc</a></p></li>
+<li><p><a href="http://projects.spring.io/spring-framework/">Spring MVC</a>  via <a href="https://github.com/wkennedy/swagger4spring-web">swagger4spring-web</a></p></li>
+<li><p><a href="https://github.com/ServiceStack/ServiceStack">ServiceStack</a> .net/MONO</p></li>
+<li><p><a href="https://github.com/KevM/fubumvc-swagger">fubumvc-swagger</a> .net Fubumvc</p></li>
+<li><p><a href="https://github.com/domaindrivendev/Swashbuckle">Swashbuckle</a> .net framework</p></li>
+<li><p><a href="https://github.com/miketrionfo/Swagger.Net">Swagger.net</a> .net integration from Mike Trionfo</p></li>
+<li><p><a href="http://packagist.org/packages/zircote/swagger-php">Swagger-PHP</a> PHP Composer</p></li>
+<li><p><a href="https://github.com/nelmio/NelmioApiDocBundle">Symfony 2</a> Bundle</p></li>
+<li><p><a href="https://github.com/Luracast/Restler">Restler</a> PHP framework, swagger support in 3.0</p></li>
+<li><p><a href="https://github.com/tim-vandecasteele/grape-swagger">grape-swagger</a> for Ruby</p></li>
+<li><p><a href="https://github.com/concentricsky/django-tastypie-swagger">django-tastypie-swagger</a> for Python/Django</p></li>
+<li><p><a href="https://github.com/myfreeweb/octohipster">Octohipster</a> for Clojure</p></li>
+<li><p><a href="https://github.com/emicklei/go-restful">go-restful</a> for Golang</p></li>
+<li><p><a href="https://github.com/richhollis/swagger-docs">swagger-docs</a> for Rails</p></li>
+</ul>
+
+The general idea here is that you use some for of Swagger tool that works with your specific language which will create Swagger JSON. Then that JSON can be fed into [Swagger UI] to create your human-readable documentation.
+
+### Installation and Configuring Swagger
+
+**Installing the Client Utility**
+
+This example will walk through the PHP process, but it will be largely similar for most languages or frameworks.
+
+  $ wget https://raw.github.com/zircote/swagger-php/master/swagger.phar
+
+This downloads a `.phar` executable, which works as a command-line Swagger utility.
+
+  $ chmod +x swagger.phar
+
+Make the `.phar` file executable. This is only required on OSX/Linux/etc.
+
+  $ mv swagger.phar /usr/local/bin/swagger
+
+Make the swagger command globally available on your system. You can change the last argument there to any `bin/` directory listed in your `$PATH`. This one probably exists on OSX.
+
+**Installing Swagger-UI**
+
+The UI is important, so we will do a quick install via Git:
+
+  $ cd sample-code/chapter11
+  $ git clone https://github.com/wordnik/swagger-ui.git swagger
+
+You will now notice a lot of source files in this `swagger/` directory. The one we care about at this point is the `swagger/dist/` directory. This is the interface, and it will contain all the HTML, CSS, JS and example data you need to get started. Normally you would work on the source files to create your custom interface, build it, take the contents and drop them into some general folder structure that contains your other tutorials and whatever else. You also would not mix the swagger folder in with your codebase, you would probably make two different repos, or make it part of a build process.
+
+Reagrdless, this is how we will do it for the sake of ease.
+
+We will also stop using the built-in Laravel server at this point, and switch to using something like MAMP. Do whatever you have to do, but make two different sub-domains and point them to the following folders using virtual hosts:
+
+* `dev-api.example.com` document root is `chapter11/public`
+* `dev-developers.example.com` document root is `chapter11/swagger/dist`
+
+Again, its a bit confusing because they are jammed together, but go with it.
+
+We nbeed to point Swagger UI at the folder that the Swagger JSON file lives in. The JSON file will exist if you are using the sample code, but you will learn how to create it regardless. Open up `chapter11/swagger/dist/index.html` and set the url property:
+
+~~~~~~~~
+$(function () {
+  window.swaggerUi = new SwaggerUi({
+    url: "http://dev-api.example.com/docs/",
+    dom_id: "swagger-ui-container",
+~~~~~~~~
+
+Now, because they are different domains, you will need to enable cross-origin resource sharing (CORS), which can be tricky if you are new to the idea. [Enable CORS] will help you out regardless of your server, but using Apache you simply need to add a line to your `.htaccess`. If you look inside `chapter11/.htaccess` then you will notice that is done for you:
+
+<<[Example .htaccess setup for Apache, PHP and Laravel](../src/chapter11/public/.htaccess)
+
+Check Swagger UI works by opening a browser and going to `http://dev-developers.example.com`. If you are using the sample code then you should see content already. If not, you will need to read on.
+
+### Generate Documentation
+
+So with the interface all installed and configured, the next step is to (re)generate content. The way Swagger-PHP works, is by looking at PHP source files, scanning annotations and converting them into JSON. So the command is as simple as this:
+
+  $ swagger app/ --output public/docs
+
+The annotations are all placed in controllers:
+
+<<[UserController with Swagger Annotations](../src/chapter11/app/controllers/UserController.php)
+
+
+[Swagger]: https://helloreverb.com/developers/swagger
+[Swagger UI]: https://github.com/wordnik/swagger-ui
+[swagger-example]: http://swagger.wordnik.com/#!/pet
+[enabled CORS]: http://enable-cors.org/
