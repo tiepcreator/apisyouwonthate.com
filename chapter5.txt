@@ -2,11 +2,11 @@
 
 ## Introduction
 
-You might be sitting there thinking "This really escalated quickly, I'm not ready for testing!" but this is essentially the point. You have to set up your tests as early as possible so you actually bother using them, otherwise they become the "next thing" that just never gets done. Have no fear, testing an API is not only easy it is actually really quite fun. 
+You might be sitting there thinking "This really escalated quickly, I'm not ready for testing!" but this is essentially the point. You have to set up your tests as early as possible so you actually bother using them, otherwise they become the "next thing" that just never gets done. Have no fear, testing an API is not only easy it is actually really quite fun.
 
 ## Concepts & Tools
 
-With an API there are a few things to test, but the most basic idea is "when I request this URL, I want to see a 'foo' resource", and "when I throw this JSON at the API, it should accept it or freak out." 
+With an API there are a few things to test, but the most basic idea is "when I request this URL, I want to see a 'foo' resource", and "when I throw this JSON at the API, it should accept it or freak out."
 
 This can be done in several ways and a lot of people will instantly try to unit-test it, but that quickly becomes a nightmare as while you might think just writing a bit of code with your favorite HTTP client is simple, if you have over 50 endpoints and want to do multiple checks per endpoint you end up with a mess of code and that is no fun for anyone.
 
@@ -35,19 +35,19 @@ As a PHP developer you simply need to install Behat, and this can be done with [
 
 Run `$ composer install` and you should be good to go.
 
-God knows what to do with Python. Google should help you there. This could get complicated so I'm going to stick with PHP and Behat and you folks can just convert in your head as we go. 
+God knows what to do with Python. Google should help you there. This could get complicated so I'm going to stick with PHP and Behat and you folks can just convert in your head as we go.
 
 ## Initialise
 
 Make a folder inside your codebase repo called "tests" and another inside that called "behat" - because one day maybe there will be lots of different types of test.
 
-    $ cd /path/to/my/app
+    $ cd sample-code/chapter5/app
     $ mkdir tests && mkdir tests/behat
     $ cd tests/behat
     $ ../../bin/behat --init
 
 This will have the following output:
-    
+
     +d features - place your *.feature files here
     +d features/bootstrap - place bootstrap scripts and static files here
     +f features/bootstrap/FeatureContext.php - place your feature related code here
@@ -77,7 +77,7 @@ You can use that convention or try something else, but this grows pretty well wi
 
 ## Scenarios
 
-Gherkin uses "Scenarios" as its core structure and they each contain "steps". In a unit-testing world the "scenarios" would be their own "methods", and the "steps" would be "assertions". 
+Gherkin uses "Scenarios" as its core structure and they each contain "steps". In a unit-testing world the "scenarios" would be their own "methods", and the "steps" would be "assertions".
 
 These Features and Scenarios line up with the "Action Plan" created in Chapter 2. Each RESTful Resource needs at least one "Feature", and because each "Action" has an "Endpoint" we need _at least_ one "Scenario" for each "Action".
 
@@ -140,9 +140,9 @@ Scenario: Searching places with filters
     And reset scope
 ~~~~~~~~
 
-This uses some custom rules which have been defined in `features/bootstrap/FeatureContext.php` but more on that shortly. 
+This uses some custom rules which have been defined in `features/bootstrap/FeatureContext.php` but more on that shortly.
 
-The Feature file is called `places.feature` and has 4 scenarios. One to find a specific place, another to show that listing all places is not allowed (400 means bad input, your should specify lat lon) and two more to test how well searching works. 
+The Feature file is called `places.feature` and has 4 scenarios. One to find a specific place, another to show that listing all places is not allowed (400 means bad input, your should specify lat lon) and two more to test how well searching works.
 
 I try to think up the guard clauses that my endpoints will need, then make a "Scenario" for each of those. So, if you don't send a lat/lon to search then it errors. Test that.
 
@@ -166,7 +166,7 @@ Scenario: Try to find an invalid moments
     Then I get a "404" response
 ~~~~~~~~~
 
-Sure you don't actually have any code yet, but you can write all of these tests based off of nothing but your "Action Plan" and your Routes. You should use what you know about the output content structure from [Chapter 3](#chapter-3) to plan what output you expect to see. 
+Sure you don't actually have any code yet, but you can write all of these tests based off of nothing but your "Action Plan" and your Routes. You should use what you know about the output content structure from [Chapter 3](#chapter-3) to plan what output you expect to see.
 
 Then all you need to do is… you know… build your entire API.
 
@@ -195,6 +195,6 @@ This is the easiest bit:
 
     $ ./vendor/bin/behat -c tests/behat/behat-dev.yml
 
-Everything is broken. Yaaay! 
+Everything is broken. Yaaay!
 
 In the next chapter we will start to turn some of these tests green by putting actual data in there.

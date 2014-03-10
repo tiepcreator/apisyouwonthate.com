@@ -2,9 +2,9 @@
 
 ## Introduction
 
-Debugging is the art of working out why something is broken, which can be pretty difficult in an API. In much of web 
+Debugging is the art of working out why something is broken, which can be pretty difficult in an API. In much of web
 development you are simply looking at what is output to the page, overusing `var_dump()` or checking the browsers console
-for JavaScript errors. Working with an API you are mostly just working with Requests and Responses, but you need to 
+for JavaScript errors. Working with an API you are mostly just working with Requests and Responses, but you need to
 initiate these requests in a repeatable way, often with full control over all of the HTTP Headers, Body content, etc.
 
 There are a few methods you can utilize for debugging:
@@ -15,32 +15,32 @@ There are a few methods you can utilize for debugging:
 
 ## Command-line Debugging
 
-Debugging via the command-line using tools like `curl` are a great option for some. They tout the benefits of being able 
-to do it from inside a network firewall. Certainly this can be an option for debugging live servers, but for 
+Debugging via the command-line using tools like `curl` are a great option for some. They tout the benefits of being able
+to do it from inside a network firewall. Certainly this can be an option for debugging live servers, but for
 development purposes (which is what we are doing here) then using curl is just a lot of commands to remember for no reason.
 
-    curl -X POST http://localhost/places/fg345d/checkins --data @payload.json
+    $ curl -X POST http://localhost/places/fg345d/checkins --data @payload.json
 
-It is not the most complicated way to initiate a request, but it is not the easiest. You will need to update that payload.json each time, or have a 
-bunch of JSON in the CLI, and either way that is a pain in the backside when you have a lot of endpoints with lots of 
+It is not the most complicated way to initiate a request, but it is not the easiest. You will need to update that payload.json each time, or have a
+bunch of JSON in the CLI, and either way that is a pain in the backside when you have a lot of endpoints with lots of
 potential values.
 
 ## Browser Debugging
 
-Working in the browser is a great way to do things and developers are fairly used to it. Sadly 
-most browsers can only really handle `GET` and `POST` requests by default, and a RESTful API requires 
+Working in the browser is a great way to do things and developers are fairly used to it. Sadly
+most browsers can only really handle `GET` and `POST` requests by default, and a RESTful API requires
 `PUT`, `DELETE`, `PATCH`, etc too. A well built RESTful API will also require the use of HTTP Headers, which can be difficult
-to manipulate in a browser, as they are built to handle all of that for you. 
+to manipulate in a browser, as they are built to handle all of that for you.
 
 ### HTTP Clients
 
 Called "HTTP Clients" or "REST Client" interchangeably, these bits of software help perfectly with the job this book
-sets out to achieve: building non-trivial APIs. They allow you to format your HTTP Request through a convenient GUI, 
-choosing the HTTP verb, adding headers, entering a body, etc then present the HTTP Response to you with formatting or in 
-source view if you prefer. Many of these GUIs will let you save common requests or build "collections" much like a set of 
+sets out to achieve: building non-trivial APIs. They allow you to format your HTTP Request through a convenient GUI,
+choosing the HTTP verb, adding headers, entering a body, etc then present the HTTP Response to you with formatting or in
+source view if you prefer. Many of these GUIs will let you save common requests or build "collections" much like a set of
 bookmarks, but for your endpoints and with all the correct headers and values.
 
-These clients exist for Windows, OSX and Linux but one that has really stood out to me is a Chrome extension called 
+These clients exist for Windows, OSX and Linux but one that has really stood out to me is a Chrome extension called
 [Postman][].
 
   [Postman]: http://getpostman.com
@@ -49,17 +49,17 @@ These clients exist for Windows, OSX and Linux but one that has really stood out
 
 I have a collection which almost mirrors my Behat tests, and have at least one for each endpoint - some with more.
 
-Using Postman I can develop "in the browser" and see errors easily, and keep changing things and clicking "Send" for 
-as long as I have to to make it work. When I expect it to work I run the Behat scenario that covers the endpoint, and see 
-if the tests are green. If Behat fails and the errors are not enough to resolve the problem then simply go back to Postman 
+Using Postman I can develop "in the browser" and see errors easily, and keep changing things and clicking "Send" for
+as long as I have to to make it work. When I expect it to work I run the Behat scenario that covers the endpoint, and see
+if the tests are green. If Behat fails and the errors are not enough to resolve the problem then simply go back to Postman
 and try again.
 
 Repeat until the endpoint "works", and passes the test.
 
 ### Debug Panel
 
-The approach above works fine if the problem is one that you can see. Anything to do with a slow page return, 
-silent fails, unexpected results, etc. all need more information, and to do that you probably need another extension. 
+The approach above works fine if the problem is one that you can see. Anything to do with a slow page return,
+silent fails, unexpected results, etc. all need more information, and to do that you probably need another extension.
 
 **[RailsPanel][]** - Chrome-only DevTool panel with logging and profiling for Ruby on Rails. ([RailsCasts Video][RailsPanelCast]).
 
@@ -67,11 +67,11 @@ silent fails, unexpected results, etc. all need more information, and to do that
 
 **[Chrome Logger]** - Chrome Logger only for Python, PHP, Ruby, Node, .NET, CF and Go.
 
-The first two are very similar and are the most feature filled, but the latter covers basic logging for the wider selection 
+The first two are very similar and are the most feature filled, but the latter covers basic logging for the wider selection
 of languages.
 
-Sure these examples are mostly Chrome. There are probably alternatives, but either way there is no harm in having Chrome as your 
-"Development Browser" and keep on using your favorite for general browsing. 
+Sure these examples are mostly Chrome. There are probably alternatives, but either way there is no harm in having Chrome as your
+"Development Browser" and keep on using your favorite for general browsing.
 
 [RailsPanel]: https://github.com/dejan/rails_panel
 [RailsPanelCast]: http://railscasts.com/episodes/402-better-errors-railspanel?view=asciicast
@@ -82,11 +82,11 @@ Sure these examples are mostly Chrome. There are probably alternatives, but eith
 
 This timeline can be useful for working out where things are slowing down. Define your own events to see where the time is going.
 
-Seeing logs in this panel is another benefit, and it helps keep you from switching back to the console all the time to catch 
-the output of your logs via `tail -f`. Certainly you should be in the command line anyway, but constantly hitting `Alt+Tab` can 
-cause distractions which slow you down. 
+Seeing logs in this panel is another benefit, and it helps keep you from switching back to the console all the time to catch
+the output of your logs via `tail -f`. Certainly you should be in the command line anyway, but constantly hitting `Alt+Tab` can
+cause distractions which slow you down.
 
-For those of you who normally debug with `var_dump()` or breakpoints, you could simply use Clockwork/RailsPanel/Chrome Logger to 
+For those of you who normally debug with `var_dump()` or breakpoints, you could simply use Clockwork/RailsPanel/Chrome Logger to
 do it, and see it in the panel - leaving your output untouched and avoiding tricky setup with IDE or other GUI programs.
 
 <<[CheckinTransformer using Fractal, with added Logging](../src/chapter8/app/src/App/Transformer/CheckinTransformer.php)
@@ -106,60 +106,60 @@ If logging something cannot help you with a problem, you need to log more things
 
 The previously mentioned approaches to debugging are very much about being in control: create a Request, see what happens with the Response.
 Sometimes you need to debug what is happening to your API when the requests are not completely in control. If your iPhone developer comes over
-and says "the API is broken" it can be hard to work out why. 
+and says "the API is broken" it can be hard to work out why.
 
-If you know exactly what endpoint is being hit and what the error is (because the iPhone dev is pointing to some debug data on his XCode screen) 
-then maybe you can fix it, but often you will need more insight before you can recreate it. Maybe it is not even a request that you can 
-recreate easily (or at all) like anything to do with upload images as a `PUT` after getting them from the camera, or there are multiple requests 
+If you know exactly what endpoint is being hit and what the error is (because the iPhone dev is pointing to some debug data on his XCode screen)
+then maybe you can fix it, but often you will need more insight before you can recreate it. Maybe it is not even a request that you can
+recreate easily (or at all) like anything to do with upload images as a `PUT` after getting them from the camera, or there are multiple requests
 that the iPhone app is executing in order using data from the previous requests.
 
 Whatever the reason, sometimes you need to debug network activity to find out what is *actually* happening, by spying on the Request and getting the Response.
 
 ### Charles
 
-If these are non-production errors that you want to debug against your local API and development iOS devices (a.k.a the iPhone 4S 
+If these are non-production errors that you want to debug against your local API and development iOS devices (a.k.a the iPhone 4S
 you have not sold on eBay yet) then a great application is [Charles](http://www.charlesproxy.com/).
 
-Charles essentially acts as a HTTP proxy, which means stuff comes in, stuff goes out, and Charles can show you what 
+Charles essentially acts as a HTTP proxy, which means stuff comes in, stuff goes out, and Charles can show you what
 that was. Beyond that it can rewrite headers and even let you modify the content of the request or response if you want to.
 
 To set the basics of this up, you first need to know the internal network of your machine.
 
 ![Network Settings on Mac OSX, showing local IP](images/chapter8/network-ip.png)
 
-On your mobile device you will need to enable a HTTP Proxy. Enter your computers "local IP" in the "Proxy Server Address" field, and select 
-port 8888 - the default Charles port. 
+On your mobile device you will need to enable a HTTP Proxy. Enter your computers "local IP" in the "Proxy Server Address" field, and select
+port 8888 - the default Charles port.
 
 ![Sample Charles HTTP Proxy settings on iOS7](images/chapter8/iphone-proxy.png)
 
 This will forward all web traffic on to Charles, which (if it is running) will forward it on to its location.
 
-As pointless as that might sound, the power comes in the options Charles has to offer. If we are intending to allow web traffic from our mobile device 
+As pointless as that might sound, the power comes in the options Charles has to offer. If we are intending to allow web traffic from our mobile device
 to the API on our development environment then at this point we are half way.
 
 W> ## Local v "Remote"
 W>
-W> Charles seems to have trouble proxying traffic if the end result is local traffic, meaning the Laravel development server used so far in these examples 
+W> Charles seems to have trouble proxying traffic if the end result is local traffic, meaning the Laravel development server used so far in these examples
 W> running on `localhost:8000` will not work. I personally have Charles pointing to a Vagrant box running, on its own IP address with its own virtual host
 W> enabled. This is not something that the book will cover, but is certainly something you should look into doing.
-W> 
-W> If you know how the development server running on localhost could be enabled then, please get in touch. I will give two free coupons to the first 
+W>
+W> If you know how the development server running on localhost could be enabled then, please get in touch. I will give two free coupons to the first
 W> person who can correct me on this (allowing you to refund, or exchange them for beers with two friends).
 
-To make `dev-api.example.com` mean something on your mobile device, enter a "Map Remote" rule in Charles. 
+To make `dev-api.example.com` mean something on your mobile device, enter a "Map Remote" rule in Charles.
 
 ![Screenshot of Charles on OSX mapping dev-api.example.com](images/chapter8/map-remote.png)
 
-As explained above Charles acts as a "man-in-the-middle", re-routing traffic based on your rules. By saying `dev-api.example.com` should be routed to 
-`dev-api.example.com` on your machine, you have given that hostname meaning on your mobile devices (or anything else talking to Charles on that port). 
+As explained above Charles acts as a "man-in-the-middle", re-routing traffic based on your rules. By saying `dev-api.example.com` should be routed to
+`dev-api.example.com` on your machine, you have given that hostname meaning on your mobile devices (or anything else talking to Charles on that port).
 
 Now - so long as you are able to get a build of your mobile application pointing to `dev-api.example.com` - you will be able to click around the application,
 seeing requests and responses, with all of the according headers and values as you go.
 
 ![Charles showing results for Kapture](images/chapter8/charles-results.png)
 
-You might not find yourself using Charles every day, or for a long time at the start as your HTTP Clients may be enough to debug problems, but having 
-it available is certainly going to help you out at some point. Keep it in mind. 
+You might not find yourself using Charles every day, or for a long time at the start as your HTTP Clients may be enough to debug problems, but having
+it available is certainly going to help you out at some point. Keep it in mind.
 
 [Wireshark][] is also fun.
 
