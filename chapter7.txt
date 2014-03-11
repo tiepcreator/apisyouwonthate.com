@@ -7,7 +7,9 @@ comments. Authors have one or many books. Books belong to a Publisher. Southerne
  Whatever the example, relationships are incredibly important to any application and therefore an API too.
 
 RESTful Relationships don't necessarily need to be directly mapped to database relationships.
-If your database relationships are built properly, RESTful relationships will often be similar, but your RESTful output might have extra dynamic relationships that aren't defined by a JOIN, and might not necessarily include every possible database relationship.
+If your database relationships are built properly, RESTful relationships will often be similar, but your
+RESTful output might have extra dynamic relationships that aren't defined by a JOIN, and might not necessarily
+include every possible database relationship.
 
 Put more eloquently:
 
@@ -49,7 +51,8 @@ would be 4 more, meaning: `1 + (50 x 4) = 251`. 251 HTTP requests happening (eve
 asyncronous) is just unecessary and going over HTTP on a mobile is the slowest things you can do. Even with
 caching, depending on the data set it could still be 251 requests.
 
-Some API developers try to avoid going over HTTP too many times by shoving as much data as possible into one request, so when you call the `/places` endpoint you automatically get `checkins`, `current_opps`,
+Some API developers try to avoid going over HTTP too many times by shoving as much data as possible into one
+request, so when you call the `/places` endpoint you automatically get `checkins`, `current_opps`,
 `merchants` and `images`. Well, if you do not want that information you are waiting for huge file
 downloads full of irrelevant JSON! Even with GZIP compression enabled on the web-server, downloading
 something you don't need is obviously not desirable, and can be avoided. This can mean major performance
@@ -292,7 +295,8 @@ This will work well assuming everything is represented as ActiveRecord, which wh
 
 ### Being a RESTful Rebel
 
-I read a blog article by [Ian Bentley](http://idbentley.com/blog/2013/03/14/should-restful-apis-include-relationships/) suggesting that this approach is not entirely RESTful. It points to a Roy Fielding quote:
+I read a blog article by [Ian Bentley] suggesting that this approach is not entirely RESTful.
+It points to a Roy Fielding quote:
 
 > The central feature that distinguishes the REST architectural style from other network-based styles is
 > its emphasis on a uniform interface between components (Figure 5-6). By applying the software
@@ -308,3 +312,5 @@ not care about crossing Roy and his RESTful spec to do it.
 Make your own choices. Facebook, Twitter and most popular "RESTful API's" fundamentally ignore parts of
 (or dump all over the entirety of) the RESTful spec, so respecting everything else and popping your toe
 over the line here a little would not be the biggest travesty for your API.
+
+[Ian Bentley]: http://idbentley.com/blog/2013/03/14/should-restful-apis-include-relationships/
