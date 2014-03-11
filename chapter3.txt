@@ -96,7 +96,7 @@ This mime-type is one of the few ways that browsers send data via a form when yo
 
 Urf.
 
-`$_GET` and `$_POST` have nothing to do with HTTP GET and HTTP POST. `$_GET` just contains query string content _regardless_ of the HTTP method. `$_POST` contains the values of the HTTP Body if it was in the right format and the Content-Type header is `application/x-www-form-urlencoded`.
+`$_GET` and `$_POST` do not have the 1:1 relationship with HTTP GET and HTTP POST as their names might suggest. `$_GET` just contains query string content _regardless_ of the HTTP method. `$_POST` contains the values of the HTTP Body if it was in the right format and the Content-Type header is `application/x-www-form-urlencoded`. A HTTP POST item could still have a query string, and that would still be in `$_GET`. Some PHP frameworks kill off `$_GET` data in a HTTP POST request, which further exagerates this 1:1 relationship between the super-global and the method.
 
 So knowing that PHP just has some silly names for things, we can move on and completely ignore $_POST. Pour one out in the ground, because it is dead to you. 
 
