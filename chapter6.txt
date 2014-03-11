@@ -2,9 +2,9 @@
 
 ## Introduction
 
-In [Chapter 3: Input and Output Theory](#chapter-3) we looked at the theory of the output structure and the pros and cons for various different formats. This book assumes you have picked your favorite, and it assumes that favorite is my favorite. This doesn't matter all that much but doing everything for everyone would be an exercise in futility and boredom. 
+In [Chapter 3: Input and Output Theory](#chapter-3) we looked at the theory of the output structure and the pros and cons for various different formats. This book assumes you have picked your favorite, and it assumes that favorite is my favorite. This doesn't matter all that much but doing everything for everyone would be an exercise in futility and boredom.
 
-The aim of this chapter is to help you build out your controller endpoints so that you can fill up a few of those tests with green lights, instead of the omnishambles of errors and fails you are most likely facing. 
+The aim of this chapter is to help you build out your controller endpoints so that you can fill up a few of those tests with green lights, instead of the omnishambles of errors and fails you are most likely facing.
 
 The examples in the first section will be trying to show off a list of places, and show of one specific place:
 
@@ -68,7 +68,7 @@ class PlaceController extends ApiController
 }
 ~~~~~~~~
 
-This is the absolute worst idea you could have for enough reasons for me to fill up a chapter on its own, but I will try to keep it to just a section. 
+This is the absolute worst idea you could have for enough reasons for me to fill up a chapter on its own, but I will try to keep it to just a section.
 
 W> ## ORMs in Controllers
 W>
@@ -80,7 +80,7 @@ W> Your controller should definitely not have this sort of ORM/Query Builder log
 
 **Security:** Outputting all fields can lead to API clients (users of all sorts) being able to view your users passwords, see sensitive information like email addresses for businesses involved (venues, partners, events, etc), gain access to secret keys and tokens generally not allowed. If you leak your forgotten password tokens for example then you're going to have an EXTREMELY bad time, its as bad as leaking the password itself.
 
-Some ORM's have a "hidden" option to hide specific fields from being output. If you can promise that you and every single other developer on your team (now, next year and for the entire lifetime of this application) will remember about that then congratulations, you could also achieve world peace with a team that focused. 
+Some ORM's have a "hidden" option to hide specific fields from being output. If you can promise that you and every single other developer on your team (now, next year and for the entire lifetime of this application) will remember about that then congratulations, you could also achieve world peace with a team that focused.
 
 **Stability:** If you change the name of a database field, or modify your MongoDB document, or change the statuses available for a field between v3 and v4 then your API will continue to behave perfectly, but all of your iPhone users are going to have busted crashing applications and it is your fault. You will promise yourself that you won't change things, but you absolutely will. Change happens.
 
@@ -129,7 +129,7 @@ class PlaceController extends ApiController
 
 Thanks to specifying exactly what fields to return in the JSON array the security issues are taken care of. The type-casting of various fields turn numeric strings into integers, coordinates into floats, and that pesky `Carbon` (DateTime) object from Laravel into a string, instead of letting the object turn itself into an array.
 
-The only issue this has not taken care of from the above example is performance, but that is a job for pagination which will be covered in a later chapter. 
+The only issue this has not taken care of from the above example is performance, but that is a job for pagination which will be covered in [Chapter 10](#chapter-10). 
 
 A new issue has however been created, which should be a fairly obvious one: This is icky. Our theoretical developer now tries something else.
 
@@ -172,9 +172,9 @@ class PlaceController extends ApiController
 }
 ~~~~~~~~
 
-Certainly much better, but what if a different controller wants to show a place at any point? You could theoretically move all of these transform methods to a new class or shove them in the `ApiController`, but that would just be odd. 
+Certainly much better, but what if a different controller wants to show a place at any point? You could theoretically move all of these transform methods to a new class or shove them in the `ApiController`, but that would just be odd.
 
-Really you want to make what I have come to call "Transformers", partially because the name is awesome and because that is what they are doing. 
+Really you want to make what I have come to call "Transformers", partially because the name is awesome and because that is what they are doing.
 
 These are essentially just classes which have a transform method, which does the same as the `transformPlaceToJson()` above, but to avoid you having to learn how to make your own I have released a PHP package which takes care of it: [Fractal](https://packagist.org/packages/league/fractal).
 
@@ -205,7 +205,7 @@ This is a Laravel 4 application but only because it has migrations and seeding a
 * **app/controllers/ApiController.php** - Insanely simple base controller for wrapping responses
 * **app/controllers/PlaceController.php** - Grab some data and pass it to the `ApiController`
 
-Other than defining some basic GET routes in `app/routes.php` that is basically all that is being done. 
+Other than defining some basic GET routes in `app/routes.php` that is basically all that is being done.
 
 The `PlaceController` looks like this:
 
@@ -230,7 +230,7 @@ class PlaceController extends ApiController
 }
 ~~~~~~~~
 
-The "raw data" (happens to be an ORM model but could be anything) is sent back with the appropriate convenience method and a transformer instance is provided too. These `respondWithCollection()` and `respondWithItem()` methods come from ApiController, and their job is just to create Fractal instances without exposing as many classes to interact with. 
+The "raw data" (happens to be an ORM model but could be anything) is sent back with the appropriate convenience method and a transformer instance is provided too. These `respondWithCollection()` and `respondWithItem()` methods come from ApiController, and their job is just to create Fractal instances without exposing as many classes to interact with.
 
 The `PlaceTransformer` looks like this:
 
@@ -291,13 +291,13 @@ class ApiController extends Controller
     {
         return $this->statusCode;
     }
-    
+
     public function setStatusCode($statusCode)
     {
         $this->statusCode = $statusCode;
         return $this;
     }
-    
+
     protected function respondWithItem($item, $callback)
     {
         $resource = new Item($item, $callback);
@@ -344,7 +344,7 @@ Schema updates happen, and they can be hard to avoid. If the change in question 
 
 By changing the right (our internal data structure) and keeping the left the same (the external field name) we maintain control over the stability for the client applications.
 
-Sometimes it is a status change. A new status is added, or the change is fairly drastic and the status all change, but the old API version is still expecting the old one. Maybe someone changed "available" to "active" to be consistent with the other tables, because the original developer was as consistent and logical as a rabid ferrit. 
+Sometimes it is a status change. A new status is added, or the change is fairly drastic and the status all change, but the old API version is still expecting the old one. Maybe someone changed "available" to "active" to be consistent with the other tables, because the original developer was as consistent and logical as a rabid ferrit.
 
 **Before**
 
@@ -373,13 +373,13 @@ Exactly how to output errors is something I personally am still toying with. The
 class ApiController extends Controller
 {
     // ...
-    
+
     const CODE_WRONG_ARGS = 'GEN-FUBARGS';
     const CODE_NOT_FOUND = 'GEN-LIKETHEWIND';
     const CODE_INTERNAL_ERROR = 'GEN-AAAGGH';
     const CODE_UNAUTHORIZED = 'GEN-MAYBGTFO';
     const CODE_FORBIDDEN = 'GEN-GTFO';
-    
+
 	// ...
 
     protected function respondWithError($message, $errorCode)
@@ -419,7 +419,7 @@ class ApiController extends Controller
     {
         return $this->setStatusCode(500)->respondWithError($message, self::CODE_INTERNAL_ERROR);
     }
-    
+
     /**
      * Generates a Response with a 404 HTTP header and a given message.
      *
@@ -469,17 +469,17 @@ class PlaceController extends ApiController
     public function show($id)
     {
         $place = Place::find($id);
-        
+
         if (! $place) {
         	return $this->errorNotFound('Did you just invent an ID and try loading a place? Muppet.');
 		}
-		
+
         return $this->respondWithItem($place, new PlaceTransformer);
     }
 }
 ~~~~~~~~
 
-Other "Place" specific errors could go directly into the `PlaceController` as methods just like these, with their own constants in the controller, picking a statusCode in the method or relying on one as an argument. 
+Other "Place" specific errors could go directly into the `PlaceController` as methods just like these, with their own constants in the controller, picking a statusCode in the method or relying on one as an argument.
 
 ## Testing this Output
 

@@ -45,7 +45,7 @@ Arguments between developers will continue for the rest of time over the exact a
 
 It can be tempting to try and squeeze as many error codes in as you can, but I would advise you to try and keep it simple. You won't unlock any achievements for using them all.
 
-Most 5xx issues will most likely happen under odd architecture or server related issues that are nothing to do with your API, like if PHP-FPM segfaults behind nginx (502), if your Amazon Elastic Load Balancer has no health instances (503) or if your hard-drive fills up somehow (507).
+Most 5xx issues will most likely happen under odd architecture or server related issues that are nothing to do with your API, like if PHP-FPM segfaults behind nginx (502), if your Amazon Elastic Load Balancer has no healthy instances (503) or if your hard-drive fills up somehow (507).
 
 ## Error Codes and Error Messages
 
@@ -83,54 +83,62 @@ A> |179  | Sorry, you are not authorized to see this status  | Corresponds with 
 
 ### Programmatically Detecting Error Codes
 
-Here is an example of the sort of ways people can use error codes to make their application respond intelligently to failure of something as basic as a posted Twitter status:
+You can use error codes to make an application respond intelligently to failure of something as basic as a posted Twitter 
+status.
 
-        try:
-            api.PostUpdates(body['text'])
+{title="Using Python to catch exceptions and react to the Twitter error code", lang=python}
+~~~~~~~~~
+try:
+    api.PostUpdates(body['text'])
 
-        except twitter.TwitterError, exc:
+except twitter.TwitterError, exc:
 
-            skip_codes = [
-                # Page does not exist
-                34,
+    skip_codes = [
+        # Page does not exist
+        34,
 
-                # You cannot send messages to users who are not following you
-                150,
+        # You cannot send messages to users who are not following you
+        150,
 
-                # Sent too many
-                # TODO Make this requeue with a dekay somehow
-                151
-            ]
+        # Sent too many
+        # TODO Make this requeue with a dekay somehow
+        151
+    ]
 
-            error_code = exc.__getitem__(0)[0]['code']
+    error_code = exc.__getitem__(0)[0]['code']
 
-            # If the token has expired then lets knock it out so we don't try again
-            if error_code in skip_codes:
-                message.reject()
+    # If the token has expired then lets knock it out so we don't try again
+    if error_code in skip_codes:
+        message.reject()
 
-            else:
-                # Rate limit exceeded? Might be worth taking a nap before we requeue
-                if error_code == 88:
-                    time.sleep(10)
+    else:
+        # Rate limit exceeded? Might be worth taking a nap before we requeue
+        if error_code == 88:
+            time.sleep(10)
 
-                message.requeue()
+        message.requeue()
+~~~~~~~~~
                 
 Compare this sort of logic with Facebook - and their lack of error codes:
+    
+{title="Using Python to analyise Facebook error strings as no codes exist", lang=python}
+~~~~~~~~~
+except facebook.GraphAPIError, e:
 
-        except facebook.GraphAPIError, e:
+    phrases = ['expired', 'session has been invalidated']
 
-            phrases = ['expired', 'session has been invalidated']
+    for phrase in phrases:
 
-            for phrase in phrases:
+        # If the token has expired then lets knock it out so we dont try again
+        if e.message.find(phrase) > 0:
+            log.info("Deactivating Token %s", user['token_id'])
+            self._deactivate_token(user['token_id'])
 
-                # If the token has expired then lets knock it out so we dont try again
-                if e.message.find(phrase) > 0:
-                    log.info("Deactivating Token %s", user['token_id'])
-                    self._deactivate_token(user['token_id'])
+    log.error("-- Unknown Facebook Error", exec_info=True)
+~~~~~~~~
 
-            log.error("-- Unknown Facebook Error", exec_info=True)
-            
-If they change their error messages then this might stop working, which would be shitty.
+If they change their error messages then this might stop working, which would be a problem. Codes (that do not change
+are a much more sensible way to go about this).
 
 ## Error or Errors
 
@@ -153,4 +161,3 @@ If you get a 403 this could be because the requesting user is in not in the corr
 A 410 on a resource could be due to a user deleting that entire piece of content or it could be down to the user deleting their entire account.
 
 In all of these situations the ideal solution is to complement the HTTP status code with an error code, which can be whatever you want as long as they are unique within your API and documented somewhere. Do not do what Google does and supply a list of error codes then have other error codes which are not documented anywhere, because if I see that I will come for you.
-

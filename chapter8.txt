@@ -19,7 +19,9 @@ Debugging via the command-line using tools like `curl` are a great option for so
 to do it from inside a network firewall. Certainly this can be an option for debugging live servers, but for
 development purposes (which is what we are doing here) then using curl is just a lot of commands to remember for no reason.
 
-    $ curl -X POST http://localhost/places/fg345d/checkins --data @payload.json
+~~~~~~~~
+$ curl -X POST http://localhost/places/fg345d/checkins --data @payload.json
+~~~~~~~~
 
 It is not the most complicated way to initiate a request, but it is not the easiest. You will need to update that payload.json each time, or have a
 bunch of JSON in the CLI, and either way that is a pain in the backside when you have a lot of endpoints with lots of
@@ -161,6 +163,6 @@ seeing requests and responses, with all of the according headers and values as y
 You might not find yourself using Charles every day, or for a long time at the start as your HTTP Clients may be enough to debug problems, but having
 it available is certainly going to help you out at some point. Keep it in mind.
 
-[Wireshark][] is also fun.
+[Wireshark] is also fun.
 
 [Wireshark]: https://www.wireshark.org/

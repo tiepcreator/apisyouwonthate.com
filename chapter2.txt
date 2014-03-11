@@ -1,6 +1,6 @@
 # Planning and Creating Endpoints {#chapter-2}
 
-With your database planned and full of fake but useful data it is time to plan what your endpoints are going to look like. An endpoint is simply a URL. When you go to `http://example.com/foo/bar` then that is an 
+With your database planned and full of fake but useful data it is time to plan what your endpoints are going to look like. An endpoint is simply a URL. When you go to `http://example.com/foo/bar` then that is an
 endpoint and you simply need to call it `/foo/bar` because the domain will be the same for all of them.
 
 The first step is to work out the requirements of an API, then we can move onto some theory and finally see the theory implemented in some examples.
@@ -9,7 +9,7 @@ The first step is to work out the requirements of an API, then we can move onto 
 
 Try thinking of _everything_ your API will need to handle. This will initially be a list of CRUD (Create, Read, Update, Delete) endpoints for your resources, Talk to your mobile app developer, your JS frontend people, or just talk to yourself if you are the only developer on the project.
 
-Definitely talk to your customers or "the business" (they are the customers) and get them to help you think of functionality too, but don't expect them to know what an endpoint is. 
+Definitely talk to your customers or "the business" (they are the customers) and get them to help you think of functionality too, but don't expect them to know what an endpoint is.
 
 When you have a relatively extensive list the next step is to make a simple list of "Actions". This is very much like planning a PHP class, you first write up pseudo-code referencing the classes and methods like they exist, right? TDD (Test Driven Development)? If not that is how you should do it, or Chris Hartjes will find you, and he _will_ kill you.
 
@@ -87,7 +87,7 @@ A complete API "action plan" might look like this:
 > - Delete  
 > - List (lat, lon, distance or box)  
 > - Image  
-  
+
 > Users  
 > - Create  
 > - Read  
@@ -105,13 +105,13 @@ Moving on.
 
 ## Endpoint Theory
 
-Turning this "Action Plan" into actual endpoints requires knowing a little theory on RESTful APIs and "best practices" for naming conventions. There are no right answers here, but some approaches have fewer cons than others. I will try to push you in the direction I have found to be most useful, and highlight the pros and cons of each. 
+Turning this "Action Plan" into actual endpoints requires knowing a little theory on RESTful APIs and "best practices" for naming conventions. There are no right answers here, but some approaches have fewer cons than others. I will try to push you in the direction I have found to be most useful, and highlight the pros and cons of each.
 
 ### GET Resources
 
 * `GET /resources` - Some paginated list of stuff, in some logical default order for that specific data.
 
-* `GET /resources/X` - Just entity X. That can be an ID, hash, slug, username, etc as long as it unique to one "resource". 
+* `GET /resources/X` - Just entity X. That can be an ID, hash, slug, username, etc as long as it unique to one "resource".
 
 * `GET /resources/X,Y,Z` - The client wants multiple things, so give them multiple things.
 
@@ -127,21 +127,21 @@ The latter is questionable, and not something I have ever personally done. At th
 
 W> ## Auto-Increment is the Devil
 W>
-W> In these examples X and Y can be an auto-incrementing ID as many developers will assume. One important factor with auto-incrementing ID's is that anyone with access to your API will know exactly how many resources you have, which might not be a statistic you want your competitors to have. 
-W> 
+W> In these examples X and Y can be an auto-incrementing ID as many developers will assume. One important factor with auto-incrementing ID's is that anyone with access to your API will know exactly how many resources you have, which might not be a statistic you want your competitors to have.
+W>
 W> Consumers could also write a script which hits `/users/1`, then `/users/2` and `/users/3`, etc scraping all data as it goes. Sure they could probably do that from the "list" endpoints anyway, but not all resources should have a "get all" approach.
-W> 
+W>
 W> Instead a unique identifier is often a good idea. A universal unique identifier (UUID) seems like a logical thing to do: [ramsey\uuid for PHP](https://github.com/ramsey/uuid), [uuid for Ruby](https://rubygems.org/gems/uuid), [uuid in Python 2.5+](http://docs.python.org/2/library/uuid.html).
 
 ### DELETE Resources
 
 Want to delete things? Easy:
 
-* `DELETE /places/X` - Delete a single place.  
+* `DELETE /places/X` - Delete a single place.
 
-* `DELETE /places/X,Y,Z` - Delete a bunch of places. 
+* `DELETE /places/X,Y,Z` - Delete a bunch of places.
 
-* `DELETE /places` - This is a potentially dangerous endpoint that could be skipped, as it should delete all places. 
+* `DELETE /places` - This is a potentially dangerous endpoint that could be skipped, as it should delete all places.
 
 * `DELETE /places/X/image` - Delete the image for a place, or:
 
@@ -149,17 +149,17 @@ Want to delete things? Easy:
 
 ### POST vs PUT: FIGHT!
 
-What about creating and updating? This is where it gets almost religious. There are lots of people who will try to pair the HTTP POST or HTTP PUT verb (verb, i.e. a HTTP method) to a specific CRUD action and always only ever do that one action with that one verb. That sucks and is not productive or functionally scalable. 
+What about creating and updating? This is where it gets almost religious. There are lots of people who will try to pair the HTTP POST or HTTP PUT verb (verb, i.e. a HTTP method) to a specific CRUD action and always only ever do that one action with that one verb. That sucks and is not productive or functionally scalable.
 
-Generally speaking, PUT is used if you know the entire URL before hand and the action is idempotent. Idempotent is a fancy word for "can do it over and over again without causing different results". 
+Generally speaking, PUT is used if you know the entire URL before hand and the action is idempotent. Idempotent is a fancy word for "can do it over and over again without causing different results".
 
 For example, create _could_ be a PUT if you are creating one image for a place. If you were to do this:
 
-> PUT /places/1/image HTTP/1.1  
-> Host: example.com  
-> Content-Type: image/jpeg  
+> PUT /places/1/image HTTP/1.1
+> Host: example.com
+> Content-Type: image/jpeg
 
-That would be a perfect example of when to use a `PUT` because you already know the entire URL ( /places/1/image ) and you can do it time and time again. 
+That would be a perfect example of when to use a `PUT` because you already know the entire URL ( /places/1/image ) and you can do it time and time again.
 
 At Kapture we use a POST to `/checkins` to create the metadata for that new checkin, then that will return the URL for us to PUT the image to. You could try checking in multiple times and it wouldn't matter because none of those processes would be complete, but POSTing multiple times is not idempotent because each checkin is different. PUT is idempotent because you are uploading that image to the full URL and you can do it over and over again if you like (for instance, because the upload failed and it has to try again).
 
@@ -176,7 +176,7 @@ It's a tricky difference, but do not try and tie a HTTP Method to one CRUD actio
 
 Some developers decide to make all endpoints singular but I take issue with that. Given `/user/1` and `/user`, which user is that last one returning? Is it "me"? What about `/place`? It returns multiple? Confusing.
 
-I know it can be tempting to create `/user/1` and `/users` because the two endpoints do different things, right? I started off down this route (#pun) originally, but in my experience this convention grows badly. Sure it works with the example of "users", but what about those fun English words that create exceptions, like `/opportunity/1` which becomes `/opportunities`. Gross. 
+I know it can be tempting to create `/user/1` and `/users` because the two endpoints do different things, right? I started off down this route (#pun) originally, but in my experience this convention grows badly. Sure it works with the example of "users", but what about those fun English words that create exceptions, like `/opportunity/1` which becomes `/opportunities`. Gross.
 
 I pick plural for everything as it is the most obvious:
 
@@ -200,12 +200,12 @@ Consistency is key.
 
 You need to list events, venues, users and categories? Easy. One controller for each type of resource:
 
-* CategoriesController 
+* CategoriesController
 * EventsController
 * UsersController
 * VenuesController
 
-Everything in REST is a resource, so each resource needs a controller. 
+Everything in REST is a resource, so each resource needs a controller.
 
 Later on we will look at some things that are not resources. Sub-resources can sometimes just be a method, for example profile and settings are a sub-resource of "Users", so maybe they can go in the "User" controller. These rules are flexible.
 
@@ -218,21 +218,29 @@ Try to avoid the temptation to [screw around with magic routing conventions](htt
 |-----------|-------------------------|----------------------------------------------------------------------|
 |Create     |`POST /users`            |`Route::post('users', 'UsersController@create'); `                    |
 |Read       |`GET /users/X`           |`Route::get('users/{id}', 'UsersController@show');`                   |
-|Update     |`POST /users/X`          |`Route::post('users/{id}', 'UsersController@update');`                |
+|Update     |`PUT /users/X`           |`Route::post('users/{id}', 'UsersController@update');`                |
 |Delete     |`DELETE /users/X`        |`Route::delete('users/{id}', 'UsersController@delete');`              |
 |List       |`GET /users`             |`Route::get('users', 'UsersController@list');`                        |
 |Image      |`PUT /users/X/image`     |`Route::put('users/{id}/image', 'UsersController@uploadImage');`      |
 |Favorites  |`GET /users/X/favorites` |`Route::get('users/{id}/favorites', 'UsersController@favorites');`    |
 |Checkins   |`GET /users/X/checkins`  |`Route::get('users/{user_id}/checkins', 'CheckinsController@index');` |
-  
-There are a few things in here worth considering. 
 
-1. Create and Update are both `POST`. Not because `PUT` is evil, but because when we create a user in this example we do not know what their URL would be because our URLs are auto-generated with their ID. If we knew their username for example we could have `PUT /users/philsturgeon` but then it would be hard to work out if we are accidentally making the same HTTP request a second time, or trying to override an existing user.
+There are a few things in here worth considering.
+
 1. Favorites go to the `UserController`, because favorites are only ever relevant to the user.
-1. Checkins go to the `CheckinController`, because we might already have a checkin controller handling `/checkins` and the logic is basically identical. We will know if there is a `user_id` param in the URL if our router is nice enough to let us know, so we can use that to make it user specific if needs be. 
+1. Checkins go to the `CheckinController`, because we might already have a checkin controller handling
+`/checkins` and the logic is basically identical. We will know if there is a `user_id` param in the URL
+if our router is nice enough to let us know, so we can use that to make it user specific if needs be.
 
-Those last two are kinda complex, but are examples of things you can be thinking about at this point. You don't want to have multiple endpoints doing painfully similar things with copy and paste logic because A) [PHP Copy/Paste Detector](https://github.com/sebastianbergmann/phpcpd) will be angry, B) your iPhone developer will be mad that different endpoints are acting differently - therefore confusing RestKit and C) it is boring and "ain't nobody got time for that".
+They are rather complex concerns, but are examples of things you can be thinking about at this point. You
+don't want to have multiple endpoints doing painfully similar things with copy and paste logic because;
+
+1. [PHP Copy/Paste Detector](https://github.com/sebastianbergmann/phpcpd) will be angry
+1. Your iPhone developer will be mad that different endpoints are acting differently - therefore confusing RestKit
+1. It is boring and "ain't nobody got time for that"
 
 ### Methods
 
-When you have listed all of the routes you will need for your application go and make them all as methods in their controllers. Make them all empty and have one of them `return "Oh hai!";` and check the output. `GET /places` for example should `Oh hai!` in the browser. You just wrote an API.
+When you have listed all of the routes you will need for your application go and make them all as methods in their controllers. Make them all empty and have one of them `return "Oh hai!";` and check the output. `GET /places` for example should `Oh hai!` in the browser.
+
+You just wrote an API.

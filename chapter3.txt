@@ -98,7 +98,7 @@ Urf.
 
 `$_GET` and `$_POST` do not have the 1:1 relationship with HTTP GET and HTTP POST as their names might suggest. `$_GET` just contains query string content _regardless_ of the HTTP method. `$_POST` contains the values of the HTTP Body if it was in the right format and the Content-Type header is `application/x-www-form-urlencoded`. A HTTP POST item could still have a query string, and that would still be in `$_GET`. Some PHP frameworks kill off `$_GET` data in a HTTP POST request, which further exagerates this 1:1 relationship between the super-global and the method.
 
-So knowing that PHP just has some silly names for things, we can move on and completely ignore $_POST. Pour one out in the ground, because it is dead to you. 
+So knowing that PHP just has some silly names for things, we can move on and completely ignore `$_POST`. Pour one out in the ground, because it is dead to you. 
 
 Why? So many reasons, including the fact that once again everything in `application/x-www-form-urlencoded` is a string.
 
@@ -111,7 +111,7 @@ Yeah you have to use 1 or 0 because `bar=true` would be `string("true")` on the 
 ~~~~~~~~
 POST /checkins HTTP/1.1
 Host: api.example.com
-Authorization: vr5HmMkzlxKE70W1y4MibiJUusZwZC25NOVBEx3BD1
+Authorization: Bearer vr5HmMkzlxKE70W1y4MibiJUusZwZC25NOVBEx3BD1
 Content-Type: application/json
 
 {
@@ -123,14 +123,14 @@ Content-Type: application/json
 }
 ~~~~~~~~
 
-This is a perfectly valid HTTP body for a checkin. You know what they are saying, you know who the user is from their auth token, you know who they are with and you get the benefit of having it wrapped up in a single `checkin` key for simple documentation and easy "You sent a checkin object to the user settings page… dumbass." responses.
+This is a perfectly valid HTTP body for a checkin. You know what they are saying, you know who the user is from their auth token, you know who they are with and you get the benefit of having it wrapped up in a single `checkin` key for simple documentation and easy "You sent a checkin object to the user settings page… muppet." responses.
 
 That same request using form data is a mess.
 
 ~~~~~~~~
 POST /checkins HTTP/1.1
 Host: api.example.com
-Authorization: vr5HmMkzlxKE70W1y4MibiJUusZwZC25NOVBEx3BD1
+Authorization: Bearer vr5HmMkzlxKE70W1y4MibiJUusZwZC25NOVBEx3BD1
 Content-Type: application/x-www-form-urlencoded
 
 checkin[place_id]=1&checkin[message]=This is a bunch of text&checkin[with_friends][]=1&checkin[with_friends][]=2&checkin[with_friends][]=3&checkin[with_friends][]=4&checkin[with_friends][]=5
@@ -143,7 +143,7 @@ Finally, do not try to be clever by mixing JSON with form data:
 ~~~~~~~~
 POST /checkins HTTP/1.1
 Host: api.example.com
-Authorization: vr5HmMkzlxKE70W1y4MibiJUusZwZC25NOVBEx3BD1
+Authorization: Bearer vr5HmMkzlxKE70W1y4MibiJUusZwZC25NOVBEx3BD1
 Content-Type: application/x-www-form-urlencoded
 
 json="{
@@ -155,7 +155,7 @@ json="{
 }"
 ~~~~~~~~
 
-Who the hell is the developer trying to impress with stuff like that? It is insanity and anyone who tries this needs to have their badge and gun revoked. 
+Who is the developer trying to impress with stuff like that? It is insanity and anyone who tries this needs to have their badge and gun revoked. 
 
 ### JSON and XML
 
