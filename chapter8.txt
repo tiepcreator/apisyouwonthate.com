@@ -141,12 +141,13 @@ to the API on our development environment then at this point we are half way.
 
 W> ## Local v "Remote"
 W>
-W> Charles seems to have trouble proxying traffic if the end result is local traffic, meaning the Laravel development server used so far in these examples
-W> running on `localhost:8000` will not work. I personally have Charles pointing to a Vagrant box running, on its own IP address with its own virtual host
+W> To allow Laravel (PHP's) built in server to access this connection on OSX, you must start the server using the network address shown in the sharing section of system preferences.
+W> Choose Apple menu > System Preferences, and then click Sharing 
+W> Below "Computer Name" you will see an address followed by ".local"
+W> To start the server simply use:
+W> $ php artisan serve --host="Phils-MacBook-Air.local"
+W> I personally have Charles pointing to a Vagrant box running, on its own IP address with its own virtual host
 W> enabled. This is not something that the book will cover, but is certainly something you should look into doing.
-W>
-W> If you know how the development server running on localhost could be enabled then, please get in touch. I will give two free coupons to the first
-W> person who can correct me on this (allowing you to refund, or exchange them for beers with two friends).
 
 To make `dev-api.example.com` mean something on your mobile device, enter a "Map Remote" rule in Charles.
 
