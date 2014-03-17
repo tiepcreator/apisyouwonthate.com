@@ -34,11 +34,11 @@ I haven't, but I know a guy that has. Don't be that guy.
 
 ### What data should you use?
 
-Garbage! Use absolute nonsense for your development database, but nonsense of the correct data type, size, and format. That can be done with a fun little library called [Faker]() by [François Zaninotto](https://twitter.com/francoisz/) which is a wonderful little library that can essentially bullshit for Queen and country.
+Garbage! Use absolute nonsense for your development database, but nonsense of the correct data type, size, and format. That can be done with a fun little library called [Faker] by [François Zaninotto](https://twitter.com/francoisz/) which is a wonderful little library that can essentially bullshit for Queen and country.
 
 ## Building Seeders
 
-Kapture, the company I work for, uses the Laravel framework which has the joys of having [Database Seeding]() baked in. This is essentially a tarted up <abbr title="Command Line Interface">CLI</abbr> task which almost any modern PHP framework will have (or bloody well should do) so the principles are applicable to all.
+Kapture, the company I work for, uses the Laravel framework which has the joys of having [Database Seeding] baked in. This is essentially a tarted up <abbr title="Command Line Interface">CLI</abbr> task which almost any modern PHP framework will have (or bloody well should do) so the principles are applicable to all.
 
 Break your Database Seeders down into logical groupings. This doesn't need to be "one seeder-per-table" but it can be. The reason I don't try to stick to that rule is that sometimes your data needs to be built at the same time as other types of data, so for us Users are created in the same "seeder" as their settings, OAuth tokens, and friendship data is made. Putting that stuff into multiple seeders purely to keep things tidy would be an exercise in futility, and slow everything down for no reason.
 
