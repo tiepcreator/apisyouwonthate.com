@@ -195,7 +195,7 @@ That is the end of theory in this book. We will now be working with code. Open u
     $ php artisan serve
     Laravel development server started on http://localhost:8000
 
-Open your browser and go to `http://localhost:5000/places`, and there is a list of places looking like this:
+Open your browser and go to `http://localhost:8000/places`, and there is a list of places looking like this:
 
 ![Fractal default JSON structure](images/chapter6/fractal-json.png)
 
