@@ -68,18 +68,18 @@ Everyone can understand that.
 
 Facebook sadly is missing an error code, so sometimes you find yourself doing string checking on the message which is lunacy. 
 
-A> Foursquare is not a bad example of using both, but they place an emphasis on tying their errors to a status code.
-A> 
-A> <https://developer.foursquare.com/overview/responses>
-A> 
-A> Twitter does a great job of having HTTP status codes documented and having specific error codes for other issues too. Some are tied to HTTP status codes (which is fine) but many are not. Some are also tied to the same status code, highlighting the issues raised above.
-A> 
-A> <https://dev.twitter.com/docs/error-codes-responses>
-A> 
-A> |Code | Text                                              | Description                                                |
-A> |-----|---------------------------------------------------|------------------------------------------------------------|
-A> |161  | You are unable to follow more people at this time | Corresponds with HTTP 403 - thrown when a user cannot follow another user due to some kind of limit |
-A> |179  | Sorry, you are not authorized to see this status  | Corresponds with HTTP 403 - thrown when a Tweet cannot be viewed by the authenticating user, usually due to the tweet's author having protected their tweets. |
+W> Foursquare is not a bad example of using both, but they place an emphasis on tying their errors to a status code.
+W> 
+W> <https://developer.foursquare.com/overview/responses>
+W> 
+W> Twitter does a great job of having HTTP status codes documented and having specific error codes for other issues too. Some are tied to HTTP status codes (which is fine) but many are not. Some are also tied to the same status code, highlighting the issues raised above.
+W> 
+W> <https://dev.twitter.com/docs/error-codes-responses>
+W> 
+W> |Code | Text                                              | Description                                                |
+W> |-----|---------------------------------------------------|------------------------------------------------------------|
+W> |161  | You are unable to follow more people at this time | Corresponds with HTTP 403 - thrown when a user cannot follow another user due to some kind of limit |
+W> |179  | Sorry, you are not authorized to see this status  | Corresponds with HTTP 403 - thrown when a Tweet cannot be viewed by the authenticating user, usually due to the tweet's author having protected their tweets. |
 
 ### Programmatically Detecting Error Codes
 
