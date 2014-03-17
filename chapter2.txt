@@ -115,7 +115,7 @@ Turning this "Action Plan" into actual endpoints requires knowing a little theor
 
 * `GET /resources/X,Y,Z` - The client wants multiple things, so give them multiple things.
 
-It can be hard to pick between sub-resource URLs or embedded data. Embedded data can be rather difficult to pull off so that will be saved for [Chapter 7: Embedding Data](#chapter7). For now the answer is "just sub-resources", but eventually the answer will be "both". This is how sub-resources look:
+It can be hard to pick between sub-resource URLs or embedded data. Embedded data can be rather difficult to pull off so that will be saved for [Chapter 7: Embedding Data](#chapter-7). For now the answer is "just sub-resources", but eventually the answer will be "both". This is how sub-resources look:
 
 * `GET /places/X/checkins` - Find all the checkins for a specific place.
 
@@ -236,7 +236,7 @@ They are rather complex concerns, but are examples of things you can be thinking
 don't want to have multiple endpoints doing painfully similar things with copy and paste logic because;
 
 1. [PHP Copy/Paste Detector](https://github.com/sebastianbergmann/phpcpd) will be angry
-1. Your iPhone developer will be mad that different endpoints are acting differently - therefore confusing RestKit
+1. Your iPhone developer will be mad that different endpoints provide the same resource but in a slightly different format - therefore confusing RestKit
 1. It is boring and "ain't nobody got time for that"
 
 ### Methods

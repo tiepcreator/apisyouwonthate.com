@@ -87,7 +87,7 @@ You can use error codes to make an application respond intelligently to failure 
 status.
 
 {title="Using Python to catch exceptions and react to the Twitter error code", lang=python}
-~~~~~~~~~
+~~~~~~~~
 try:
     api.PostUpdates(body['text'])
 
@@ -117,12 +117,12 @@ except twitter.TwitterError, exc:
             time.sleep(10)
 
         message.requeue()
-~~~~~~~~~
+~~~~~~~~
                 
 Compare this sort of logic with Facebook - and their lack of error codes:
     
 {title="Using Python to analyise Facebook error strings as no codes exist", lang=python}
-~~~~~~~~~
+~~~~~~~~
 except facebook.GraphAPIError, e:
 
     phrases = ['expired', 'session has been invalidated']

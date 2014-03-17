@@ -210,10 +210,10 @@ will only have one group.
 
 
 {title="", lang=markdown}
-~~~~~~~~~
+~~~~~~~~
 # Group Places
 Search and manage places.
-~~~~~~~~~
+~~~~~~~~
 
 That first line has the reserved keyword `Group` which will be removed from output. The `Places` is
 the name of the group. The line below is an optional description for humans.
@@ -229,8 +229,8 @@ of resources, and consider `/places/X/image` to be a "sub-resource", but API Blu
 
 Not a problem. Simply make some h2 tags using the `##` prefix:
 
-{title="", lang=markdown}
-~~~~~~~~~
+{title="Example outline of multiple 'Resource Sections'.", lang=markdown}
+~~~~~~~~
 
 ## Place List [/places{?lat}{&lon}{&distance}{&box}{&number}{&page}]
 
@@ -245,7 +245,7 @@ Manage an existing place.
 ## Place Images [/places/{id}/image]
 Places can have an image associated with them, that will act as a cover photo or photograph.
 
-~~~~~~~~~
+~~~~~~~~
 
 Here we have four "Resource Sections", each for a different resource. The one oddity here
 is that there are two entires are for `/places`. The reasoning here is that each "Resource
@@ -267,7 +267,7 @@ You can spot an "Action" in two ways. Firstly due to the h3 header (`###`) and s
 trailing `[GET]` HTTP verb notation.
 
 {title="Example of the 'Place List' resource using API Blueprint Markdown", lang=markdown}
-~~~~~~~~~
+~~~~~~~~
 ## Place List [/places{?lat}{&lon}{&distance}{&box}{&number}{&page}]
 
 ### Get places [GET]
@@ -302,12 +302,12 @@ Locate places close to a certain set of coordinates, or provide a box of coordin
                 }
             ]
         }
-~~~~~~~~~
+~~~~~~~~
 
 This is the first "Resource Section", now filled out. It lists the available
 parameters for the URL with a very special syntax:
 
-~~~~~~~~~
+~~~~~~~~
 + <parameter name> [= `<default value>`] [([required | optional ], [<type>], [`<example value>`])] [... <description>]
 
     [<additional description>]
@@ -317,7 +317,7 @@ parameters for the URL with a very special syntax:
         + `<enumeration element 2>`
         ...
         + `<enumeration element N>`]
-~~~~~~~~~
+~~~~~~~~
 
 Our example has used slighty shorter syntax and skipped the additional description and enum values, but takes advantage
 of much of the first line.
@@ -339,12 +339,12 @@ Similar, but this time a default value has been added which in the case of pagin
 The rest of this Action Section is responses.
 
 {title="Show an example response for a specific content-type.", lang=markdown}
-~~~~~~~~~
+~~~~~~~~
 
 + Response 200 (application/json)
 
         { ... }
-~~~~~~~~~
+~~~~~~~~
 
 This says that you can expect a `200` status, which will be `Content-Type: application/json` and shows an example of the body content.
 
@@ -368,13 +368,13 @@ API Blueprint will allow you to create multiple Request examples for an Action. 
 will outline how this is done:
 
 {title="Example of the 'Place Images' resource.", lang=markdown}
-~~~~~~~~~
+~~~~~~~~
 ## Place Images [/places/{id}/image]
 Places can have an image associated with them, that will act as a cover photo or photograph.
 
 + Parameters
 
-    + id (required, integer) ... The unqiue identifer of a place
+    + id (required, integer) ... The unique identifier of a place
 
 ### Set place image [PUT]
 Assign a new image or replace the existing image for a place.
@@ -401,7 +401,7 @@ Assign a new image or replace the existing image for a place.
     + Body
 
             <raw source of png file>
-~~~~~~~~~
+~~~~~~~~
 
 Here the `<raw source of png file>` stuff is just plain-text - because pasting in the contents
 of an actual PNG file would not look great - but you can use JSON or anything else.
@@ -449,8 +449,6 @@ the documentation seems to display fine. Either put multple body examples next t
 add multiple response items with the same code and ignore the warnings.
 
 [Markdown syntax]: http://daringfireball.net/projects/markdown/syntax
-[GitHub Flavored Markdown features]: https://help.github.com/articles/github-flavored-markdown
-[MultiMarkdown]: http://fletcherpenney.net/multimarkdown
 
 ## Further Reading
 

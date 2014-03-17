@@ -155,7 +155,7 @@ I try to think up the guard clauses that my endpoints will need, then make a "Sc
 
 Expecting a boolean value but get a string? Test that:
 
-~~~~~~~~~
+~~~~~~~~
 Scenario: Wrong Arguments for user follow
     Given I have the payload:
         """
@@ -163,15 +163,15 @@ Scenario: Wrong Arguments for user follow
         """
     When I request "PUT /users/1"
     Then I get a "400" response
-~~~~~~~~~
+~~~~~~~~
 
 Want to be sure your controllers can handle weird requests with a 404 instead of freaking out and going all 500 Internal Error? Test that.
 
-~~~~~~~~~
+~~~~~~~~
 Scenario: Try to find an invalid moments
     When I request "GET /moments/nope"
     Then I get a "404" response
-~~~~~~~~~
+~~~~~~~~
 
 Sure you don't actually have any code yet, but you can write all of these tests based off of nothing but your "Action Plan" and your Routes. You should use what you know about the output content structure from [Chapter 3](#chapter-3) to plan what output you expect to see.
 

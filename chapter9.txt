@@ -186,7 +186,7 @@ Even a basic GET request in OAuth 1.0a was horrendous, as you'd always need to s
 file_get_contents('https://graph.facebook.com/me?access_token=DFGJKHDFGHDIFHGFKDJGHIU');
 ~~~~~~~~
 
-Or, as we saw back in [Chapter 3](#chapter3) you can usually pass Access Tokens to the server as a HTTP request header:
+Or, as we saw back in [Chapter 3](#chapter-3) you can usually pass Access Tokens to the server as a HTTP request header:
 
 ~~~~~~~~
 POST /moments/1/gift HTTP/1.1
@@ -303,7 +303,7 @@ The only active and documented Ruby OAuth 2.0 Server I found was a Rack module n
 
 Many assume that the OAuth 2.0 server should be part of their API server. While it certainly could, it certainly does not need to. 
 
-An OAuth server usually has a web interface, which has HTML forms, form validation, and all sorts of static resources like images, CSS, JavaScript, etc. That makes it more fitting with a general website, so if you API and web-site are different servers then the OAuth server would be more fitting on the website.
+An OAuth server usually has a web interface, which has HTML forms, form validation, and all sorts of static resources like images, CSS, JavaScript, etc. That makes it more fitting with a general website, so if your API and web-site are different servers then the OAuth server would be more fitting on the website.
 
 Generally speaking its better to keep all of these things autonomous, as if you decide to build a new version of your website in AngularJS instead of server-side code then it would be a pain to have to switch your OAuth server implementation too. If the OAuth server is on its own server, or at very least its own codebase, then you do not have this concern.
 

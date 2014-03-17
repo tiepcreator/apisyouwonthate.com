@@ -42,14 +42,14 @@ relatively small data sets.
 
 ### How do Paginators Work
 
-One approach to pagination is to count how many records there for a specific item. So, if we count how many `places` 
+One approach to pagination is to count how many records there are for a specific item. So, if we count how many `places` 
 there are, there will probably be some sort of SQL query like this:
 
 ~~~~~~~~
 SELECT count(*) as `total` FROM `places`
 ~~~~~~~~
 
-When the answer to that query comes back as 1000 back, the following code will be executed: 
+When the answer to that query comes back as `1000`, the following code will be executed: 
 
 ~~~~~~~~
 <?php
@@ -210,13 +210,13 @@ How did Facebook get `"MTA="` and `"MQA=="` as values? Well, they are intentiona
 
 [Don Gilbert](http://dongilbert.net/) let me know that in the example of Facebook they just Base64 encode their cursors:
 
-~~~~~~~~~
+~~~~~~~~
 php > var_dump(base64_decode('MTA='));
 string(2) "10"
 
 php > var_dump(base64_decode('MQ=='));
 string(1) "1"
-~~~~~~~~~
+~~~~~~~~
 
 Obfuscating the values is not done for security, but - I assume - to avoid people trying to do math on the values. Ignorance is bliss in this scenario, as somebody doing maths on an offset-based paginated result might end up doing the 
 same math on a primary key integer. If everything is an opaque cursor or marker then nobody can do that.
