@@ -256,5 +256,5 @@ $resource->setCursor($cursor);
 ~~~~~~~~
 
 This will take the current cursor, use it as an offset, then work out the base64 version and convert it. There is a 
-bit of work to do in this example because the Cursor class is intentionally vauge. Instead of using an offset it could 
+bit of work to do in this example because the Cursor class is intentionally vague. Instead of using an offset it could 
 be a specific ID and you use it for an SQL `WHERE id > X` clause, but better not. 

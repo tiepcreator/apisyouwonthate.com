@@ -57,7 +57,7 @@ Here is what Wikipedia has to say:
 
 **Browsers Storing Passwords**
 
-With Chrome not even protecting these plain-text passwords with a master password you really are leaving your users wide-open to attack if you let HTTP Basic be an option (although the types of user who
+With Chrome not even protecting these plain-text passwords with a master password you really are leaving your users wide-open to attack if you let HTTP Basic be an option.
 
 Elliott Kember publicly [outed Chrome on this](http://blog.elliottkember.com/chromes-insane-password-security-strategy). [The Guardian cared](http://www.theguardian.com/technology/2013/aug/07/google-chrome-password-security-flaw?INTCMP=SRCH). [Sir Tim Berners-Lee cared](https://twitter.com/timberners_lee/status/364839351651274752). [Google didn't](https://news.ycombinator.com/item?id=6166886).
 
@@ -307,8 +307,8 @@ An OAuth server usually has a web interface, which has HTML forms, form validati
 
 Generally speaking its better to keep all of these things autonomous, as if you decide to build a new version of your website in AngularJS instead of server-side code then it would be a pain to have to switch your OAuth server implementation too. If the OAuth server is on its own server, or at very least its own codebase, then you do not have this concern.
 
-The only thing your API needs to do is look for an Access Token (as a header or get variable) then hit whichever datastore (SQL database, Mongo, etc) that contains the access tokens. Check its valid (in the DB and not expired) then grab whichever user is tied to it, and pull that record for use throughout the API code.
+The only thing your API needs to do is look for an Access Token (as a header or get variable) then hit whichever datastore (SQL database, Mongo, etc) that contains the access tokens. Check it is valid (in the DB and not expired) then grab whichever user is tied to it, and pull that record for use throughout the API code.
 
-None of that is complicated, so trying to tie the API server and OAuth server together in the same application codebase is not just required.
+None of that is complicated, so trying to tie the API server and OAuth server together in the same application codebase is just not required.
 
  

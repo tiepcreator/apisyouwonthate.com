@@ -42,7 +42,7 @@ Kapture, the company I work for, uses the Laravel framework which has the joys o
 
 Break your Database Seeders down into logical groupings. This doesn't need to be "one seeder-per-table" but it can be. The reason I don't try to stick to that rule is that sometimes your data needs to be built at the same time as other types of data, so for us Users are created in the same "seeder" as their settings, OAuth tokens, and friendship data is made. Putting that stuff into multiple seeders purely to keep things tidy would be an exercise in futility, and slow everything down for no reason.
 
-In this chapter I will take in consideration, as an example, a check-in application. The application handles "users" and tracks their "check-ins" into "merchants" (or "venues"). "Merchants" also provide "campaigns" (or "opportunities").
+In this chapter I will use, as an example, a check-in application. The application handles "users" and tracks their "check-ins" into "merchants" (or "venues"). "Merchants" also provide "campaigns" (or "opportunities").
 
 So, this is a drastically simplified version of our user seeder all in one go, ignoring the Laravel specific structure. _If you are using Laravel 4, just shove this in your `run()` method._
 
@@ -112,7 +112,7 @@ W> ### Store Timezones, Not Offsets
 W> Did you know that some timezones are not complete hours? Did you know that Nepal is UTC/GMT +05:45? Did you know that Chatham Island (New Zealand) goes from 
 W> UTC/GMT +12:45 to UTC/GMT +13:45 in their local summer? Did you know that some places add 30 minutes when in daylight savings time? Don't use integers as 
 W> timestamps.  
-W> PHP implements the [IANI](http://www.iana.org/time-zones) timezone database, which is an industry standard. If you store `America/New_York` or `Asia/Khandyga` for
+W> PHP implements the [IANA](http://www.iana.org/time-zones) timezone database, which is an industry standard. If you store `America/New_York` or `Asia/Khandyga` for
 W> users, then the offset and daylight savings time will be automatically calculated.
 
 ~~~~~~~~

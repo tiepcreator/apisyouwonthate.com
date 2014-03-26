@@ -5,7 +5,7 @@
 Regardless of whether you decide to keep an API private or release it to the
 general public, documentation is incredibly important.
 
-In the very early stages of development some API developers will rely soley on a Postman collection (discussed in [Chapter 8: Debugging](#chapter-8)) to be a sufficient source of documentation for their API. This may be the case but as soon as the API is in use by more people than just the one developer with their one collection this becauses a nightmare.
+In the very early stages of development some API developers will rely soley on a Postman collection (discussed in [Chapter 8: Debugging](#chapter-8)) to be a sufficient source of documentation for their API. This may be the case but as soon as the API is in use by more people than just the one developer with their one collection this quickly becomes a nightmare.
 
 Even if the API is in use internally, without a single source of regularly updated documentation for your API you will be answering questions from anyone using the API about how that works non-stop.
 

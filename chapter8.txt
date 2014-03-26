@@ -146,7 +146,7 @@ W> Choose Apple menu > System Preferences, and then click Sharing
 W> Below "Computer Name" you will see an address followed by ".local"
 W> To start the server simply use:
 W> $ php artisan serve --host="Phils-MacBook-Air.local"
-W> I personally have Charles pointing to a Vagrant box running, on its own IP address with its own virtual host
+W> I personally have Charles pointing to a Vagrant box, running on its own IP address with its own virtual host
 W> enabled. This is not something that the book will cover, but is certainly something you should look into doing.
 
 To make `dev-api.example.com` mean something on your mobile device, enter a "Map Remote" rule in Charles.

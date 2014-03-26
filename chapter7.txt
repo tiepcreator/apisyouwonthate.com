@@ -38,7 +38,7 @@ endpoint could be made to handle exactly that:
 The downside here is that it is an extra HTTP request. Imagine an iPhone application that wants to get
 all `places` in an area and put them on a map, then allow a user to browse through them. If the `place`
 search happens as one request, then the `/places/X/checkins` is executed each time the user clicks on a
-place, and they will end up doing a lot of unecessary waiting. This is known as `1 + n`, meaning the work
+place, forcing the user to do a lot of unecessary waiting. This is known as `1 + n`, meaning the work
 done is increased by an extra one request for each `place` you look up.
 
 That also assumes the only related data is checkins. At Kapture our API also has `merchant`, `images`,
@@ -86,7 +86,7 @@ This is better. You still end up with n+1 requests, but at least you can take th
 request like `/comments/1,2` or `/comments?ids=1,2` to reduce how many HTTP requests are being made.
 
 Back to the places example, if you have 50 places returned and need 4 extra pieces of data, you could
-itterate through the 50, map which items expect which pieces of data, request all unique pieces of data
+iterate through the 50, map which items expect which pieces of data, request all unique pieces of data
 and only end up with `1 + 4 = 5` HTTP requests instead of 251.
 
 The downside is that the API consumer has to stitch all of that data together, which could be a lot of
