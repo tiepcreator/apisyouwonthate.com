@@ -2,9 +2,14 @@
 
 ## Introduction
 
-In [Chapter 3: Input and Output Theory](#chapter-3) we looked at the theory of the output structure and the pros and cons for various different formats. This book assumes you have picked your favorite, and it assumes that favorite is my favorite. This doesn't matter all that much but doing everything for everyone would be an exercise in futility and boredom.
+In [Chapter 3: Input and Output Theory](#chapter-3) we looked at the theory of the output structure and the pros and
+cons for various different formats. The rest of this book assumes you have picked your favorite, and it assumes that
+favorite is my favorite. This doesn't matter all that much but doing everything for everyone would be an exercise in
+futility and boredom.
 
-The aim of this chapter is to help you build out your controller endpoints so that you can fill up a few of those tests with green lights, instead of the omnishambles of errors and fails you are most likely facing.
+The aim of this chapter is to help you build out your controller endpoints. Assuming you have written tests for these
+endpoints before they exist, we can now fill up a few of those tests with green lights instead of the omnishambles of
+errors and fails you are most likely facing.
 
 The examples in the first section will be trying to show off a list of places, and show of one specific place:
 
