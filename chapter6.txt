@@ -49,7 +49,8 @@ The examples in the first section will be trying to show off a list of places, a
 
 ## The Direct Approach
 
-The first thing that every developer tries to do is take their favorite ORM, ODM, DataMapper or Query Builder, pull up a query and wang that result directly into the output.
+The first thing that every developer tries to do is take their favorite ORM, ODM, DataMapper or Query Builder, pull up
+a query and wang that result directly into the output.
 
 
 {title="Dangerously bad example of passing data from the database directly as output", lang=php}
@@ -73,21 +74,37 @@ class PlaceController extends ApiController
 }
 ~~~~~~~~
 
-This is the absolute worst idea you could have for enough reasons for me to fill up a chapter on its own, but I will try to keep it to just a section.
+This is the absolute worst idea you could have for enough reasons for me to fill up a chapter on its own, but I will
+try to keep it to just a section.
 
 W> ## ORMs in Controllers
 W>
-W> Your controller should definitely not have this sort of ORM/Query Builder logic scattered around the methods. This is done to keep the example to one class.
+W> Your controller should definitely not have this sort of ORM/Query Builder logic scattered around the methods. This
+is done to keep the example to one class.
 
-**Performance:** If you return "all" items then that will be fine during development, but suck when you have a thousand records in that table... or a million.
+**Performance:** If you return "all" items then that will be fine during development, but suck when you have a thousand
+records in that table... or a million.
 
-**Display:** PHP's popular SQL extensions all type-cast all data coming out of a query as a string, so if you have a MySQL "boolean" field (generally this is a `tinyint(1)` field with a value of `0` or `1`) will display in the JSON output as a string, with a value of `"0"` or `"1"` which is lunacy. If you're using PostgreSQL it is even worse, the value directly output by PHP's PostgreSQL driver is `"f"` or `"t"`. Your mobile developers won't like it one bit, and anyone looking at your public API is going to immediately consider this an amateur API. You want `true` or `false` as an actual JSON boolean, not a numeric string or a `char(1)`.
+**Display:** PHP's popular SQL extensions all type-cast all data coming out of a query as a string, so if you have a
+MySQL "boolean" field (generally this is a `tinyint(1)` field with a value of `0` or `1`) will display in the JSON
+output as a string, with a value of `"0"` or `"1"` which is lunacy. If you're using PostgreSQL it is even worse, the
+value directly output by PHP's PostgreSQL driver is `"f"` or `"t"`. Your mobile developers won't like it one bit, and
+anyone looking at your public API is going to immediately consider this an amateur API. You want `true` or `false` as
+an actual JSON boolean, not a numeric string or a `char(1)`.
 
-**Security:** Outputting all fields can lead to API clients (users of all sorts) being able to view your users passwords, see sensitive information like email addresses for businesses involved (venues, partners, events, etc), gain access to secret keys and tokens generally not allowed. If you leak your forgotten password tokens for example then you're going to have an EXTREMELY bad time, its as bad as leaking the password itself.
+**Security:** Outputting all fields can lead to API clients (users of all sorts) being able to view your users
+passwords, see sensitive information like email addresses for businesses involved (venues, partners, events, etc),
+gain access to secret keys and tokens generally not allowed. If you leak your forgotten password tokens for example
+then you're going to have an EXTREMELY bad time, its as bad as leaking the password itself.
 
-Some ORM's have a "hidden" option to hide specific fields from being output. If you can promise that you and every single other developer on your team (now, next year and for the entire lifetime of this application) will remember about that then congratulations, you could also achieve world peace with a team that focused.
+Some ORM's have a "hidden" option to hide specific fields from being output. If you can promise that you and every
+single other developer on your team (now, next year and for the entire lifetime of this application) will remember
+about that then congratulations, you could also achieve world peace with a team that focused.
 
-**Stability:** If you change the name of a database field, or modify your MongoDB document, or change the statuses available for a field between v3 and v4 then your API will continue to behave perfectly, but all of your iPhone users are going to have busted crashing applications and it is your fault. You will promise yourself that you won't change things, but you absolutely will. Change happens.
+**Stability:** If you change the name of a database field, or modify your MongoDB document, or change the statuses
+available for a field between v3 and v4 then your API will continue to behave perfectly, but all of your iPhone users
+are going to have busted crashing applications and it is your fault. You will promise yourself that you won't change
+things, but you absolutely will. Change happens.
 
 So, next our theoretical developer friend will try hard-coding the output.
 
@@ -132,11 +149,15 @@ class PlaceController extends ApiController
 }
 ~~~~~~~~
 
-Thanks to specifying exactly what fields to return in the JSON array the security issues are taken care of. The type-casting of various fields turn numeric strings into integers, coordinates into floats, and that pesky `Carbon` (DateTime) object from Laravel into a string, instead of letting the object turn itself into an array.
+Thanks to specifying exactly what fields to return in the JSON array the security issues are taken care of. The
+type-casting of various fields turn numeric strings into integers, coordinates into floats, and that pesky `Carbon`
+(DateTime) object from Laravel into a string, instead of letting the object turn itself into an array.
 
-The only issue this has not taken care of from the above example is performance, but that is a job for pagination which will be covered in [Chapter 10](#chapter-10). 
+The only issue this has not taken care of from the above example is performance, but that is a job for pagination which
+will be covered in [Chapter 10](#chapter-10). 
 
-A new issue has however been created, which should be a fairly obvious one: This is icky. Our theoretical developer now tries something else.
+A new issue has however been created, which should be a fairly obvious one: This is icky. Our theoretical developer now
+tries something else.
 
 {title="Considerably better approach to formatting data for output", lang=php}
 ~~~~~~~~
@@ -177,24 +198,34 @@ class PlaceController extends ApiController
 }
 ~~~~~~~~
 
-Certainly much better, but what if a different controller wants to show a place at any point? You could theoretically move all of these transform methods to a new class or shove them in the `ApiController`, but that would just be odd.
+Certainly much better, but what if a different controller wants to show a place at any point? You could theoretically
+move all of these transform methods to a new class or shove them in the `ApiController`, but that would just be odd.
 
-Really you want to make what I have come to call "Transformers", partially because the name is awesome and because that is what they are doing.
+Really you want to make what I have come to call "Transformers", partially because the name is awesome and because that
+is what they are doing.
 
-These are essentially just classes which have a transform method, which does the same as the `transformPlaceToJson()` above, but to avoid you having to learn how to make your own I have released a PHP package which takes care of it: [Fractal](https://packagist.org/packages/league/fractal).
+These are essentially just classes which have a transform method, which does the same as the `transformPlaceToJson()`
+above, but to avoid you having to learn how to make your own I have released a PHP package which takes care of it: [Fractal](https://packagist.org/packages/league/fractal).
 
 ## Transformations with Fractal
 
-With Fractal, Transformers are created as either a callback or an instance of an object implementing `League\Fractal\TransformerAbstract`. They do exactly the job that our `transformPlaceToJson()` method did but they live on their own, are easily unit-testable (if that floats your boat) and remove a lot of presentation clutter from the controller.
+With Fractal, Transformers are created as either a callback or an instance of an object implementing
+`League\Fractal\TransformerAbstract`. They do exactly the job that our `transformPlaceToJson()` method did but they live
+on their own, are easily unit-testable (if that floats your boat) and remove a lot of presentation clutter from the
+controller.
 
-Fractal does a lot more than that which will be explored later on, but it covers concerns with transformation perfectly, removes the security, stability and display concerns addressed earlier.
+Fractal does a lot more than that which will be explored later on, but it covers concerns with transformation perfectly,
+removes the security, stability and display concerns addressed earlier.
 
-While other languages have great solutions for this already, PHP seemed to be rather lacking for this exact purpose. Some call it "Data Marshalling" or "Nested Serialization", but it is all achieving roughly the same goal: take potentially complicated data from a range of stores and turn it into a consistent output.
+While other languages have great solutions for this already, PHP seemed to be rather lacking for this exact purpose.
+Some call it "Data Marshalling" or "Nested Serialization", but it is all achieving roughly the same goal: take
+potentially complicated data from a range of stores and turn it into a consistent output.
 
 * [Jbuilder](https://github.com/rails/jbuilder) looks fairly slick for the Ruby crowd
 * Tweet other suggestions to @philsturgeon
 
-That is the end of theory in this book. We will now be working with code. Open up the Sample Code ZIP file or head to the [GitHub repo](https://github.com/philsturgeon/build-apis-you-wont-hate) and extract it somewhere useful.
+That is the end of theory in this book. We will now be working with code. Open up the Sample Code ZIP file or head to
+the [GitHub repo](https://github.com/philsturgeon/build-apis-you-wont-hate) and extract it somewhere useful.
 
     $ cd chapter6
     $ php artisan serve
@@ -204,7 +235,8 @@ Open your browser and go to `http://localhost:8000/places`, and there is a list 
 
 ![Fractal default JSON structure](images/chapter6/fractal-json.png)
 
-This is a Laravel 4 application but only because it has migrations and seeding and I like it. This is made up of a few bits of PHP that would work in any framework, and the approach works in any language.
+This is a Laravel 4 application but only because it has migrations and seeding and I like it. This is made up of a few
+bits of PHP that would work in any framework, and the approach works in any language.
 
 * **composer.json** - Added an autoloadable folder using PSR-0 to allow my own code to be loaded
 * **app/controllers/ApiController.php** - Insanely simple base controller for wrapping responses
@@ -235,7 +267,9 @@ class PlaceController extends ApiController
 }
 ~~~~~~~~
 
-The "raw data" (happens to be an ORM model but could be anything) is sent back with the appropriate convenience method and a transformer instance is provided too. These `respondWithCollection()` and `respondWithItem()` methods come from ApiController, and their job is just to create Fractal instances without exposing as many classes to interact with.
+The "raw data" (happens to be an ORM model but could be anything) is sent back with the appropriate convenience method
+and a transformer instance is provided too. These `respondWithCollection()` and `respondWithItem()` methods come from
+`ApiController`, and their job is just to create Fractal instances without exposing as many classes to interact with.
 
 The `PlaceTransformer` looks like this:
 
@@ -329,11 +363,13 @@ class ApiController extends Controller
 }
 ~~~~~~~~
 
-The method `respondWithArray()` takes a general array to convert into JSON, which will prove useful with errors. Other than that everything you return will be a Fractal Item, or a Collection.
+The method `respondWithArray()` takes a general array to convert into JSON, which will prove useful with errors. Other
+than that everything you return will be a Fractal Item, or a Collection.
 
 ## Hiding Schema Updates
 
-Schema updates happen, and they can be hard to avoid. If the change in question is simply a renamed field then this is insanely easy to handle:
+Schema updates happen, and they can be hard to avoid. If the change in question is simply a renamed field then this is
+insanely easy to handle:
 
 **Before**
 
@@ -347,9 +383,12 @@ Schema updates happen, and they can be hard to avoid. If the change in question 
         'website' => $place->url,
 ~~~~~~~~
 
-By changing the right (our internal data structure) and keeping the left the same (the external field name) we maintain control over the stability for the client applications.
+By changing the right (our internal data structure) and keeping the left the same (the external field name) we maintain
+control over the stability for the client applications.
 
-Sometimes it is a status change. A new status is added, or the change is fairly drastic and the status all change, but the old API version is still expecting the old one. Maybe someone changed "available" to "active" to be consistent with the other tables, because the original developer was as consistent and logical as a rabid ferrit.
+Sometimes it is a status change. A new status is added, or the change is fairly drastic and the status all change, but
+the old API version is still expecting the old one. Maybe someone changed "available" to "active" to be consistent with
+the other tables, because the original developer was as consistent and logical as a rabid ferrit.
 
 **Before**
 
@@ -367,7 +406,9 @@ Gross, but useful.
 
 ## Outputting Errors
 
-Exactly how to output errors is something I personally am still toying with. The current front-runner is adding convenience methods to the ApiController which handle global routes with a constant as the code and a HTTP error code set, with an optional message in case I want to override the message.
+Exactly how to output errors is something I personally am still toying with. The current front-runner is adding
+convenience methods to the ApiController which handle global routes with a constant as the code and a HTTP error code
+set, with an optional message in case I want to override the message.
 
 {title="Simple error codes and responses added to ApiController", lang=php}
 ~~~~~~~~
@@ -456,7 +497,8 @@ class ApiController extends Controller
     }
 ~~~~~~~~
 
-This basically allows for generic error messages to be returned in your controller without having to think too much about the specifics.
+This basically allows for generic error messages to be returned in your controller without having to think too much
+about the specifics.
 
 {title="Controller using Fractal, combined with a simple error response", lang=php}
 ~~~~~~~~
@@ -484,11 +526,13 @@ class PlaceController extends ApiController
 }
 ~~~~~~~~
 
-Other "Place" specific errors could go directly into the `PlaceController` as methods just like these, with their own constants in the controller, picking a statusCode in the method or relying on one as an argument.
+Other "Place" specific errors could go directly into the `PlaceController` as methods just like these, with their own
+constants in the controller, picking a statusCode in the method or relying on one as an argument.
 
 ## Testing this Output
 
-You have already seen how to test your endpoints using the Gherkin syntax in [Chapter 5: Endpoint Testing](#chapter-5), so we can apply that testing logic to this output:
+You have already seen how to test your endpoints using the Gherkin syntax in [Chapter 5: Endpoint Testing](#chapter-5),
+so we can apply that testing logic to this output:
 
 ~~~~~~~~
 Feature: Places
@@ -547,9 +591,14 @@ Scenario: Searching places with filters
     And reset scope
 ~~~~~~~~
 
-This is again using the `FeatureContext.php` provided in the sample code, which makes it really easy to test output. We are again assuming that all output is in a `"data"` element, which is either an object (when one resource has been requested) or an array of objects (multiple resources or a collection have been requested).
+This is again using the `FeatureContext.php` provided in the sample code, which makes it really easy to test output.
+We are again assuming that all output is in a `"data"` element, which is either an object (when one resource has been
+requested) or an array of objects (multiple resources or a collection have been requested).
 
-When you are searching for data you want to ensure that not finding any data doesn't explode. This can be down to your controller processing on output and failing because what should be an array is null, or because some PHP collection class is missing methods, etc. This is why we perform the search with a hardcoded invalid search term, then check that it returns an empty collection:
+When you are searching for data you want to ensure that not finding any data doesn't explode. This can be down to your
+controller processing on output and failing because what should be an array is null, or because some PHP collection
+class is missing methods, etc. This is why we perform the search with a hardcoded invalid search term, then check that
+it returns an empty collection:
 
 ~~~~~~~~
 {
@@ -557,10 +606,16 @@ When you are searching for data you want to ensure that not finding any data doe
 }
 ~~~~~~~~
 
-The line `And the "data" property contains 0 items` will cover this. Then we can search for valid terms, knowing that our database seeder has made sure at least one Place has the keyword "cheese" in the name. Using the line `And scope into the first "data" property` the scope changes to be inside the first data item returned, and the properties can be checked for existence too. If no data, or required fields are missing, this test will fail.
+The line `And the "data" property contains 0 items` will cover this. Then we can search for valid terms, knowing that
+our database seeder has made sure at least one Place has the keyword "cheese" in the name. Using the line `And scope
+into the first "data" property` the scope changes to be inside the first data item returned, and the properties can be
+checked for existence too. If no data, or required fields are missing, this test will fail.
 
 ## Homework
 
-Your homework is to take apart the sample application, fit it into your API and try to build valid output for as many of your GET endpoints as possible. Check the data types and make sure the array structure is being output in the way you expect using the test example above.
+Your homework is to take apart the sample application, fit it into your API and try to build valid output for as many
+of your GET endpoints as possible. Check the data types and make sure the array structure is being output in the way
+you expect using the test example above.
 
-With valid output covered and basic errors covered, what is next? The most complicated part of API generation, which at some point every developer has to try and work out: embedding/nesting resources, or making "relationships".
+With valid output covered and basic errors covered, what is next? The most complicated part of API generation, which at
+some point every developer has to try and work out: embedding/nesting resources, or making "relationships".
