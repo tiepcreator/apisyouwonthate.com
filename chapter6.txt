@@ -65,7 +65,7 @@ class PlaceController extends ApiController
         ]);
     }
 
-    public function list()
+    public function index()
     {
         return json_encode([
             'data' => Place::all()->toArray(),
@@ -128,7 +128,7 @@ class PlaceController extends ApiController
         ]);
     }
 
-    public function list()
+    public function index()
     {
         $places = array();
 
@@ -173,7 +173,7 @@ class PlaceController extends ApiController
         ]);
     }
 
-    public function list()
+    public function index()
     {
         $places = array();
         foreach (Place::all() as $place) {
