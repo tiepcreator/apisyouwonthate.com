@@ -57,10 +57,10 @@ For example, an issue with the access token will always result in the user not b
 
 ~~~~~~~~
 { 
-  error: {
-    type: "OAuthException",
-    message: "Session has expired at unix time 1385243766. The current unix time is 1385848532."
-  }, 
+  "error": {
+    "type": "OAuthException",
+    "message": "Session has expired at unix time 1385243766. The current unix time is 1385848532."
+  }
 }
 ~~~~~~~~
 
@@ -137,8 +137,19 @@ except facebook.GraphAPIError, e:
     log.error("-- Unknown Facebook Error", exec_info=True)
 ~~~~~~~~
 
-If they change their error messages then this might stop working, which would be a problem. Codes (that do not change
-are a much more sensible way to go about this).
+If they change their error messages then this might stop working, which would be a problem. Codes (that
+do not change are a much more sensible way to go about this).
+
+~~~~~~~~
+{ 
+  "error": {
+    "type": "OAuthException",
+    "code": "ERR-01234",
+    "message": "Session has expired at unix time 1385243766. The current unix time is 1385848532."
+    "documentation_url": "http://example.com/docs/errors/#ERR-01234"
+  }
+}
+~~~~~~~~
 
 ## Error or Errors
 
