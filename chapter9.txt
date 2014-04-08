@@ -41,7 +41,7 @@ The first approach that many developers go to is HTTP Basic, which is the most l
 Here is what Wikipedia has to say:
 
 > HTTP Basic authentication (BA) implementation is the simplest technique for enforcing access controls to web resources because it doesn't require cookies, session identifier and login pages. Rather, HTTP Basic authentication uses static, standard HTTP headers which means that no handshakes have to be done in anticipation.
--- [Source](http://en.wikipedia.org/wiki/Basic_access_authentication)
+> -- **Source:** [Wikipedia](http://en.wikipedia.org/wiki/Basic_access_authentication)
 
 **Pros**
 

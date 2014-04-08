@@ -1,5 +1,228 @@
-# HATEOAS / Links {#chapter-12}
+# HATEOAS {#chapter-12}
 
-## Coming Soon
+## Introduction
 
-This chapter will hopefully be with you by March 24th, 2014.
+HATEOAS is a tricky subject to explain, but it is actually rather simple. It stands for "Hypermedia as the
+Engine of Application State", and is pronounced as either "hat-ee-os", "hate O-A-S" or "hate-ee-ohs" - which 
+sounds a little like a cereal for API developers.
+
+However you want to try and say it, it basically means two things for your API:
+
+1. Content negiation
+2. Hypermedia controls 
+
+In my experience content negotiation is one of the first things many API developers implement. When building 
+my CodeIgniter Rest-Server extension it was the first feature I added, because hey - it is fun! Changing the 
+`Accept` header and seeing the `Content-Type` header in the response switch from JSON to XML or CSV is
+great, and is super easy to do.
+
+## Content Negotiation
+
+Some APIs (Twitter, I blame you for this) handle content negotiation with file extensions. They do things
+like `/statuses/show.json?id=210462857140252672` and `/statuses/show.xml?id=210462857140252672` instead of
+just `/statuses/210462857140252672` and letting the `Accept` header do the work.
+
+URIs are not supposed to be a bunch of folders and file names, and an API is not a list of JSON files or XML files. They are a list of resources that can be represented in different formats depending on the `Accept` header, **and nothing else.**
+
+## Hypermedia Controls
+
+The second part of HATEOAS however is drastically underused, and is the last step in making your API 
+technically a RESTful API.
+
+![Batman provides a standard response to often futile bucket remark "But it's not RESTful if you...". Credit to [Troy Hunt](http://twitter.com/troyhunt)](images/chapter12/notrestful.png)
+
+While you often hear complaints like "but that is not RESTful!" from people about silly things, this is one 
+instance where they are completely right. Without hypermedia controls you just have an API, not a RESTful
+API. This is where 99% of all APIs get things wrong.
+
+## RESTful Nirvana
+
+> 1. **“The Swamp of POX.”** You’re using HTTP to make RPC calls. HTTP is only really used as a tunnel.
+> 1. **Resources.** Rather than making every call to a service endpoint, you have multiple endpoints that are used to represent resources, and you’re talking to them. This is the very beginnings of supporting REST.
+> 1. **HTTP Verbs.** This is the level that something like Rails gives you out of the box: You interact with these Resources using HTTP verbs, rather than always using POST.
+> 1. **Hypermedia Controls.** HATEOAS. You’re 100% REST compliant.
+> -- **Source: ** [Steve Klabnik, "Haters gonna HATEOAS"](http://timelessrepo.com/haters-gonna-hateoas)
+
+_That article is based off an article by [Martin Fowler] called ["Richardson Maturity Model"] and explains a model written by [Leonard Richardson] covering what he considers to be the four levels of REST maturity._
+
+So what are hypermedia controls? They are just links, a.k.a "Hyperlinks", which you have probably been 
+using in your HTML output for years. I said early on in the book that REST is just using HTTP and the same
+conventions as the actual internet instead of inventing new ones, so it makes sense that linking to other
+resources should be the same in an API as it is in a web page.  
+
+The underlying theme of HATEOAS in general is that an API should be able to make perfect sense to an API
+client application and the human looking at the responses, entirely without having to hunt through 
+documentation to work out what is going on. 
+
+Small HATEOAS concepts have sneakily been sprinkled throughout this book, from suggesting error codes be
+combined with human readable error messages and documentation links, to helping the client application avoid
+math when interacting with pagination. The underlying theme is always to make controlls such as next, previous or any other sort of related interaction clearly obvious to a human or a computer. 
+
+[Martin Fowler]: http://martinfowler.com/
+["Richardson Maturity Model"]: http://martinfowler.com/articles/richardsonMaturityModel.html
+[Leonard Richardson]: http://www.crummy.com/
+
+### Understanding Hypermedia Controls
+
+This is the easiest part of building a RESTful API, so I am going to try really hard to not just leave this
+chapter at: "Just add links mate.", which is my normal advice for anyone asking about HATEOAS.
+
+Our usual data is output in such a way that only represents one or more resources. By itself, this one piece 
+of data is an island, completely cut off from the rest of the API. The only way to continue interacting
+with the API is for the developer has read the documentation and understands what data can be related, and discover where that data might live. This is far from ideal.
+
+To tie one `place` to the related resources, sub-resources or collections is easy.
+
+~~~~~~~~
+{
+    "data": [
+        "id": 2,
+        "name": "Videology",
+        "lat": 40.713857,
+        "lon": -73.961936,
+        "created_at": "2013-04-02",
+        "links": [
+        	{
+        		"rel": "self",
+        		"uri": "/places/2"
+        	},
+        	{
+        		"rel": "place.checkins",
+        		"uri": "/places/2/checkins"
+        	},
+        	{
+        		"rel": "place.activity",
+        		"uri": "/places/2/activity"
+        	}
+        ]
+    ]
+}
+~~~~~~~~
+
+Here are three simple entries, with the first is linking to itself. They both contain a `uri` (Unviversal 
+Resource Indicator) and a `rel` (Relationship). 
+
+I> ### URI v URL
+I> The acronym "URI" is often used to refer to only content after the protocol, hostname and port 
+(meaning URI is the path, extension and query string), whilst "URL" is used to describe the full address. 
+While this is not strictly true, it is perpetuated by many software projects such as CodeIgniter. 
+[Wikipedia][wiki-urivurl] and the [W3][w3-urivurl] say a bunch of conflicting things, but I feel like a 
+URI is easily described as being simply any sort of identifier for the location of a resource on the 
+internet.
+I>
+I> A URI can be partial, or absolute. URL is considered by some to be a completely non-existant term, but
+this book uses URL to describe an absolute URI, which is what you see in the address bar. Rightly or
+wrongly. Got it?
+
+Some people scoff at the `self` relationship suggesting that it is pointless. While you certainly know what
+URL you just called, that URL is not always going to match up with the `self` URI. For example, if you just
+created a `place` resource you will have called `POST /places`, and that is not a what you would want to
+call again to get updated information on the same resource. Regardless of the context, outputting a `place`
+always needs to have a `self` relationship, and that `self` should not just output whatever is in the
+address bar. Basically put, the `self` relationship points to where the resource lives, not the current
+address. 
+
+As for the other `rel` items, they are links to sub-resources which contain related information. The content
+of the tags can be anything you like, just keep it consistent throughout. The convention used in this
+example is to namespace relationships so that they are unique. Two different types of resources could have
+a `checkins` relationship (eg: `users` and `places`) so keeping them unique could be of benefit for the sake
+of documentation at least. Maybe you would prefer to remove the namespace, but that is up to you.
+
+Those custom relationships have fairly unique names, but for more generic relationships you can consider 
+using the [Registry of Link Relations] defined by the IANA, which is used by Atom ([RFC 4287]) and plenty of
+other things.
+
+[Registry of Link Relations]: http://www.iana.org/assignments/link-relations/link-relations.xhtml
+[RFC 4287]: http://atompub.org/rfc4287.html
+
+### Discovering Resources Programatically
+
+Taking another common example from our checkin API sample application, we can expect to see output like
+this:
+
+~~~~~~~~
+{
+    "data": [
+    	...
+        "links": [
+        	{
+        		"rel": "self",
+        		"uri": "/places/2"
+        	},
+        	{
+        		"rel": "place.checkins",
+        		"uri": "/places/2/checkins"
+        	},
+        	{
+        		"rel": "place.activity",
+        		"uri": "/places/2/activity"
+        	},
+        	{
+        		"rel": "place.image",
+        		"uri": "/places/2/checkins"
+        	}
+        ]
+    ]
+}
+~~~~~~~~
+
+We can assume that a `GET` will work on both the `place.checkins` and the `place.activity` endpoints, but
+what else can we do with them? Beyond that, what on earth do we do with the `place.image` endpoint?
+
+HTTP has us covered here, with a simple and effective verb that so far has not discussed: `OPTIONS`.
+
+{title="A HTTP request using the OPTIONS verb"}
+~~~~~~~~
+OPTIONS /places/2/checkins HTTP/1.1
+Host: localhost:8000
+~~~~~~~~
+
+{title="The response to the previous HTTP request"}
+~~~~~~~~
+HTTP/1.1 200 OK
+Host: localhost:8000
+Connection: close
+Allow: GET,HEAD,POST
+~~~~~~~~
+
+By inspecting the `Allow` header, we as humans (or programatically as an API client application) can work
+out what options are available to us on any given endpoint. This is what JavaScript is often doing in your
+browser for AJAX requests and you might not even know it.
+
+Doing this programatically is pretty easy too, and most HTTP clients in any given language will let you make
+an `OPTIONS` call just as easily as making a `GET` or `POST` call. If your HTTP client does not let you do
+this, then change your HTTP client.
+
+{title="Making an OPTIONS HTTP request using PHP and the Guzzle package"}
+~~~~~~~~
+use GuzzleHttp\Client;
+
+$client = new Client(['base_url' => 'http://localhost:8000']);
+$response = $client->options('/places/2/checkins');
+$methods = array_walk('trim', explode(',', $response->getHeader('Accept'));
+var_dump($methods); // Outputs: ['GET', 'HEAD', 'POST']
+~~~~~~~~
+
+So in this instance we know that we can get a list of checkins for a place using `GET`, and we can add to
+them by making a `POST` HTTP request to that URL. We can also do a `HEAD` check, which is the same as a
+`GET` but skips the HTTP body. You will probably need to handle this differently in your application, but
+this is handy for checking if a resource or collection exists without having to download the entire body
+content (i.e: just look for a `200` or a `404`).
+
+It might seem a little nuts to go to this extra step to interact with an API, but really it should be
+considered much easier than hunting for documentation. Think about it, trying to find that little
+"Developers" link on the website, then navigate to the documentation for the correct API (because they are
+so cool they have about three), then wondering if you have the right version... not fun. Compared that to a
+programaticaly self-documenting API, which can grow, change and expand over time, rename URLs and... well
+that is a real win. Trust me.
+
+If you know that an API follows RESTful principles then you _should_ be confident that it follows HATEOAS -
+because advertising it as RESTful without following HATEOAS is a big stinking lie. Sadly, most of the
+popular APIs out there are big stinking liars.
+
+> GitHub responds with a 500, Reddit with 501 Not Implemented, Google maps with 405 Method Not Allowed. You get the idea. I've tried many others, and the results are usually similar. Sometimes it yields something identical to a GET response. None of these are right.
+> -- **Source:** [Zac Stewart, "The HTTP OPTIONS method and potential for self-describing RESTful APIs"](http://zacstewart.com/2012/04/14/http-options-method.html)
+
+If you are building your own API then you can easily do this yourself, then your clients know that you know
+how to build a decent API.
+
