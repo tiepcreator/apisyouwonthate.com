@@ -8,7 +8,7 @@ sounds a little like a cereal for API developers.
 
 However you want to try and say it, it basically means two things for your API:
 
-1. Content negiation
+1. Content negotiation
 2. Hypermedia controls 
 
 In my experience content negotiation is one of the first things many API developers implement. When building 
@@ -18,26 +18,154 @@ great, and is super easy to do.
 
 ## Content Negotiation
 
-Some APIs (Twitter, I blame you for this) handle content negotiation with file extensions. They do things
-like `/statuses/show.json?id=210462857140252672` and `/statuses/show.xml?id=210462857140252672` instead of
-just `/statuses/210462857140252672` and letting the `Accept` header do the work.
+Some self proclaimed RESTful APIs (Twitter, I blame you for this) handle content negotiation with file
+extensions. They do things like `/statuses/show.json?id=210462857140252672` and 
+`/statuses/show.xml?id=210462857140252672` instead of just `/statuses/210462857140252672` and letting the
+`Accept` header do the work.
 
 URIs are not supposed to be a bunch of folders and file names, and an API is not a list of JSON files or XML files. They are a list of resources that can be represented in different formats depending on the `Accept` header, **and nothing else.**
+
+{title="A simple example of proper RESTful content negotiation requesting JSON"}
+~~~~~~~~
+GET /places HTTP/1.1
+Host: localhost:8000
+Accept: application/json
+~~~~~~~~
+
+A response would then contain JSON, if the API supports JSON as an output format.
+
+{title="A shortened example of the HTTP response with JSON data"}
+~~~~~~~~
+HTTP/1.1 200 OK
+Host: localhost:8000
+Connection: close
+
+{
+    "data": [
+        {
+            "id": 1,
+            "name": "Mireille Rodriguez",
+            "lat": -84.147236,
+            "lon": 49.254065,
+            "address1": "12106 Omari Wells Apt. 801",
+            "address2": "",
+            "city": "East Romanberg",
+            "state": "VT",
+            "zip": 20129,
+            "website": "http://www.torpdibbert.com/",
+            "phone": "(029)331-0729x4259"
+        },
+        ...
+    ]
+}
+~~~~~~~~
+
+Many RESTful APIs will support JSON by default, or maybe _only_ JSON as our sample app has done so far. 
+This is not realistic, but was done mainly for the sake of simiplicity throughout the book so far.
+
+XML is still a tricky one to do as you need to require view files, and that is out of scope of this chapter.
+
+YAML however is rather easy to achieve, so we can see how content negotiation works with a little change to
+our app. Check `~/apisyouwonthate/chapter12/` for the updated sample app.
+
+The main change other than including the [Symfony YAML component] was to simply update the 
+`ApiController::respondWithArray()` method to check the Accept header and react accordingly. 
+
+~~~~~~~~
+protected function respondWithArray(array $array, array $headers = [])
+{
+    // You will probably want to do something intelligent with charset if provided.
+    // This chapter just ignores everything and takes the main mime-type value
+    $mimeParts = (array) explode(';', Input::server('HTTP_ACCEPT'));
+    $mimeType = strtolower($mimeParts[0]);
+
+    switch ($mimeType) {
+        case 'application/json':
+            $contentType = 'application/json';
+            $content = json_encode($array);
+            break;
+
+        case 'application/x-yaml':
+            $contentType = 'application/x-yaml';
+            $dumper = new YamlDumper();
+            $content = $dumper->dump($array, 2);
+            break;
+
+        default:
+            $contentType = 'application/json';
+            $content = json_encode([
+                'error' => [
+                    'code' => static::CODE_INVALID_MIME_TYPE,
+                    'http_code' => 415,
+                    'message' => sprintf('Content of type %s is not supported.', $mimeType),
+                ]
+            ]);
+    }
+
+    $response = Response::make($content, $this->statusCode, $headers);
+    $response->header('Content-Type', $contentType);
+
+    return $response;
+}
+~~~~~~~~
+
+Very basic, but now if we try a different mime type we can expect a different result:
+
+{title="A HTTP request specifying the preferred response mime-type"}
+~~~~~~~~
+GET /places HTTP/1.1
+Host: localhost:8000
+Accept: application/x-yaml
+~~~~~~~~
+
+The response will be in YAML.
+
+{title="A shortened example of the HTTP response with YAML data"}
+~~~~~~~~
+HTTP/1.1 200 OK
+Host: localhost:8000
+Connection: close
+
+data:
+    - { id: 1, name: 'Mireille Rodriguez', lat: -84.147236, lon: 49.254065, address1: '12106 Omari Wells Apt. 801', address2: '', city: 'East Romanberg', state: VT, zip: 20129, website: 'http://www.torpdibbert.com/', phone: (029)331-0729x4259 }
+    ...
+~~~~~~~~
+
+Making these requests programmatically is simple.
+
+{title="Using PHP and the Guzzle package to request a different response type"}
+~~~~~~~~
+use GuzzleHttp\Client;
+
+$client = new Client(['base_url' => 'http://localhost:8000']);
+
+$response = $client->get('/places', [
+	'headers' => ['Accept' => 'application/x-yaml']
+]);
+
+$response->getBody(); // YAML, ready to be parsed
+~~~~~~~~
+
+This is not the end of the conversation for content negotiation, as there is a little bit more to talk about 
+with vendor-based mime-types for resources, which can be versioned too. To keep this chapter on point, that 
+discussion will happen in [Chapter 13: API Versioning](#chapter-13).
+
+[Symfony YAML component]: http://symfony.com/doc/current/components/yaml/introduction.html
 
 ## Hypermedia Controls
 
 The second part of HATEOAS however is drastically underused, and is the last step in making your API 
 technically a RESTful API.
 
-![Batman provides a standard response to often futile bucket remark "But it's not RESTful if you...". Credit to [Troy Hunt](http://twitter.com/troyhunt)](images/chapter12/notrestful.png)
+![Batman provides a standard response to often futile bucket remark "But it's not RESTful if you..." Credit to Troy Hunt (@troyhunt)](images/chapter12/notrestful.png)
 
 While you often hear complaints like "but that is not RESTful!" from people about silly things, this is one 
 instance where they are completely right. Without hypermedia controls you just have an API, not a RESTful
-API. This is where 99% of all APIs get things wrong.
+API. This is an aspect in which 99% of all APIs fall short.
 
-## RESTful Nirvana
+### RESTful Nirvana
 
-> 1. **“The Swamp of POX.”** You’re using HTTP to make RPC calls. HTTP is only really used as a tunnel.
+> 1. **"The Swamp of POX."** You’re using HTTP to make RPC calls. HTTP is only really used as a tunnel.
 > 1. **Resources.** Rather than making every call to a service endpoint, you have multiple endpoints that are used to represent resources, and you’re talking to them. This is the very beginnings of supporting REST.
 > 1. **HTTP Verbs.** This is the level that something like Rails gives you out of the box: You interact with these Resources using HTTP verbs, rather than always using POST.
 > 1. **Hypermedia Controls.** HATEOAS. You’re 100% REST compliant.
@@ -65,7 +193,7 @@ math when interacting with pagination. The underlying theme is always to make co
 ### Understanding Hypermedia Controls
 
 This is the easiest part of building a RESTful API, so I am going to try really hard to not just leave this
-chapter at: "Just add links mate.", which is my normal advice for anyone asking about HATEOAS.
+section at: "Just add links mate." - which is my normal advice for anyone asking about HATEOAS.
 
 Our usual data is output in such a way that only represents one or more resources. By itself, this one piece 
 of data is an island, completely cut off from the rest of the API. The only way to continue interacting
@@ -76,11 +204,17 @@ To tie one `place` to the related resources, sub-resources or collections is eas
 ~~~~~~~~
 {
     "data": [
-        "id": 2,
-        "name": "Videology",
-        "lat": 40.713857,
-        "lon": -73.961936,
-        "created_at": "2013-04-02",
+        "id": 1,
+        "name": "Mireille Rodriguez",
+        "lat": -84.147236,
+        "lon": 49.254065,
+        "address1": "12106 Omari Wells Apt. 801",
+        "address2": "",
+        "city": "East Romanberg",
+        "state": "VT",
+        "zip": 20129,
+        "website": "http://www.torpdibbert.com/",
+        "phone": "(029)331-0729x4259",
         "links": [
         	{
         		"rel": "self",
@@ -91,8 +225,8 @@ To tie one `place` to the related resources, sub-resources or collections is eas
         		"uri": "/places/2/checkins"
         	},
         	{
-        		"rel": "place.activity",
-        		"uri": "/places/2/activity"
+        		"rel": "place.image",
+        		"uri": "/places/2/image"
         	}
         ]
     ]
@@ -120,7 +254,7 @@ created a `place` resource you will have called `POST /places`, and that is not 
 call again to get updated information on the same resource. Regardless of the context, outputting a `place`
 always needs to have a `self` relationship, and that `self` should not just output whatever is in the
 address bar. Basically put, the `self` relationship points to where the resource lives, not the current
-address. 
+address.
 
 As for the other `rel` items, they are links to sub-resources which contain related information. The content
 of the tags can be anything you like, just keep it consistent throughout. The convention used in this
@@ -132,13 +266,66 @@ Those custom relationships have fairly unique names, but for more generic relati
 using the [Registry of Link Relations] defined by the IANA, which is used by Atom ([RFC 4287]) and plenty of
 other things.
 
+[wiki-urivurl]: http://wikipedia.org/wiki/Uniform_Resource_Identifier
+[w3-urivurl]: http://www.w3.org/TR/uri-clarification/
 [Registry of Link Relations]: http://www.iana.org/assignments/link-relations/link-relations.xhtml
 [RFC 4287]: http://atompub.org/rfc4287.html
 
-### Discovering Resources Programatically
+### Creating Hypermedia Controls
 
-Taking another common example from our checkin API sample application, we can expect to see output like
-this:
+This is literally a case of shoving some links into your data output. However you chose to do that, it
+can be part of your "transformation" or "prestentation" layer. 
+
+If you are using the PHP component Fractal - which we has been used as an example throughout the book - then
+you can simply do the following:
+
+{title="PlaceTransformer with links included in the response data.", lang="php"}
+~~~~~~~~
+public function transform(Place $place)
+{
+    return [
+        'id'           => (int) $place->id,
+        'name'         => $place->name,
+        'lat'          => (float) $place->lat,
+        'lon'          => (float) $place->lon,
+        'address1'     => $place->address1,
+        'address2'     => $place->address2,
+        'city'         => $place->city,
+        'state'        => $place->state,
+        'zip'          => (float) $place->zip,
+        'website'      => $place->website,
+        'phone'        => $place->phone,
+
+        'links'        => [
+            [
+                'rel' => 'self',
+                'uri' => '/places/'.$place->id,
+            ],
+            [
+                'rel' => 'place.checkins',
+                'uri' => '/places/'.$place->id.'/checkins',
+            ],
+            [
+                'rel' => 'place.image',
+                'uri' => '/places/'.$place->id.'/image',
+            ]
+        ],
+    ];
+}
+~~~~~~~~
+
+People try to get smarter and have various relationships based off of their `$_SERVER` settings or based 
+off of their ORM relationships, but all of that is just going to cause you problems. If you have these
+transformers then you only need to write this lot out once and it avoids exposing any database logic and
+keeps your code readable and understandable. 
+
+Once you have input these links, other people need to know how to interact with them. You might think "Surely I should put `GET` or `PUT` in there so people know what to do?" Wrong. They are links to resources,
+not actions. An image exists for a place, and we can either blindly assume we can make certain actions on it,
+or we can ask our API what actions are available and cache the result.
+
+### Discovering Resources Programmatically
+
+Taking a shortened example from earlier on in this chapter, we can expect to see output like this:
 
 ~~~~~~~~
 {
@@ -154,20 +341,16 @@ this:
         		"uri": "/places/2/checkins"
         	},
         	{
-        		"rel": "place.activity",
-        		"uri": "/places/2/activity"
-        	},
-        	{
         		"rel": "place.image",
-        		"uri": "/places/2/checkins"
+        		"uri": "/places/2/image"
         	}
         ]
     ]
 }
 ~~~~~~~~
 
-We can assume that a `GET` will work on both the `place.checkins` and the `place.activity` endpoints, but
-what else can we do with them? Beyond that, what on earth do we do with the `place.image` endpoint?
+We can assume that a `GET` will work on both the `self` and the `place.checkins` endpoints, but
+what else can we do with them? Beyond that, what on Earth do we do with the `place.image` endpoint?
 
 HTTP has us covered here, with a simple and effective verb that so far has not discussed: `OPTIONS`.
 
@@ -185,11 +368,11 @@ Connection: close
 Allow: GET,HEAD,POST
 ~~~~~~~~
 
-By inspecting the `Allow` header, we as humans (or programatically as an API client application) can work
+By inspecting the `Allow` header, we as humans (or programmatically as an API client application) can work
 out what options are available to us on any given endpoint. This is what JavaScript is often doing in your
 browser for AJAX requests and you might not even know it.
 
-Doing this programatically is pretty easy too, and most HTTP clients in any given language will let you make
+Doing this programmatically is pretty easy too, and most HTTP clients in any given language will let you make
 an `OPTIONS` call just as easily as making a `GET` or `POST` call. If your HTTP client does not let you do
 this, then change your HTTP client.
 
@@ -213,8 +396,7 @@ It might seem a little nuts to go to this extra step to interact with an API, bu
 considered much easier than hunting for documentation. Think about it, trying to find that little
 "Developers" link on the website, then navigate to the documentation for the correct API (because they are
 so cool they have about three), then wondering if you have the right version... not fun. Compared that to a
-programaticaly self-documenting API, which can grow, change and expand over time, rename URLs and... well
-that is a real win. Trust me.
+programmatically self-documenting API, which can grow, change and expand over time, rename URLs and... well that is a real win. Trust me.
 
 If you know that an API follows RESTful principles then you _should_ be confident that it follows HATEOAS -
 because advertising it as RESTful without following HATEOAS is a big stinking lie. Sadly, most of the
@@ -226,3 +408,6 @@ popular APIs out there are big stinking liars.
 If you are building your own API then you can easily do this yourself, then your clients know that you know
 how to build a decent API.
 
+And that, is about all there is for HATEOAS. You should now know enough to go out and build up an API that
+in theory you wont hate. Sadly, you will probably need to build a new version within a few months regardless,
+so for that we will now take a look at API versioning.
