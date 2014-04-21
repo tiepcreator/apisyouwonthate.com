@@ -138,7 +138,7 @@ except facebook.GraphAPIError, e:
 ~~~~~~~~
 
 If they change their error messages then this might stop working, which would be a problem. Codes (that
-do not change are a much more sensible way to go about this).
+do not change) are a much more sensible way to go about this.
 
 ~~~~~~~~
 { 
