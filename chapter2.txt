@@ -218,7 +218,7 @@ Try to avoid the temptation to [screw around with magic routing conventions](htt
 |-----------|-------------------------|----------------------------------------------------------------------|
 |Create     |`POST /users`            |`Route::post('users', 'UsersController@create'); `                    |
 |Read       |`GET /users/X`           |`Route::get('users/{id}', 'UsersController@show');`                   |
-|Update     |`PUT /users/X`           |`Route::put('users/{id}', 'UsersController@update');`                |
+|Update     |`PUT /users/X`           |`Route::put('users/{id}', 'UsersController@update');`                 |
 |Delete     |`DELETE /users/X`        |`Route::delete('users/{id}', 'UsersController@delete');`              |
 |List       |`GET /users`             |`Route::get('users', 'UsersController@list');`                        |
 |Image      |`PUT /users/X/image`     |`Route::put('users/{id}/image', 'UsersController@uploadImage');`      |
