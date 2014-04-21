@@ -38,18 +38,27 @@ personally prefer another language. Go on. It wont bite.
 ## Setup
 
 As a PHP developer you simply need to install Behat, and this can be done with [Composer](http://getcomposer.org/). It is
-fair to assume that if you are using any sort of modern PHP framework you are already familiar with this so I won't bore the non-PHP devs by getting stuck into it, but your `composer.json` file should have these items inside:
+fair to assume that if you are using any sort of modern PHP framework you are already familiar with this so I won't bore the non-PHP devs by getting stuck into it. 
+
 
 {title="Install Behat globally with Composer"}
+Assuming that composer is [installed globally](https://getcomposer.org/doc/00-intro.md#globally) in your system, to install Behat run:
 ~~~~~~~~
 $ composer global require 'behat/behat=2.4.*'
 ~~~~~~~~
 
-Make sure `~/.composer/vendor/bin/` is added to your `$PATH` and you should be good to go.
+otherwise run:
+~~~~~~~~
+$ php composer.phar global require 'behat/behat=2.4.*'
+~~~~~~~~
+
+In any case, make sure `~/.composer/vendor/bin/` is added to your `$PATH` and you should be good to go.
 
 If you are a Ruby user you have the ease of simply running `$ gem install cucumber`, or shove it in your `Gemfile`.
-Google should help you with Python. The rest of this chapter is going to stick purely to PHP for the sake of
-simplicity, and others can just use the equivilent commands as we go.
+
+Google should help you with Python. 
+
+The rest of this chapter is going to stick purely to PHP for the sake of simplicity, and others can just use the equivilent commands as we go.
 
 ## Initialise
 
@@ -247,6 +256,6 @@ endpoints _should_ be and what their output _should_ look like you should be fin
 if they do not exist.
 
 Running the tests will show you that everything is broken of course, then you just go through 
-and build the endpoints one at a time. This sounds hard but you just cannot afford to mess about with testing on an API.
+and build and test the endpoints one at a time. This sounds hard but you just cannot afford to mess about with testing on an API.
 
 Doing this first will save you a lot of hard work down the road. I have the scars to prove it.
