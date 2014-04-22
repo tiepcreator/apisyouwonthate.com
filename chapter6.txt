@@ -388,7 +388,7 @@ control over the stability for the client applications.
 
 Sometimes it is a status change. A new status is added, or the change is fairly drastic and the status all change, but
 the old API version is still expecting the old one. Maybe someone changed "available" to "active" to be consistent with
-the other tables, because the original developer was as consistent and logical as a rabid ferrit.
+the other tables, because the original developer was as consistent and logical as a rabid ferret.
 
 **Before**
 
