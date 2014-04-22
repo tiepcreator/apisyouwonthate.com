@@ -1,6 +1,6 @@
 # Sample Code
 
-Throughout this book I will refer to source code which exists on a GitHub repo, which can be downloaded in a few ways.
+Throughout this book I will refer to source code which exists on a GitHub repo.
 
 a) You can clone it:
 
