@@ -17,7 +17,7 @@ There are a few methods you can utilize for debugging:
 
 Debugging via the command-line using tools like `curl` are a great option for some. They tout the benefits of being able
 to do it from inside a network firewall. Certainly this can be an option for debugging live servers, but for
-development purposes (which is what we are doing here) then using curl is just a lot of commands to remember for no reason.
+development purposes (which is what we are doing here) then using `curl` is just a lot of commands to remember for no reason.
 
 ~~~~~~~~
 $ curl -X POST http://localhost/places/fg345d/checkins --data @payload.json
@@ -142,7 +142,7 @@ to the API on our development environment then at this point we are half way.
 W> ## Local v "Remote"
 W>
 W> To allow Laravel (PHP's) built in server to access this connection on OSX, you must start the server using the network address shown in the sharing section of system preferences.
-W> Choose Apple menu > System Preferences, and then click Sharing 
+W> Choose Apple menu > System Preferences, and then click Sharing
 W> Below "Computer Name" you will see an address followed by ".local"
 W> To start the server simply use:
 W> $ php artisan serve --host="Phils-MacBook-Air.local"
