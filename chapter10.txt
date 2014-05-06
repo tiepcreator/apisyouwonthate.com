@@ -59,9 +59,9 @@ $per_page = isset($_GET['number']) ? (int) $_GET['number'] : 20;
 $page_count = ceil($total / $per_page);
 ~~~~~~~~
 
-With that basic math take care of we now know how many pages there are in total, and have rounded it up with `ceil()`.
-That is a PHP function equivalent of `Math.round()`, which rounds it up to the nearest integer. If `$total` is 1000 and `$per_page` is 12,
-then `$page_count` will be 83.333. Obviously nobody wants to go to page 83.333 so round that up to page 84.
+With that basic math taken care of we now know how many pages there are in total, and have rounded it up with `ceil()`.
+That is a PHP function equivalent of `Math.round()`, which rounds it up to the nearest integer. If `$total` is 1000, 
+then `$page_count` will be 83.333. Obviously nobody wants to go to page 83.333 so round that up to page 84. 
 
 Using these variables, an API can output some simple meta-data that goes next to the main `data` namespace:
 

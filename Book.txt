@@ -15,3 +15,5 @@ chapter10.txt
 chapter11.txt
 chapter12.txt
 chapter13.txt
+backmatter.txt
+conclusion.txt
