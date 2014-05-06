@@ -8,7 +8,7 @@ Pagination is one of those words that means something very specific to many deve
 
 There are a few ways to achieve pagination, but when talking in terms of an API it means:
 
-> any way you want to go about splitting up your data into multiple HTTP requests, for the sake of limiting HTTP Response size 
+> any way you want to go about splitting up your data into multiple HTTP requests, for the sake of limiting HTTP Response size
 
 There are a few reasons for doing this:
 
@@ -16,40 +16,40 @@ There are a few reasons for doing this:
 2. Your database might not be happy about trying to return 100,000 records in one go
 3. Presentation logic iterating over 100,000 records is also no fun
 
-As you can probably tell, 100,000 is a arbitrary number. An API could have endpoints like `/places` with over 1 million 
-records, or checkins which could be unlimited. While developing an API so many people forget about this, and 
+As you can probably tell, 100,000 is a arbitrary number. An API could have endpoints like `/places` with over 1 million
+records, or checkins which could be unlimited. While developing an API so many people forget about this, and
 while 10 or 100 records will display quite quickly, infinity is considerably slower. Data grows.
 
-A good API will allow the client to request the number of items it would like returned per HTTP request. Some developers 
+A good API will allow the client to request the number of items it would like returned per HTTP request. Some developers
 try to be smart and use custom HTTP headers for this, but this is literally what the query string is for.
 
 > /places?number=12
 
-Some use `number`, `limit`, `per_page` or whatever. I always think `limit` only really makes sense because SQL users are 
+Some use `number`, `limit`, `per_page` or whatever. I always think `limit` only really makes sense because SQL users are
 used to it and REST is not SQL, so I personally use `number`.
 
 W> ### Define a Maximum
-W> When you take the limit/number parameter from the client, you absolutely have to set an upper bound on that number, 
+W> When you take the limit/number parameter from the client, you absolutely have to set an upper bound on that number,
 W> make sure it is over 0 and depending on the data source you might want to make sure it is an integer as decimal places
-W> could have some interesting effects. 
+W> could have some interesting effects.
 
 
 ## Paginators
 
-I stole the word "Paginator" from Laravel, which uses a `Paginator` class for a very specific type of pagination. It 
-is not the most efficient form of pagination by any means, but it is rather easy to understand and works fine on 
+I stole the word "Paginator" from Laravel, which uses a `Paginator` class for a very specific type of pagination. It
+is not the most efficient form of pagination by any means, but it is rather easy to understand and works fine on
 relatively small data sets.
 
 ### How do Paginators Work
 
-One approach to pagination is to count how many records there are for a specific item. So, if we count how many `places` 
+One approach to pagination is to count how many records there are for a specific item. So, if we count how many `places`
 there are, there will probably be some sort of SQL query like this:
 
 ~~~~~~~~
 SELECT count(*) as `total` FROM `places`
 ~~~~~~~~
 
-When the answer to that query comes back as `1000`, the following code will be executed: 
+When the answer to that query comes back as `1000`, the following code will be executed:
 
 ~~~~~~~~
 <?php
@@ -60,8 +60,8 @@ $page_count = ceil($total / $per_page);
 ~~~~~~~~
 
 With that basic math take care of we now know how many pages there are in total, and have rounded it up with `ceil()`.
-That is a PHP function equivalent of `Math.round()`, which rounds it up to the nearest integer. If `$total` is 1000, 
-then `$page_count` will be 83.333. Obviously nobody wants to go to page 83.333 so round that up to page 84. 
+That is a PHP function equivalent of `Math.round()`, which rounds it up to the nearest integer. If `$total` is 1000 and `$per_page` is 12,
+then `$page_count` will be 83.333. Obviously nobody wants to go to page 83.333 so round that up to page 84.
 
 Using these variables, an API can output some simple meta-data that goes next to the main `data` namespace:
 
@@ -81,45 +81,45 @@ Using these variables, an API can output some simple meta-data that goes next to
 }
 ~~~~~~~~
 
-The names of items in this pagination example are purely based off what Kapture's iPhone developer suggested at the 
+The names of items in this pagination example are purely based off what Kapture's iPhone developer suggested at the
 time, but should portray the intent.
 
 You basically give the client enough information to do math itself if that is something it wants to do, or you let them
-ingest basic HTTP links too. 
+ingest basic HTTP links too.
 
 ### Counting lots of Data is Hard
 
-The main trouble with this method is the `SELECT count(*)` that is required to find out the total, which can be a very 
-expensive request. 
+The main trouble with this method is the `SELECT count(*)` that is required to find out the total, which can be a very
+expensive request.
 
-The first thing to mind will be caching. Sure you can cache the count, or even pre-populate the request. In many cases 
-you certainly could, but you have to consider that most endpoints will have multiple query string parameters 
+The first thing to mind will be caching. Sure you can cache the count, or even pre-populate the request. In many cases
+you certainly could, but you have to consider that most endpoints will have multiple query string parameters
 to customise the data returned.
 
 > /places?merchant=X
 
-That means you will now have a single cache for ever count of places by each specific merchant. That too could be 
+That means you will now have a single cache for ever count of places by each specific merchant. That too could be
 cached or pre-populated, but when it comes to geo data you have no chance:
 
 > /places?lat=42.2345&lon=1.234
 
-Unforuntately the chances of having multiple people request the exact same set of coordinates regularly enough to make a 
-cache worthwhile is unlikely, especially as those coordinates point to a remote, mountainous region of Spain. 
+Unfortuntately the chances of having multiple people request the exact same set of coordinates regularly enough to make a
+cache worthwhile is unlikely, especially as those coordinates point to a remote, mountainous region of Spain.
 
-Pre-population for those results also seems highly unlikely. If you have literally millions of places then trying to 
-count all places for somebody in Spain is just silly. Indexes can help. Slicing your data into geographic buckets and 
-slicing it together with some clever trickery can help. Generally speaking though, using this sort of pagination 
+Pre-population for those results also seems highly unlikely. If you have literally millions of places then trying to
+count all places for somebody in Spain is just silly. Indexes can help. Slicing your data into geographic buckets and
+slicing it together with some clever trickery can help. Generally speaking though, using this sort of pagination
 introduces big-data problems to what can be potentially small-data setups, especially when you have filtering options.
 
-This is not bad (and I have used it myself for plenty of APIs) but you definitely need to keep this sort of thing in 
+This is not bad (and I have used it myself for plenty of APIs) but you definitely need to keep this sort of thing in
 mind.
 
 ### Moving Goal Posts
 
-Another tricky issue with the "count everything then pick which page number" approach is that if a new item is 
+Another tricky issue with the "count everything then pick which page number" approach is that if a new item is
 added between HTTP requests, the same content can show up twice.
 
-Imagine the scenario, where the `number` per page is set to 1, `places` are ordered by name, and the values are hip bars 
+Imagine the scenario, where the `number` per page is set to 2, `places` are ordered by name, and the values are hip bars
 in Brooklyn, NY:
 
 * Page 1
@@ -128,7 +128,7 @@ in Brooklyn, NY:
 * Page 2
   * Videology
 
-If the client requests Page 1, then they will see the first two results. While the results for Page 1 are being 
+If the client requests Page 1, then they will see the first two results. While the results for Page 1 are being
 displayed to the end user, some hip new bar opens up with the name "Lucky Dog" and joins the platform.
 
 Now the data set looks like this:
@@ -140,12 +140,12 @@ Now the data set looks like this:
   * Pickle Shack
   * Videology
 
-If the client does not refresh Page 1 (which most would not do for the sake of speed) then "Pickle Shack" is going to 
+If the client does not refresh Page 1 (which most would not do for the sake of speed) then "Pickle Shack" is going to
 show up twice, and "Lucky Dog" will not be on the list at all.
 
 ### Using Paginators with Fractal
 
-This is a rather specific example, requiring Laravel's Eloquent and Pagination packages, and [Fractal](http://fractal.thephpleague.com/). If you are not using any of those things then you can skip it and just use some simple math like the 
+This is a rather specific example, requiring Laravel's Eloquent and Pagination packages, and [Fractal](http://fractal.thephpleague.com/). If you are not using any of those things then you can skip it and just use some simple math like the
 example JSON above. Otherwise, follow on:
 
 ~~~~~~~
@@ -164,14 +164,14 @@ $resource->setPaginator(new IlluminatePaginatorAdapter($paginator));
 
 ## Offsets and Cursors
 
-Another common pagination method is to use "cursors" (sometimes called "markers"). A cursor is usually a unique 
-identifier, or an offset, so that the API can just request "more" data. 
+Another common pagination method is to use "cursors" (sometimes called "markers"). A cursor is usually a unique
+identifier, or an offset, so that the API can just request "more" data.
 
 If there is more data to be found, the API will return that data. If there is not more data, then either an error (404)
-or an empty collection will be returned. 
+or an empty collection will be returned.
 
 A> ### Empty is not Missing
-A> I personally advise against a 404 because the URL is not technically wrong, 
+A> I personally advise against a 404 because the URL is not technically wrong,
 A> there is simply no data to be returned in the collection so an empty collection makes more sense.
 
 To try the same example:
@@ -190,12 +190,12 @@ To try the same example:
 }
 ~~~~~~~~
 
-This example has `after` we've requested 12 records; 1-12 were all available, and (for the sake of example) were all 
-auto-increment integers, so in this example we would like content that is _after_ 12, meaning 13-24 would be on the 
-next page. 
+This JSON has been returned `after` we've requested the first 12 records; 1-12 were all available, and (for the sake of example) were all
+auto-increment integers, so, in this example, if we would like the content that is _after_ 12, then the records having ID from 13 to 24 would be on the
+next page.
 
-While this provides an incredibly simplistic explanation, generally speaking using IDs is a tricky idea. A specific 
-record can move from one category to another, or could be deactivated, or all sorts of things. You _can_ use IDs, but 
+While this provides an incredibly simplistic explanation, generally speaking using IDs is a tricky idea. A specific
+record can move from one category to another, or could be deactivated, or all sorts of things. You _can_ use IDs, but
 it is generally considered best practise to use an offset instead.
 
 Using an offset is simple. Regardless of your IDs, hashed, etc, you simply put 12 in there and say "I would like 12 records, with an offset of 12", instead of saying "I would like records after id=12".
@@ -218,14 +218,14 @@ php > var_dump(base64_decode('MQ=='));
 string(1) "1"
 ~~~~~~~~
 
-Obfuscating the values is not done for security, but - I assume - to avoid people trying to do math on the values. Ignorance is bliss in this scenario, as somebody doing maths on an offset-based paginated result might end up doing the 
+Obfuscating the values is not done for security, but - I assume - to avoid people trying to do math on the values. Ignorance is bliss in this scenario, as somebody doing maths on an offset-based paginated result might end up doing the
 same math on a primary key integer. If everything is an opaque cursor or marker then nobody can do that.
 
 ### Extra Requests = Sadness
 
-This approach is not favored by some client developers as they do not like the idea of having to make extra HTTP 
-requests to find out that there is no data, but this just seems like the only realistic way to achieve a performant pagination system for large data. Even with a "pages" system, if there is only 1 record on the last page and that 
-record (or any other in any page) is removed then the last page will be empty anyway, so... every pagination system 
+This approach is not favored by some client developers as they do not like the idea of having to make extra HTTP
+requests to find out that there is no data, but this just seems like the only realistic way to achieve a performant pagination system for large data. Even with a "pages" system, if there is only 1 record on the last page and that
+record (or any other in any page) is removed then the last page will be empty anyway, so... every pagination system
 needs to respond to an empty collection.
 
 ### Using Cursors with Fractal
@@ -255,6 +255,6 @@ $resource = new Collection($places, new PlaceTransformer);
 $resource->setCursor($cursor);
 ~~~~~~~~
 
-This will take the current cursor, use it as an offset, then work out the base64 version and convert it. There is a 
-bit of work to do in this example because the Cursor class is intentionally vague. Instead of using an offset it could 
-be a specific ID and you use it for an SQL `WHERE id > X` clause, but better not. 
+This will take the current cursor, use it as an offset, then work out the base64 version and convert it. There is a
+bit of work to do in this example because the Cursor class is intentionally vague. Instead of using an offset it could
+be a specific ID and you use it for an SQL `WHERE id > X` clause, but better not.

@@ -28,7 +28,7 @@ Content-Type: application/json
 
 Here we make a POST request with a "HTTP Body". The `Content-Type` header points out we are sending JSON and the blank line above the JSON separates the "HTTP Headers" from the "HTTP Body". HTTP really is amazingly simple, this is all you need to do for anything and you can do all of this with a HTTP client in whatever programming language you feel like using this week:
 
-{title="Using PHP and the Guzzle HTTP library to make a HTTP Request ", lang=php}
+{title="Using PHP and the Guzzle HTTP library to make a HTTP Request", lang=php}
 ~~~~~~~~
 use Guzzle\Http\Client;
 

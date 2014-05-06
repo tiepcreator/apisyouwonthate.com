@@ -48,18 +48,17 @@ extra HTTP requests per place need to happen, which is `1 + 4n`.
 If 50 `places` were returned and each time the related data had to be loaded, assuming the app user looked
 through all 50 `places` there would be 1 initial request to get 50 results. For each of those results
 would be 4 more, meaning: `1 + (50 x 4) = 251`. 251 HTTP requests happening (even assuming they are
-asyncronous) is just unecessary and going over HTTP on a mobile is the slowest things you can do. Even with
-caching, depending on the data set it could still be 251 requests.
+asyncronous) is just unnecessary and going over HTTP on a mobile is the slowest things you can do. Even with
+caching, depending on the data set, it could still be 251 requests.
 
-Some API developers try to avoid going over HTTP too many times by shoving as much data as possible into one
-request, so when you call the `/places` endpoint you automatically get `checkins`, `current_opps`,
+Some API developers try to avoid going over HTTP too many times by shoving as much data as possible into one request, so when you call the `/places` endpoint you automatically get `checkins`, `current_opps`,
 `merchants` and `images`. Well, if you do not want that information you are waiting for huge file
 downloads full of irrelevant JSON! Even with GZIP compression enabled on the web-server, downloading
 something you don't need is obviously not desirable, and can be avoided. This can mean major performance
 gains on mobile, and minor gains over a slow network or weak Wi-Fi for desktop or tablets.
 
 The trade-off here between "downloading enough data to avoid making the user wait for subsequent loads"
-and "downloading too much data to make them wait for the initial load". It is hard, but you need the
+and "downloading too much data to make them wait for the initial load" is hard, but you need the
 flexibility and making sub-resources the only related data approach does not give the API consumer
 any flexibility.
 
@@ -82,7 +81,7 @@ multiple `comments`, the `/posts` endpoint could contain the following:
 }
 ~~~~~~~~
 
-This is better. You still end up with n+1 requests, but at least you can take those ID's and make a grouped
+This is better. You still end up with `n + 1` requests, but at least you can take those ID's and make a grouped
 request like `/comments/1,2` or `/comments?ids=1,2` to reduce how many HTTP requests are being made.
 
 Back to the places example, if you have 50 places returned and need 4 extra pieces of data, you could
@@ -101,7 +100,7 @@ having a rough time of things trying to word an introduction, so I will let some
 Side-loading is desirable when nested representation of related objects would result in potentially
 expensive repetition. For example, given a list of 50 comments by only 3 authors, a nested representation
 would include 50 author objects where a side-loaded representation would contain only 3 author objects.
-> **Source: ** https://canvas.instructure.com/doc/api/file.compound_documents.html
+> **Source:** [canvas.instructure.com](https://canvas.instructure.com/doc/api/file.compound_documents.html)
 
 I found that by searching for "compound document". I found that term by searching for "REST Side-Loading".
 I found that after having a horrible time with EmberJS forcing me to use the "side-loading" approach
@@ -117,10 +116,10 @@ It looks a little like this:
 }
 ~~~~~~~~
 
-The pro suggested in the quote above is: if an embedded piece of data is commonly recuring, you do
+The pro suggested in the quote above is: if an embedded piece of data is commonly recurring, you do
 not have to download the same resource multiple times. The con is that context gets lost in larger data
 structures and it has the same issue as the "Foreign Key Array": the mapping of data to create an
-acurate structure is left to the API consumer, and that can be hard work.
+accurate structure is left to the API consumer, and that can be hard work.
 
 ## Embedded Documents (a.k.a Nesting)
 
@@ -173,7 +172,7 @@ Some systems (like Facebook, or any API using Fractal) will let you nest those e
 Picking back up from Chapter 6, your transformer at this point is mainly just giving you a method to
 handle array conversion from your data source to a simple array. Fractal can however embed resources
 and collections too. Continuing the theme of users, places and checkins, the `UserTransformer` might
-have a checkins list, so see a users checkin history.
+have a checkins list, to see a user's checkin history.
 
 <<[UserTransformer using Fractal](../src/chapter7/app/src/App/Transformer/UserTransformer.php)
 
@@ -191,8 +190,8 @@ base controller or... something:
 ~~~~~~~~~
 $requestedEmbeds = Input::get('embed'); // ['checkins', 'place'] or just ['place']
 
-// Left is relationship names. right is embed names
-// avoids exposing relationships and whatnot directly
+// Left is relationship names. Right is embed names.
+// Avoids exposing relationships and whatever not directly set
 $possibleRelationships = [
     'checkins' => 'checkins',
     'venue' => 'place',
@@ -206,7 +205,7 @@ $books = Book::with($eagerLoad)->get();
 // do the usual fractal stuff
 ~~~~~~~~~
 
-Somewhere in the `ApiController`, or in your bootstrap somewhere having the following will make this all work:
+Having the following code somewhere in the `ApiController`, or in your bootstrap, will make this all work:
 
 ~~~~~~~~~
 class ApiController
@@ -310,7 +309,7 @@ about being. The technical benefits that optional embedded relationships provide
 not care about crossing Roy and his RESTful spec to do it.
 
 Make your own choices. Facebook, Twitter and most popular "RESTful API's" fundamentally ignore parts of
-(or dump all over the entirety of) the RESTful spec, so respecting everything else and popping your toe
+(or dump all over the entirety of) the RESTful spec. So, respecting everything else and popping your toe
 over the line here a little would not be the biggest travesty for your API.
 
 [Ian Bentley]: http://idbentley.com/blog/2013/03/14/should-restful-apis-include-relationships/

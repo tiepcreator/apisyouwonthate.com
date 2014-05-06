@@ -17,7 +17,7 @@ There should be a few different types of documentation:
 
 ### API Reference
 
-The "API Reference" is sometimes refered to as "Endpoint Reference" and is essentially a list of all endpoints and their associated HTTP Methods, descriptions of what they and a list of all arguments that can be passed with descriptions about what values work and in what format those values could be. That is a lot of work. But, it can be made easier wit some tools. More on that later.
+The "API Reference" is sometimes refered to as "Endpoint Reference" and is essentially a list of all endpoints and their associated HTTP Methods, descriptions of what they do and a list of all arguments that can be passed with descriptions about what values work and in what format those values could be. That is a lot of work. But, it can be made easier wit some tools. More on that later.
 
 ### Sample Code
 
@@ -35,7 +35,7 @@ A great example of a set of tutorials is the [SoundCloud API](http://developers.
 
 ![SoundCloud API Documentation - "Using the API"](images/chapter11/soundcloud-upload.png)
 
-If you check the examples out here Ruby, Python and PHP all look near idential (although I am not sure what happened to JavaScript.)
+If you check the examples out here Ruby, Python and PHP all look near identical (although I am not sure what happened to JavaScript).
 
 Writing these guides takes a bit of time but that time will be given back in buckets, saving you answering the same questions over and over again. The other time saver is for when future you forgets how things work in 3 months, or you come back from a holiday rather frazzled and need a tutorial to step you through how things work. The amount of times I Google search a problem and find a blog I have written a few months ago answering it... It happens.
 
@@ -50,7 +50,7 @@ site generator works well; [Sculpin] (PHP), [Jekyll] (Ruby) and [Hyde] (Python) 
 
 There are no doubt multiple tools out there for generating your API/Endpoint documentation. Some recommend a system called [Swagger] which is a great looking tool and works with a _huge_ array of languages. Sadly to me it seems to be somewhat of a black art.
 
-Swagger defines a specification and various language or framework specific implementations come up with their own solution. For PHP the way you go about this is through a rather confusing (and poorly documented) set of annotations with strange names. Furthermore it requres you to put these annotations throughout a large chunk of your application, including data mapper style models, which you might not even have. It wanted property-level annotations, and neither my models or Fractal transformers have properties, so this was a wild and whacky way to try and work.
+Swagger defines a specification and various language or framework specific implementations come up with their own solution. For PHP the way you go about this is through a rather confusing (and poorly documented) set of annotations with strange names. Furthermore it requires you to put these annotations throughout a large chunk of your application, including data mapper style models, which you might not even have. It wanted property-level annotations, and neither my models or Fractal transformers have properties, so this was a wild and whacky way to try and work.
 
 Another tool called [API Blueprint] takes care of this nicely. A company called [Apiary] released this tool as open-source,
 and as their entire company is about API generation it seems like rather a good fit.
@@ -66,7 +66,7 @@ has a series of approaches to creating your documentation with various languages
 Ruby utility and .NET seems to be covered. Sublime Text has [a plugin][st-plugin], but by far the easiest is the command-line executable
 called [Aglio].
 
-There is one caviat: This tool uses NodeJS. That sounds like a blocker to some but it should not be. Only the command-line utility
+There is one caveat: this tool uses NodeJS. That sounds like a blocker to some but it should not be. Only the command-line utility
 requires NodeJS, much like some command-line tools require Ruby or Python. Install NodeJS and move along to the next bit.
 
 **Step 1: Install NodeJS**
@@ -124,7 +124,7 @@ Looks amazing right?
 
 ## Learning API Blueprint Syntax
 
-To make the output reflect your API documentation, the Markdown source files will need updated. While 
+To make the output reflect your API documentation, the Markdown source files will need updated. While
 they are generally just Markdown, there is a specific format to this, known as "API Blueprint
 format 1A".
 
@@ -147,7 +147,7 @@ HOST: https://api.example.com
 
 # FakeSquare API
 
-This is documentation for the theoretical checkin app API that has been built througout the
+This is documentation for the theoretical checkin app API that has been built throughout the
 book [Build APIs You Wont Hate](https://leanpub.com/build-apis-you-wont-hate).
 
 ## Authorization
@@ -185,13 +185,13 @@ To keep this simple but also cover a lot of different usages, we will take examp
 Plan" in [Chapter 2: Planning and Creating Endpoints](#chapter-2) for Places, and document them in
 API Blueprint syntax.
 
-> Places  
-> - Create  
-> - Read  
-> - Update  
-> - Delete  
-> - List (lat, lon, distance or box)  
-> - Image  
+> Places
+> - Create
+> - Read
+> - Update
+> - Delete
+> - List (lat, lon, distance or box)
+> - Image
 
 Using the same logic in Chapter 2 as we used to outline the `user` endpoints, we can assume these endpoints:
 
@@ -222,7 +222,7 @@ In a real API you would have more groups. `Users`, `Checkins`, `Posts`, etc.
 
 ### Resources
 
-API Blueprint accepts multiple Resource sections per Group section, and consideres `/places`, `/places/X` and
+API Blueprint accepts multiple Resource sections per Group section, and considers `/places`, `/places/X` and
 `/places/X/image` to be different Resources. You probably consider `/places` to be more of a collection
 of resources, and consider `/places/X/image` to be a "sub-resource", but API Blueprint considers them all
 "Resources".
@@ -326,7 +326,7 @@ of much of the first line.
 + lat (optional, number, `40.7641`) ... Latitude to search near, with any accuracy
 ~~~~~~~~
 
-This explains that the field is optional, it is a number (these type fields are abitrary) and shows an example value of `40.7641`.
+This explains that the field is optional, it is a number (these type fields are arbitrary) and shows an example value of `40.7641`.
 
 The `...` is literal here and is used as a marker. Everything on the right hand side is a short description for the field.
 
@@ -336,7 +336,7 @@ The `...` is literal here and is used as a marker. Everything on the right hand 
 
 Similar, but this time a default value has been added which in the case of pagination will probably be `1`.
 
-The rest of this Action Section is responses.
+The rest of this "Action Section" is responses.
 
 {title="Show an example response for a specific content-type.", lang=markdown}
 ~~~~~~~~
@@ -406,7 +406,7 @@ Assign a new image or replace the existing image for a place.
 Here the `<raw source of png file>` stuff is just plain-text - because pasting in the contents
 of an actual PNG file would not look great - but you can use JSON or anything else.
 
-Having multiple request examples can be very if you are unfortunate enough to be documenting
+Having multiple request examples can be very important if you are unfortunate enough to be documenting
 an API which supports more than one input format, like JSON and XML for instance.
 
 ### Responses
@@ -414,7 +414,7 @@ an API which supports more than one input format, like JSON and XML for instance
 Each endpoint in your API will have one or more different responses. There will probably be one
 or more 20xs, some 40xs, and maybe a few 50xs too.
 
-An action response section might look like this:
+An "action response section" might look like this:
 
 {title="", lang=markdown}
 ~~~~~~~~
@@ -445,7 +445,7 @@ A tricky thing here is that while your API might return a `400` code for multipl
 Blueprint will not be happy about having multiple responses listed with the same HTTP code.
 
 This is only thrown as a warning and may only be related to Aglio and not API Blueprint itself - as
-the documentation seems to display fine. Either put multple body examples next to each other, or
+the documentation seems to display fine. Either put multiple body examples next to each other, or
 add multiple response items with the same code and ignore the warnings.
 
 [Markdown syntax]: http://daringfireball.net/projects/markdown/syntax

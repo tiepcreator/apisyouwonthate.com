@@ -15,11 +15,11 @@ see a `foo` resource", and "when I throw this JSON at the API, it should a) acce
 This can be done in several ways and a lot of people will instantly try to unit-test it, but that quickly
 becomes a nightmare. While you might think just writing a bit of code with your favorite HTTP client is
 simple, if you have over 50 endpoints and want to do multiple checks per endpoint you end up with a mess of
-code which can become hard to maintain, especially if your favorite HTTP client releases a major version with 
+code which can become hard to maintain, especially if your favorite HTTP client releases a major version with
 a new interface.
 
 The more code you have in your tests, the higher the chances of your tests being rubbish - which means you wont run
-them. Bad tests also run the risk of false positives, which are super dangerous as they lead you into thinking your 
+them. Bad tests also run the risk of false positives, which are super dangerous as they lead you into thinking your
 code actually works when it does not.
 
 One very simplistic approach will be to use a BDD (Behaviour Driven Development) tool. A very popular BDD
@@ -28,9 +28,9 @@ for Python, PHP and probably a whole bevy of other languages but some of the int
 PHP users here, we will be using Behat which is pretty much the same thing, along with [Gherkin]
 (the same DSL (Domain-Specific Language) that Cucumber uses, so all of us are on basically the same page.)
 
-The outline of this chapter will be to show how to set up and use the BDD tool Behat, talk through the various moving 
-parts then show you a working example in our source code inside a Laravel sample app. You can build your own tests in 
-your own language or in any framework, but just go along with this PHP example to see a basic working - even if you 
+The outline of this chapter will be to show how to set up and use the BDD tool Behat, talk through the various moving
+parts then show you a working example in our source code inside a Laravel sample app. You can build your own tests in
+your own language or in any framework, but just go along with this PHP example to see a basic working - even if you
 personally prefer another language. Go on. It wont bite.
 
 [Gherkin]: http://docs.behat.org/guides/1.gherkin.html
@@ -38,25 +38,34 @@ personally prefer another language. Go on. It wont bite.
 ## Setup
 
 As a PHP developer you simply need to install Behat, and this can be done with [Composer](http://getcomposer.org/). It is
-fair to assume that if you are using any sort of modern PHP framework you are already familiar with this so I won't bore the non-PHP devs by getting stuck into it, but your `composer.json` file should have these items inside:
+fair to assume that if you are using any sort of modern PHP framework you are already familiar with this so I won't bore the non-PHP devs by getting stuck into it.
+
+Assuming that composer is [installed globally](https://getcomposer.org/doc/00-intro.md#globally) in your system, to install Behat run:
 
 {title="Install Behat globally with Composer"}
 ~~~~~~~~
 $ composer global require 'behat/behat=2.4.*'
 ~~~~~~~~
 
-Make sure `~/.composer/vendor/bin/` is added to your `$PATH` and you should be good to go.
+otherwise run:
+~~~~~~~~
+$ php composer.phar global require 'behat/behat=2.4.*'
+~~~~~~~~
+
+In any case, make sure `~/.composer/vendor/bin/` is added to your `$PATH` and you should be good to go.
 
 If you are a Ruby user you have the ease of simply running `$ gem install cucumber`, or shove it in your `Gemfile`.
-Google should help you with Python. The rest of this chapter is going to stick purely to PHP for the sake of
-simplicity, and others can just use the equivilent commands as we go.
+
+Google should help you with Python.
+
+The rest of this chapter is going to stick purely to PHP for the sake of simplicity, and others can just use the equivilent commands as we go.
 
 ## Initialise
 
-These Behat tests will live in a `tests` folder, but it may need to co-exist with other unit-tests or other types of 
+These Behat tests will live in a `tests` folder, but it may need to co-exist with other unit-tests or other types of
 test. For this reason I like to put them in a sub-folder called `tests/behat`.
 
-I have provided an example of a simple Behat test suite in the sample code which lives inside the `app/` folder. This 
+I have provided an example of a simple Behat test suite in the sample code which lives inside the `app/` folder. This
 is done mainly because it is a good place to put your tests and Laravel already has a tests folder, but if you are using
 any other framework you can put these tests anywhere you please.
 
@@ -64,7 +73,7 @@ So, go to the app folder:
 
     $ cd ~/apisyouwonthate/chapter5/app
 
-The folder structure and basic Behat setup has already been run with the following commands (so you can skip this step): 
+The folder structure and basic Behat setup has already been run with the following commands (so you can skip this step):
 
     $ mkdir -p tests/behat && cd tests/behat
     $ behat --init
@@ -75,12 +84,12 @@ This will have the following output:
     +d features/bootstrap - place bootstrap scripts and static files here
     +f features/bootstrap/FeatureContext.php - place your feature related code here
 
-The output here outlines the structure of files it has created. Everything lives inside the `features/` folder and this 
-will be where your Behat tests will go. The `features/bootstrap/` folder contains only one file at this point, which is 
-`FeatureContext.php`. 
+The output here outlines the structure of files it has created. Everything lives inside the `features/` folder and this
+will be where your Behat tests will go. The `features/bootstrap/` folder contains only one file at this point, which is
+`FeatureContext.php`.
 
-The default version of this file is a little bare so this sample code contains a beefed up one, which will be used 
-throughout this chapter. 
+The default version of this file is a little bare so this sample code contains a beefed up one, which will be used
+throughout this chapter.
 
 ## Features
 
@@ -168,11 +177,11 @@ Scenario: Searching places with filters
 
 This uses some custom rules which have been defined in `FeatureContext.php` but more on that shortly.
 
-The Feature file is called `places.feature` and has 4 scenarios. One to find a specific place, another to show that 
-listing all places is not allowed (400 means bad input, your should specify lat lon) and two more to test how well 
+The Feature file is called `places.feature` and has 4 scenarios. One to find a specific place, another to show that
+listing all places is not allowed (400 means bad input, your should specify lat lon) and two more to test how well
 searching works.
 
-I try to think up the guard clauses that my endpoints will need, then make a "Scenario" for each of those. So, if you 
+I try to think up the guard clauses that my endpoints will need, then make a "Scenario" for each of those. So, if you
 don't send a lat/lon to search then it errors. Test that.
 
 Expecting a boolean value but get a string? Test that:
@@ -227,12 +236,12 @@ This is the easiest bit:
 $ behat -c tests/behat/behat-dev.yml
 ~~~~~~~~
 
-Running this from the sample application should return a lot of green lights because I have gone to the effort of 
-writing a few very basic feature tests against a few very simple endpoints that return data from an SQLite database. 
+Running this from the sample application should return a lot of green lights because I have gone to the effort of
+writing a few very basic feature tests against a few very simple endpoints that return data from an SQLite database.
 
 Once you have that running I recommend you try and make some tests in your own applications along the same sort of lines.
-While we will have sample code to play with for many chapters, I strongly suggest you try to test your own API (brand 
-new or existing) too, as this is the most value you could get from the book. 
+While we will have sample code to play with for many chapters, I strongly suggest you try to test your own API (brand
+new or existing) too, as this is the most value you could get from the book.
 
 Test. TEST. TEST YOUR APPLICATIONS.
 
@@ -242,11 +251,11 @@ I> expand the tests in later chapters as we go to cover the various features bei
 
 ### Test Driven Development
 
-Writing tests-first is also a great way to go. Now that you have an understanding of your action plan and what the 
-endpoints _should_ be and what their output _should_ look like you should be fine to build out tests again them even 
+Writing tests-first is also a great way to go. Now that you have an understanding of your action plan and what the
+endpoints _should_ be and what their output _should_ look like you should be fine to build out tests again them even
 if they do not exist.
 
-Running the tests will show you that everything is broken of course, then you just go through 
-and build the endpoints one at a time. This sounds hard but you just cannot afford to mess about with testing on an API.
+Running the tests will show you that everything is broken of course, then you just go through
+and build and test the endpoints one at a time. This sounds hard but you just cannot afford to mess about with testing on an API.
 
 Doing this first will save you a lot of hard work down the road. I have the scars to prove it.

@@ -2,9 +2,9 @@
 
 ## Introduction
 
-Understanding authentication for an API can be one of the largest hurdles for many developers, partially because there are a lot of different methods, but mostly because none of them are anything like authentication in an average "web app". 
+Understanding authentication for an API can be one of the largest hurdles for many developers, partially because there are a lot of different methods, but mostly because none of them are anything like authentication in an average "web app".
 
-When building an admin dashboard, CMS, blog, etc it is widely accepted as standard behavior to use sessions with a data store such as cookies, Memcache, Redis, Mongo, or some SQL platform. Regardless of the data store, sessions are used so that - once logged in - the browser remembers who the user is. To login the user is presented with a form in HTML showing two fields: one for the username and/or email address of the user and password. Once the end-user closes the browser or is inactive for a certain period of time, they will be forgotten. 
+When building an admin dashboard, CMS, blog, etc it is widely accepted as standard behavior to use sessions with a data store such as cookies, Memcache, Redis, Mongo, or some SQL platform. Regardless of the data store, sessions are used so that - once logged in - the browser remembers who the user is. To login the user is presented with a form in HTML showing two fields: one for the username and/or email address of the user and password. Once the end-user closes the browser or is inactive for a certain period of time, they will be forgotten.
 
 This is the standard way to handle logins for the vast majority of sites built with a server-side language, but it is not at all how you handle authentication for an API.
 
@@ -12,7 +12,7 @@ In this chapter we will look at some of the most popular authentication methods,
 
 ## When is Authentication Useful?
 
-Authentication allows APIs to track users, give endpoints user-context ("find all of _my_ posts"), limit users access to various endpoints, filter data or even throttle and deactivate accounts. This is all very useful for many APIs, but some may never need to implement authentication. 
+Authentication allows APIs to track users, give endpoints user-context ("find all of _my_ posts"), limit users access to various endpoints, filter data or even throttle and deactivate accounts. This is all very useful for many APIs, but some may never need to implement authentication.
 
 ### Read-only APIs
 
@@ -22,13 +22,13 @@ There is the concern that people could be attacking your API with DDoS attacks (
 
 This does not entirely negate DDoS attacks but it can help your API do less work, as the request will terminate much sooner if an invalid user is found. So if DDoS issues are still a concern with or without authentication, then using a self-improving firewall, or implementing other security barriers may well be the solution. Generally speaking having anyone spamming any of your servers is not ideal, so this may certainly be a stronger move than implementing authentication purely to avoid these attacks.
 
-Either way you could quite easily release your API without authentication then implement piece-meal later on. 
+Either way you could quite easily release your API without authentication then implement piece-meal later on.
 
 ### Internal APIs
 
 If your API runs over a private network or is locked down with firewall rules and you do not require user-context for your API then you could probably skip authentication.
 
-One concern with just leaving all the security up to the network is that if the network is breached then hackers would be able to do rather a lot of damage, but if hackers are "all up in your networks" then you probably have a lot of security issues already. 
+One concern with just leaving all the security up to the network is that if the network is breached then hackers would be able to do rather a lot of damage, but if hackers are "all up in your networks" then you probably have a lot of security issues already.
 
 Keep it in mind.
 
@@ -53,7 +53,7 @@ Here is what Wikipedia has to say:
 
 * Is ludicrously insecure over HTTP
 * Is fairly insecure over HTTPS
-* Passwords can be stored by the browser, meaning a honey-pot of user data is sitting around waiting to be gobbled up. 
+* Passwords can be stored by the browser, meaning a honey-pot of user data is sitting around waiting to be gobbled up.
 
 **Browsers Storing Passwords**
 
@@ -89,16 +89,16 @@ Digest is a similar approach to authentication as Basic, but is designed to impr
 
 Instead of transmitting passwords in plain-text, it will calculate a MD5 hash and send that. Unlike the Base64-based passwords used in the basic auth, MD5 is a one-way hash - meaning you cannot simply take the hash and calculate the original password without trying out a lot of different combinations.
 
-> HA1 = MD5(A1) = MD5(username:realm:password)  
-> HA2 = MD5(A2) = MD5(method:digestURI)  
-> response = MD5(HA1:nonce:HA2) 
+> HA1 = MD5(A1) = MD5(username:realm:password)
+> HA2 = MD5(A2) = MD5(method:digestURI)
+> response = MD5(HA1:nonce:HA2)
 
 The `nonce` is a unique number, which can contain (but should not be only) a timestamp. This helps to avoid replay attacks as the same hash will not be usable later on.
 
 **Pros**
 
 * Password is not transmitted in plain text
-* The use of nonce helps negate rainbow table attacks
+* The use of `nonce` helps negate rainbow table attacks
 * Generally speaking is more secure than basic auth
 * Easier to implement than some approaches
 
@@ -112,7 +112,7 @@ The `nonce` is a unique number, which can contain (but should not be only) a tim
 
 **MD5... 4... 3... 2... 1... HACKED**
 
-MD5 is well accepted by many people today to be extremely crackable in most scenarios. Digest authentication has not improved over time since its creation in 1993, and while the calculation process should help negate many of these issues, a shitty implementation of digest authentication will be open to some weird attack vectors that you don't know about until after the fact.
+MD5 is well accepted by many people today to be extremely crackable in most scenarios. Digest authentication has not improved over time since its creation in 1993, and while the calculation process should help negate many of these issues, a lousy implementation of digest authentication will be open to some weird attack vectors that you don't know about until after the fact.
 
 Digest is more secure than basic certainly. It is great over SSL, definitely a good choice for an internal API if you have more time to spend implementing, but still requires the username and password to be sent repeatedly, meaning it _is_ potentially hackable, if the hacker has enough encrypted requests available to process.
 
@@ -128,11 +128,11 @@ Not quite as popular these days, but OAuth 1.0a was a big player on the web-base
 > credentials (typically, a username and password pair), using user-
 > agent redirections. -- **Source:** [Wikipedia](http://en.wikipedia.org/wiki/OAuth)
 
-Previously we have looked at authentication technologies that were essentially "built into the browser" and were not particularly flexible in their usages. OAuth 1.0 was a great way for services such as social networks to implement web-based HTML login forms that looked the same as any other login form (were branded with logos, color schemes, etc), but could then send you back to the third-party website for all sorts of awesome integration purposes. 
+Previously we have looked at authentication technologies that were essentially "built into the browser" and were not particularly flexible in their usages. OAuth 1.0 was a great way for services such as social networks to implement web-based HTML login forms that looked the same as any other login form (were branded with logos, color schemes, etc), but could then send you back to the third-party website for all sorts of awesome integration purposes.
 
 For example, when Twitter swapped from HTTP Basic integration to OAuth 1.0 it meant that instead of third-parties (iPhone apps, other websites, CMSs, whatever) asking end-users to enter their username and password (which would be saved somewhere in plain-text), the third-party could redirect the user to the Twitter website, get them to log in, have them come back to their service and save a special token, instead of saving a password. OAuth 1.0a called these tokens a "OAuth Token" and a "OAuth Token Secret".
 
-OAuth 1.0a was built to be very secure even when not running over SSL. That meant of course that it was incredibly complicated, having to set up signatures (of which there were a few different algorithms, including HMAC-SHA1 and RSA-SHA1 or just plaintext. That got a bit tricky when trying to write client code, as you had to make sure you supported the right signature and most of the PHP implementations out there (including my own old CodeIgniter spark) didn't support all of them.
+OAuth 1.0a was built to be very secure even when not running over SSL. That meant of course that it was incredibly complicated, having to set up signatures (of which there were a few different algorithms, including HMAC-SHA1 and RSA-SHA1 or just plaintext). That got a bit tricky when trying to write client code, as you had to make sure you supported the right signature and most of the PHP implementations out there (including my own old CodeIgniter [Spark](http://getsparks.org/)) didn't support all of them.
 
 An average OAuth 1.0a signed HTTP request would look a little something like this:
 
@@ -167,7 +167,7 @@ In the end, however you got the OAuth Token and Secret, you would place the OAut
 * Stops third-party applications wanted or storing your username and password
 * An attacker gaining an OAuth Token and even a Secret should still never be able to change your password, meaning you should be safe from account hijack
 
-**Cons** 
+**Cons**
 
 * Rather complicated to interact with, even if you have a well built client library. PHP never really had one, but [The League of Extraordinary Packages](http://thephpleague.com/) has recently [built a decent one](https://github.com/thephpleague/oauth1-client)
 * Limited number of ways to grant access. xAuth and Two/Three-legged flows ended up being rather restrictive
@@ -186,7 +186,7 @@ Even a basic GET request in OAuth 1.0a was horrendous, as you'd always need to s
 file_get_contents('https://graph.facebook.com/me?access_token=DFGJKHDFGHDIFHGFKDJGHIU');
 ~~~~~~~~
 
-Or, as we saw back in [Chapter 3](#chapter-3) you can usually pass Access Tokens to the server as a HTTP request header:
+Or, as we saw back in [Chapter 3](#chapter-3), you can usually pass Access Tokens to the server as a HTTP request header:
 
 ~~~~~~~~
 POST /moments/1/gift HTTP/1.1
@@ -203,55 +203,55 @@ W> ### Headers v URL
 W> You should always try to use the `Authorization` header to send your tokens whenever possible. The query-string is
 W> secured when using SSL, but unless they are intentionally blocked then access tokens could start turning up in server
 W> logs and various other places. Also, browsers will store the full URL (including query-string) in history. This could
-W> easily comprimise a users the integrity if their computer is stolen or if a sibling decides to play a prank. 
+W> easily compromise the integrity of users security if their computer is stolen or if a sibling decides to play a prank.
 
 **"Short"-life Tokens**
 
 As discussed OAuth 1.0a also used the same tokens essentially forever. OAuth 2.0's access tokens will (can) expire after an arbitrary period of time, defined by the OAuth server. When you request an access token you will usually be provided with a "Refresh Token" and an expiry offset, which is the number of seconds until the token expires. Some servers send you a unix time at which it expires. Folks like to do things different for some reason, but if you know what to look out for it is not so bad.
 
-Using the expire time you know when your access token will not be valid, so you can proactively create a cron job that refreshes the access tokens, or you can wrap your HTTP requests in an exception handler that looks for a "Not Authorized" error and refresh them then as the OAuth 2.0 spec recommends. 
+Using the expire time you know when your access token will not be valid, so you can proactively create a cron job that refreshes the access tokens, or you can wrap your HTTP requests in an exception handler that looks for a "Not Authorized" error and refresh them then as the OAuth 2.0 spec recommends.
 
 This extra "access tokens expire and you have to refresh them" step initially seems confusing and annoying, especially
 when you are used to "once I have this token it works forever" but its much more secure. OAuth 1.0a stopped you handing
 out your username and password by essentially giving you another username and password (the token and the secret) which
 worked for one specific client. Any good network admin will tell you that you should regularly change your password (at
 least every month), and OAuth is no different, as the more you use the same password/token the greater your chance of
-somebody finding out what it is. 
+somebody finding out what it is.
 
 **Grant Types**
 
-One further massive benefit was the ability to have multiple (even custom) grant types, meaning you can create some amazing implementations. 
+One further massive benefit was the ability to have multiple (even custom) grant types, meaning you can create some amazing implementations.
 
-The most common OAuth 2.0 Grant Type that a user will be familiar with is `authorization_code`, which is a very OAuth 
-1.0a-like flow. 
+The most common OAuth 2.0 Grant Type that a user will be familiar with is `authorization_code`, which is a very OAuth
+1.0a-like flow.
 
 A client web-app creates a link to the OAuth Server of the service they would like to log into (e.g: Facebook) and the
 user logs in. Facebook redirects the user back to the client web-app's "Callback URL", with a `?code=FOO` variable in
 the query string. The web-app then takes that code and makes a second request (usually a `POST`, but sometimes a `GET`...)
-to Facebook and Facebook then offers up an access token in the response (and other services then provide expires and a
+to Facebook and Facebook then offers up an access token in the response (and other services, like Google Apps, then provide expires and a
 refresh token).
 
 Other grant-types include `password` (you throw a username / password at the server and get some tokens back), and
-`client_credentials` - give the server your `client_id` and `client_secret`, and get an `access_token` back. This is a
+`client_credentials` (give the server your `client_id` and `client_secret`, and get an `access_token` back). This is a
 generic `access_token` which is usually somewhat limited as it has no "user-context", as as such can't post messages on a
 Twitter profile or similar.
 
 A> ### Twitter's Chocolate Teapot
 A> Twitter have implemented OAuth 2, which at this point only has `client_credentials` available. Their [documentation](https://dev.twitter.com/docs/auth/application-only-auth) explains further. It's kinda handy for public crawling of tags or public tweets, but you can't do a whole lot of anything else.
 
-Client Credentials can actually use HTTP Basic as a replacement for shoving `client_id` and `client_secret` in the body, which brings us nicely around full circle. 
+Client_credentials can actually use HTTP Basic as a replacement for shoving `client_id` and `client_secret` in the body, which brings us nicely around full circle.
 
 A> ### Erin Hammer
-A> Often I am asked why anyone would still use OAuth 2 after Erin Hammer (lead author and editor of the OAuth 2.0 standard) withdrew his name from the specification. It certainly sent a ripple through the internet but I personally disagree wholeheartedly with the issues he raises.  
-A> 
-A> 1. OAuth 2.0 is less secure if you do not use SSL/TSL. Correct. So use them.  
-A> 2. People have implemented OAuth 2.0 badly (looking at you Facebook/Google/EVERYONE), but when implemented well it is lovely. Use a pre-built standard compliant implementation, like [this one for PHP](https://github.com/thephpleague/oauth2-server/).  
-A> 3. He thinks Refresh Tokens are annoying, but I think they are great.  
+A> Often I am asked why anyone would still use OAuth 2 after Erin Hammer (lead author and editor of the OAuth 2.0 standard) withdrew his name from the specification. It certainly sent a ripple through the internet but I personally disagree wholeheartedly with the issues he raises.
+A>
+A> 1. OAuth 2.0 is less secure if you do not use SSL/TSL. Correct. So use them.
+A> 2. People have implemented OAuth 2.0 badly (looking at you Facebook/Google/EVERYONE), but when implemented well it is lovely. Use a pre-built standard compliant implementation, like [this one for PHP](https://github.com/thephpleague/oauth2-server/).
+A> 3. He thinks Refresh Tokens are annoying, but I think they are great.
 A> Generally speaking his departure from the project is no major loss. I'm sure the IETF are bike-shedding hard, but after using both for years I am much happier with OAuth 2.0 and really wish Twitter would get on with a full upgrade so I never have to use OAuth 1.0a again.
 
-OAuth 2.0 is good for pretty much any scenario when authenticating an API. The flexibility of custom grant-types mean 
-you can do absolutely anything. For example, at Kapture we created a `social` grant, where a user would provide a string 
-matching "facebook" or "twitter" and an `access_token` (with maybe a `secret` too because Twitter is still stuck in the 
+OAuth 2.0 is good for pretty much any scenario when authenticating an API. The flexibility of custom grant-types mean
+you can do absolutely anything. For example, at Kapture we created a `social` grant, where a user would provide a string
+matching "facebook" or "twitter" and an `access_token` (with maybe a `secret` too because Twitter is still stuck in the
 past) and that would do the following:
 
 1. Grab the users data
@@ -265,26 +265,26 @@ panel AND merchant dashboard use the exact same OAuth 2.0 server to handle login
 
 * **OpenID** - https://openid.net/
 * **Hawk** - https://github.com/hueniverse/hawk
-* **Oz** - https://github.com/hueniverse/oz 
+* **Oz** - https://github.com/hueniverse/oz
 
 ## Implementing an OAuth 2.0 Server
 
 Implementation by hand of a OAuth 2.0 server (or any of these authentication methods for that matter) can be very
 difficult. This chapter aimed to explain the pros, cons and use-cases for each, and implementation is sadly out of its
-scope. 
+scope.
 
-As with any complicated subject matter, installing a package that is specifically designed to do the hard work for you 
-is almost certainly a good idea. Python, Ruby and PHP all have some great packages already, so linking to them should 
+As with any complicated subject matter, installing a package that is specifically designed to do the hard work for you
+is almost certainly a good idea. Python, Ruby and PHP all have some great packages already, so linking to them should
 offload the hard work of explaining how to do it for each language.
 
 ### PHP Implementations
 
-One implementation stands out above the rest in PHP-land, and not just because it is written by a friend of mine: [Alex Bilbie](http://alexbilbie.com/). The main reason we are friends is because not only is he a all-round good guy, but he has studied both OAuth specs religiously, and has built some great tools for them over the years. In his last job he worked at University of Lincoln, using OAuth for all sorts of cool things. 
+One implementation stands out above the rest in PHP-land, and not just because it is written by a friend of mine: [Alex Bilbie](http://alexbilbie.com/). The main reason we are friends is because, not only he is a all-round good guy, but he has studied both OAuth specs religiously, and has built some great tools for them over the years. In his last job he worked at University of Lincoln, using OAuth for all sorts of cool things.
 
 He then had a funded research project to build awesome open-source code for improving authentication and interoperability. That project resulted in a few cool packages, including the [PHP OAuth 2.0 Server](https://github.com/thephpleague/oauth2-server), which now has a home with [The League of Extraordinary Packages](http://thephpleague.com/). It is the only PHP package to implement the entire OAuth 2.0 spec, so is very worth trying out.
 
-A> ### OAuthello 
-A> Alex is writing [a book](http://leanpub.com/oauthello-a-book-about-oauth/c/apisyouwonthate) covering implementation of this server in great detail amongst all other things OAuth, so you should definitely pick up a copy. That URL contains a coupon code `apisyouwonthate`, which may knock a significant chunk off the price.
+A> ### OAuthello
+A> Alex is writing [a book](http://leanpub.com/oauthello-a-book-about-oauth/c/apisyouwonthate) covering the implementation of this server in great detail amongst all other OAuth things, so you should definitely pick up a copy. That URL contains a coupon code `apisyouwonthate`, which may knock a significant chunk off the price.
 
 There is another [PHP OAuth 2.0 server implementation](http://bshaffer.github.io/oauth2-server-php-docs/) which also probably works.
 
@@ -301,7 +301,7 @@ The only active and documented Ruby OAuth 2.0 Server I found was a Rack module n
 
 ## Where the OAuth 2.0 Server Lives
 
-Many assume that the OAuth 2.0 server should be part of their API server. While it certainly could, it certainly does not need to. 
+Many assume that the OAuth 2.0 server should be part of their API server. While it certainly could, it certainly does not need to.
 
 An OAuth server usually has a web interface, which has HTML forms, form validation, and all sorts of static resources like images, CSS, JavaScript, etc. That makes it more fitting with a general website, so if your API and web-site are different servers then the OAuth server would be more fitting on the website.
 
@@ -310,5 +310,3 @@ Generally speaking its better to keep all of these things autonomous, as if you 
 The only thing your API needs to do is look for an Access Token (as a header or get variable) then hit whichever datastore (SQL database, Mongo, etc) that contains the access tokens. Check it is valid (in the DB and not expired) then grab whichever user is tied to it, and pull that record for use throughout the API code.
 
 None of that is complicated, so trying to tie the API server and OAuth server together in the same application codebase is just not required.
-
- 

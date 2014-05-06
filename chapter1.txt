@@ -188,9 +188,9 @@ class DatabaseSeeder extends Seeder
 
 This wipes everything, then runs other seeder classes to do their thing.
 
-N> ### Foreign Keys
-N> It can be difficult to wipe a database when foreign keys constraints are enforced, so in that scenario your seeder
-N> should run `DB::statement('SET FOREIGN_KEY_CHECKS=0;');` before the truncation of the tables and `DB::statement('SET FOREIGN_KEY_CHECKS=1;');` afterwards to re-enable the checks.
+T> ### Foreign Keys
+T> It can be difficult to wipe a database when foreign keys constraints are enforced, so in that scenario your seeder
+T> should run `DB::statement('SET FOREIGN_KEY_CHECKS=0;');` before the truncation of the tables and `DB::statement('SET FOREIGN_KEY_CHECKS=1;');` afterwards to re-enable the checks.
 
 ## Secondary Data
 

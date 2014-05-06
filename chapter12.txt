@@ -3,23 +3,23 @@
 ## Introduction
 
 HATEOAS is a tricky subject to explain, but it is actually rather simple. It stands for "Hypermedia as the
-Engine of Application State", and is pronounced as either "hat-ee-os", "hate O-A-S" or "hate-ee-ohs" - which 
+Engine of Application State", and is pronounced as either "hat-ee-os", "hate O-A-S" or "hate-ee-ohs" - which
 sounds a little like a cereal for API developers.
 
 However you want to try and say it, it basically means two things for your API:
 
 1. Content negotiation
-2. Hypermedia controls 
+2. Hypermedia controls
 
-In my experience content negotiation is one of the first things many API developers implement. When building 
-my CodeIgniter Rest-Server extension it was the first feature I added, because hey - it is fun! Changing the 
+In my experience content negotiation is one of the first things many API developers implement. When building
+my CodeIgniter Rest-Server extension it was the first feature I added, because hey - it is fun! Changing the
 `Accept` header and seeing the `Content-Type` header in the response switch from JSON to XML or CSV is
 great, and is super easy to do.
 
 ## Content Negotiation
 
 Some self proclaimed RESTful APIs (Twitter, I blame you for this) handle content negotiation with file
-extensions. They do things like `/statuses/show.json?id=210462857140252672` and 
+extensions. They do things like `/statuses/show.json?id=210462857140252672` and
 `/statuses/show.xml?id=210462857140252672` instead of just `/statuses/210462857140252672` and letting the
 `Accept` header do the work.
 
@@ -60,22 +60,23 @@ Connection: close
 }
 ~~~~~~~~
 
-Many RESTful APIs will support JSON by default, or maybe _only_ JSON as our sample app has done so far. 
-This is not realistic, but was done mainly for the sake of simiplicity throughout the book so far.
+Many RESTful APIs will support JSON by default, or maybe _only_ JSON as our sample app has done so far.
+This is not realistic, but was done mainly for the sake of simplicity throughout the book so far.
 
 XML is still a tricky one to do as you need to require view files, and that is out of scope of this chapter.
 
 YAML however is rather easy to achieve, so we can see how content negotiation works with a little change to
 our app. Check `~/apisyouwonthate/chapter12/` for the updated sample app.
 
-The main change other than including the [Symfony YAML component] was to simply update the 
-`ApiController::respondWithArray()` method to check the Accept header and react accordingly. 
+The main change other than including the [Symfony YAML component] was to simply update the
+`ApiController::respondWithArray()` method to check the `Accept` header and react accordingly.
 
 ~~~~~~~~
 protected function respondWithArray(array $array, array $headers = [])
 {
     // You will probably want to do something intelligent with charset if provided.
     // This chapter just ignores everything and takes the main mime-type value
+
     $mimeParts = (array) explode(';', Input::server('HTTP_ACCEPT'));
     $mimeType = strtolower($mimeParts[0]);
 
@@ -109,7 +110,7 @@ protected function respondWithArray(array $array, array $headers = [])
 }
 ~~~~~~~~
 
-Very basic, but now if we try a different mime type we can expect a different result:
+Very basic, but now if we try a different mime-type we can expect a different result:
 
 {title="A HTTP request specifying the preferred response mime-type"}
 ~~~~~~~~
@@ -146,20 +147,20 @@ $response = $client->get('/places', [
 $response->getBody(); // YAML, ready to be parsed
 ~~~~~~~~
 
-This is not the end of the conversation for content negotiation, as there is a little bit more to talk about 
-with vendor-based mime-types for resources, which can be versioned too. To keep this chapter on point, that 
+This is not the end of the conversation for content negotiation, as there is a little bit more to talk about
+with vendor-based mime-types for resources, which can be versioned too. To keep this chapter on point, that
 discussion will happen in [Chapter 13: API Versioning](#chapter-13).
 
 [Symfony YAML component]: http://symfony.com/doc/current/components/yaml/introduction.html
 
 ## Hypermedia Controls
 
-The second part of HATEOAS however is drastically underused, and is the last step in making your API 
+The second part of HATEOAS however is drastically underused, and is the last step in making your API
 technically a RESTful API.
 
 ![Batman provides a standard response to often futile bucket remark "But it's not RESTful if you..." Credit to Troy Hunt (@troyhunt)](images/chapter12/notrestful.png)
 
-While you often hear complaints like "but that is not RESTful!" from people about silly things, this is one 
+While you often hear complaints like "but that is not RESTful!" from people about silly things, this is one
 instance where they are completely right. Without hypermedia controls you just have an API, not a RESTful
 API. This is an aspect in which 99% of all APIs fall short.
 
@@ -173,18 +174,18 @@ API. This is an aspect in which 99% of all APIs fall short.
 
 _That article is based off an article by [Martin Fowler] called ["Richardson Maturity Model"] and explains a model written by [Leonard Richardson] covering what he considers to be the four levels of REST maturity._
 
-So what are hypermedia controls? They are just links, a.k.a "Hyperlinks", which you have probably been 
+So what are hypermedia controls? They are just links, a.k.a "Hyperlinks", which you have probably been
 using in your HTML output for years. I said early on in the book that REST is just using HTTP and the same
 conventions as the actual internet instead of inventing new ones, so it makes sense that linking to other
-resources should be the same in an API as it is in a web page.  
+resources should be the same in an API as it is in a web page.
 
 The underlying theme of HATEOAS in general is that an API should be able to make perfect sense to an API
-client application and the human looking at the responses, entirely without having to hunt through 
-documentation to work out what is going on. 
+client application and the human looking at the responses, entirely without having to hunt through
+documentation to work out what is going on.
 
 Small HATEOAS concepts have sneakily been sprinkled throughout this book, from suggesting error codes be
 combined with human readable error messages and documentation links, to helping the client application avoid
-math when interacting with pagination. The underlying theme is always to make controlls such as next, previous or any other sort of related interaction clearly obvious to a human or a computer. 
+math when interacting with pagination. The underlying theme is always to make controls such as next, previous or any other sort of related interaction clearly obvious to a human or a computer.
 
 [Martin Fowler]: http://martinfowler.com/
 ["Richardson Maturity Model"]: http://martinfowler.com/articles/richardsonMaturityModel.html
@@ -195,7 +196,7 @@ math when interacting with pagination. The underlying theme is always to make co
 This is the easiest part of building a RESTful API, so I am going to try really hard to not just leave this
 section at: "Just add links mate." - which is my normal advice for anyone asking about HATEOAS.
 
-Our usual data is output in such a way that only represents one or more resources. By itself, this one piece 
+Our usual data is output in such a way that only represents one or more resources. By itself, this one piece
 of data is an island, completely cut off from the rest of the API. The only way to continue interacting
 with the API is for the developer has read the documentation and understands what data can be related, and discover where that data might live. This is far from ideal.
 
@@ -233,15 +234,15 @@ To tie one `place` to the related resources, sub-resources or collections is eas
 }
 ~~~~~~~~
 
-Here are three simple entries, with the first is linking to itself. They both contain a `uri` (Unviversal 
-Resource Indicator) and a `rel` (Relationship). 
+Here are three simple entries, with the first is linking to itself. They all contain a `uri` (Unviversal
+Resource Indicator) and a `rel` (Relationship).
 
 I> ### URI v URL
-I> The acronym "URI" is often used to refer to only content after the protocol, hostname and port 
-(meaning URI is the path, extension and query string), whilst "URL" is used to describe the full address. 
-While this is not strictly true, it is perpetuated by many software projects such as CodeIgniter. 
-[Wikipedia][wiki-urivurl] and the [W3][w3-urivurl] say a bunch of conflicting things, but I feel like a 
-URI is easily described as being simply any sort of identifier for the location of a resource on the 
+I> The acronym "URI" is often used to refer to only content after the protocol, hostname and port
+(meaning URI is the path, extension and query string), whilst "URL" is used to describe the full address.
+While this is not strictly true, it is perpetuated by many software projects such as CodeIgniter.
+[Wikipedia][wiki-urivurl] and the [W3][w3-urivurl] say a bunch of conflicting things, but I feel like a
+URI is easily described as being simply any sort of identifier for the location of a resource on the
 internet.
 I>
 I> A URI can be partial, or absolute. URL is considered by some to be a completely non-existant term, but
@@ -262,7 +263,7 @@ example is to namespace relationships so that they are unique. Two different typ
 a `checkins` relationship (eg: `users` and `places`) so keeping them unique could be of benefit for the sake
 of documentation at least. Maybe you would prefer to remove the namespace, but that is up to you.
 
-Those custom relationships have fairly unique names, but for more generic relationships you can consider 
+Those custom relationships have fairly unique names, but for more generic relationships you can consider
 using the [Registry of Link Relations] defined by the IANA, which is used by Atom ([RFC 4287]) and plenty of
 other things.
 
@@ -274,7 +275,7 @@ other things.
 ### Creating Hypermedia Controls
 
 This is literally a case of shoving some links into your data output. However you chose to do that, it
-can be part of your "transformation" or "prestentation" layer. 
+can be part of your "transformation" or "presentation" layer.
 
 If you are using the PHP component Fractal - which we has been used as an example throughout the book - then
 you can simply do the following:
@@ -314,10 +315,10 @@ public function transform(Place $place)
 }
 ~~~~~~~~
 
-People try to get smarter and have various relationships based off of their `$_SERVER` settings or based 
+People try to get smarter and have various relationships based off of their `$_SERVER` settings or based
 off of their ORM relationships, but all of that is just going to cause you problems. If you have these
 transformers then you only need to write this lot out once and it avoids exposing any database logic and
-keeps your code readable and understandable. 
+keeps your code readable and understandable.
 
 Once you have input these links, other people need to know how to interact with them. You might think "Surely I should put `GET` or `PUT` in there so people know what to do?" Wrong. They are links to resources,
 not actions. An image exists for a place, and we can either blindly assume we can make certain actions on it,
