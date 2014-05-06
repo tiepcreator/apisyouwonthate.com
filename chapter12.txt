@@ -76,6 +76,7 @@ protected function respondWithArray(array $array, array $headers = [])
 {
     // You will probably want to do something intelligent with charset if provided.
     // This chapter just ignores everything and takes the main mime-type value
+
     $mimeParts = (array) explode(';', Input::server('HTTP_ACCEPT'));
     $mimeType = strtolower($mimeParts[0]);
 
@@ -166,7 +167,7 @@ API. This is an aspect in which 99% of all APIs fall short.
 ### RESTful Nirvana
 
 > 1. **"The Swamp of POX."** You’re using HTTP to make RPC calls. HTTP is only really used as a tunnel.
-> 1. **Resources.** Rather than making every call to a service endpoint, you have multiple endpoints that are used to represent resources, and you’re talking to them. This is the very beginnings of supporting REST.
+> 1. **Resources.** Rather than making every call to a service endpoint, you have multiple endpoints that are used to represent resources, and you’re talking to them. This is the very beginnings of s[upporting REST.
 > 1. **HTTP Verbs.** This is the level that something like Rails gives you out of the box: You interact with these Resources using HTTP verbs, rather than always using POST.
 > 1. **Hypermedia Controls.** HATEOAS. You’re 100% REST compliant.
 > -- **Source: ** [Steve Klabnik, "Haters gonna HATEOAS"](http://timelessrepo.com/haters-gonna-hateoas)
