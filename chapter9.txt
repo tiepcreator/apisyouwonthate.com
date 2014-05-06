@@ -40,7 +40,7 @@ The first approach that many developers go to is HTTP Basic, which is the most l
 
 Here is what Wikipedia has to say:
 
-> HTTP Basic authentication (BA) implementation is the simplest technique for enforcing access controls to web resources because it doesn't require cookies, session identifier and login pages. Rather, HTTP Basic authentication uses static, standard HTTP headers which means that no handshakes have to be done in anticipation.
+> HTTP Basic authentication (BA) implementation is the simplest technique for enforcing access controls to web resources because it doesn't require cookies, session identifier and login pages. Rather, HTTP Basic authentication uses static, standard HTTP headers which means that no handshakes have to be done in anticipation.  
 > -- **Source:** [Wikipedia](http://en.wikipedia.org/wiki/Basic_access_authentication)
 
 **Pros**
@@ -126,7 +126,8 @@ Not quite as popular these days, but OAuth 1.0a was a big player on the web-base
 > user).  It also provides a process for end-users to authorize third-
 > party access to their server resources without sharing their
 > credentials (typically, a username and password pair), using user-
-> agent redirections. -- **Source:** [Wikipedia](http://en.wikipedia.org/wiki/OAuth)
+> agent redirections.  
+> -- **Source:** [Wikipedia](http://en.wikipedia.org/wiki/OAuth)
 
 Previously we have looked at authentication technologies that were essentially "built into the browser" and were not particularly flexible in their usages. OAuth 1.0 was a great way for services such as social networks to implement web-based HTML login forms that looked the same as any other login form (were branded with logos, color schemes, etc), but could then send you back to the third-party website for all sorts of awesome integration purposes.
 

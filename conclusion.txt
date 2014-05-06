@@ -14,12 +14,17 @@ For example, I plan to;
 
 * Improve the Behat test coverage on the sample application.
 * Implement [league\oauth2-server](https://github.com/thephpleague/oauth2-server) for the PHP sample app.
-* Maybe add a chapter on Caching.
 
-I cannot promise when these will be done as the book has already taken a great deal of time to get to this
-point, but if you leave email alerts on I will send out updates sparingly. 
+A dilema I am having currently is that any further explanation of RESTful API development is just going to
+be paraphrasing content in the [HTTP 1.1 Specification]. RESTful APIs respect as many aspects of the HTTP
+spec as possible, so headers like `Accept-Language`, `Expires`, `Etag`, `Retry-After`, etc could be
+catered for. A whole book could be written about the HTTP spec itself, so it seems somewhat outside
+the scope of this book. I will probably add in one last chapter on caching at a later point and leave it
+there.
 
 This has been a great project, and a much needed break from writing code non-stop 24/7. Back to it I guess!
+
+[HTTP 1.1 Specification]: http://www.w3.org/Protocols/rfc2616/rfc2616.html
 
 # Further Reading
 

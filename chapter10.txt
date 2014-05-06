@@ -190,7 +190,7 @@ To try the same example:
 }
 ~~~~~~~~
 
-This JSON has been returned `after` we've requested the first 12 records; 1-12 were all available, and (for the sake of example) were all
+This JSON has been returned `after` requesting the first 12 records; 1-12 were all available, and (for the sake of example) were all
 auto-increment integers, so, in this example, if we would like the content that is _after_ 12, then the records having ID from 13 to 24 would be on the
 next page.
 

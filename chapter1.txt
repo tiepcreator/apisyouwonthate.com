@@ -6,7 +6,7 @@ The first step to creating any sort of application is creating the database. Whe
 
 For relational databases it is very likely you will start off your planning with an entity-relationship diagram and for document based databases such as MongoDB, CouchDB or ElasticSearch you will just let your application magically build a schema, but either way you need to create a plan - even if it is on a napkin. This book will assume a traditional relational database is storing your data but the principles are easily adapted for NoSQL systems too.
 
-This chapter assumes you've already got a database designed and built. This chapter skips the "planning a database" section because there are plenty of other books on that already.
+This chapter assumes you have already got a database designed and built. This chapter skips the "planning a database" section because there are plenty of other books on that already.
 
 ## Introduction to Database Seeding
 
@@ -22,7 +22,7 @@ This data could be:
 * fake notifications to display in an iPhone app (one of each type)
 * credit-card payments at various stages of processing - with some complete, some half done and some super-fraudulent looking ones
 
-The process of creating seeding scripts means you don't need to waste time creating this manually over and over again. Ultimately, the more processes you can automate during the development of your API, the more time you've got to consider the intricacies of your applications which need much more consideration.
+The process of creating seeding scripts means you don't need to waste time creating this manually over and over again. Ultimately, the more processes you can automate during the development of your API, the more time you have to consider the intricacies of your applications which need much more consideration.
 
 Dummy data is necessary for realistic acceptance testing, getting freelancers/new hires up to speed with useful content, keeping real customer data private to those outside your company, and avoiding the temptation to copy live data over to your development environments.
 
@@ -358,7 +358,7 @@ If you're using Laravel 4 you can run the above commands on the command line wit
 
 This is often run manually, and automatically depending on the instances.
 
-For example, if you've just added a new endpoint with new data, you will want to let your team-mates know to pull the latest code, run the migrations and run the db seed.
+For example, if you just added a new endpoint with new data, you will want to let your team-mates know to pull the latest code, run the migrations and run the db seed.
 
 This is also great of course when a freelancer comes in to do some work, or a new developer starts up, or your iPhone dev wants to get some data to use. In all these instances that command just needs to be run on the command line.
 

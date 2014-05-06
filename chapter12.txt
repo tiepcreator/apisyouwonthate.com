@@ -169,7 +169,7 @@ API. This is an aspect in which 99% of all APIs fall short.
 > 1. **"The Swamp of POX."** You’re using HTTP to make RPC calls. HTTP is only really used as a tunnel.
 > 1. **Resources.** Rather than making every call to a service endpoint, you have multiple endpoints that are used to represent resources, and you’re talking to them. This is the very beginnings of supporting REST.
 > 1. **HTTP Verbs.** This is the level that something like Rails gives you out of the box: You interact with these Resources using HTTP verbs, rather than always using POST.
-> 1. **Hypermedia Controls.** HATEOAS. You’re 100% REST compliant.
+> 1. **Hypermedia Controls.** HATEOAS. You’re 100% REST compliant.  
 > -- **Source: ** [Steve Klabnik, "Haters gonna HATEOAS"](http://timelessrepo.com/haters-gonna-hateoas)
 
 _That article is based off an article by [Martin Fowler] called ["Richardson Maturity Model"] and explains a model written by [Leonard Richardson] covering what he considers to be the four levels of REST maturity._
@@ -403,7 +403,7 @@ If you know that an API follows RESTful principles then you _should_ be confiden
 because advertising it as RESTful without following HATEOAS is a big stinking lie. Sadly, most of the
 popular APIs out there are big stinking liars.
 
-> GitHub responds with a 500, Reddit with 501 Not Implemented, Google maps with 405 Method Not Allowed. You get the idea. I've tried many others, and the results are usually similar. Sometimes it yields something identical to a GET response. None of these are right.
+> GitHub responds with a 500, Reddit with 501 Not Implemented, Google maps with 405 Method Not Allowed. You get the idea. I've tried many others, and the results are usually similar. Sometimes it yields something identical to a GET response. None of these are right.  
 > -- **Source:** [Zac Stewart, "The HTTP OPTIONS method and potential for self-describing RESTful APIs"](http://zacstewart.com/2012/04/14/http-options-method.html)
 
 If you are building your own API then you can easily do this yourself, then your clients know that you know

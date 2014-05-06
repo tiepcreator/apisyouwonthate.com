@@ -238,7 +238,7 @@ This example was lifted from [Mark Nottingham], who is the chair of the [IEFT HT
 > BadAPIVersion: 1.1  
 > Vary: BadAPIVersion  
 >~~~~~~~~
-> Otherwise, intervening caches can give clients the wrong response (e.g., a 1.2 response to a 1.1 client, or vice versa).
+> Otherwise, intervening caches can give clients the wrong response (e.g., a 1.2 response to a 1.1 client, or vice versa).  
 > -- **Source:** [Mark Nottingham, "Bad HTTP API Smells: Version Headers"]
 
 Without specifying the `Vary` header, it is hard for a cache system like Varnish to know that somebody

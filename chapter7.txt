@@ -99,8 +99,8 @@ having a rough time of things trying to word an introduction, so I will let some
 > Compound documents contain multiple collections to allow for side-loading of related objects.
 Side-loading is desirable when nested representation of related objects would result in potentially
 expensive repetition. For example, given a list of 50 comments by only 3 authors, a nested representation
-would include 50 author objects where a side-loaded representation would contain only 3 author objects.
-> **Source:** [canvas.instructure.com](https://canvas.instructure.com/doc/api/file.compound_documents.html)
+would include 50 author objects where a side-loaded representation would contain only 3 author objects.  
+> -- **Source:** [canvas.instructure.com](https://canvas.instructure.com/doc/api/file.compound_documents.html)
 
 I found that by searching for "compound document". I found that term by searching for "REST Side-Loading".
 I found that after having a horrible time with EmberJS forcing me to use the "side-loading" approach
