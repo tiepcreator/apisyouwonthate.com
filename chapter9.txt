@@ -57,7 +57,7 @@ Here is what Wikipedia has to say:
 
 **Browsers Storing Passwords**
 
-With Chrome, not even protecting these plain-text passwords with a master password, you really are leaving your users wide-open to attack if you let HTTP Basic be an option.
+With Chrome not even protecting these plain-text passwords with a master password you really are leaving your users wide-open to attack if you let HTTP Basic be an option.
 
 Elliott Kember publicly [outed Chrome on this](http://blog.elliottkember.com/chromes-insane-password-security-strategy). [The Guardian cared](http://www.theguardian.com/technology/2013/aug/07/google-chrome-password-security-flaw?INTCMP=SRCH). [Sir Tim Berners-Lee cared](https://twitter.com/timberners_lee/status/364839351651274752). [Google didn't](https://news.ycombinator.com/item?id=6166886).
 
@@ -239,7 +239,7 @@ Twitter profile or similar.
 A> ### Twitter's Chocolate Teapot
 A> Twitter have implemented OAuth 2, which at this point only has `client_credentials` available. Their [documentation](https://dev.twitter.com/docs/auth/application-only-auth) explains further. It's kinda handy for public crawling of tags or public tweets, but you can't do a whole lot of anything else.
 
-`client_credentials` can actually use HTTP Basic as a replacement for shoving `client_id` and `client_secret` in the body, which brings us nicely around full circle.
+Client_credentials can actually use HTTP Basic as a replacement for shoving `client_id` and `client_secret` in the body, which brings us nicely around full circle.
 
 A> ### Erin Hammer
 A> Often I am asked why anyone would still use OAuth 2 after Erin Hammer (lead author and editor of the OAuth 2.0 standard) withdrew his name from the specification. It certainly sent a ripple through the internet but I personally disagree wholeheartedly with the issues he raises.

@@ -100,7 +100,7 @@ having a rough time of things trying to word an introduction, so I will let some
 Side-loading is desirable when nested representation of related objects would result in potentially
 expensive repetition. For example, given a list of 50 comments by only 3 authors, a nested representation
 would include 50 author objects where a side-loaded representation would contain only 3 author objects.
-> [**Source: **](https://canvas.instructure.com/doc/api/file.compound_documents.html)
+> **Source:** [canvas.instructure.com](https://canvas.instructure.com/doc/api/file.compound_documents.html)
 
 I found that by searching for "compound document". I found that term by searching for "REST Side-Loading".
 I found that after having a horrible time with EmberJS forcing me to use the "side-loading" approach
@@ -163,7 +163,7 @@ and merchant data in the response inside the `place` resource:
 }
 ~~~~~~~~
 
-Some systems (like Facebook, or any API using Fractal) will let you nest those embeds with `dot` notation:
+Some systems (like Facebook, or any API using Fractal) will let you nest those embeds with dot notation:
 
 **E.g:** `/places?embed=checkins,merchant,current_opp.images`
 
@@ -297,7 +297,7 @@ This will work well assuming everything is represented as ActiveRecord, which wh
 I read a blog article by [Ian Bentley] suggesting that this approach is not entirely RESTful.
 It points to a Roy Fielding quote:
 
-> The central featuralso adding me that distinguishes the REST architectural style from other network-based styles is
+> The central feature that distinguishes the REST architectural style from other network-based styles is
 > its emphasis on a uniform interface between components (Figure 5-6). By applying the software
 > engineering principle of generality to the component interface, the overall system architecture is
 > simplified and the visibility of interactions is improved.
