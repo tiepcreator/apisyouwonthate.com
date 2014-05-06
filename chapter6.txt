@@ -233,7 +233,7 @@ the [GitHub repo](https://github.com/philsturgeon/build-apis-you-wont-hate) and 
 
 Open your browser and go to `http://localhost:8000/places`, and there is a list of places looking like this:
 
-![Fractal default JSON structure](images/chapter6/fractal-json.png)
+![Fractal default JSON structure using the JSONView extension for Chrome](images/chapter6/fractal-json.png)
 
 This is a Laravel 4 application but only because it has migrations and seeding and I like it. This is made up of a few
 bits of PHP that would work in any framework, and the approach works in any language.

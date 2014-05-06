@@ -101,9 +101,18 @@ with the prefix `/v1/places` then when they want to make `v2` they copy the rout
 tweak things. This _can_ be done if you also version your transformers (to maintain structure and data
 types), and you are confident that all shared code (libraries, packages, etc) will maintain a consistent output throughout. This is rarely the case, and people putting `v1` in their URLs are just doing it because it is the only solution they know.
 
-Instead, consider making each version its own code-base. If the APIs are very similar (same language, same
-framework, etc) then you can simply share a Git version history and merge changes up from older versions to
-newer (fixing bugs in multiple versions easily), instead of copying and pasting between all of your controllers.
+Instead, consider making each version its own code-base. This means the code is totally separate, executed 
+separately, with different web server vhosts or maybe even on different servers. 
+
+If the APIs are very similar (same language, same framework, etc) then you can simply share a Git history - be it different branch in the same `api` repository, or a different branch. Some people take the [Git Flow]
+model and prepends version numbers, so one repository may have the following branches:
+
+* 1.0/master
+* 1.0/develop
+* 2.0/master
+* 2.0/develop
+
+As long as you share a Git history you can pull from the other repository or branch, and merge changes up from older versions to newer versions. This lets you fix bugs in multiple versions easily, instead of copying and pasting between all of your controllers in the the same code-base.
 
 **Popular APIs**
 
@@ -130,6 +139,7 @@ newer (fixing bugs in multiple versions easily), instead of copying and pasting 
 * Tricky to separate onto different servers
 * Forces API consumers to do weird stuff to keep links up-to-date
 
+[Git Flow]: http://nvie.com/posts/a-successful-git-branching-model/
 ["Versioning REST Web Services"]: http://barelyenough.org/blog/2008/05/versioning-rest-web-services/
 
 ### Approach #2: Hostname

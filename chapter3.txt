@@ -43,7 +43,7 @@ $payload = [
 // Create a client and provide a base URL
 $client = new Client('http://api.example.com');
 
-$req = $client->post('/moments/1/gift, $headers, json_encode($payload))
+$req = $client->post('/moments/1/gift', $headers, json_encode($payload))
 ~~~~~~~~
 
 {title="Using Python and the Requests HTTP library to make a HTTP Request ", lang=python}

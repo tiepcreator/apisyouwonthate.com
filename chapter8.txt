@@ -164,6 +164,7 @@ seeing requests and responses, with all of the according headers and values as y
 You might not find yourself using Charles every day, or for a long time at the start as your HTTP Clients may be enough to debug problems, but having
 it available is certainly going to help you out at some point. Keep it in mind.
 
-[Wireshark] is also fun.
+[Wireshark] is also handy for Linux/OSX users, and [Fiddler] is fun for Windows users.
 
 [Wireshark]: https://www.wireshark.org/
+[Fiddler]: http://www.telerik.com/fiddler

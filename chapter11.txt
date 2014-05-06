@@ -140,7 +140,7 @@ The rest of this section will walk through this `example.md` and explain what va
 
 This is simple. The API title, URL, introduction, etc is just some Markdown:
 
-{title="Very start of a API Blueprint markdown file, showing meta data", lang=markdown}
+{title="Very start of an API Blueprint markdown file, showing meta data", lang=markdown}
 ~~~~~~~~
 FORMAT: 1A
 HOST: https://api.example.com

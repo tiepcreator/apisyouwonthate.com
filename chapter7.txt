@@ -127,7 +127,7 @@ This is the approach I have been using in the latest two versions of the API at 
 continue to use it for the foreseeable future. It offers the most flexibility for the API consumer:
 meaning it can reduce HTTP requests or reduce download size depending on what the consumer wants.
 
-If a API consumer were to call the URL `/places?embed=checkins,merchant` then they would see checkin
+If an API consumer were to call the URL `/places?embed=checkins,merchant` then they would see checkin
 and merchant data in the response inside the `place` resource:
 
 ~~~~~~~~
@@ -187,6 +187,7 @@ there is no reason that eager-loading could not also be used by inspecting the `
 of requested scopes. Something like this can easily go in your controller constructor, somewhere in the
 base controller or... something:
 
+{title="Example of user input dictating which Eloquent ORM (Laravel) relationships to eager-load", lang=php}
 ~~~~~~~~~
 $requestedEmbeds = Input::get('embed'); // ['checkins', 'place'] or just ['place']
 
