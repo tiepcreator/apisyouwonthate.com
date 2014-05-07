@@ -58,9 +58,8 @@ something you don't need is obviously not desirable, and can be avoided. This ca
 gains on mobile, and minor gains over a slow network or weak Wi-Fi for desktop or tablets.
 
 The trade-off here between "downloading enough data to avoid making the user wait for subsequent loads"
-and "downloading too much data to make them wait for the initial load" is hard, but you need the
-flexibility and making sub-resources the only related data approach does not give the API consumer
-any flexibility.
+and "downloading too much data to make them wait for the initial load" is hard. An API needs the
+flexibility and making sub-resources the only way to load related data is restrictive for the API consumer.
 
 ## Foreign Key Arrays
 

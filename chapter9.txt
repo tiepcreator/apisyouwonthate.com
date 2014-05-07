@@ -240,7 +240,7 @@ Twitter profile or similar.
 A> ### Twitter's Chocolate Teapot
 A> Twitter have implemented OAuth 2, which at this point only has `client_credentials` available. Their [documentation](https://dev.twitter.com/docs/auth/application-only-auth) explains further. It's kinda handy for public crawling of tags or public tweets, but you can't do a whole lot of anything else.
 
-Client_credentials can actually use HTTP Basic as a replacement for shoving `client_id` and `client_secret` in the body, which brings us nicely around full circle.
+Client credentials can actually use HTTP Basic as a replacement for shoving `client_id` and `client_secret` in the body, which brings us nicely around full circle.
 
 A> ### Erin Hammer
 A> Often I am asked why anyone would still use OAuth 2 after Erin Hammer (lead author and editor of the OAuth 2.0 standard) withdrew his name from the specification. It certainly sent a ripple through the internet but I personally disagree wholeheartedly with the issues he raises.
