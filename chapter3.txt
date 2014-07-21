@@ -10,6 +10,7 @@ Input is purely a HTTP request and there are multiple parts to this. Here is an 
 
 ## Requests
 
+{lang=http}
 ~~~~~~~~
 GET /places?lat=40.759211&lon=-73.984638 HTTP/1.1
 Host: api.example.com
@@ -17,6 +18,7 @@ Host: api.example.com
 
 This is a very simple `GET` request. We can see the URL path being requested is `/places` with a query string of `lat=40.759211&lon=-73.984638`. The HTTP version in use is HTTP/1.1, the host name is defined. This is essentially what your browser does when you go to any website. Rather boring I'm sure.
 
+{lang=http}
 ~~~~~~~~
 POST /moments/1/gift HTTP/1.1
 Host: api.example.com
@@ -66,7 +68,7 @@ It's all the same. Define your headers, define the body in an appropriate format
 
 Much the same as a HTTP Request, your HTTP Response is going to end up as plain text (unless you're using SSL but shut up we aren't there yet).
 
-{title="Example HTTP response containing a JSON body"}
+{title="Example HTTP response containing a JSON body", lang=http}
 ~~~~~~~~
 HTTP/1.1 200 OK
 Server: nginx
@@ -106,12 +108,14 @@ So knowing that PHP just has some silly names for things, we can move on and com
 
 Why? So many reasons, including the fact that once again everything in `application/x-www-form-urlencoded` is a string.
 
+{lang=http}
 ~~~~~~~~
 foo=something&bar=1&baz=0
 ~~~~~~~~
 
 Yeah you have to use 1 or 0 because `bar=true` would be `string("true")` on the server-side. Data-types are important, so lets not just throw them out the window for the sake of "easy access to our data". That argument is also moronic as `Input::json('foo')` is possible in most decent PHP frameworks and even without it you just have to `file_get_contents('php://input')` to read the HTTP body yourself.
 
+{lang=http}
 ~~~~~~~~
 POST /checkins HTTP/1.1
 Host: api.example.com
@@ -131,6 +135,7 @@ This is a perfectly valid HTTP body for a checkin. You know what they are saying
 
 That same request using form data is a mess.
 
+{lang=http}
 ~~~~~~~~
 POST /checkins HTTP/1.1
 Host: api.example.com
@@ -144,6 +149,7 @@ This makes me upset _and_ angry. Do not do it in your API.
 
 Finally, do not try to be clever by mixing JSON with form data:
 
+{lang=http}
 ~~~~~~~~
 POST /checkins HTTP/1.1
 Host: api.example.com
@@ -167,6 +173,7 @@ Any modern API you talk to will support JSON unless it is a financial services A
 
 Beyond purely the size of the data being stored, XML is horribly bad at storing type. That might not worry a PHP developer all that much as PHP is not really any better when it comes to type, but look at this:
 
+{lang=javascript}
 ~~~~~~~~
 {
     "place": {
@@ -181,6 +188,7 @@ Beyond purely the size of the data being stored, XML is horribly bad at storing 
 
 That response in XML:
 
+{lang=xml}
 ~~~~~~~~
 <places>
     <place>
@@ -199,6 +207,7 @@ Now, the XML-savvy among you will be wondering why I am not using attributes to 
 
 If you want to start using attributes for some bits of data but not others then your conversion logic becomes INSANELY complicated. How would we build something like this?
 
+{lang=xml}
 ~~~~~~~~
 <places>
     <place id="1" is_true="1">
@@ -222,6 +231,7 @@ This is a tough topic and there is no right answer and whether you use EmberJS, 
 
 There is one recommended format on [JSON API](http://jsonapi.org/format/) which maybe you all just want to use. It suggests that both single resources and resource collections should both be inside a plural key.
 
+{lang=javascript}
 ~~~~~~~~
 {
   "posts": [{
@@ -248,6 +258,7 @@ Do not discount JSON API as it is a wonderful resource with a lot of great ideas
 
 Ask for one user get one user:
 
+{lang=javascript}
 ~~~~~~~~
 {
   "name": "Phil Sturgeon", 
@@ -257,6 +268,7 @@ Ask for one user get one user:
 
 Ask for a collection of things and get a collection of things:
 
+{lang=javascript}
 ~~~~~~~~
 [
   {
@@ -285,6 +297,7 @@ This is potentially a reasonable solution if you will never use pagination or me
 
 Ask for one user get one user:
 
+{lang=javascript}
 ~~~~~~~~
 {
   "name": "Phil Sturgeon", 
@@ -294,6 +307,7 @@ Ask for one user get one user:
 
 Ask for a collection of things and get a collection of things, but namespaced:
 
+{lang=javascript}
 ~~~~~~~~
 {
   "data": [
@@ -329,6 +343,7 @@ So the final output example (and the one which I am starting to use at Kapture f
 
 Namespace the single items.
 
+{lang=javascript}
 ~~~~~~~~
 {
   "data": {
@@ -340,6 +355,7 @@ Namespace the single items.
 
 Namespace the multiple items.
 
+{lang=javascript}
 ~~~~~~~~
 {
   "data": [
@@ -359,6 +375,7 @@ This is close to the JSON API response, has the benefits of the Facebook approac
 everything is namespaced. Some folks (including me in the past) will suggest that you should change `"data"` to `"users"`
  but when you start to nest your data you want to keep that special name for the name of the relationship. For example:
 
+{lang=javascript}
 ~~~~~~~~
 {
   "data": {

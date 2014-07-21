@@ -72,18 +72,21 @@ for ($i = 0; $i < Config::get('seeding.users'); $i++) {
 
 So what do we have here? Let's go through this section at a time:
 
+{lang=php,starting-line-number=1}
 ~~~~~~~~
 $faker = Faker\Factory::create();
 ~~~~~~~~
 
 An instance of Faker, our bullshit artist for-hire.
 
+{lang=php,starting-line-number=3}
 ~~~~~~~~
 for ($i = 0; $i < Config::get('seeding.users'); $i++) {
 ~~~~~~~~
 
 We are going to want a certain number of users, but you should have a few less on development than you do on testing or staging to save time.
 
+{lang=php,starting-line-number=5}
 ~~~~~~~~
     $user = User::create([
         'name'               => $faker->name,
@@ -92,18 +95,21 @@ We are going to want a certain number of users, but you should have a few less o
 
 Make a random name and random email. There is no need to define the pool of random data it uses, because IT'S MAGIC!
 
+{lang=php,starting-line-number=8}
 ~~~~~~~~
         'active'             => $i === 0 ? true : rand(0, 1),
 ~~~~~~~~
 
 Ok I lied, our garbage is not 100% random. We want user number 1 to be active for tests later on.
 
+{lang=php,starting-line-number=9}
 ~~~~~~~~
         'gender'             => $faker->randomElement(['male', 'female']),
 ~~~~~~~~
 
 Gender equality is important.
 
+{lang=php,starting-line-number=10}
 ~~~~~~~~
         'timezone'           => mt_rand(-10, 10),
 ~~~~~~~~
@@ -117,18 +123,21 @@ W> timestamps.
 W> PHP implements the [IANA](http://www.iana.org/time-zones) timezone database, which is an industry standard. If you store `America/New_York` or `Asia/Khandyga` for
 W> users, then the offset and daylight savings time will be automatically calculated.
 
+{lang=php,starting-line-number=11}
 ~~~~~~~~
         'birthday'           => rand(0, 1) ? $faker->dateTimeBetween('-40 years', '-18 years') : null,
 ~~~~~~~~
 
 Users of all of our target age demographic.
 
+{lang=php,starting-line-number=13}
 ~~~~~~~~
         'location'           => rand(0, 1) ? "{$faker->city}, {$faker->state}" : null,
 ~~~~~~~~
 
 Give us a city name and a state name. This works fine with foreign countries too which is cool.
 
+{lang=php,starting-line-number=14}
 ~~~~~~~~
         'had_feedback_email' => $faker->boolean,
         'sync_name_bio'      => $faker->boolean,
@@ -136,6 +145,7 @@ Give us a city name and a state name. This works fine with foreign countries too
 
 Some user flags are not as important, so set them to be `true` or `false` at random.
 
+{lang=php,starting-line-number=16}
 ~~~~~~~~
         'bio'                => $faker->sentence(100),
 ~~~~~~~~
@@ -323,12 +333,14 @@ class OppTableSeeder extends Seeder
 
 This might look a little crazy and it is certainly a mixture of lazy-static ORM usage in the controller and some dependency injection, but these seeders have not received a large amount of love. They definitely do their job, and could always be cleaner, but the basics here are:
 
+{lang=php,starting-line-number=41}
 ~~~~~~~~
         foreach (Merchant::all() as $merchant) {
 ~~~~~~~~
 
 Loop through all merchants.
 
+{lang=php,starting-line-number=43}
 ~~~~~~~~
             // Create however many opps for this merchant
             foreach (range(1, rand(2, 4)) as $i) {
@@ -336,6 +348,7 @@ Loop through all merchants.
 
 Create between 1 and 4 opportunities for a merchant.
 
+{lang=php,starting-line-number=46}
 ~~~~~~~~
                 // There are three types of image to add
                 $image = Image::create([
@@ -346,6 +359,7 @@ Create between 1 and 4 opportunities for a merchant.
 
 Add an image from our array of example images on S3 or our website somewhere. The more the merrier.
 
+{lang=php,starting-line-number=66}
 ~~~~~~~~
                 $category = $this->categoryFinder->setRandom()->getOne();
 ~~~~~~~~

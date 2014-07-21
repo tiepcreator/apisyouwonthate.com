@@ -155,15 +155,16 @@ Generally speaking, PUT is used if you know the entire URL before hand and the a
 
 For example, create _could_ be a PUT if you are creating one image for a place. If you were to do this:
 
+{lang=http}
 ~~~~~~~~
 PUT /places/1/image HTTP/1.1
-Host: example.com
+Host: exemple.com
 Content-Type: image/jpeg
 ~~~~~~~~
 
 That would be a perfect example of when to use a `PUT` because you already know the entire URL ( /places/1/image ) and you can do it time and time again.
 
-At Kapture we use a POST to `/checkins` to create the meta-data for that new checkin, then that will return the URL for us to PUT the image to. You could try checking in multiple times and it wouldn't matter because none of those processes would be complete, but POSTing multiple times is not idempotent because each checkin is different. PUT is idempotent because you are uploading that image to the full URL and you can do it over and over again if you like (for instance, because the upload failed and it has to try again).
+The API at Kapture uses a `POST` to `/checkins` to create the meta-data for that new checkin, then that will return the URL for us to PUT the image to. You could try checking in multiple times and it wouldn't matter because none of those processes would be complete, but POSTing multiple times is not idempotent because each checkin is different. PUT is idempotent because you are uploading that image to the full URL and you can do it over and over again if you like (for instance, because the upload failed and it has to try again).
 
 So, if you have multiple images for places maybe you could `POST /places/X/images` and multiple attempts would be different images. If you know you are only going to have one image and a new attempt is an override then `PUT /places/X/image` would be ideal.
 
