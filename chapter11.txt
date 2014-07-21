@@ -17,7 +17,7 @@ There should be a few different types of documentation:
 
 ### API Reference
 
-The "API Reference" is sometimes refered to as "Endpoint Reference" and is essentially a list of all endpoints and their associated HTTP Methods, descriptions of what they do and a list of all arguments that can be passed with descriptions about what values work and in what format those values could be. That is a lot of work. But, it can be made easier wit some tools. More on that later.
+The "API Reference" is sometimes refered to as "Endpoint Reference" and is essentially a list of all endpoints and their associated HTTP Methods, descriptions of what they do and a list of all arguments that can be passed with descriptions about what values work and in what format those values could be. That is a lot of work. But, it can be made easier with some tools. More on that later.
 
 ### Sample Code
 
@@ -101,7 +101,7 @@ $ cd ~/apisyouwonthate/chapter11/aglio-example
 $ aglio -i example.md -o index.html
 ~~~~~~~~
 
-**Step 4: Server HTML and Open in Browser**
+**Step 4: Generate HTML and Open in Browser**
 
 Create some sort of web server (XAMPP, WAMP, MAMP, Pow, shove it on FTP or whatever) and view the contents. This book has used
 PHP as an example before, so let us continue that trend:
@@ -116,11 +116,18 @@ Now browse to that address in your favorite browser and you should see some very
 
 Looks amazing right?
 
+**Step 5: Find a Plugin**
+
+Writing Markdown then switching over to the terminal and running a command can be a tricky workflow, so try
+and find a plugin for an editor you like which can help. If you use [Atom] then there is [an Atom plugin] 
+you can use, but there are doubtless other options available.
+
 [Aglio]: https://github.com/danielgtaylor/aglio
 [sg-plugin]: https://github.com/apiaryio/api-blueprint-sublime-plugin
 [Homebrew]: http://brew.sh
 [NodeJS]: http://nodejs.org
-
+[Atom]: https://atom.io/
+[an Atom plugin]: https://atom.io/packages/api-blueprint-preview
 
 ## Learning API Blueprint Syntax
 

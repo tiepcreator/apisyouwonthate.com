@@ -90,9 +90,13 @@ Picking what formats to support is hard, but there are a few easy wins to make e
 
 ### No Form Data
 
-PHP developers always try to do something that literally nobody else does, and that is to send data to the API using: `application/x-www-form-urlencoded`. 
+PHP developers always try to do something that literally nobody else does, and that is to send data to the API using: 
 
-This mime-type is one of the few ways that browsers send data via a form when you use HTTP POST, and PHP will take that data, slice it up and make it available in `$_POST`. Because of this convenient feature many PHP developers will make their API send data that way, then wonder why sending data with PUT is "different".
+~~~~~~~~
+application/x-www-form-urlencoded
+~~~~~~~~
+
+This MIME type is one of the few ways that browsers send data via a form when you use HTTP POST, and PHP will take that data, slice it up and make it available in `$_POST`. Because of this convenient feature many PHP developers will make their API send data that way, then wonder why sending data with PUT is "different".
 
 Urf.
 
@@ -204,13 +208,15 @@ If you want to start using attributes for some bits of data but not others then 
 </places>
 ~~~~~~~~
 
-The answer is unless you seek specific fields and try to guess that an "id" is probably an attribute, etc then there is no programatic way in your API to take the same array and make JSON AND XML. Instead you realistically need to use a "view" (from the MVC pattern) to represent this data just like you would with HTML or work with XML generation in a more OOP way. Either way it is an abomination and I refuse to work in those conditions. Luckily nobody at Kapture wants XML so I don't have to move back to England just yet.
+The answer is unless you seek specific fields and try to guess that an "id" is probably an attribute, etc then there is no programmatic way in your API to take the same array and make JSON AND XML. Instead you realistically need to use a "view" (from the MVC pattern) to represent this data just like you would with HTML or work with XML generation in a more OOP way. Either way it is an abomination and I refuse to work in those conditions. Luckily nobody at Kapture wants XML so I wont have to move back to England just yet.
 
-If your team is on the fence about XML and you don't 100% need it, then don't bother using it. I know it is fun to show off your API switching formats and supporting all sorts of stuff, but I would strongly urge you to work out what format(s) you actually need and STICK TO THOSE. Sure Flickr supports lolcat as input and output, but they have a much bigger team so you don't need to worry about it. JSON is fine. If you have a lot of Ruby bros around then you will probably want to output YML too, which is as easy to generate as JSON in most cases.
+If your team is on the fence about XML and you are not required by the business to use it, then skip it. It can be fun to show off your API switching formats and supporting all sorts of stuff and we will get to that later on, but XML is a complication many APIs do not require these days.
+
+Work out which format(s) you actually need and _stick to those_. Sure Flickr supports `lolcat` as input and output, but they have a much bigger team and that was probably the result of a hack project in which the development team were only paid with cold pizza. JSON is fine. If you have a lot of Ruby bros around then you will probably want to output YML too, which is as easy to generate as JSON in most cases.
 
 ## Content Structure
 
-This is a tough topic and there is no right answer and whether you use EmberJS, RestKit or any other framework with knowledge of REST you will find somebody annoyed that the data is not in their preferred format. There are a lot of factors and I will simply explain them all and let you know where I landed.
+This is a tough topic and there is no right answer and whether you use EmberJS, RestKit or any other framework with knowledge of REST you will find somebody annoyed that the data is not in their specific preferred format. There are a lot of factors and I will simply explain them all and let you know where I landed.
 
 ### JSON API
 

@@ -76,7 +76,7 @@ Using these variables, an API can output some simple meta-data that goes next to
 		"per_page": 12,
 		"current_page": 1,
 		"total_pages": 84,
-		"next_url": "https://api.example.com/places?page=2&number=12",
+		"next_url": "/places?page=2&number=12",
     }
 }
 ~~~~~~~~
@@ -184,7 +184,7 @@ To try the same example:
     "pagination" : {
         "cursors": {
             "after": 12,
-            "next_url": "https://api.example.com/places?cursor=12&number=12"
+            "next_url": "/places?cursor=12&number=12"
         }
     }
 }

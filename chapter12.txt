@@ -18,10 +18,13 @@ great, and is super easy to do.
 
 ## Content Negotiation
 
-Some self proclaimed RESTful APIs (Twitter, I blame you for this) handle content negotiation with file
-extensions. They do things like `/statuses/show.json?id=210462857140252672` and
-`/statuses/show.xml?id=210462857140252672` instead of just `/statuses/210462857140252672` and letting the
-`Accept` header do the work.
+Some self proclaimed RESTful APIs (Twitter, you are to blame for this) handle content negotiation with file
+extensions. Their URLs often look like:
+
+* `/statuses/show.json?id=210462857140252672`
+* `/statuses/show.xml?id=210462857140252672` 
+
+A RESTful API would simply have `/statuses/210462857140252672` and let the `Accept` header do the work.
 
 URIs are not supposed to be a bunch of folders and file names, and an API is not a list of JSON files or XML files. They are a list of resources that can be represented in different formats depending on the `Accept` header, **and nothing else.**
 
@@ -75,7 +78,7 @@ The main change other than including the [Symfony YAML component] was to simply 
 protected function respondWithArray(array $array, array $headers = [])
 {
     // You will probably want to do something intelligent with charset if provided.
-    // This chapter just ignores everything and takes the main mime-type value
+    // This chapter just ignores everything and takes the main MIME type value
 
     $mimeParts = (array) explode(';', Input::server('HTTP_ACCEPT'));
     $mimeType = strtolower($mimeParts[0]);
@@ -110,9 +113,9 @@ protected function respondWithArray(array $array, array $headers = [])
 }
 ~~~~~~~~
 
-Very basic, but now if we try a different mime-type we can expect a different result:
+Very basic, but now if we try a different MIME type we can expect a different result:
 
-{title="A HTTP request specifying the preferred response mime-type"}
+{title="A HTTP request specifying the preferred response MIME type"}
 ~~~~~~~~
 GET /places HTTP/1.1
 Host: localhost:8000
@@ -148,7 +151,7 @@ $response->getBody(); // YAML, ready to be parsed
 ~~~~~~~~
 
 This is not the end of the conversation for content negotiation, as there is a little bit more to talk about
-with vendor-based mime-types for resources, which can be versioned too. To keep this chapter on point, that
+with vendor-based MIME types for resources, which can be versioned too. To keep this chapter on point, that
 discussion will happen in [Chapter 13: API Versioning](#chapter-13).
 
 [Symfony YAML component]: http://symfony.com/doc/current/components/yaml/introduction.html

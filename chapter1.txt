@@ -22,7 +22,7 @@ This data could be:
 * fake notifications to display in an iPhone app (one of each type)
 * credit-card payments at various stages of processing - with some complete, some half done and some super-fraudulent looking ones
 
-The process of creating seeding scripts means you don't need to waste time creating this manually over and over again. Ultimately, the more processes you can automate during the development of your API, the more time you have to consider the intricacies of your applications which need much more consideration.
+The process of creating seeding scripts means you can avoid wasting time creating this manually over and over again. Ultimately, the more processes you can automate during the development of your API, the more time you have to consider the intricacies of your applications which need much more consideration.
 
 Dummy data is necessary for realistic acceptance testing, getting freelancers/new hires up to speed with useful content, keeping real customer data private to those outside your company, and avoiding the temptation to copy live data over to your development environments.
 
@@ -40,7 +40,9 @@ Garbage! Use absolute nonsense for your development database, but nonsense of th
 
 Kapture, the company I work for, uses the Laravel framework which has the joys of having [Database Seeding] baked in. This is essentially a tarted up <abbr title="Command Line Interface">CLI</abbr> task which almost any modern PHP framework will have (or bloody well should do) so the principles are applicable to all.
 
-Break your Database Seeders down into logical groupings. This doesn't need to be "one seeder-per-table" but it can be. The reason I don't try to stick to that rule is that sometimes your data needs to be built at the same time as other types of data, so for us Users are created in the same "seeder" as their settings, OAuth tokens, and friendship data is made. Putting that stuff into multiple seeders purely to keep things tidy would be an exercise in futility, and slow everything down for no reason.
+Break your Database Seeders down into logical groupings. This does not need to be "one seeder-per-table" but it can be. Sometimes your data needs to be built at the same time as other types of data, so for us Users
+are created in the same "seeder" as their settings, OAuth tokens, and friendship data is made. Putting that
+into multiple seeders purely to keep things tidy would complicated your seeders and slow things down a lot, so maybe consider combining them.
 
 In this chapter I will use, as an example, a check-in application. The application handles "users" and tracks their "check-ins" into "merchants" (or "venues"). "Merchants" also provide "campaigns" (or "opportunities").
 
@@ -80,7 +82,7 @@ An instance of Faker, our bullshit artist for-hire.
 for ($i = 0; $i < Config::get('seeding.users'); $i++) {
 ~~~~~~~~
 
-We are going to want a certain number of users, but I'd recommend you have a few less on development than you do on testing or staging, because time.
+We are going to want a certain number of users, but you should have a few less on development than you do on testing or staging to save time.
 
 ~~~~~~~~
     $user = User::create([
@@ -88,7 +90,7 @@ We are going to want a certain number of users, but I'd recommend you have a few
         'email'              => $faker->email,
 ~~~~~~~~
 
-Make a random name and random email. We don't have to define the pool of random data it uses, because IT'S MAGIC!
+Make a random name and random email. There is no need to define the pool of random data it uses, because IT'S MAGIC!
 
 ~~~~~~~~
         'active'             => $i === 0 ? true : rand(0, 1),
@@ -132,7 +134,7 @@ Give us a city name and a state name. This works fine with foreign countries too
         'sync_name_bio'      => $faker->boolean,
 ~~~~~~~~
 
-Some user flags we don't care much about. True or false, whatever.
+Some user flags are not as important, so set them to be `true` or `false` at random.
 
 ~~~~~~~~
         'bio'                => $faker->sentence(100),
@@ -141,7 +143,7 @@ Some user flags we don't care much about. True or false, whatever.
 Make a sentence with 100 characters in it.
 
 
-## That's about it
+## That is about it
 
 You will end up making a lot of these files, and you will want to populate pretty much every table you have with data. You will also want to tell your Database Seeder to wipe all the tables that will be populated. Do this globally right at the start of the process. Do not wipe tables at the top of each seeder, or content in that table from other seeders will be deleted.
 

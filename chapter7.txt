@@ -2,13 +2,13 @@
 
 ## Introduction
 
-If you've ever worked with relational databases the chances are you understand relationships. Users have
+If you have ever worked with relational databases the chances are you understand relationships. Users have
 comments. Authors have one or many books. Books belong to a Publisher. Southerners have one or more teeth.
  Whatever the example, relationships are incredibly important to any application and therefore an API too.
 
-RESTful Relationships don't necessarily need to be directly mapped to database relationships.
+RESTful Relationships do not necessarily need to be directly mapped to database relationships.
 If your database relationships are built properly, RESTful relationships will often be similar, but your
-RESTful output might have extra dynamic relationships that aren't defined by a JOIN, and might not necessarily
+RESTful output might have extra dynamic relationships that are not defined by a JOIN, and might not necessarily
 include every possible database relationship.
 
 Put more eloquently:
@@ -21,16 +21,16 @@ source, or is derived from the source, remains hidden behind the interface.
 
 This explanation highlights an important factor: the output has to be based on the "desires of
 the recipient". There are many popular approaches to designing RESTful relationships, but
-many of them don't satisfy the "desires of the recipient". Still, I will cover the popular approaches
+many of them do not satisfy the "desires of the recipient". Still, I will cover the popular approaches
 with their pros and cons regardless.
 
 ## Sub-Resources
 
-One very simplistic way to approach related data is to offer up new URL's for your API consumers
+One very simplistic way to approach related data is to offer up new URLs for your API consumers
 to digest. This was covered lightly in [Chapter 2: Planning and Creating Endpoints](#chapter-2), and is
 a perfectly valid approach.
 
-If an API has `places` as a resource and wants to allow access to a place's checkins, an
+If an API has `places` as a resource and wants to allow access to a places checkins, an
 endpoint could be made to handle exactly that:
 
 > /places/X/checkins
@@ -54,7 +54,7 @@ caching, depending on the data set, it could still be 251 requests.
 Some API developers try to avoid going over HTTP too many times by shoving as much data as possible into one request, so when you call the `/places` endpoint you automatically get `checkins`, `current_opps`,
 `merchants` and `images`. Well, if you do not want that information you are waiting for huge file
 downloads full of irrelevant JSON! Even with GZIP compression enabled on the web-server, downloading
-something you don't need is obviously not desirable, and can be avoided. This can mean major performance
+something you do not need is obviously not desirable, and can be avoided. This can mean major performance
 gains on mobile, and minor gains over a slow network or weak Wi-Fi for desktop or tablets.
 
 The trade-off here between "downloading enough data to avoid making the user wait for subsequent loads"
@@ -80,7 +80,7 @@ multiple `comments`, the `/posts` endpoint could contain the following:
 }
 ~~~~~~~~
 
-This is better. You still end up with `n + 1` requests, but at least you can take those ID's and make a grouped
+This is better. You still end up with `n + 1` requests, but at least you can take those IDs and make a grouped
 request like `/comments/1,2` or `/comments?ids=1,2` to reduce how many HTTP requests are being made.
 
 Back to the places example, if you have 50 places returned and need 4 extra pieces of data, you could
@@ -126,8 +126,13 @@ This is the approach I have been using in the latest two versions of the API at 
 continue to use it for the foreseeable future. It offers the most flexibility for the API consumer:
 meaning it can reduce HTTP requests or reduce download size depending on what the consumer wants.
 
-If an API consumer were to call the URL `/places?embed=checkins,merchant` then they would see checkin
-and merchant data in the response inside the `place` resource:
+An API consumer could call the endpoint with the following query string parameter:
+
+~~~~~~~~
+/places?embed=checkins,merchant
+~~~~~~~~
+
+This would alert Fractal (if properly configured) to embed the `checkins` for that `place`, and the `merchant` data in the response inside the `place` resource:
 
 ~~~~~~~~
 {
@@ -171,7 +176,7 @@ Some systems (like Facebook, or any API using Fractal) will let you nest those e
 Picking back up from Chapter 6, your transformer at this point is mainly just giving you a method to
 handle array conversion from your data source to a simple array. Fractal can however embed resources
 and collections too. Continuing the theme of users, places and checkins, the `UserTransformer` might
-have a checkins list, to see a user's checkin history.
+have a checkins list, to see a users checkin history.
 
 <<[UserTransformer using Fractal](../src/chapter7/app/src/App/Transformer/UserTransformer.php)
 
@@ -224,7 +229,7 @@ class ApiController
 }
 ~~~~~~~~~
 
-That's how you'd do things in Laravel at least.
+That is how you would do things in Laravel at least.
 
 ### Embedding with Rails
 
@@ -292,24 +297,21 @@ A little more complicated, but you get more control over what is returned.
 
 This will work well assuming everything is represented as ActiveRecord, which who knows, it might be.
 
-### Being a RESTful Rebel
+## Summary
 
-I read a blog article by [Ian Bentley] suggesting that this approach is not entirely RESTful.
-It points to a Roy Fielding quote:
+The most important thing here is that an API has _some_ way to include related data. Regardless of wether
+side-loading or embedding is the route used, it is important to pick one. 
 
-> The central feature that distinguishes the REST architectural style from other network-based styles is
-> its emphasis on a uniform interface between components (Figure 5-6). By applying the software
-> engineering principle of generality to the component interface, the overall system architecture is
-> simplified and the visibility of interactions is improved.
-> [Roy Fielding](http://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm#sec_5_1)
+One area that may effect your decision is using a JavaScript framework like EmberJS. In theory any API
+should not concern itself with implementation specific details like which JavaScript framework is being used,
+but if that EmberJS platform is a requirement of the business then picking a compatible data structure might
+be key. EmberJS - at the time of writing - somewhat requires a specific side-loading approach.
 
-All of these solutions are - according to somebody - "wrong". There are technical pros and cons and what
-I refer to as "moral" issues, but those moral issues are just down to how technically RESTful you care
-about being. The technical benefits that optional embedded relationships provide are so beneficial I do
-not care about crossing Roy and his RESTful spec to do it.
+Otherwise, try to stick to embedding your data. It gives it more context to the relationship and looks quite 
+logical. 
 
-Make your own choices. Facebook, Twitter and most popular "RESTful API's" fundamentally ignore parts of
-(or dump all over the entirety of) the RESTful spec. So, respecting everything else and popping your toe
-over the line here a little would not be the biggest travesty for your API.
+Fractal will make your decision less important as using [Serializers] you can switch between the two types rather
+easily. Later on the book will talk about looking at MIME types and responding with different data, so it would
+not be difficult to use different headers for different data structures, one custom and one JSON-API with side-loaded data, for example.
 
-[Ian Bentley]: http://idbentley.com/blog/2013/03/14/should-restful-apis-include-relationships/
+[Serializers]: http://fractal.thephpleague.com/serializers/

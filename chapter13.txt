@@ -290,12 +290,21 @@ return different Media Types.
 >  
 > -- **Source:** [GitHub, "Media Types"]
 
-Basically if you ask for `application/json` or `application/vnd.github+json` then you are going to get JSON.
+Basically if you ask for either of the following two MIME types the the result will be returned as JSON:
+
+* `application/json`
+* `application/vnd.github+json`
+
 Without specifying further, they will show you the current default response, which at the time of writing is `v3` but could at any time change to `v4`. They warn that if you do not specify the version then your apps
 will break! Fair enough.
 
-To specify the version, you must use `Accept: application/vnd.github.v3+json`, then if the default switches
-to `v4` at some point in the future, your application will continue to use `v3`.
+To specify the version, you must use the following:
+
+~~~~~~~~
+Accept: application/vnd.github.v3+json
+~~~~~~~~
+
+If the default switches to `v4` at some point in the future, your application will continue to use `v3`.
 
 This solves the caching problem, solves the URL manipulation problems of the URL-based versioning approaches,
 is considered rather RESTful, but can confuse some developers. Maybe train them to get used to it, or maybe stick with URL-based versioning, but it is semantically more correct and generally works very well. This was done at Kapture for the internal API and it worked without problems.

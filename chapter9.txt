@@ -112,7 +112,7 @@ The `nonce` is a unique number, which can contain (but should not be only) a tim
 
 **MD5... 4... 3... 2... 1... HACKED**
 
-MD5 is well accepted by many people today to be extremely crackable in most scenarios. Digest authentication has not improved over time since its creation in 1993, and while the calculation process should help negate many of these issues, a lousy implementation of digest authentication will be open to some weird attack vectors that you don't know about until after the fact.
+MD5 is well accepted by many people today to be extremely crackable in most scenarios. Digest authentication has not improved over time since its creation in 1993, and while the calculation process should help negate many of these issues, a lousy implementation of digest authentication will be open to some weird attack vectors that remain unknown until after the fact.
 
 Digest is more secure than basic certainly. It is great over SSL, definitely a good choice for an internal API if you have more time to spend implementing, but still requires the username and password to be sent repeatedly, meaning it _is_ potentially hackable, if the hacker has enough encrypted requests available to process.
 
@@ -221,46 +221,40 @@ somebody finding out what it is.
 
 **Grant Types**
 
-One further massive benefit was the ability to have multiple (even custom) grant types, meaning you can create some amazing implementations.
+One further massive benefit OAuth 2.0 provides over OAuth 1.0a is the ability to have multiple (even custom) grant types. Grant types are essentially a "mode" in which the OAuth 2.0 server will run, expecting different inputs and maybe providing different outputs. With this flexibility you can create some amazing implementations.
 
 The most common OAuth 2.0 Grant Type that a user will be familiar with is `authorization_code`, which is a very OAuth
 1.0a-like flow.
 
 A client web-app creates a link to the OAuth Server of the service they would like to log into (e.g: Facebook) and the
 user logs in. Facebook redirects the user back to the client web-app's "Callback URL", with a `?code=FOO` variable in
-the query string. The web-app then takes that code and makes a second request (usually a `POST`, but sometimes a `GET`...)
-to Facebook and Facebook then offers up an access token in the response (and other services, like Google Apps, then provide expires and a
-refresh token).
+the query string. The web-app then takes that code and makes a second request (usually a `POST`, but sometimes a `GET` depending on which popular API you look at...)
+to Facebook and Facebook then offers up an access token in the response. Some other popular APIs - like 
+Google Apps - then provide `expires` and a refresh token too.
 
-Other grant-types include `password` (you throw a username / password at the server and get some tokens back), and
-`client_credentials` (give the server your `client_id` and `client_secret`, and get an `access_token` back). This is a
-generic `access_token` which is usually somewhat limited as it has no "user-context", as as such can't post messages on a
-Twitter profile or similar.
+This is just one approach, and there are more. Due to this flexibility OAuth 2.0 is good for pretty much any scenario when authenticating an API, be it a basic username password login on a single-page JavaScript app, a CRON job that has no database access or a full-blown user-redirect flow between different websites, the flexibility of custom grant-types allows
+absolutely anything to be done.
 
-A> ### Twitter's Chocolate Teapot
-A> Twitter have implemented OAuth 2, which at this point only has `client_credentials` available. Their [documentation](https://dev.twitter.com/docs/auth/application-only-auth) explains further. It's kinda handy for public crawling of tags or public tweets, but you can't do a whole lot of anything else.
+More on this in the "Understanding OAuth 2.0 Grant Types" section below.
 
-Client credentials can actually use HTTP Basic as a replacement for shoving `client_id` and `client_secret` in the body, which brings us nicely around full circle.
+**Erin Hammer**
 
-A> ### Erin Hammer
-A> Often I am asked why anyone would still use OAuth 2 after Erin Hammer (lead author and editor of the OAuth 2.0 standard) withdrew his name from the specification. It certainly sent a ripple through the internet but I personally disagree wholeheartedly with the issues he raises.
-A>
-A> 1. OAuth 2.0 is less secure if you do not use SSL/TSL. Correct. So use them.
-A> 2. People have implemented OAuth 2.0 badly (looking at you Facebook/Google/EVERYONE), but when implemented well it is lovely. Use a pre-built standard compliant implementation, like [this one for PHP](https://github.com/thephpleague/oauth2-server/).
-A> 3. He thinks Refresh Tokens are annoying, but I think they are great.
-A> Generally speaking his departure from the project is no major loss. I'm sure the IETF are bike-shedding hard, but after using both for years I am much happier with OAuth 2.0 and really wish Twitter would get on with a full upgrade so I never have to use OAuth 1.0a again.
+Often I am asked why anyone would still use OAuth 2.0 after Erin Hammer (lead author and editor of the OAuth 2.0 standard) [withdrew his name from the specification]. It certainly sent a ripple through the Internet but I personally disagree wholeheartedly with the issues he raises.
 
-OAuth 2.0 is good for pretty much any scenario when authenticating an API. The flexibility of custom grant-types mean
-you can do absolutely anything. For example, at Kapture we created a `social` grant, where a user would provide a string
-matching "facebook" or "twitter" and an `access_token` (with maybe a `secret` too because Twitter is still stuck in the
-past) and that would do the following:
+1. OAuth 2.0 is less secure if you do not use SSL/TSL. Correct. So use them.
+2. People have implemented OAuth 2.0 badly (looking at you Facebook/Google/most providers), but when implemented well it is lovely. Use a pre-built standard compliant implementation, like [this one for PHP](https://github.com/thephpleague/oauth2-server/).
+3. He thinks Refresh Tokens are annoying, but I think they are great.
 
-1. Grab the users data
-1. Find out if they are a Kapture user, and if not create a Kapture user record
-3. Create an access token, refresh token, etc to give that user access
+Generally speaking his departure from the project is no major loss. I'm sure the IETF are bike-shedding hard, but after using both for years I am much happier with OAuth 2.0 and really wish [Twitter would get on with a full upgrade] so I never have to use OAuth 1.0a again.
 
-That gave us a completely seamless instant "sign-up or login" experience for our iPhone application, and let our admin
-panel AND merchant dashboard use the exact same OAuth 2.0 server to handle logins for everyone. Very handy, for everything.
+
+Generally speaking OAuth 2.0 is a good fit for most situations, providing that you **use SSL** and implement a **well tested** existing solution 
+for your OAuth 2.0 Server. Trying to do this yourself can be incredibly hard and may well lead to you getting super-hacked. Even Facebook
+have trouble with this to this day because they rolled their own solution based on a really early draft of the specification. 
+
+[withdrew his name from the specification]: http://hueniverse.com/2012/07/26/oauth-2-0-and-the-road-to-hell/
+[Twitter would get on with a full upgrade]: https://dev.twitter.com/discussions/397
+
 
 ### Other Approaches
 
@@ -268,24 +262,22 @@ panel AND merchant dashboard use the exact same OAuth 2.0 server to handle login
 * **Hawk** - https://github.com/hueniverse/hawk
 * **Oz** - https://github.com/hueniverse/oz
 
+
 ## Implementing an OAuth 2.0 Server
 
 Implementation by hand of a OAuth 2.0 server (or any of these authentication methods for that matter) can be very
 difficult. This chapter aimed to explain the pros, cons and use-cases for each, and implementation is sadly out of its
-scope.
+scope. Here are a few existing implementations that you could look into using.
 
-As with any complicated subject matter, installing a package that is specifically designed to do the hard work for you
-is almost certainly a good idea. Python, Ruby and PHP all have some great packages already, so linking to them should
-offload the hard work of explaining how to do it for each language.
 
 ### PHP Implementations
 
-One implementation stands out above the rest in PHP-land, and not just because it is written by a friend of mine: [Alex Bilbie](http://alexbilbie.com/). The main reason we are friends is because, not only he is a all-round good guy, but he has studied both OAuth specs religiously, and has built some great tools for them over the years. In his last job he worked at University of Lincoln, using OAuth for all sorts of cool things.
+One implementation stands out above the rest in PHP-land, and not just because it is written by a friend of mine: [Alex Bilbie](http://alexbilbie.com/). We originally became friends because not only is he an all-round good guy, but he has studied both OAuth specs religiously, and built some great tools for them over the years which I have used many times. 
 
-He then had a funded research project to build awesome open-source code for improving authentication and interoperability. That project resulted in a few cool packages, including the [PHP OAuth 2.0 Server](https://github.com/thephpleague/oauth2-server), which now has a home with [The League of Extraordinary Packages](http://thephpleague.com/). It is the only PHP package to implement the entire OAuth 2.0 spec, so is very worth trying out.
+In his last job he worked at University of Lincoln, using OAuth for all sorts of cool things. He then received funding for a research project to build awesome open-source code for improving authentication and interoperability. That project resulted in a few great packages, including the [PHP OAuth 2.0 Server](https://github.com/thephpleague/oauth2-server), which now has a home with [The League of Extraordinary Packages](http://thephpleague.com/). It is the only PHP package to implement the entire OAuth 2.0 spec, so is very worth trying out.
 
 A> ### OAuthello
-A> Alex is writing [a book](http://leanpub.com/oauthello-a-book-about-oauth/c/apisyouwonthate) covering the implementation of this server in great detail amongst all other OAuth things, so you should definitely pick up a copy. That URL contains a coupon code `apisyouwonthate`, which may knock a significant chunk off the price.
+A> Alex is writing [a book](http://leanpub.com/oauthello-a-book-about-oauth/c/apisyouwonthate) covering the implementation of this server in great detail amongst all other OAuth things, so you should definitely pick up a copy. That URL contains a coupon code `apisyouwonthate`, which should knock a significant chunk off the price.
 
 There is another [PHP OAuth 2.0 server implementation](http://bshaffer.github.io/oauth2-server-php-docs/) which also probably works.
 
@@ -302,12 +294,125 @@ The only active and documented Ruby OAuth 2.0 Server I found was a Rack module n
 
 ## Where the OAuth 2.0 Server Lives
 
-Many assume that the OAuth 2.0 server should be part of their API server. While it certainly could, it certainly does not need to.
+Many assume that the OAuth 2.0 server should be part of their API server. While it certainly could, it definitely does not need to.
 
-An OAuth server usually has a web interface, which has HTML forms, form validation, and all sorts of static resources like images, CSS, JavaScript, etc. That makes it more fitting with a general website, so if your API and web-site are different servers then the OAuth server would be more fitting on the website.
+An OAuth server usually has a web interface, which has HTML forms, form validation, and all sorts of static resources like images, CSS, JavaScript, etc. That makes it more fitting with a general website, so if your API and web-site are different servers then the OAuth server would be more suitably placed on the website.
 
-Generally speaking its better to keep all of these things autonomous, as if you decide to build a new version of your website in AngularJS instead of server-side code then it would be a pain to have to switch your OAuth server implementation too. If the OAuth server is on its own server, or at very least its own codebase, then you do not have this concern.
+Generally speaking it is better to keep all of these things autonomous, as if you decide to build a new version of your website in AngularJS instead of server-side code then it would be a pain to have to switch your OAuth server implementation too. If the OAuth server is on its own server, or at very least its own code-base, then you do not have this concern.
 
-The only thing your API needs to do is look for an Access Token (as a header or get variable) then hit whichever datastore (SQL database, Mongo, etc) that contains the access tokens. Check it is valid (in the DB and not expired) then grab whichever user is tied to it, and pull that record for use throughout the API code.
+The only thing your API needs to do is look for an Access Token (as a header or query string parameter) then hit whichever datastore (SQL database, Mongo, etc) that contains the access tokens. Check it is valid (in the DB and not expired) then grab whichever user is tied to it, and pull that record for use throughout the API code.
 
-None of that is complicated, so trying to tie the API server and OAuth server together in the same application codebase is just not required.
+None of that is complicated, so trying to tie the API server and OAuth server together in the same application code-base out of some misplaced perception of belonging is just not required.
+
+
+## Understanding OAuth 2.0 Grant Types
+
+The four grant types discussed in the specification are:
+
+
+### Authorization Code
+
+Authorization Code is the full user-flow with redirects discussed earlier in the chapter.
+
+This is most useful if you have multiple sites (like a network of sites for games, movies, books, etc) or just want to share logins with other partners. This is also the grant type you will most likely use to log users into Facebook or Google.
+
+[Section 4.1 in the spec][Section 4.1]
+
+### Refresh Token
+
+Refresh Tokens are supported by most popular OAuth 2.0 providers. Basically, you notice that your old access token does not work anymore when you receive a HTTP `401` status code, so you request a new one using your refresh token. The OAuth 2.0 server will then either give you a new access token, or the server will refuse. At that point you will have to send your user an email saying "Your account is no longer connected to Example.com, please click here to reconnect." This is not common, and usually means that the user has disconnected access for that account anyway so a manual request is literally the only option.
+
+This sounds like a bit of a run around, but it is quite simple and has a few advantages.
+
+Basically, using the same Access Token over and over again forever then there is a fairly strong chance of somebody finding it. There are an array of reasons for this, from the the site not implementing SSL, the site getting hacked, the sys admins accidentally exposing some of their access logs, or - more likely - the Access Token is stored in the browser.
+
+Storing the access token in the browser is fine if the access token is going to expire soon, as it means the hacker has a very short window of opportunity to do anything if they find it. If they get the current access token then fine, but if there is a 5 minute expiry then getting that token would be much more difficult, and probably require the hacker to be physically on the device you were using, or SSHing in - at which point you have much greater concerns. 
+
+Not all APIs will expire their access tokens, so some do live forever. Normally they either last forever, or they will give you an expiry time and expect you to refresh them. One exception to that is Facebook, who do neither. Facebook's whole approach is that they _want_ you to be forced to send a user back to `facebook.com` on a login. 
+
+It is frustrating that once again Facebook have decided to flagrantly disregard the OAuth 2.0 spec to suit their own needs, hurting the user flow and confusing developers in the process. Working with these popular APIs you will notice a lot of things like this which wind you up, but the differences are much less problematic then if they were not even slightly OAuth 2.0 based. At least they have _some_ common ground.
+
+[Section 6 in the spec][Section 6]
+
+
+### Client Credentials
+
+Client credentials can be useful for saying: 
+
+> I am an application, you know that I am an application because here are my client_id and client_secret values. Let me in now please.
+
+This is useful for CRON jobs, worker processes, daemons or any other sort of background process. The application will not have any context of a "user", but it will be able to interact with your API. They have an access token which they will keep on using, and if it happens to expire then the background process will know how to refresh it.
+
+Twitter - as mentioned - have been OAuth 1.0a only for years, but they added an OAuth 2.0 endpoint which would accept `client_credentials` as the only grant type. Their [documentation](https://dev.twitter.com/docs/auth/application-only-auth) explains further. 
+
+This is handy for public crawling of tags or public tweets, but is not able to handle posting statuses or anything that relates to a user. This is a handy compromise for now, and hopefully is a sign that they intend to roll out support for more grant types in the future.
+
+[Section 2.3.1 in the spec][Section 2.3.1]
+
+
+
+### Password (user credentials)
+
+User Credentials are possibly the easiest way to get an access token for a user. It skips the whole redirect-flow that "Authentication Code" provides, and the "user peace-of-mind" that comes with it, but does offer simplicity. If Twitter had offered User Credentials OAuth 2.0 login as a replacement for HTTP Basic then the "Twitter Authpocolypse" a few years ago would have been far less drastic.
+
+All you need to do is provide a username and password to the OAuth 2.0 server, and it gives you back an access token (and of course maybe a refresh token). Simple.
+
+An example of this being extremely useful would be creating a single-page application with AngularJS/EmberJS/WhateverJS and wanting to provide a login. Clearly redirecting users around would be unnecessary because they are already on "your site", and the login box can be styled however you like already.
+
+The trouble is, if you try and do all of this in JavaScript code you run into a problem. You need to send the `client_id` and `client_secret` along with the `username` and `password`, but if you are using JavaScript then putting your `client_secret` into the JavaScript means it is readable in the browser...
+
+HACKHACKHACK!
+
+Do not do that. 
+
+It is easily avoidable, simply make a proxy script which will take a username and password as POST items, then 
+pass them onto the OAuth 2.0 server with the `client_id` and `client_secret` too, which both probably come from some secret config file on the server.
+
+
+{title="Basic access token proxy script written in Python using Flask", lang=python}
+~~~~~~~~
+import requests
+
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route('/proxy/access_token', methods=['POST'])
+def access_token():
+
+    payload = {
+        'grant_type': 'password',
+        'client_id': 'foo',
+        'client_secret': 'bar',
+        'username': request.form['username'],
+        'password': request.form['password']
+    }
+
+    r = requests.post('https://oauth.example.com/', data=payload)
+
+    return r.json(), r.status_code
+~~~~~~~~
+
+That is all that needs to be done. Take whatever it gives you, pass it onto the server, and pass the response back. This keeps the secret information secret and still lets you do everything else in the browser.
+
+[Section 4.3 in the spec][Section 4.3]
+
+
+### Custom Grant Types
+
+At Kapture we created a `social` grant, where a user would provide a string matching "facebook" or "twitter" and an `access_token` (with maybe a `access_token_secret` for OAuth 1.0a providers like Twitter) and that would do the following:
+
+1. Grab the users data
+1. Find out if they are a Kapture user, and if not create a Kapture user record
+3. Create an access token, refresh token, etc to give that user access
+
+That gave us a completely seamless instant "sign-up or login" experience for our iPhone application, and let our admin
+panel AND merchant dashboard use the exact same OAuth 2.0 server to handle logins for everyone. Very handy, for our iPhone app, and would mean we could roll the same functionality out to a potential Android app and web-based versions too.
+
+If you can think of it, you can make a custom grant type for it. Grant access to any users that provide you with a URL of an image, which contains a photograph of a car which happens to be yellow. Whatever.
+
+[Section 4.1]: http://tools.ietf.org/html/rfc6749#section-4.1
+[Section 6]: http://tools.ietf.org/html/rfc6749#section-6
+[Section 2.3.1]: http://tools.ietf.org/html/rfc6749#section-2.3.1
+[Section 4.3]: http://tools.ietf.org/html/rfc6749#section-4.3
+

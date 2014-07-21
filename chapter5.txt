@@ -175,16 +175,17 @@ Scenario: Searching places with filters
     And reset scope
 ~~~~~~~~
 
-This uses some custom rules which have been defined in `FeatureContext.php` but more on that shortly.
+This uses some custom rules which have been defined in the file `FeatureContext.php`, but more on that shortly.
 
 The Feature file is called `places.feature` and has 4 scenarios. One to find a specific place, another to show that
 listing all places is not allowed (400 means bad input, your should specify lat lon) and two more to test how well
 searching works.
 
-I try to think up the guard clauses that my endpoints will need, then make a "Scenario" for each of those. So, if you
-don't send a lat/lon to search then it errors. Test that.
+Try to think up the guard clauses that the endpoints will need, then make a "Scenario" for each of those. 
 
-Expecting a boolean value but get a string? Test that:
+For example, if the a endpoint requires `lat` and `lon` as query string parameters, try ommitting them and testing that to ensure the error message and status codes are correct. 
+
+If an input is expecting a boolean value but a string is provided? That should be a test too:
 
 ~~~~~~~~
 Scenario: Wrong Arguments for user follow
@@ -196,8 +197,7 @@ Scenario: Wrong Arguments for user follow
     Then I get a "400" response
 ~~~~~~~~
 
-Want to be sure your controllers can handle weird requests with a 404 instead of freaking out and going all 500 Internal
-Error? Test that.
+Want to be sure your controllers can handle weird requests with a 404 instead of freaking out and going all 500 Internal Error? There is another test:
 
 ~~~~~~~~
 Scenario: Try to find an invalid moments
@@ -205,7 +205,7 @@ Scenario: Try to find an invalid moments
     Then I get a "404" response
 ~~~~~~~~
 
-Sure you don't actually have any code yet, but you can write all of these tests based off of nothing but your "Action Plan" and your Routes. You should use what you know about the output content structure from [Chapter 3](#chapter-3) to plan what output you expect to see.
+Sure there is no actual code yet, but you can write all of these tests based off of nothing but your "Action Plan" and your Routes. You should use what you know about the output content structure from [Chapter 3](#chapter-3) to plan what output you expect to see.
 
 Then all you need to do is… you know… build your entire API.
 
