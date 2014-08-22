@@ -252,16 +252,16 @@ POST /messages HTTP/1.1
 Host: example.com
 Content-Type: application/json
  
-{
-	[{
-		"user" : { "id" : 10 }
+[
+	{
+		"user" : { "id" : 10 },
 		"message" : "Hello!"
 	},
 	{
-		"user" : { "username" : "philsturgeon" }
+		"user" : { "username" : "philsturgeon" },
 		"message" : "Hello!"
-	}]
-}
+	}
+]
 ~~~~~~~~
 
 This would look incredibly similar to create the data as it would to retrieve the data, which is intentional.
