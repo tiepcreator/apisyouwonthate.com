@@ -59,7 +59,8 @@ For example, an issue with the access token will always result in the user not b
 { 
   "error": {
     "type": "OAuthException",
-    "message": "Session has expired at unix time 1385243766. The current unix time is 1385848532."
+    "message": "Session has expired at unix time 1385243766.
+The current unix time is 1385848532."
   }
 }
 ~~~~~~~~
