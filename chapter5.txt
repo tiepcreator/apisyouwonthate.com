@@ -48,6 +48,7 @@ $ composer global require 'behat/behat=2.4.*'
 ~~~~~~~~
 
 otherwise run:
+
 ~~~~~~~~
 $ php composer.phar global require 'behat/behat=2.4.*'
 ~~~~~~~~
