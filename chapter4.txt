@@ -107,7 +107,7 @@ except twitter.TwitterError, exc:
 
     error_code = exc.__getitem__(0)[0]['code']
 
-    # If the token has expired then lets knock it out so we don't try again
+    # If the error code is one of those listed before, let’s just end here
     if error_code in skip_codes:
         message.reject()
 
