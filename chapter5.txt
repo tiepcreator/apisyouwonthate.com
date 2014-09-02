@@ -109,7 +109,7 @@ Looking at our users example from [Chapter 2](#chapter-2):
 |Favorites |GET /users/X/favorites |features/users-favorites.feature  |
 |Checkins  |GET /users/X/checkins  |features/users-checkins.feature   |
 
-So, anything to do with `/places` and `/places/X` would be the same, but as soon as you start looking at `/places/X/checkins` that becomes a new feature because we are talking about something else.
+So, anything to do with `/users` and `/users/X` would be the same, but as soon as you start looking at `/users/X/checkins` that becomes a new feature because we are talking about something else.
 
 You can use that convention or try something else, but this grows pretty well without having a bazillion files to sift through.
 
