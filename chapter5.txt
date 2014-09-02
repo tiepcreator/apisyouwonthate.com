@@ -58,7 +58,7 @@ If you are a Ruby user you have the ease of simply running `$ gem install cucumb
 
 Google should help you with Python.
 
-The rest of this chapter is going to stick purely to PHP for the sake of simplicity, and others can just use the equivilent commands as we go.
+The rest of this chapter is going to stick purely to PHP for the sake of simplicity, and others can just use the equivalent commands as we go.
 
 ## Initialise
 

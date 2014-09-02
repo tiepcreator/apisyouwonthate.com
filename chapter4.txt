@@ -121,7 +121,7 @@ except twitter.TwitterError, exc:
                 
 Compare this sort of logic with Facebook - and their lack of error codes:
     
-{title="Using Python to analyise Facebook error strings as no codes exist", lang=python}
+{title="Using Python to analyse Facebook error strings as no codes exist", lang=python}
 ~~~~~~~~
 except facebook.GraphAPIError, e:
 
