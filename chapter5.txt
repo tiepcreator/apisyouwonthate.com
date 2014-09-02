@@ -102,7 +102,7 @@ Looking at our users example from [Chapter 2](#chapter-2):
 |----------|-----------------------|----------------------------------|
 |Create    |POST /users            |features/users.feature            |
 |Read      |GET /users/X           |features/users.feature            |
-|Update    |POST /users/X          |features/users.feature            |
+|Update    |PUT /users/X           |features/users.feature            |
 |Delete    |DELETE /users/X        |features/users.feature            |
 |List      |GET /users             |features/users.feature            |
 |Image     |PUT /users/X/image     |features/users-image.feature      |
