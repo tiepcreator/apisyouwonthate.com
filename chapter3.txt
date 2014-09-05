@@ -50,6 +50,7 @@ $req = $client->post('/moments/1/gift', $headers, json_encode($payload))
 
 {title="Using Python and the Requests HTTP library to make a HTTP Request ", lang=python}
 ~~~~~~~~
+import json
 import requests
 
 headers = {
@@ -59,7 +60,11 @@ headers = {
 payload = {
     'user_id': 2
 }
-req = requests.post('http://api.example.com/moments/1/gift', data=json.dumps(payload), headers=headers)
+req = requests.post(
+  'http://api.example.com/moments/1/gift',
+  data=json.dumps(payload),
+  headers=headers
+)
 ~~~~~~~~
 
 It's all the same. Define your headers, define the body in an appropriate format and send it on its way. Then you get a response, so let's talk about those.

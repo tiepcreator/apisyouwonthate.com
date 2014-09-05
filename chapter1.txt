@@ -62,8 +62,8 @@ for ($i = 0; $i < Config::get('seeding.users'); $i++) {
         'timezone'           => mt_rand(-10, 10),
         'birthday'           => rand(0, 1) ? $faker->dateTimeBetween('-40 years', '-18 years') : null,
         'location'           => rand(0, 1) ? "{$faker->city}, {$faker->state}" : null,
-        'had_feedback_email' => (bool) rand(0, 1),
-        'sync_name_bio'      => (bool) rand(0, 1),
+        'had_feedback_email' => $faker->boolean,
+        'sync_name_bio'      => $faker->boolean,
         'bio'                => $faker->sentence(100),
         'picture_url'        => $this->picture_url[rand(0, 19)],
     ]);

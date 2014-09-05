@@ -38,22 +38,16 @@ personally prefer another language. Go on. It wont bite.
 ## Setup
 
 As a PHP developer you simply need to install Behat, and this can be done with [Composer](http://getcomposer.org/). It is
-fair to assume that if you are using any sort of modern PHP framework you are already familiar with this so I won't bore the non-PHP devs by getting stuck into it.
+fair to assume that if you are using any sort of modern PHP framework you are already familiar with this, so we can skip boring the non-PHP developers by getting too stuck into it.
 
-Assuming that composer is [installed globally](https://getcomposer.org/doc/00-intro.md#globally) in your system, to install Behat run:
+Assuming that Composer is [installed globally](https://getcomposer.org/doc/00-intro.md#globally) in your system, to install Behat run:
 
 {title="Install Behat globally with Composer"}
 ~~~~~~~~
-$ composer global require 'behat/behat=2.4.*'
+$ composer global require 'behat/behat=~2.4'
 ~~~~~~~~
 
-otherwise run:
-
-~~~~~~~~
-$ php composer.phar global require 'behat/behat=2.4.*'
-~~~~~~~~
-
-In any case, make sure `~/.composer/vendor/bin/` is added to your `$PATH` and you should be good to go.
+Make sure `~/.composer/vendor/bin/` is added to your `$PATH` and you should be good to go.
 
 If you are a Ruby user you have the ease of simply running `$ gem install cucumber`, or shove it in your `Gemfile`.
 
