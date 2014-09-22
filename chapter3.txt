@@ -342,7 +342,7 @@ means when you embed other nested relationships you can include a `”data”` e
 
 The only potential "con" left with Facebook is that the single resources are not namespaced, meaning that adding any sort of meta data would pollute the global namespace - something which PHP developers are against after a decade of flagrantly doing so.
 
-So the final output example (and the one which I am starting to use at Kapture for v4) is this:
+So the final output example (and the one which I am starting to use at Kapture for v4) is the following.
 
 ### Much Namespace, Nice Output
 
