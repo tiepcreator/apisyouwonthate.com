@@ -216,7 +216,7 @@ regardless of the HTTP Verb being used is just confusing.
 * Different content-types require different params, and some (like CSV) just do not fit
 * Forces API consumers to do weird stuff to keep links up-to-date when the param is in the query string
 
-### Approach #3: Custom Request Header
+### Approach #4: Custom Request Header
 
 So if the URL and the HTTP body is a bad place to put API version information, where else is left? Well,
 headers of course!
@@ -269,7 +269,7 @@ or `Foursquare-Version` or `X-Api-Version` or `Dave`. Who knows, and who can rem
 [Mark Nottingham, "Bad HTTP API Smells: Version Headers"]: http://www.mnot.net/blog/2012/07/11/header_versioning
 
 
-### Approach #4: Content Negotiation
+### Approach #5: Content Negotiation
 
 The `Accept` header is designed to ask the server to respond with a specific resource in a different format.
 Traditionally many developers think of this in terms of only (X)HTML, JSON, Images, etc, but it can be more
@@ -338,7 +338,7 @@ If changing the version of the whole API is too much, the only other option is t
 
 [GitHub, "Media Types"]: https://developer.github.com/v3/media/#api-v3-media-type-and-the-future
 
-### Approach #5: Content Negotiation for Resources
+### Approach #6: Content Negotiation for Resources
 
 Generally accepted to be the proper HATEOAS approach, content negotiation for specific resources using
 media-types is one of the most complex solutions, but is a very scalable way to approach things. It solves
@@ -396,7 +396,7 @@ developers stranded on an older version becomes far less likely.
 [Steve Klabnik]: http://blog.steveklabnik.com/
 ["Nobody Understands REST or HTTP"]: http://blog.steveklabnik.com/posts/2011-07-03-nobody-understands-rest-or-http#i_want_my_api_to_be_versioned
 
-### Approach #6: Feature Flagging
+### Approach #7: Feature Flagging
 
 This approach is something that so far I have only seen done by Facebook and its Graph API. Their approach
 is interesting, but not as common as some of these other approaches.
