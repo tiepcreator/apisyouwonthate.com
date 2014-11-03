@@ -158,7 +158,7 @@ For example, create _could_ be a PUT if you are creating one image for a place. 
 {lang=http}
 ~~~~~~~~
 PUT /places/1/image HTTP/1.1
-Host: exemple.com
+Host: example.com
 Content-Type: image/jpeg
 ~~~~~~~~
 
