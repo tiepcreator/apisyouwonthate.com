@@ -172,6 +172,27 @@ json="{
 
 Who is the developer trying to impress with stuff like that? It is insanity and anyone who tries this needs to have their badge and gun revoked. 
 
+Sending proper JSON data is rather simple in most server-size languages as demonstrated at the start of this chapter, but 
+JavaScript can be a little different. If you are working with systems like Backbone, EmberJS and AngularJS then they will
+most likely be handling their data interactions with your API in JSON already.
+
+If you need to do this manually, you can do this manually using jQuery's `$.ajax()` method:
+
+{lang=javascript}
+~~~~~~~~
+$.ajax({
+  type: "POST",
+  url: url,
+  data: { foo : "bar" },
+  success: success,
+  dataType: "json"
+});
+~~~~~~~~
+
+This is a very manual approach which may be too time consuming, so jQuery has another solution. The `$.serializeArray()`
+method - [documented here](http://api.jquery.com/serializearray/) can turn values from all matched elements into a JSON
+string for you to then send to the API.
+
 ### JSON and XML
 
 Any modern API you talk to will support JSON unless it is a financial services API or the developer is a moron - probably both to be fair. Sometimes they will support XML too. XML used to be a the popular format for data transfer with both SOAP and XML-RPC (duh). XML is however a nasty-ass disgusting mess of tags and the file-size of an XML file containing the same data as a JSON file is often much larger.
