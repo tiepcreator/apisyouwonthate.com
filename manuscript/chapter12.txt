@@ -100,7 +100,7 @@ protected function respondWithArray(array $array, array $headers = [])
             $content = json_encode([
                 'error' => [
                     'code' => static::CODE_INVALID_MIME_TYPE,
-                    'http_code' => 415,
+                    'http_code' => 406,
                     'message' => sprintf('Content of type %s is not supported.', $mimeType),
                 ]
             ]);
