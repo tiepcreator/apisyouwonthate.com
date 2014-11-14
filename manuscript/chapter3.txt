@@ -172,7 +172,7 @@ json="{
 
 Who is the developer trying to impress with stuff like that? It is insanity and anyone who tries this needs to have their badge and gun revoked. 
 
-Sending proper JSON data is rather simple in most server-size languages as demonstrated at the start of this chapter, but 
+Sending proper JSON data is rather simple in most server-side languages as demonstrated at the start of this chapter, but 
 JavaScript can be a little different. If you are working with systems like Backbone, EmberJS and AngularJS then they will
 most likely be handling their data interactions with your API in JSON already.
 
