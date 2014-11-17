@@ -18,17 +18,19 @@ great, and is super easy to do.
 
 ## Content Negotiation
 
-Some self proclaimed RESTful APIs (Twitter, you are to blame for this) handle content negotiation with file
+Some self-proclaimed RESTful APIs (Twitter, you are to blame for this) handle content negotiation with file
 extensions. Their URLs often look like:
 
 * `/statuses/show.json?id=210462857140252672`
 * `/statuses/show.xml?id=210462857140252672` 
 
-A RESTful API would simply have `/statuses/210462857140252672` and let the `Accept` header do the work.
+This is a bit of a misuse of the concept of a "resource," and forces users to know that the endpoint "show" exists, and that they must pick a content-type extension, and that the `id` parameter must be used...
+
+A good API would simply have `/statuses/210462857140252672`. This has the dual benefit of letting the API respond with a default content-type, or respect the `Accept` header and either output the request content-type or spit out a `415` status code if the API does not support it. The second benefit is that the consumer oes not need to know about `?id=`.
 
 URIs are not supposed to be a bunch of folders and file names, and an API is not a list of JSON files or XML files. They are a list of resources that can be represented in different formats depending on the `Accept` header, **and nothing else.**
 
-{title="A simple example of proper RESTful content negotiation requesting JSON"}
+{title="A simple example of content negotiation requesting JSON"}
 ~~~~~~~~
 GET /places HTTP/1.1
 Host: localhost:8000
@@ -63,7 +65,7 @@ Connection: close
 }
 ~~~~~~~~
 
-Many RESTful APIs will support JSON by default, or maybe _only_ JSON as our sample app has done so far.
+Most popular APIs will support JSON by default, or maybe _only_ JSON as our sample app has done so far.
 This is not realistic, but was done mainly for the sake of simplicity throughout the book so far.
 
 XML is still a tricky one to do as you need to require view files, and that is out of scope of this chapter.
@@ -164,10 +166,14 @@ technically a RESTful API.
 ![Batman provides a standard response to often futile bucket remark "But it's not RESTful if you..." Credit to Troy Hunt (@troyhunt)](images/chapter12/notrestful.png)
 
 While you often hear complaints like "but that is not RESTful!" from people about silly things, this is one
-instance where they are completely right. Without hypermedia controls you just have an API, not a RESTful
-API. This is an aspect in which 99% of all APIs fall short.
+instance where they are completely right. Roy Fielding says that [without hypermedia controls an API
+is not RESTful](http://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven), writing 
+back in 2008. People have been ignoring that ever since, and the last estimate was that 74% of APIs 
+claiming to be "RESTful" do not actually use hypermedia.
 
 ### RESTful Nirvana
+
+There is something floating around the REST/Hypermedia community called the ["Richardson Maturity Model"], written about here by [Martin Fowler] but originally invented by [Leonard Richardson]. It covers what he considers to be "the Four levels of REST":
 
 > 1. **"The Swamp of POX."** You’re using HTTP to make RPC calls. HTTP is only really used as a tunnel.
 > 1. **Resources.** Rather than making every call to a service endpoint, you have multiple endpoints that are used to represent resources, and you’re talking to them. This is the very beginnings of supporting REST.
@@ -175,16 +181,20 @@ API. This is an aspect in which 99% of all APIs fall short.
 > 1. **Hypermedia Controls.** HATEOAS. You’re 100% REST compliant.  
 > -- **Source: ** [Steve Klabnik, "Haters gonna HATEOAS"](http://timelessrepo.com/haters-gonna-hateoas)
 
-_That article is based off an article by [Martin Fowler] called ["Richardson Maturity Model"] and explains a model written by [Leonard Richardson] covering what he considers to be the four levels of REST maturity._
+Some dispute this model because - as Roy says - unless you have hypermedia then it is not REST. 
+The model is good as long as you understand that steps 1, 2 and 3 are still "not REST" and step 4
+is "REST."
 
-So what are hypermedia controls? They are just links, a.k.a "Hyperlinks", which you have probably been
-using in your HTML output for years. I said early on in the book that REST is just using HTTP and the same
-conventions as the actual internet instead of inventing new ones, so it makes sense that linking to other
-resources should be the same in an API as it is in a web page.
+So, what are hypermedia controls? They are just links to other content, relationships and further actions. These allow a consumer to browse around the API, discovering actions as it goes.
 
-The underlying theme of HATEOAS in general is that an API should be able to make perfect sense to an API
-client application and the human looking at the responses, entirely without having to hunt through
-documentation to work out what is going on.
+Basically, your data needs to have "hyperlinks", which you have probably been using in your HTML
+output for years. I said early on in the book that REST is just using the same conventions as the
+actual Internet instead of inventing new ones, so it makes sense that linking to other resources 
+should be the same in an API as it is in a web page.
+
+The underlying theme of hypermedia in general is that an API should be able to make perfect sense
+to an API client application and the human looking at the responses, entirely without having to 
+hunt through documentation to work out what is going on.
 
 Small HATEOAS concepts have sneakily been sprinkled throughout this book, from suggesting error codes be
 combined with human readable error messages and documentation links, to helping the client application avoid
