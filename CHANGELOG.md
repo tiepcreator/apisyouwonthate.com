@@ -13,6 +13,7 @@ All notable changes to the book will be documented in this file.
 
 ### Fixed
 
+- Chapter 7: Side-loading examples were outdated and explained unfairly. Side-loading has some real advantages, despite annoying me on some unexplainable personal level.
 - Chapter 12: Incorrectly asserted that using `.json` in URLs was not RESTful. It is however still a crappy idea for a multitude of reasons.
 
 ### Removed
