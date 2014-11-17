@@ -201,11 +201,16 @@ class PlaceController extends ApiController
 Certainly much better, but what if a different controller wants to show a place at any point? You could theoretically
 move all of these transform methods to a new class or shove them in the `ApiController`, but that would just be odd.
 
-Really you want to make what I have come to call "Transformers", partially because the name is awesome and because that
-is what they are doing.
+Really you want to make what I have come to call "Transformers", partially because the name is 
+awesome and because that is what they are doing; "Transforming" data from the format it was stored as 
+in the data store, into something ready to be converted into JSON or whatever else, with a bit more
+structure than just dumping out whatever your DB driver happened to give you.
 
-These are essentially just classes which have a transform method, which does the same as the `transformPlaceToJson()`
-above, but to avoid you having to learn how to make your own I have released a PHP package which takes care of it: [Fractal](http://fractal.thephpleague.com/).
+I built a component to do this called [Fractal](http://fractal.thephpleague.com/), because PHP did 
+not seem to have anything that would let me do this. Python has [Marshmallow](http://marshmallow.readthedocs.org/) 
+and Rails has ActiveModel Serializers. They all do roughly the same thing, but for this book - to 
+keep with the concrete PHP example appliction - we will be using Fractal. The same theories apply, 
+so do not be concerned. 
 
 ## Transformations with Fractal
 
