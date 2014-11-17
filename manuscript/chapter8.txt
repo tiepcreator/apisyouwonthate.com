@@ -45,7 +45,7 @@ bookmarks, but for your endpoints and with all the correct headers and values.
 These clients exist for Windows, OSX and Linux but one that has really stood out to me is a Chrome extension called
 [Postman][].
 
-  [Postman]: http://getpostman.com
+  [Postman]: http://getpostman.com/
 
 ![Postman HTTP Client, showing a collection and a sucessful JSON response](images/chapter8/postman-collection.png)
 
@@ -63,9 +63,9 @@ Repeat until the endpoint "works", and passes the test.
 The approach above works fine if the problem is one that you can see. Anything to do with a slow page return,
 silent fails, unexpected results, etc. all need more information, and to do that you probably need another extension.
 
-**[RailsPanel][]** - Chrome-only DevTool panel with logging and profiling for Ruby on Rails. ([RailsCasts Video][RailsPanelCast]).
+**[RailsPanel]** - Chrome-only DevTool panel with logging and profiling for Ruby on Rails. ([RailsCasts Video][RailsPanelCast]).
 
-**[Clockwork][]** - Chrome DevTool panel and standalone web app with logging and profiling for PHP.
+**[Clockwork]** - Chrome DevTool panel and standalone web app with logging and profiling for PHP.
 
 **[Chrome Logger]** - Chrome Logger only for Python, PHP, Ruby, Node, .NET, CF and Go.
 
