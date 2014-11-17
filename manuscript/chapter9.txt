@@ -184,7 +184,7 @@ OAuth 2 dropped the "secret token" so users are simply getting an "Access Token"
 Even a basic GET request in OAuth 1.0a was horrendous, as you'd always need to set up your consumers, signatures, etc, but with OAuth 2.0 you can simply do this:
 
 ~~~~~~~~
-file_get_contents('https://graph.facebook.com/me?access_token=DFGJKHDFGHDIFHGFKDJGHIU');
+file_get_contents('https://graph.facebook.com/me?access_token=vr5HmMkzlxKE70W1y4MibiJUusZwZC');
 ~~~~~~~~
 
 Or, as we saw back in [Chapter 3](#chapter-3), you can usually pass Access Tokens to the server as a HTTP request header:
@@ -192,7 +192,7 @@ Or, as we saw back in [Chapter 3](#chapter-3), you can usually pass Access Token
 ~~~~~~~~
 POST /moments/1/gift HTTP/1.1
 Host: api.example.com
-Authorization: Bearer vr5HmMkzlxKE70W1y4MibiJUusZwZC25NOVBEx3BD1
+Authorization: Bearer vr5HmMkzlxKE70W1y4MibiJUusZwZC
 Content-Type: application/json
 
 { "user_id" : 2 }
@@ -248,7 +248,7 @@ Often I am asked why anyone would still use OAuth 2.0 after Erin Hammer (lead au
 Generally speaking his departure from the project is no major loss. I'm sure the IETF are bike-shedding hard, but after using both for years I am much happier with OAuth 2.0 and really wish [Twitter would get on with a full upgrade] so I never have to use OAuth 1.0a again.
 
 
-Generally speaking OAuth 2.0 is a good fit for most situations, providing that you **use SSL** and implement a **well tested** existing solution 
+Generally speaking OAuth 2.0 is a good fit for a huge majority of situations, providing that you **use SSL** and implement a **well tested** existing solution 
 for your OAuth 2.0 Server. Trying to do this yourself can be incredibly hard and may well lead to you getting super-hacked. Even Facebook
 have trouble with this to this day because they rolled their own solution based on a really early draft of the specification. 
 
@@ -269,17 +269,21 @@ Implementation by hand of a OAuth 2.0 server (or any of these authentication met
 difficult. This chapter aimed to explain the pros, cons and use-cases for each, and implementation is sadly out of its
 scope. Here are a few existing implementations that you could look into using.
 
-
 ### PHP Implementations
 
-One implementation stands out above the rest in PHP-land, and not just because it is written by a friend of mine: [Alex Bilbie](http://alexbilbie.com/). We originally became friends because not only is he an all-round good guy, but he has studied both OAuth specs religiously, and built some great tools for them over the years which I have used many times. 
+One implementation stands out above the rest in PHP-land, and not just because it is written by a friend of mine: [Alex Bilbie](http://alexbilbie.com/). He has studied both OAuth specs religiously, and built some great tools for them over the years which I have used many times. 
 
-In his last job he worked at University of Lincoln, using OAuth for all sorts of cool things. He then received funding for a research project to build awesome open-source code for improving authentication and interoperability. That project resulted in a few great packages, including the [PHP OAuth 2.0 Server](https://github.com/thephpleague/oauth2-server), which now has a home with [The League of Extraordinary Packages](http://thephpleague.com/). It is the only PHP package to implement the entire OAuth 2.0 spec, so is very worth trying out.
+In his last job he worked at University of Lincoln he was using OAuth for all sorts of cool things. 
+He then received a huge amount of funding for a research project to build awesome open-source code
+for improving authentication and interoperability. That project resulted in a few great packages, 
+including the [PHP OAuth 2.0 Server](http://oauth2.thephpleague.com/). It has a bridge-package for 
+Laravel which makes it trivial to implement.
 
 A> ### OAuthello
 A> Alex is writing [a book](http://leanpub.com/oauthello-a-book-about-oauth/c/apisyouwonthate) covering the implementation of this server in great detail amongst all other OAuth things, so you should definitely pick up a copy. That URL contains a coupon code `apisyouwonthate`, which should knock a significant chunk off the price.
 
-There is another [PHP OAuth 2.0 server implementation](http://bshaffer.github.io/oauth2-server-php-docs/) which also probably works.
+There is another [PHP OAuth 2.0 server implementation](http://bshaffer.github.io/oauth2-server-php-docs/) which has been around for roughly the same amount of time. The two approaches are a little
+different but both implement the full spec, so have a click around and see which you prefer. 
 
 ### Python Implementations
 
@@ -289,8 +293,15 @@ Another is [python-oauth2](https://github.com/simplegeo/python-oauth2) which was
 
 ### Ruby Implementations
 
-The only active and documented Ruby OAuth 2.0 Server I found was a Rack module named [Rack::OAuth2::Server](https://github.com/assaf/rack-oauth2-server). It is well documented with examples of implementations in Rails, Sinatra and Padrino.
+Since working at Kapture I have been working on a Rails codebase, and implemented [Doorkeeper] with 
+great success. Doorkeeper supports the main grant types, has great documentation and is being actively developed by a very responsive team of contributors. It also documents some simple 
+integration for Devise - a popular user / authentication system for Rails.
 
+There is also a Rack module named [Rack::OAuth2::Server]. I have no experience using it, but it 
+seems actively developed and has documentation to implement into Rails, Sinatra and Padrino.
+
+[Doorkeeper]: https://github.com/doorkeeper-gem/doorkeeper
+[Rack::OAuth2::Server]: https://github.com/assaf/rack-oauth2-server
 
 ## Where the OAuth 2.0 Server Lives
 
@@ -300,7 +311,7 @@ An OAuth server usually has a web interface, which has HTML forms, form validati
 
 Generally speaking it is better to keep all of these things autonomous, as if you decide to build a new version of your website in AngularJS instead of server-side code then it would be a pain to have to switch your OAuth server implementation too. If the OAuth server is on its own server, or at very least its own code-base, then you do not have this concern.
 
-The only thing your API needs to do is look for an Access Token (as a header or query string parameter) then hit whichever datastore (SQL database, Mongo, etc) that contains the access tokens. Check it is valid (in the DB and not expired) then grab whichever user is tied to it, and pull that record for use throughout the API code.
+The only thing your API needs to do is look for an Access Token (as a header or query string parameter) then hit whichever data store (SQL database, Mongo, etc) that contains the access tokens. Check it is valid (in the DB and not expired) then grab whichever user is tied to it, and pull that record for use throughout the API code.
 
 None of that is complicated, so trying to tie the API server and OAuth server together in the same application code-base out of some misplaced perception of belonging is just not required.
 
