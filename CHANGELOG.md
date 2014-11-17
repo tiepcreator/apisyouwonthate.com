@@ -9,6 +9,7 @@ All notable changes to the book will be documented in this file.
 - Chapter 4: Added a section to chapter4 about "JSON-API" and "Problem Details" standards for errors.
 - Chapter 6: Mentioned "Marshmallow" and "ActiveModel Serializers" as alternatives to Fractal.
 - Chapter 9: Mentioned "Doorkeeper" and made the description of `bshaffer/oauth2-server` more fair.
+- Chapter 10: Talk about Pagination with the `Link` header.
 
 ### Fixed
 
