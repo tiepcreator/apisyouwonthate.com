@@ -7,12 +7,17 @@ certain things are more RESTful than others, whilst actually having very little 
 The word REST has been so utterly misused for the last 5 or 6 years it actually means nothing anymore,
 and a large chunk of the API development community has moved to terms like "Hypermedia API" to 
 represent what was intended by the original meaning of REST before it was utterly ruined. This book
-will not get too hung up on that politics. It will mostly outline the pro's and con's of various approaches, only giving you the "one true way" when the other approaches are all patently awful. Like SOAP and XML-RPC in general. They can f**k the s**t off.
+will not get too hung up on that politics. It will mostly outline the pro's and con's of various approaches, only giving you the "one true way" when the other approaches are all patently awful. Like SOAP and XML-RPC in general. They can f@%k off.
 
 I found most resources out there to be horribly lacking or specifically aimed at one single framework. Many tutorials and books use apples and pears examples which are not concrete enough, or talk like listing `/users` and `/users/1` are the only endpoints you will ever need. Between 2012 and 2014 I worked for a company called Kapture, where my primary function has been to inherit, rebuild, maintain and further develop a fairly large API with many different endpoints exposing a lot of different use-cases. 
 
-The API in question was v2 when I joined the company and written in FuelPHP, utilizing a long since deprecated ORM which had been hacked to death by the original developer. Kapture was in the process of rebuilding its iPhone application to implement new functionality, so I used this as an opportunity to delete that mess and build v3 in Laravel 4, leveraging its simple (initially Symfony-based) Routing, Database Migrations, Schema, Seeding, etc. Now we are doing the same for v4 but no rewrite was required this time, even though we have some different functionality the v3 repo was forked to a new one for v4 and both are being actively developed and living side-by-side on the same "API" servers.
+The API in question was v2 when I joined the company and written in FuelPHP, utilizing a long since deprecated ORM which had been hacked to death by the original developer. Kapture was in the process of 
+rebuilding its iPhone application to implement new functionality, so I used this as an opportunity to delete
+that mess and build v3 in Laravel 4, leveraging its simple (initially Symfony-based) routing, database
+migrations, schema, seeding, etc. Now we are doing the same for v4 but no rewrite was required this time,
+even though we have some different functionality the v3 repo was forked to a new one for v4 and both are 
+being actively developed and living side-by-side on the same "API" servers.
 
 By passing on some best practices and general good advice you can hit the ground running if you are new to API development. On the flip side, by recounting some horror stories (and how they were overcome/avoided/averted) you can hopefully avoid a lot of the pitfalls I either fell into, or nearly fell into, or saw others fall into. This book will discuss the theory of designing and building APIs in any language or framework. This theory will be applied in examples built mostly in PHP, with some Ruby and Python too. The book will not be too code-heavy regardless, as reading code is no fun.
 
-By the end of this book, you will have built an API that can handle create, read, update, delete, listing, searching and everything else a good Hypermedia API needs to do. Some of the more advanced topics covered here are endpoint testing, debugging, embedding/nesting data objects in a consistent and scalable manner, paginating responses, relationships, building discoverable APIs and HATEOAS.
+By the end of this book, you will have built an API that can create, read, update, delete, things, handle searching and do everything else a good Hypermedia API needs to do.
