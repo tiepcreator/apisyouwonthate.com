@@ -44,7 +44,7 @@ Assuming that Composer is [installed globally](https://getcomposer.org/doc/00-in
 
 {title="Install Behat globally with Composer"}
 ~~~~~~~~
-$ composer global require 'behat/behat=~2.4'
+$ composer global require behat/behat
 ~~~~~~~~
 
 Make sure `~/.composer/vendor/bin/` is added to your `$PATH` and you should be good to go.

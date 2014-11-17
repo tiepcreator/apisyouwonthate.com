@@ -65,7 +65,7 @@ flexibility and making sub-resources the only way to load related data is restri
 ## Foreign Key Arrays
 
 Another approach to related data is to provide an array of foreign keys in the output. To use
-the [JSON-API](http://jsonapi.org/) "standard" as an example, if a `post` has multiple
+the [JSON-API](http://jsonapi.org/) standard as an example, if a `post` has multiple
 `comments`, the `/posts` endpoint might contain the following:
 
 ~~~~~~~~

@@ -13,12 +13,9 @@ All notable changes to the book will be documented in this file.
 
 ### Fixed
 
+- Chapter 4: Updated the "Error v Errors" section, as I now like Errors and the single error argument was not worth ignoring popular approach.
 - Chapter 7: Side-loading examples were outdated and explained unfairly. Side-loading has some real advantages, despite annoying me on some unexplainable personal level.
 - Chapter 12: Incorrectly asserted that using `.json` in URLs was not RESTful. It is however still a crappy idea for a multitude of reasons.
-
-### Removed
-
-- Chapter 4: Deleted the "Error v Errors" section, as I now like Errors and the single error argument was not worth ignoring popular approach.
 
 ## 1.5.0 - 2014-11-17
 

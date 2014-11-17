@@ -253,9 +253,9 @@ Work out which format(s) you actually need and _stick to those_. Sure Flickr sup
 
 This is a tough topic and there is no right answer and whether you use EmberJS, RestKit or any other framework with knowledge of REST you will find somebody annoyed that the data is not in their specific preferred format. There are a lot of factors and I will simply explain them all and let you know where I landed.
 
-### JSON API
+### JSON-API
 
-There is one recommended format on [JSON API](http://jsonapi.org/format/) which maybe you all just want to use. It suggests that both single resources and resource collections should both be inside a plural key.
+There is one recommended format on [JSON-API](http://jsonapi.org/format/) which maybe you all just want to use. It suggests that both single resources and resource collections should both be inside a plural key.
 
 {lang=javascript}
 ~~~~~~~~
@@ -278,7 +278,7 @@ There is one recommended format on [JSON API](http://jsonapi.org/format/) which 
 
 EmberJS (EmberData) out of the box will get fairly sad about this and I had trouble hacking it to support the fact that only requesting one item would still return an array that looks like it could contain multiple. It seems (to me) to be a weird rule. Imagine you call `/me` to get the current user, and it gives you a collection? What the hell?
 
-Do not discount JSON API as it is a wonderful resource with a lot of great ideas, but it strikes me as over-complicated in multiple areas.
+Do not discount JSON-API as it is a wonderful resource with a lot of great ideas, but it strikes me as over-complicated in multiple areas.
 
 ### Twitter-style
 
@@ -397,7 +397,7 @@ Namespace the multiple items.
 }
 ~~~~~~~~
 
-This is close to the JSON API response, has the benefits of the Facebook approach and is just like Twitter but 
+This is close to the JSON-API response, has the benefits of the Facebook approach and is just like Twitter but 
 everything is namespaced. Some folks (including me in the past) will suggest that you should change `"data"` to `"users"`
  but when you start to nest your data you want to keep that special name for the name of the relationship. For example:
 
