@@ -141,22 +141,103 @@ except facebook.GraphAPIError, e:
 If they change their error messages then this might stop working, which would be a problem. Codes (that
 do not change) are a much more sensible way to go about this.
 
+{title="If Facebook added codes and documentation links to GraphAPI error responses.", lang=json}
 ~~~~~~~~
 { 
   "error": {
     "type": "OAuthException",
     "code": "ERR-01234",
     "message": "Session has expired at unix time 1385243766. The current unix time is 1385848532."
-    "documentation_url": "http://example.com/docs/errors/#ERR-01234"
+    "href": "http://example.com/docs/errors/#ERR-01234"
   }
 }
 ~~~~~~~~
 
 ## Error or Errors
 
-When returning errors, especially for validation, it can seem like a great idea to try and return multiple errors at a time to make things quicker for whatever client is interacting with the API. This sounds good in practice, but I find it’s best to simply stop processing (exit out) after the first error to avoid further controller interaction. This means less work goes into making a maintainable state for your controller after something goes wrong, and really is how most APIs work. 
+When returning errors, I always used to return just one error. In the case of validation I would return 
+them one at a time, as an easy way to exit out of a controller. Thinking about it this was probably just
+laziness, but after being forced to work with the JSON-API standard the use of multiple errors
+started to feel more natural. 
 
-Try A, get error 1. Try B, get error 2. Try C, it works!
+{title="If Facebook returned multiple errors in a list for GraphAPI responses.", lang=json}
+~~~~~~~~
+{ 
+  "errors": [{
+    "type": "OAuthException",
+    "code": "ERR-01234",
+    "message": "Session has expired at unix time 1385243766. The current unix time is 1385848532."
+    "href": "http://example.com/docs/errors/#ERR-01234"
+  }]
+}
+~~~~~~~~
+
+## Standards for Error Responses
+
+So far this chapter has used entirely home-grown formats for errors. It is incredibly common even with
+the most popular APIs to build completely arbitrary error formats, so I wanted to teach you the theory
+before forcing you to read complicated standards. 
+
+There are two popular standards which cover error reporting, which are both fairly similar, but sadly 
+still in Draft at time of writing.
+
+2. [Problem Details for HTTP APIs](http://tools.ietf.org/html/draft-nottingham-http-problem)
+
+### JSON-API
+
+[JSON-API](http://jsonapi.org/format/#errors) is discussed in a few sections of this book, and is a 
+standard outlining the general format of requests and responses in JSON when working with HTTP APIs. It
+has a section on errors, which I quite like. 
+
+The following is an excerpt from the JSON-API standard at time of writing. 
+
+> An error object MAY have the following members:
+
+> * `"id"` - A unique identifier for this particular occurrence of the problem.
+> * `"href"` - A URI that MAY yield further details about this particular occurrence of the problem.
+> * `"status"` - The HTTP status code applicable to this problem, expressed as a string value.
+> * `"code"` - An application-specific error code, expressed as a string value.
+> * `"title"` - A short, human-readable summary of the problem. It SHOULD NOT change from occurrence to > occurrence of the problem, except for purposes of localization.
+> * `"detail"` - A human-readable explanation specific to this occurrence of the problem.
+> * `"links"` - Associated resources which can be dereferenced from the request document.
+> * `"path"` - The relative path to the relevant attribute within the associated resource(s). Only appropriate for problems that apply to a single resource or type of resource.
+
+> Additional members MAY be specified within error objects.
+
+When you make your API responses, you pretty much just need to make an array with items that looks a bit
+like this.
+
+~~~~~~~~
+{
+  "errors": [{
+    "code": "ERR-01234",
+    "title": "OAuth Exception",
+    "details": "Session has expired at unix time 1385243766. The current unix time is 1385848532.",
+    "href": "http://example.com/docs/errors/#ERR-01234"
+  }]
+}
+~~~~~~~~
+
+See how that Facebook example has been slightly tweaked to follow the standard? Nice and easy.
+
+### Problem Details for HTTP APIs
+
+This is currently a [draft RFC](http://tools.ietf.org/html/draft-nottingham-http-problem), which at the
+time of writing was on Draft 7. 
+
+The goal of this RFC is to define a "problem detail" like we have been doing throughout this chapter, 
+but in a standard way - to avoid inventing new formats for each and every HTTP API. It is being headed up
+by Mark Nottingham, which is a name that will come up a few times in this book.
+
+Mark wrote a [tutorial about Problem Details] which will explain the standard a little better. 
+
+If you are interested in implementing this standard then there are tools to make it easy:
+
+* [crell/api-problems] for PHP
+
+[tutorial about Problem Details]: https://www.mnot.net/blog/2013/05/15/http_problem
+[crell/api-problems]: https://github.com/Crell/ApiProblem
+
 
 ## Common Pitfalls
 
