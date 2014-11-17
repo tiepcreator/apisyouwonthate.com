@@ -8,17 +8,17 @@ Pagination is one of those words that means something very specific to many deve
 
 There are a few ways to achieve pagination, but when talking in terms of an API it means:
 
-> any way you want to go about splitting up your data into multiple HTTP requests, for the sake of limiting HTTP Response size
+> Any way you want to go about splitting up your data into multiple HTTP requests, for the sake of limiting HTTP Response size.
 
 There are a few reasons for doing this:
 
 1. Downloading more stuff takes longer
 2. Your database might not be happy about trying to return 100,000 records in one go
-3. Presentation logic iterating over 100,000 records is also no fun
+3. Presentation logic iterating over 100,000 records is no fun
 
 As you can probably tell, 100,000 is a arbitrary number. An API could have endpoints like `/places` with over 1 million
-records, or checkins which could be unlimited. While developing an API so many people forget about this, and
-while 10 or 100 records will display quite quickly, infinity is considerably slower. Data grows.
+records, or checkins which could be unlimited. While developing an API many people forget about this, and
+while 10 or 100 records will display quite quickly during development, infinity is considerably slower. Data grows exponentially.
 
 A good API will allow the client to request the number of items it would like returned per HTTP request. Some developers
 try to be smart and use custom HTTP headers for this, but this is literally what the query string is for.
@@ -26,7 +26,7 @@ try to be smart and use custom HTTP headers for this, but this is literally what
 > /places?number=12
 
 Some use `number`, `limit`, `per_page` or whatever. I always think `limit` only really makes sense because SQL users are
-used to it and REST is not SQL, so I personally use `number`.
+used to it and an API is not SQL, so personally I use `number`.
 
 W> ### Define a Maximum
 W> When you take the limit/number parameter from the client, you absolutely have to set an upper bound on that number,
@@ -258,3 +258,32 @@ $resource->setCursor($cursor);
 This will take the current cursor, use it as an offset, then work out the base64 version and convert it. There is a
 bit of work to do in this example because the Cursor class is intentionally vague. Instead of using an offset it could
 be a specific ID and you use it for an SQL `WHERE id > X` clause, but better not.
+
+### Pagination with the Link Header
+
+The `Link` header is one not often used, but was introduced in [RFC 5988] for just this sort of
+thing. 
+
+{title="Example showing GitHub's use of the Link header in a HTTP response"}
+~~~~~~~~
+Link: <https://api.github.com/user/repos?page=3&per_page=100>; rel="next", <https://api.github.com/user/repos?page=50&per_page=100>; rel="last"
+~~~~~~~~
+
+I have never used this and am dubious. Some argue that pagination is meta-data, and meta-data should be kept out of the response. 
+
+Inserting pagination data into the API response in a `"pagination"` namespace is very common and 
+has been my go-to solution for years. I would slot it next to the `"data"` namespace, and that makes
+it very easy for clients who A) cannot read those HTTP headers and B) do not know to look there.
+
+That said, using the `Link` header can help you avoid needing to wrap your collections in a
+namespace at all. This might be something that interests you, as through developing Fractal I ran
+into many developers who _hate_ using a namespace for their collections.
+
+The final advantage to mention would be that the `Link` is standard. Parsing it is going to be 100% 
+the same for each API, and not expect the client to work out if the link is contained in `uri`, `url`, `href` or something else.
+
+Every API should chose its approach to pagination itself. Using this specific header does not make 
+it "more RESTful" regardless of how many people seem to think that is the case. It just makes it
+more "HTTPish" than defining your own pagination meta-data.
+
+[RFC 5988]: http://tools.ietf.org/html/rfc5988#page-6
