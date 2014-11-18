@@ -1,7 +1,7 @@
 # Change Log
 All notable changes to the book will be documented in this file.
 
-## Unreleased
+## 1.6.0 - 2014-11-18
 
 ### Added
 
