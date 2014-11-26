@@ -3,19 +3,24 @@
 ## Introduction
 
 Once you have built your wonderful new API, at some point it will need to be replaced or have new features
-added. Sadly there is no real consensus on which approach is the "best".
+added. Sadly there is no real consensus on which approach is the "best," but instead there are pros and cons to each approach.
 
 The general advice you will find most experts giving is: try to limit change as much as possible. That is
-a very fair statement to make, but also seems like a bit of a cop-out. Regardless of how well planned your
-API is, your business requirements will likely be what kills you.
+a very fair statement to make, but also seems like a bit of a cop-out. Regardless of how well planned
+your API is, your business requirements will likely be what forces you to make substantial changes
+eventually.
 
-In the startup world where things are less structured this can be a killer. Kapture started off with "Opportunities". which became "Photo Opps" and ended up being called "Campaigns." You can laugh at that and say it will never happen to you, but it will. When you are least expecting it, business requirements will come at you like a wet mackeral to the face. When that happens, API versioning is your only solution.
+This can be a killer in the startup world, where things are considerably less structured. Kapture
+started off with "Opportunities". which became "Photo Opps" and ended up being called "Campaigns." You
+can laugh at that and say it will never happen to you, but it will. When you are least expecting it,
+business requirements will come at you like a wet mackeral to the face. When that happens, API
+versioning is your only solution.
 
 > Sure you could say that your API needs to maintain backward compatibility - but that is not very realistic when you are properly reusing your API across your product line. To demonstrate further, lets say you have 30 applications (and maybe a handful of external companies using the API), all of which are relying on the "customer" REST resource - your choices now are:  
 >  
-> 1.) Keep it backward compatible (and lose the million dollar sale because you couldn't implement cool feature X)  
-> 2.) Change all 30 applications simultaneously to handle the new data (you likely don't have enough resource to do this and deliver on time)  
-> 3.) Make the change, breaking the apps you don't have time to upgrade, but get the sale. (of course you will fix the remaining apps in the future, right?)  
+>  1. Keep it backward compatible (and lose the million dollar sale because you couldn't implement cool feature X)  
+>  2. Change all 30 applications simultaneously to handle the new data (you likely don't have enough resource to do this and deliver on time)  
+>  3. Make the change, breaking the apps you don't have time to upgrade, but get the sale. (of course you will fix the remaining apps in the future, right?)  
 > -- **Source:** [Jeremy Highley, "Versioning and Types in REST/HTTP API Resources"]
 
 [Jeremy Highley, "Versioning and Types in REST/HTTP API Resources"]: http://thereisnorightway.blogspot.com.tr/2011/02/versioning-and-types-in-resthttp-api.html
@@ -43,7 +48,7 @@ Essentially all you do here is put a `v1` or `1` in the URL, so that the next ve
 Due to being so prolific throughout various public APIs, this is often the first approach API developers take
 when building their own. It is by far the easiest and it does the job.
 
-Twitter have two current versions: `/1/` and `/1.1/`, which are both live at the the time of writing. This
+Twitter have two versions: `/1/` and `/1.1/`, which are both live at the the time of writing. This
 gives developers a chance to update any code that is referencing the old endpoints, so they can use the new
 ones. Most APIs would have called it `/2/`, but it was not a drastic change so perhaps they wanted a more
 subtle number.
@@ -51,16 +56,22 @@ subtle number.
 Some say that URI versioning allows for a more "copy & paste"-friendly URL than other approaches (many of 
 which involve HTTP headers) and this is supposedly better for support.
 
-That might be true in some ways but seems like a bit of a misnomer. No RESTful API is ever going to be entirely "copy & paste"-friendly because there will always be headers involved: `Cache-Control`, `Accept`, `Content-Type`, `Authorization`, etc. Trying to make an entire API request fit in a URL just seems like a fools errand.
+That might be true in some ways but seems like a bit of a misnomer. No REST/Hypermeida API is ever going to be entirely "copy & paste"-friendly because there will always be headers involved: `Cache-Control`, `Accept`, `Content-Type`, `Authorization`, etc. Trying to make an entire API request fit in a URL just seems like a fools errand.
 
 While the copy-paste argument is simply a lack of a positive, this versioning approach does have some 
 potentially frustrating downsides.
 
-The first thing people will say is that it is not technically RESTful. The idea is that a resource is meant
-to be more like a permalink. This link should never change, and it should always be there - just like a blog
-post. If the Internet is built around linking together and those links are changing all the time then... well
-things break. This might not be something you are too concerned about - especially if the API is internal -
-but it can be annoying for others.
+The first thing people will say is that it is not technically RESTful. If you care about breaking this REST rule or not is up to you, but Roy Fielding says that placing the version in the URL like this basically makes your API into a RPC API instead.
+
+![Roy says: "v1 is a middle finger to your API customers, indicating RPC/HTTP (not REST)"](images/chapter13/roy-versioning.png)
+
+His mention of "evolvability" is fundamental to the concept of REST. A resource is meant to be more like
+a permalink. This permalink (the URL) should never change. Over time you can hit that permalink with different version headers, or request different representations of JSON or XML or whatever you like, but
+it will always be the same URL.
+
+If the Internet is built around linking together and those links are changing all the time then... well
+things break. This might not be something you are too concerned about - especially if the API is
+internal - but it can be hugely annoying for others.
 
 For example, if you store the URL of an endpoint in your database for later reference, it might look like
 this:
