@@ -207,10 +207,18 @@ in the data store, into something ready to be converted into JSON or whatever el
 structure than just dumping out whatever your DB driver happened to give you.
 
 I built a component to do this called [Fractal](http://fractal.thephpleague.com/), because PHP did 
-not seem to have anything that would let me do this. Python has [Marshmallow](http://marshmallow.readthedocs.org/) 
-and Rails has ActiveModel Serializers. They all do roughly the same thing, but for this book - to 
-keep with the concrete PHP example appliction - we will be using Fractal. The same theories apply, 
-so do not be concerned. 
+not seem to have anything that would let me do this.  Other languages have great solutions for this
+already. Some call it "Data Marshalling" or "Serialization", but it is all achieving roughly the 
+same goal: take potentially complicated data from a range of stores and turn it into a consistent
+output.
+
+* [Marshmallow] - Python
+* [ActiveModel Serializers] - Built for Rails API, which will be part of Rails 4.2
+* [Roar] - Ruby, but not limited to Rails or ActiveModel
+
+[Marshmallow]: http://marshmallow.readthedocs.org/
+[ActiveModel Serializers]: https://github.com/rails-api/active_model_serializers
+[Roar]: https://github.com/apotonick/roar
 
 ## Transformations with Fractal
 
@@ -221,13 +229,6 @@ controller.
 
 Fractal does a lot more than that which will be explored later on, but it covers concerns with transformation perfectly,
 removes the security, stability and display concerns addressed earlier.
-
-While other languages have great solutions for this already, PHP seemed to be rather lacking for this exact purpose.
-Some call it "Data Marshalling" or "Nested Serialization", but it is all achieving roughly the same goal: take
-potentially complicated data from a range of stores and turn it into a consistent output.
-
-* [Jbuilder](https://github.com/rails/jbuilder) looks fairly slick for the Ruby crowd
-* Tweet other suggestions to @philsturgeon
 
 That is the end of theory in this book. We will now be working with code. Open up the Sample Code ZIP file or head to
 the [GitHub repo](https://github.com/philsturgeon/build-apis-you-wont-hate) and extract it somewhere useful.
