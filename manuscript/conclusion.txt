@@ -15,7 +15,7 @@ For example, I plan to;
 * Improve the Behat test coverage on the sample application.
 * Implement [league\oauth2-server](https://github.com/thephpleague/oauth2-server) for the PHP sample app.
 
-A dilema I am having currently is that any further explanation of RESTful API development is just going to
+A dilemma I am having currently is that any further explanation of RESTful API development is just going to
 be paraphrasing content in the [HTTP 1.1 Specification]. RESTful APIs respect as many aspects of the HTTP
 spec as possible, so headers like `Accept-Language`, `Expires`, `Etag`, `Retry-After`, etc could be
 catered for. A whole book could be written about the HTTP spec itself, so it seems somewhat outside
