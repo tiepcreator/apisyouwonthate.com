@@ -26,7 +26,7 @@ extensions. Their URLs often look like:
 
 This is a bit of a misuse of the concept of a "resource," and forces users to know that the endpoint "show" exists, and that they must pick a content-type extension, and that the `id` parameter must be used...
 
-A good API would simply have `/statuses/210462857140252672`. This has the dual benefit of letting the API respond with a default content-type, or respect the `Accept` header and either output the request content-type or spit out a `415` status code if the API does not support it. The second benefit is that the consumer oes not need to know about `?id=`.
+A good API would simply have `/statuses/210462857140252672`. This has the dual benefit of letting the API respond with a default content-type, or respect the `Accept` header and either output the request content-type or spit out a `415` status code if the API does not support it. The second benefit is that the consumer does not need to know about `?id=`.
 
 URIs are not supposed to be a bunch of folders and file names, and an API is not a list of JSON files or XML files. They are a list of resources that can be represented in different formats depending on the `Accept` header, **and nothing else.**
 
@@ -258,7 +258,7 @@ While this is not strictly true, it is perpetuated by many software projects suc
 URI is easily described as being simply any sort of identifier for the location of a resource on the
 internet.
 I>
-I> A URI can be partial, or absolute. URL is considered by some to be a completely non-existant term, but
+I> A URI can be partial, or absolute. URL is considered by some to be a completely non-existent term, but
 this book uses URL to describe an absolute URI, which is what you see in the address bar. Rightly or
 wrongly. Got it?
 

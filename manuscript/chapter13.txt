@@ -13,7 +13,7 @@ eventually.
 This can be a killer in the startup world, where things are considerably less structured. Kapture
 started off with "Opportunities". which became "Photo Opps" and ended up being called "Campaigns." You
 can laugh at that and say it will never happen to you, but it will. When you are least expecting it,
-business requirements will come at you like a wet mackeral to the face. When that happens, API
+business requirements will come at you like a wet mackerel to the face. When that happens, API
 versioning is your only solution.
 
 > Sure you could say that your API needs to maintain backward compatibility - but that is not very realistic when you are properly reusing your API across your product line. To demonstrate further, lets say you have 30 applications (and maybe a handful of external companies using the API), all of which are relying on the "customer" REST resource - your choices now are:  
