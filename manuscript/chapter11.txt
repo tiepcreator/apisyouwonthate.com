@@ -9,7 +9,7 @@ In the very early stages of development some API developers will rely solely on 
 
 Even if the API is in use internally, without a single source of regularly updated documentation for your API you will be answering questions from anyone using the API about how that works non-stop.
 
-If the API is public then... well without documentation nobody will use your API at all, which could drastically effect the successes of your company. Integration with services via an API these days is a very important factor for many companies, from startups to huge corporations, so do not go through the trouble of building something amazing only to have it completely ignored due to a lack of documentation.
+If the API is public then... well without documentation nobody will use your API at all, which could drastically affect the successes of your company. Integration with services via an API these days is a very important factor for many companies, from startups to huge corporations, so do not go through the trouble of building something amazing only to have it completely ignored due to a lack of documentation.
 
 ## Types of Documentation
 
@@ -63,7 +63,7 @@ and as their entire company is about API generation it seems like rather a good 
 
 API Blueprint has a very easy to understand set of [Getting Started instructions](http://apiblueprint.org/#get-started) which
 has a series of approaches to creating your documentation with various languages and tool combinations. They are working on a
-Ruby utility and .NET seems to be covered. Sublime Text has [a plugin][st-plugin], but by far the easiest is the command-line executable
+Ruby utility and .NET seems to be covered. Sublime Text has [a plugin](https://github.com/apiaryio/api-blueprint-sublime-plugin), but by far the easiest is the command-line executable
 called [Aglio].
 
 There is one caveat: this tool uses NodeJS. That sounds like a blocker to some but it should not be. Only the command-line utility
@@ -131,7 +131,7 @@ you can use, but there are doubtless other options available.
 
 ## Learning API Blueprint Syntax
 
-To make the output reflect your API documentation, the Markdown source files will need updated. While
+To make the output reflect your API documentation, the Markdown source files will need updating. While
 they are generally just Markdown, there is a specific format to this, known as "API Blueprint
 format 1A".
 
@@ -145,7 +145,7 @@ The rest of this section will walk through this `example.md` and explain what va
 
 ### Meta Data
 
-This is simple. The API title, URL, introduction, etc is just some Markdown:
+This is simple. The API title, URL, introduction, etc. is just some Markdown:
 
 {title="Very start of an API Blueprint markdown file, showing meta data", lang=markdown}
 ~~~~~~~~
@@ -255,7 +255,7 @@ Places can have an image associated with them, that will act as a cover photo or
 ~~~~~~~~
 
 Here we have four "Resource Sections", each for a different resource. The one oddity here
-is that there are two entires are for `/places`. The reasoning here is that each "Resource
+is that there are two entries for `/places`. The reasoning here is that each "Resource
 Group" has its own "URI Template". No two groups can have the same template (two with `/places`
 would error) and if you want to document parameters then you need to put them in the template.
 
