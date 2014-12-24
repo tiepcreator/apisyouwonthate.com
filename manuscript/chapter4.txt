@@ -9,12 +9,12 @@ If everything goes smoothly you want to show some data. If a valid request comes
 
 ## HTTP Status Codes
 
-Status Codes are used in all responses and have a number from 200 to 507 - with plenty of gaps in between - and each has a message and a definition. Most server-side languages, frameworks, etc default to "200 OK". 
+Status Codes are used in all responses and have a number from 200 to 507 - with plenty of gaps in between - and each has a message and a definition. Most server-side languages, frameworks, etc. default to "200 OK". 
 
 Status codes are grouped into a few different categories:
 
 **2xx is all about success**  
-Whatever the client tried to do was successful up to the point that the response was send. Keep in mind that a status like 202 Accepted doesn’t say anything about the actual result, it only indicates that a request was accepted and is being processed asynchronously.
+Whatever the client tried to do was successful up to the point that the response was sent. Keep in mind that a status like 202 Accepted doesn’t say anything about the actual result, it only indicates that a request was accepted and is being processed asynchronously.
 
 **3xx is all about redirection**  
 These are all about sending the calling application somewhere else for the actual resource. The best known of these are the 303 See Other and the 301 Moved Permanently which are used a lot on the web to redirect a browser to another URL.
@@ -33,12 +33,12 @@ Arguments between developers will continue for the rest of time over the exact a
 
 * 200 - Generic everything is OK
 * 201 - Created something OK
-* 202 - Accepted but is being processed async (for a video means encoding, for an image means resizing, etc)
+* 202 - Accepted but is being processed async (for a video means encoding, for an image means resizing, etc.)
 * 400 - Bad Request (should really be for invalid syntax, but some folks use for validation)
 * 401 - Unauthorized (no current user and there should be)
 * 403 - The current user is forbidden from accessing this data
 * 404 - That URL is not a valid route, or the item resource does not exist
-* 410 - Data has been deleted, deactivated, suspended, etc
+* 410 - Data has been deleted, deactivated, suspended, etc.
 * 405 - Method Not Allowed (your framework will probably do this for you)
 * 500 - Something unexpected happened and it is the APIs fault
 * 503 - API is not here right now, please try again later
@@ -49,7 +49,7 @@ Most 5xx issues will most likely happen under odd architecture or server related
 
 ## Error Codes and Error Messages
 
-Error codes are usually strings or integers that act as a unique index to a correspond human-readable error message with more information about what is going wrong. That sounds a lot like HTTP status codes, but these errors are about application specific things that may or may not be anything to do with HTTP specific responses.
+Error codes are usually strings or integers that act as a unique index to a corresponding human-readable error message with more information about what is going wrong. That sounds a lot like HTTP status codes, but these errors are about application specific things that may or may not be anything to do with HTTP specific responses.
 
 Some folks will try to use HTTP status codes exclusively and skip using error codes because they do not like the idea of making their own error codes or having to document them, but this is not a scalable approach. There will be some situations where the same endpoint could easily return the same status code for more than one different condition. The status codes are there to merely hint what is going on, relying on the actual error code and error message to provide more information if the client is interested.
 
@@ -102,7 +102,7 @@ except twitter.TwitterError, exc:
         150,
 
         # Sent too many
-        # TODO Make this requeue with a dekay somehow
+        # TODO Make this requeue with a dekal somehow
         151
     ]
 
@@ -241,7 +241,7 @@ If you are interested in implementing this standard then there are tools to make
 
 ### 200 OK and Error Code
 
-If you return a HTTP status code of 200 with an error code then Chuck Norris will roundhouse your door in, destroy your computer, instantly 35-pass wipe your backups, cancel your Dropbox account and block you from GitHub. HTTP 4xx or 5xx codes alert the client that something bad happened, and error codes provide specifics of the exact issue if the client is interested.
+If you return an HTTP status code of 200 with an error code then Chuck Norris will roundhouse your door in, destroy your computer, instantly 35-pass wipe your backups, cancel your Dropbox account and block you from GitHub. HTTP 4xx or 5xx codes alert the client that something bad happened, and error codes provide specifics of the exact issue if the client is interested.
 
 ### Non-Existent, Gone, or Hiding?
 
