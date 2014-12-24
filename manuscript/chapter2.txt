@@ -149,7 +149,7 @@ Want to delete things? Easy:
 
 ### POST vs PUT: FIGHT!
 
-What about creating and updating? This is where it gets almost religious. There are lots of people who will try to pair the HTTP POST or HTTP PUT verb (verb, i.e. a HTTP method) to a specific CRUD action and always only ever do that one action with that one verb. That sucks and is not productive or functionally scalable.
+What about creating and updating? This is where it gets almost religious. There are lots of people who will try to pair the HTTP POST or HTTP PUT verb (verb, i.e. an HTTP method) to a specific CRUD action and always only ever do that one action with that one verb. That sucks and is not productive or functionally scalable.
 
 Generally speaking, PUT is used if you know the entire URL before hand and the action is idempotent. Idempotent is a fancy word for "can do it over and over again without causing different results".
 
@@ -173,7 +173,7 @@ Another example could be user settings:
 * `POST /me/settings` - I would expect this to allow me to POST specific fields one at a time, not force me to send the entire body of settings.
 * `PUT /me/settings` - Send me ALL the settings.
 
-It's a tricky difference, but do not try and tie a HTTP Method to one CRUD action only.
+It's a tricky difference, but do not try and tie an HTTP Method to one CRUD action only.
 
 ### Plural, Singular or Both?
 
