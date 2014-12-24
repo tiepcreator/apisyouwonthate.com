@@ -111,7 +111,7 @@ Turning this "Action Plan" into actual endpoints requires knowing a little theor
 
 * `GET /resources` - Some paginated list of stuff, in some logical default order for that specific data.
 
-* `GET /resources/X` - Just entity X. That can be an ID, hash, slug, username, etc as long as it unique to one "resource".
+* `GET /resources/X` - Just entity X. That can be an ID, hash, slug, username, etc. as long as it's unique to one "resource".
 
 * `GET /resources/X,Y,Z` - The client wants multiple things, so give them multiple things.
 
