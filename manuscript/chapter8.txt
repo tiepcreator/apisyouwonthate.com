@@ -31,14 +31,14 @@ potential values.
 
 Working in the browser is a great way to do things and developers are fairly used to it. Sadly
 most browsers can only really handle `GET` and `POST` requests by default, and a RESTful API requires
-`PUT`, `DELETE`, `PATCH`, etc too. A well built RESTful API will also require the use of HTTP Headers, which can be difficult
+`PUT`, `DELETE`, `PATCH`, etc. too. A well built RESTful API will also require the use of HTTP Headers, which can be difficult
 to manipulate in a browser, as they are built to handle all of that for you.
 
 ### HTTP Clients
 
 Called "HTTP Clients" or "REST Client" interchangeably, these bits of software help perfectly with the job this book
 sets out to achieve: building non-trivial APIs. They allow you to format your HTTP Request through a convenient GUI,
-choosing the HTTP verb, adding headers, entering a body, etc then present the HTTP Response to you with formatting or in
+choosing the HTTP verb, adding headers, entering a body, etc. then present the HTTP Response to you with formatting or in
 source view if you prefer. Many of these GUIs will let you save common requests or build "collections" much like a set of
 bookmarks, but for your endpoints and with all the correct headers and values.
 
@@ -122,14 +122,14 @@ Whatever the reason, sometimes you need to debug network activity to find out wh
 If these are non-production errors that you want to debug against your local API and development iOS devices (a.k.a the iPhone 4S
 you have not sold on eBay yet) then a great application is [Charles](http://www.charlesproxy.com/).
 
-Charles essentially acts as a HTTP proxy, which means stuff comes in, stuff goes out, and Charles can show you what
+Charles essentially acts as an HTTP proxy, which means stuff comes in, stuff goes out, and Charles can show you what
 that was. Beyond that it can rewrite headers and even let you modify the content of the request or response if you want to.
 
 To set the basics of this up, you first need to know the internal network of your machine.
 
 ![Network Settings on Mac OSX, showing local IP](images/chapter8/network-ip.png)
 
-On your mobile device you will need to enable a HTTP Proxy. Enter your computers "local IP" in the "Proxy Server Address" field, and select
+On your mobile device you will need to enable an HTTP Proxy. Enter your computers "local IP" in the "Proxy Server Address" field, and select
 port 8888 - the default Charles port.
 
 ![Sample Charles HTTP Proxy settings on iOS7](images/chapter8/iphone-proxy.png)

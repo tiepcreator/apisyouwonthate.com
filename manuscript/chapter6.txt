@@ -11,7 +11,7 @@ The aim of this chapter is to help you build out your controller endpoints. Assu
 endpoints before they exist, we can now fill up a few of those tests with green lights instead of the omnishambles of
 errors and fails you are most likely facing.
 
-The examples in the first section will be trying to show off a list of places, and show of one specific place:
+The examples in the first section will be trying to show off a list of places, and show off one specific place:
 
 ~~~~~~~~
 {
@@ -93,7 +93,7 @@ anyone looking at your public API is going to immediately consider this an amate
 an actual JSON boolean, not a numeric string or a `char(1)`.
 
 **Security:** Outputting all fields can lead to API clients (users of all sorts) being able to view your users
-passwords, see sensitive information like email addresses for businesses involved (venues, partners, events, etc),
+passwords, see sensitive information like email addresses for businesses involved (venues, partners, events, etc.),
 gain access to secret keys and tokens generally not allowed. If you leak your forgotten password tokens for example
 then you're going to have an EXTREMELY bad time, its as bad as leaking the password itself.
 
@@ -413,7 +413,7 @@ Gross, but useful.
 ## Outputting Errors
 
 Exactly how to output errors is something I personally am still toying with. The current front-runner is adding
-convenience methods to the ApiController which handle global routes with a constant as the code and a HTTP error code
+convenience methods to the ApiController which handle global routes with a constant as the code and an HTTP error code
 set, with an optional message in case I want to override the message.
 
 {title="Simple error codes and responses added to ApiController", lang=php}

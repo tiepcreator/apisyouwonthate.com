@@ -17,7 +17,7 @@ For example, I plan to;
 
 A dilemma I am having currently is that any further explanation of RESTful API development is just going to
 be paraphrasing content in the [HTTP 1.1 Specification]. RESTful APIs respect as many aspects of the HTTP
-spec as possible, so headers like `Accept-Language`, `Expires`, `Etag`, `Retry-After`, etc could be
+spec as possible, so headers like `Accept-Language`, `Expires`, `Etag`, `Retry-After`, etc. could be
 catered for. A whole book could be written about the HTTP spec itself, so it seems somewhat outside
 the scope of this book. I will probably add in one last chapter on caching at a later point and leave it
 there.
@@ -39,7 +39,7 @@ and they need provisioning tools to keep those virtual machines in check.
 [Vagrant Cookbook] - Learn how to create effective Vagrant development environments. This book will cover from basic to advanced concepts on Vagrant, including important ProTips to improve your Vagrant projects and avoid common mistakes. The book was updated to cover the new features on Vagrant 1.5, which are substantial
 compared to previous versions.
 
-[Laravel 4 Cookbook] - This book is contains various projects built in the Laravel 4 framework, written by
+[Laravel 4 Cookbook] - This book contains various projects built in the Laravel 4 framework, written by
 a well known Laravel 4 developer from sunny South Africa.
 
 
