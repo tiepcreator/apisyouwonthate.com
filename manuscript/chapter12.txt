@@ -117,7 +117,7 @@ protected function respondWithArray(array $array, array $headers = [])
 
 Very basic, but now if we try a different MIME type we can expect a different result:
 
-{title="A HTTP request specifying the preferred response MIME type"}
+{title="An HTTP request specifying the preferred response MIME type"}
 ~~~~~~~~
 GET /places HTTP/1.1
 Host: localhost:8000
@@ -211,7 +211,7 @@ section at: "Just add links mate." - which is my normal advice for anyone asking
 
 Our usual data is output in such a way that only represents one or more resources. By itself, this one piece
 of data is an island, completely cut off from the rest of the API. The only way to continue interacting
-with the API is for the developer has read the documentation and understands what data can be related, and discover where that data might live. This is far from ideal.
+with the API is for the developer to read the documentation and understand what data can be related, and discover where that data might live. This is far from ideal.
 
 To tie one `place` to the related resources, sub-resources or collections is easy.
 
@@ -247,7 +247,7 @@ To tie one `place` to the related resources, sub-resources or collections is eas
 }
 ~~~~~~~~
 
-Here are three simple entries, with the first is linking to itself. They all contain a `uri` (Unviversal
+Here are three simple entries, with the first is linking to itself. They all contain a `uri` (Universal
 Resource Indicator) and a `rel` (Relationship).
 
 I> ### URI v URL
@@ -290,7 +290,7 @@ other things.
 This is literally a case of shoving some links into your data output. However you chose to do that, it
 can be part of your "transformation" or "presentation" layer.
 
-If you are using the PHP component Fractal - which we has been used as an example throughout the book - then
+If you are using the PHP component Fractal - which has been used as an example throughout the book - then
 you can simply do the following:
 
 {title="PlaceTransformer with links included in the response data.", lang="php"}
@@ -366,9 +366,9 @@ Taking a shortened example from earlier on in this chapter, we can expect to see
 We can assume that a `GET` will work on both the `self` and the `place.checkins` endpoints, but
 what else can we do with them? Beyond that, what on Earth do we do with the `place.image` endpoint?
 
-HTTP has us covered here, with a simple and effective verb that so far has not discussed: `OPTIONS`.
+HTTP has us covered here, with a simple and effective verb that so far has not been discussed: `OPTIONS`.
 
-{title="A HTTP request using the OPTIONS verb"}
+{title="An HTTP request using the OPTIONS verb"}
 ~~~~~~~~
 OPTIONS /places/2/checkins HTTP/1.1
 Host: localhost:8000
@@ -409,7 +409,7 @@ content (i.e: just look for a `200` or a `404`).
 It might seem a little nuts to go to this extra step to interact with an API, but really it should be
 considered much easier than hunting for documentation. Think about it, trying to find that little
 "Developers" link on the website, then navigate to the documentation for the correct API (because they are
-so cool they have about three), then wondering if you have the right version... not fun. Compared that to a
+so cool they have about three), then wondering if you have the right version... not fun. Compare that to a
 programmatically self-documenting API, which can grow, change and expand over time, rename URLs and... well that is a real win. Trust me.
 
 If you know that an API follows RESTful principles then you _should_ be confident that it follows HATEOAS -
@@ -423,5 +423,5 @@ If you are building your own API then you can easily do this yourself, then your
 how to build a decent API.
 
 And that, is about all there is for HATEOAS. You should now know enough to go out and build up an API that
-in theory you wont hate. Sadly, you will probably need to build a new version within a few months regardless,
+in theory you won't hate. Sadly, you will probably need to build a new version within a few months regardless,
 so for that we will now take a look at API versioning.
