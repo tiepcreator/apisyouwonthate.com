@@ -4,7 +4,7 @@
 
 Understanding authentication for an API can be one of the largest hurdles for many developers, partially because there are a lot of different methods, but mostly because none of them are anything like authentication in an average "web app".
 
-When building an admin dashboard, CMS, blog, etc it is widely accepted as standard behavior to use sessions with a data store such as cookies, Memcache, Redis, Mongo, or some SQL platform. Regardless of the data store, sessions are used so that - once logged in - the browser remembers who the user is. To login the user is presented with a form in HTML showing two fields: one for the username and/or email address of the user and password. Once the end-user closes the browser or is inactive for a certain period of time, they will be forgotten.
+When building an admin dashboard, CMS, blog, etc. it is widely accepted as standard behavior to use sessions with a data store such as cookies, Memcache, Redis, Mongo, or some SQL platform. Regardless of the data store, sessions are used so that - once logged in - the browser remembers who the user is. To login the user is presented with a form in HTML showing two fields: one for the username and/or email address of the user and password. Once the end-user closes the browser or is inactive for a certain period of time, they will be forgotten.
 
 This is the standard way to handle logins for the vast majority of sites built with a server-side language, but it is not at all how you handle authentication for an API.
 
@@ -129,7 +129,7 @@ Not quite as popular these days, but OAuth 1.0a was a big player on the web-base
 > agent redirections.  
 > -- **Source:** [Wikipedia](http://en.wikipedia.org/wiki/OAuth)
 
-Previously we have looked at authentication technologies that were essentially "built into the browser" and were not particularly flexible in their usages. OAuth 1.0 was a great way for services such as social networks to implement web-based HTML login forms that looked the same as any other login form (were branded with logos, color schemes, etc), but could then send you back to the third-party website for all sorts of awesome integration purposes.
+Previously we have looked at authentication technologies that were essentially "built into the browser" and were not particularly flexible in their usages. OAuth 1.0 was a great way for services such as social networks to implement web-based HTML login forms that looked the same as any other login form (were branded with logos, color schemes, etc.), but could then send you back to the third-party website for all sorts of awesome integration purposes.
 
 For example, when Twitter swapped from HTTP Basic integration to OAuth 1.0 it meant that instead of third-parties (iPhone apps, other websites, CMSs, whatever) asking end-users to enter their username and password (which would be saved somewhere in plain-text), the third-party could redirect the user to the Twitter website, get them to log in, have them come back to their service and save a special token, instead of saving a password. OAuth 1.0a called these tokens a "OAuth Token" and a "OAuth Token Secret".
 
@@ -157,7 +157,7 @@ Ow.
 
 Another complication was that there were different implementations. Two-legged (proper, and not proper) and three-legged. This is incredibly confusing, so I will let Mashape explain in the [OAuth Bible: OAuth Flows](https://github.com/Mashape/mashape-oauth/blob/master/FLOWS.md#oauth-10a-one-legged).
 
-There was also xAuth, which is still OAuth 1.a, which is designed for mobile and desktop applications that do not have easy access to a browser. It's much easier for a web-application to spawn a popup with JavaScript or redirect a user than it is for a mobile app, so this was a handy way to get OAuth Token than the other implementations.
+There was also xAuth, which is still OAuth 1.a, which is designed for mobile and desktop applications that do not have easy access to a browser. It's much easier for a web-application to spawn a popup with JavaScript or redirect a user than it is for a mobile app, so this was a handier way to get OAuth Token than the other implementations.
 
 In the end, however you got the OAuth Token and Secret, you would place the OAuth Token in the request as a header, and use the secret to sign the signature, which would encrypt the request - making the whole thing nice and secure. If you can shove SSL on top of that then you've got yourself a very secure setup... except for the fact that tokens would stay the same once created, so over time their security could be compromised. Somebody could recover the data off of a laptop you sold to them on eBay, or a potential hacker could packet sniff enough traffic signed with your signature to eventually programmatically guess the token and secret.
 
@@ -165,7 +165,7 @@ In the end, however you got the OAuth Token and Secret, you would place the OAut
 
 * Super secure, even without SSL
 * Does not send username/password in every request - plaintext or hashed
-* Stops third-party applications wanted or storing your username and password
+* Stops third-party applications wanting or storing your username and password
 * An attacker gaining an OAuth Token and even a Secret should still never be able to change your password, meaning you should be safe from account hijack
 
 **Cons**
@@ -181,13 +181,13 @@ OAuth 1.0a would be a great technology to implement if you were building a websi
 
 OAuth 2 dropped the "secret token" so users are simply getting an "Access Token" now, and dropped signature encryption. This was seen by many as a massive step backwards in security, but it was actually rather a wise move. The OAuth 1.0a spec made SSL optional, but OAuth 2.0 requires it. Relying on SSL to handle the encryption of the request is just logical, and drastically improves the implementation.
 
-Even a basic GET request in OAuth 1.0a was horrendous, as you'd always need to set up your consumers, signatures, etc, but with OAuth 2.0 you can simply do this:
+Even a basic GET request in OAuth 1.0a was horrendous, as you'd always need to set up your consumers, signatures, etc., but with OAuth 2.0 you can simply do this:
 
 ~~~~~~~~
 file_get_contents('https://graph.facebook.com/me?access_token=vr5HmMkzlxKE70W1y4MibiJUusZwZC');
 ~~~~~~~~
 
-Or, as we saw back in [Chapter 3](#chapter-3), you can usually pass Access Tokens to the server as a HTTP request header:
+Or, as we saw back in [Chapter 3](#chapter-3), you can usually pass Access Tokens to the server as an HTTP request header:
 
 ~~~~~~~~
 POST /moments/1/gift HTTP/1.1
@@ -311,7 +311,7 @@ An OAuth server usually has a web interface, which has HTML forms, form validati
 
 Generally speaking it is better to keep all of these things autonomous, as if you decide to build a new version of your website in AngularJS instead of server-side code then it would be a pain to have to switch your OAuth server implementation too. If the OAuth server is on its own server, or at very least its own code-base, then you do not have this concern.
 
-The only thing your API needs to do is look for an Access Token (as a header or query string parameter) then hit whichever data store (SQL database, Mongo, etc) that contains the access tokens. Check it is valid (in the DB and not expired) then grab whichever user is tied to it, and pull that record for use throughout the API code.
+The only thing your API needs to do is look for an Access Token (as a header or query string parameter) then hit whichever data store (SQL database, Mongo, etc.) that contains the access tokens. Check it is valid (in the DB and not expired) then grab whichever user is tied to it, and pull that record for use throughout the API code.
 
 None of that is complicated, so trying to tie the API server and OAuth server together in the same application code-base out of some misplaced perception of belonging is just not required.
 
@@ -325,13 +325,13 @@ The four grant types discussed in the specification are:
 
 Authorization Code is the full user-flow with redirects discussed earlier in the chapter.
 
-This is most useful if you have multiple sites (like a network of sites for games, movies, books, etc) or just want to share logins with other partners. This is also the grant type you will most likely use to log users into Facebook or Google.
+This is most useful if you have multiple sites (like a network of sites for games, movies, books, etc.) or just want to share logins with other partners. This is also the grant type you will most likely use to log users into Facebook or Google.
 
 [Section 4.1 in the spec][Section 4.1]
 
 ### Refresh Token
 
-Refresh Tokens are supported by most popular OAuth 2.0 providers. Basically, you notice that your old access token does not work anymore when you receive a HTTP `401` status code, so you request a new one using your refresh token. The OAuth 2.0 server will then either give you a new access token, or the server will refuse. At that point you will have to send your user an email saying "Your account is no longer connected to Example.com, please click here to reconnect." This is not common, and usually means that the user has disconnected access for that account anyway so a manual request is literally the only option.
+Refresh Tokens are supported by most popular OAuth 2.0 providers. Basically, you notice that your old access token does not work anymore when you receive an HTTP `401` status code, so you request a new one using your refresh token. The OAuth 2.0 server will then either give you a new access token, or the server will refuse. At that point you will have to send your user an email saying "Your account is no longer connected to Example.com, please click here to reconnect." This is not common, and usually means that the user has disconnected access for that account anyway so a manual request is literally the only option.
 
 This sounds like a bit of a run around, but it is quite simple and has a few advantages.
 
@@ -415,7 +415,7 @@ At Kapture we created a `social` grant, where a user would provide a string matc
 
 1. Grab the users data
 1. Find out if they are a Kapture user, and if not create a Kapture user record
-3. Create an access token, refresh token, etc to give that user access
+3. Create an access token, refresh token, etc. to give that user access
 
 That gave us a completely seamless instant "sign-up or login" experience for our iPhone application, and let our admin
 panel AND merchant dashboard use the exact same OAuth 2.0 server to handle logins for everyone. Very handy, for our iPhone app, and would mean we could roll the same functionality out to a potential Android app and web-based versions too.
