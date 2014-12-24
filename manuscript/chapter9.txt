@@ -335,13 +335,13 @@ Refresh Tokens are supported by most popular OAuth 2.0 providers. Basically, you
 
 This sounds like a bit of a run around, but it is quite simple and has a few advantages.
 
-Basically, using the same Access Token over and over again forever then there is a fairly strong chance of somebody finding it. There are an array of reasons for this, from the the site not implementing SSL, the site getting hacked, the sys admins accidentally exposing some of their access logs, or - more likely - the Access Token is stored in the browser.
+Basically, if using the same Access Token over and over again forever then there is a fairly strong chance of somebody finding it. There are an array of reasons for this, from the the site not implementing SSL, the site getting hacked, the sys admins accidentally exposing some of their access logs, or - more likely - the Access Token is stored in the browser.
 
 Storing the access token in the browser is fine if the access token is going to expire soon, as it means the hacker has a very short window of opportunity to do anything if they find it. If they get the current access token then fine, but if there is a 5 minute expiry then getting that token would be much more difficult, and probably require the hacker to be physically on the device you were using, or SSHing in - at which point you have much greater concerns. 
 
 Not all APIs will expire their access tokens, so some do live forever. Normally they either last forever, or they will give you an expiry time and expect you to refresh them. One exception to that is Facebook, who do neither. Facebook's whole approach is that they _want_ you to be forced to send a user back to `facebook.com` on a login. 
 
-It is frustrating that once again Facebook have decided to flagrantly disregard the OAuth 2.0 spec to suit their own needs, hurting the user flow and confusing developers in the process. Working with these popular APIs you will notice a lot of things like this which wind you up, but the differences are much less problematic then if they were not even slightly OAuth 2.0 based. At least they have _some_ common ground.
+It is frustrating that once again Facebook have decided to flagrantly disregard the OAuth 2.0 spec to suit their own needs, hurting the user flow and confusing developers in the process. Working with these popular APIs you will notice a lot of things like this which wind you up, but the differences are much less problematic if they were not even slightly OAuth 2.0 based. At least they have _some_ common ground.
 
 [Section 6 in the spec][Section 6]
 
