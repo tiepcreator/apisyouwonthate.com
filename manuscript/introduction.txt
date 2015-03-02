@@ -1,6 +1,6 @@
 # Introduction
 
-I've been building APIs for a long time now and it is becoming ever more common for server-side developer thanks to the rise of front-end JavaScript frameworks, iPhone applications and API-centric architectures. On one hand you're just grabbing stuff from a data source and shoving it out as JSON, but surviving changes in business logic, database schema updates, new features or deprecated endpoints, etc gets super difficult.
+I've been building APIs for a long time now and it is becoming ever more common for server-side developers thanks to the rise of front-end JavaScript frameworks, iPhone applications and API-centric architectures. On one hand you're just grabbing stuff from a data source and shoving it out as JSON, but surviving changes in business logic, database schema updates, new features or deprecated endpoints, etc gets super difficult.
 
 A lot of articles and tutorials talk about REST, with a varying level of accuracy. Some claim that
 certain things are more RESTful than others, whilst actually having very little to do with REST.
@@ -20,4 +20,4 @@ being actively developed and living side-by-side on the same "API" servers.
 
 By passing on some best practices and general good advice you can hit the ground running if you are new to API development. On the flip side, by recounting some horror stories (and how they were overcome/avoided/averted) you can hopefully avoid a lot of the pitfalls I either fell into, or nearly fell into, or saw others fall into. This book will discuss the theory of designing and building APIs in any language or framework. This theory will be applied in examples built mostly in PHP, with some Ruby and Python too. The book will not be too code-heavy regardless, as reading code is no fun.
 
-By the end of this book, you will have built an API that can create, read, update, delete, things, handle searching and do everything else a good Hypermedia API needs to do.
+By the end of this book, you will have built an API that can create, read, update, delete things, handle searching and do everything else a good Hypermedia API needs to do.

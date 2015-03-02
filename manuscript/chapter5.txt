@@ -173,12 +173,12 @@ Scenario: Searching places with filters
 This uses some custom rules which have been defined in the file `FeatureContext.php`, but more on that shortly.
 
 The Feature file is called `places.feature` and has 4 scenarios. One to find a specific place, another to show that
-listing all places is not allowed (400 means bad input, your should specify lat lon) and two more to test how well
+listing all places is not allowed (400 means bad input, you should specify `lat` and `lon`) and two more to test how well
 searching works.
 
 Try to think up the guard clauses that the endpoints will need, then make a "Scenario" for each of those. 
 
-For example, if the a endpoint requires `lat` and `lon` as query string parameters, try ommitting them and testing that to ensure the error message and status codes are correct. 
+For example, if the endpoint requires `lat` and `lon` as query string parameters, try ommitting them and testing that to ensure the error message and status codes are correct. 
 
 If an input is expecting a boolean value but a string is provided? That should be a test too:
 
@@ -247,7 +247,7 @@ I> expand the tests in later chapters as we go to cover the various features bei
 ### Test Driven Development
 
 Writing tests-first is also a great way to go. Now that you have an understanding of your action plan and what the
-endpoints _should_ be and what their output _should_ look like you should be fine to build out tests again them even
+endpoints _should_ be and what their output _should_ look like you should be fine to build out tests against them even
 if they do not exist.
 
 Running the tests will show you that everything is broken of course, then you just go through

@@ -2,11 +2,11 @@
 
 ## Introduction
 
-Now that we have a good idea how endpoints work the next glass of theory to swallow down is input and output. This is the easiest of all, really, as is really just HTTP "requests" and "responses". This is the same as AJAX or anything else. 
+Now that we have a good idea how endpoints work the next glass of theory to swallow down is input and output. This is the easiest of all, really, as it's really just HTTP "requests" and "responses". This is the same as AJAX or anything else. 
 
 If you have ever been forced to work with SOAP you will know all about WSDLs. If you know what they are, be happy you no longer need them. If you do not know what a WSDL is then be happy you never have to learn. SOAP was the worst.
 
-Input is purely a HTTP request and there are multiple parts to this. Here is an example:
+Input is purely an HTTP request and there are multiple parts to this. Here is an example:
 
 ## Requests
 
@@ -28,9 +28,9 @@ Content-Type: application/json
 { "user_id" : 2 }
 ~~~~~~~~
 
-Here we make a POST request with a "HTTP Body". The `Content-Type` header points out we are sending JSON and the blank line above the JSON separates the "HTTP Headers" from the "HTTP Body". HTTP really is amazingly simple, this is all you need to do for anything and you can do all of this with a HTTP client in whatever programming language you feel like using this week:
+Here we make a POST request with an "HTTP Body". The `Content-Type` header points out we are sending JSON and the blank line above the JSON separates the "HTTP Headers" from the "HTTP Body". HTTP really is amazingly simple, this is all you need to do for anything and you can do all of this with an HTTP client in whatever programming language you feel like using this week:
 
-{title="Using PHP and the Guzzle HTTP library to make a HTTP Request", lang=php}
+{title="Using PHP and the Guzzle HTTP library to make an HTTP Request", lang=php}
 ~~~~~~~~
 use Guzzle\Http\Client;
 
@@ -48,7 +48,7 @@ $client = new Client('http://api.example.com');
 $req = $client->post('/moments/1/gift', $headers, json_encode($payload))
 ~~~~~~~~
 
-{title="Using Python and the Requests HTTP library to make a HTTP Request ", lang=python}
+{title="Using Python and the Requests HTTP library to make an HTTP Request ", lang=python}
 ~~~~~~~~
 import json
 import requests
@@ -71,7 +71,7 @@ It's all the same. Define your headers, define the body in an appropriate format
 
 ## Responses
 
-Much the same as a HTTP Request, your HTTP Response is going to end up as plain text (unless you're using SSL but shut up we aren't there yet).
+Much the same as an HTTP Request, your HTTP Response is going to end up as plain text (unless you're using SSL but shut up we aren't there yet).
 
 {title="Example HTTP response containing a JSON body", lang=http}
 ~~~~~~~~
@@ -107,7 +107,7 @@ This MIME type is one of the few ways that browsers send data via a form when yo
 
 Urf.
 
-`$_GET` and `$_POST` do not have the 1:1 relationship with HTTP GET and HTTP POST as their names might suggest. `$_GET` just contains query string content _regardless_ of the HTTP method. `$_POST` contains the values of the HTTP Body if it was in the right format and the Content-Type header is `application/x-www-form-urlencoded`. A HTTP POST item could still have a query string, and that would still be in `$_GET`. Some PHP frameworks kill off `$_GET` data in a HTTP POST request, which further exagerates this 1:1 relationship between the super-global and the method.
+`$_GET` and `$_POST` do not have the 1:1 relationship with HTTP GET and HTTP POST as their names might suggest. `$_GET` just contains query string content _regardless_ of the HTTP method. `$_POST` contains the values of the HTTP Body if it was in the right format and the Content-Type header is `application/x-www-form-urlencoded`. An HTTP POST item could still have a query string, and that would still be in `$_GET`. Some PHP frameworks kill off `$_GET` data in an HTTP POST request, which further exagerates this 1:1 relationship between the super-global and the method.
 
 So knowing that PHP just has some silly names for things, we can move on and completely ignore `$_POST`. Pour one out in the ground, because it is dead to you. 
 
@@ -243,7 +243,7 @@ If you want to start using attributes for some bits of data but not others then 
 </places>
 ~~~~~~~~
 
-The answer is unless you seek specific fields and try to guess that an "id" is probably an attribute, etc then there is no programmatic way in your API to take the same array and make JSON AND XML. Instead you realistically need to use a "view" (from the MVC pattern) to represent this data just like you would with HTML or work with XML generation in a more OOP way. Either way it is an abomination and I refuse to work in those conditions. Luckily nobody at Kapture wants XML so I wont have to move back to England just yet.
+The answer is unless you seek specific fields and try to guess that an "id" is probably an attribute, etc. then there is no programmatic way in your API to take the same array and make JSON AND XML. Instead you realistically need to use a "view" (from the MVC pattern) to represent this data just like you would with HTML or work with XML generation in a more OOP way. Either way it is an abomination and I refuse to work in those conditions. Luckily nobody at Kapture wants XML so I wont have to move back to England just yet.
 
 If your team is on the fence about XML and you are not required by the business to use it, then skip it. It can be fun to show off your API switching formats and supporting all sorts of stuff and we will get to that later on, but XML is a complication many APIs do not require these days.
 
@@ -358,7 +358,7 @@ Ask for a collection of things and get a collection of things, but namespaced:
 
 * Single items still can only have meta data by embedding it in the item resource
 
-By placing the collection into the `"data"` namespace you can easily add other content next to it which relates to the response but is not part of the list of resources at all. Counts, links, etc can all go here (more on this later). It also
+By placing the collection into the `"data"` namespace you can easily add other content next to it which relates to the response but is not part of the list of resources at all. Counts, links, etc. can all go here (more on this later). It also
 means when you embed other nested relationships you can include a `”data”` element for them and even include meta data for those embedded relationships. More on that later on too.
 
 The only potential "con" left with Facebook is that the single resources are not namespaced, meaning that adding any sort of meta data would pollute the global namespace - something which PHP developers are against after a decade of flagrantly doing so.
@@ -424,5 +424,5 @@ requesting a user, and when comments are being returned we wrap that in a `"data
 be added to that nested data too. This is the structure I will be testing against and using for examples, but it is only 
 a simple tweak between any of these structures.
 
-We will get to links, relationships, side-loading, pagination, etc in later chapters, but for now forget about it. 
+We will get to links, relationships, side-loading, pagination, etc. in later chapters, but for now forget about it. 
 All you want to worry about is your response, which consists of this chunk of data or an error.

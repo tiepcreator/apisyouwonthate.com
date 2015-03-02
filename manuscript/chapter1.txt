@@ -38,11 +38,11 @@ Garbage! Use absolute nonsense for your development database, but nonsense of th
 
 ## Building Seeders
 
-Kapture, the company I work for, uses the Laravel framework which has the joys of having [Database Seeding] baked in. This is essentially a tarted up <abbr title="Command Line Interface">CLI</abbr> task which almost any modern PHP framework will have (or bloody well should do) so the principles are applicable to all.
+Kapture, the company I work for, uses the Laravel framework which has the joys of having [Database Seeding] baked in. This is essentially a tarted up CLI task which almost any modern PHP framework will have (or bloody well should do) so the principles are applicable to all.
 
 Break your Database Seeders down into logical groupings. This does not need to be "one seeder-per-table" but it can be. Sometimes your data needs to be built at the same time as other types of data, so for us Users
 are created in the same "seeder" as their settings, OAuth tokens, and friendship data is made. Putting that
-into multiple seeders purely to keep things tidy would complicated your seeders and slow things down a lot, so maybe consider combining them.
+into multiple seeders purely to keep things tidy would complicate your seeders and slow things down a lot, so maybe consider combining them.
 
 In this chapter I will use, as an example, a check-in application. The application handles "users" and tracks their "check-ins" into "merchants" (or "venues"). "Merchants" also provide "campaigns" (or "opportunities").
 
@@ -382,3 +382,4 @@ This is also occasionally run manually on the staging server, and automatically 
 
 [Faker]: https://github.com/fzaninotto/Faker
 [Database Seeding]: http://laravel.com/docs/migrations#database-seeding
+*[CLI]: Command Line Interface

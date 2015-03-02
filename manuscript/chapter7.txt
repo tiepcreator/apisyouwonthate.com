@@ -8,7 +8,7 @@ comments. Authors have one or many books. Books belong to a Publisher. Southerne
 
 Relationships for your API output do not need to be directly mapped to database relationships.
 If your database relationships are built properly, relationships will often be similar, but your
-output might have extra dynamic relationships that are not defined by a JOIN, and might not
+output might have extra dynamic relationships that are not defined by a JOIN, and might not 
 necessarily include every possible database relationship.
 
 Put more eloquently:
@@ -22,7 +22,7 @@ source, or is derived from the source, remains hidden behind the interface.
 This explanation highlights an important factor: the output has to be based on the "desires of
 the recipient". There are many popular approaches to designing relationships, but many of them do
 not satisfy the "desires of the recipient". Still, I will cover the popular approaches
-with their pros and cons regardless.
+with their pro's and con's regardless.
 
 ## Sub-Resources
 
@@ -74,7 +74,7 @@ the [JSON-API](http://jsonapi.org/) standard as an example, if a `post` has mult
     "id": 1
     "title": "Progressive Enhancement is Dead",
     "_links": {
-      "comments": ["1", "3"]
+      "comments": ["1", "2"]
     }
   }
 }
@@ -98,11 +98,11 @@ side-load the data, which is also recommended by JSON-API.
 > Compound documents contain multiple collections to allow for side-loading of related objects.
 Side-loading is desirable when nested representation of related objects would result in potentially
 expensive repetition. For example, given a list of 50 comments by only 3 authors, a nested representation
-would include 50 author objects where a side-loaded representation would contain only 3 author objects.
+would include 50 author objects where a side-loaded representation would contain only 3 author objects.  
 > -- **Source:** [canvas.instructure.com](https://canvas.instructure.com/doc/api/file.compound_documents.html)
 
-If we look at a collection of posts following the example from "Foreign Key Arrays," an API might
-show a response like this:
+If we look at a collection of posts following the example from "Foreign Key Arrays," an API might 
+show a response like this: 
 
 ~~~~~~~~
 {
@@ -142,18 +142,18 @@ show a response like this:
 
 Just like with the "Foreign Key Array" approach, the client will have to do a lot of sticking
 together to map which comment belongs to which post. The data is all there, but getting it into
-a format for easy iteration could be a PITA.
+a format for easy iteration could be a PITA. 
 
 That said, it will avoid duplicating the same item multiple times. While a `comment` would likely
 only be on a single post, if you were to include `user` information, the same user could show up
-multiple times as a commenter if they are active, or even as a commenter _and_ a post author.
+multiple times as a commenter if they are active, or even as a commenter _and_ a post author. 
 
 ## Embedded Documents (a.k.a Nesting)
 
 Instead of flattening the entire response to top level collections and losing the obvious context
 of the data, embedding data leaves it in the structure a client would expect.
 
-This approach was used for the last two versions of the API at Kapture, used it on a few other APIs. It offers the most flexibility for the API consumer; it can reduce HTTP requests or reduce
+This approach was used for the last two versions of the API at Kapture, and I used it on a few other APIs. It offers the most flexibility for the API consumer; it can reduce HTTP requests or reduce
 download size depending on what the consumer wants.
 
 An API consumer could call the endpoint with the following query string parameter:
@@ -332,17 +332,17 @@ This will work well assuming everything is represented as ActiveRecord, which wh
 ## Summary
 
 The most important thing here is that an API has _some_ way to include related data. Regardless of whether
-side-loading or embedding is the approach used, it is important to pick one.
+side-loading or embedding is the approach used, it is important to pick one. 
 
-One area that may effect your decision is using a JavaScript framework like EmberJS. In theory an
+One area that may affect your decision is using a JavaScript framework like EmberJS. In theory an 
 API should not concern itself with implementation specific details like which JavaScript framework
-is being used, but if that EmberJS platform is a requirement of the business then picking a
+is being used, but if that EmberJS platform is a requirement of the business then picking a 
 compatible data structure might be key.
 
 EmberJS - at the time of writing - requires a somewhat specific side-loading approach, which might cause a headache for other consumers of your API.
 
-Fractal will make your decision less important as using [Serializers] you can switch between the
-two types rather easily. Later on the book will talk about looking at MIME types and responding
+Fractal will make your decision less important as using [Serializers] you can switch between the 
+two types rather easily. Later on the book will talk about looking at MIME types and responding 
 with different data, so it would not be difficult to use different headers for different data
 structures, one custom output maybe using the embedded approach, and one JSON-API with side-loaded
 data, for example.

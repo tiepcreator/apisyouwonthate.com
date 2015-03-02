@@ -264,7 +264,7 @@ be a specific ID and you use it for an SQL `WHERE id > X` clause, but better not
 The `Link` header is one not often used, but was introduced in [RFC 5988] for just this sort of
 thing. 
 
-{title="Example showing GitHub's use of the Link header in a HTTP response"}
+{title="Example showing GitHub's use of the Link header in an HTTP response"}
 ~~~~~~~~
 Link: <https://api.github.com/user/repos?page=3&per_page=100>; rel="next", <https://api.github.com/user/repos?page=50&per_page=100>; rel="last"
 ~~~~~~~~
@@ -282,7 +282,7 @@ into many developers who _hate_ using a namespace for their collections.
 The final advantage to mention would be that the `Link` is standard. Parsing it is going to be 100% 
 the same for each API, and not expect the client to work out if the link is contained in `uri`, `url`, `href` or something else.
 
-Every API should chose its approach to pagination itself. Using this specific header does not make 
+Every API should choose its approach to pagination itself. Using this specific header does not make 
 it "more RESTful" regardless of how many people seem to think that is the case. It just makes it
 more "HTTPish" than defining your own pagination meta-data.
 

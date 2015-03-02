@@ -13,7 +13,7 @@ eventually.
 This can be a killer in the startup world, where things are considerably less structured. Kapture
 started off with "Opportunities". which became "Photo Opps" and ended up being called "Campaigns." You
 can laugh at that and say it will never happen to you, but it will. When you are least expecting it,
-business requirements will come at you like a wet mackeral to the face. When that happens, API
+business requirements will come at you like a wet mackerel to the face. When that happens, API
 versioning is your only solution.
 
 > Sure you could say that your API needs to maintain backward compatibility - but that is not very realistic when you are properly reusing your API across your product line. To demonstrate further, lets say you have 30 applications (and maybe a handful of external companies using the API), all of which are relying on the "customer" REST resource - your choices now are:  
@@ -110,12 +110,12 @@ Another downside with this approach is that pointing `v1` and `v2` to different 
 The opposite of the "putting them on the same server can be hard" problem, is when API developers try and let one single code-base take care of this versioning internally in their web app. They simply make routes
 with the prefix `/v1/places` then when they want to make `v2` they copy the routes, copy the controllers and
 tweak things. This _can_ be done if you also version your transformers (to maintain structure and data
-types), and you are confident that all shared code (libraries, packages, etc) will maintain a consistent output throughout. This is rarely the case, and people putting `v1` in their URLs are just doing it because it is the only solution they know.
+types), and you are confident that all shared code (libraries, packages, etc.) will maintain a consistent output throughout. This is rarely the case, and people putting `v1` in their URLs are just doing it because it is the only solution they know.
 
 Instead, consider making each version its own code-base. This means the code is totally separate, executed 
 separately, with different web server vhosts or maybe even on different servers. 
 
-If the APIs are very similar (same language, same framework, etc) then you can simply share a Git history - be it different branch in the same `api` repository, or a different branch. Some people take the [Git Flow]
+If the APIs are very similar (same language, same framework, etc.) then you can simply share a Git history - be it different branch in the same `api` repository, or a different branch. Some people take the [Git Flow]
 model and prepends version numbers, so one repository may have the following branches:
 
 * 1.0/master
@@ -253,7 +253,7 @@ This example was lifted from [Mark Nottingham], who is the chair of the [IEFT HT
 > -- **Source:** [Mark Nottingham, "Bad HTTP API Smells: Version Headers"]
 
 Without specifying the `Vary` header, it is hard for a cache system like Varnish to know that somebody
-asking for 1.0 because the URL is any different than somebody asking for 1.1 or 2.0. That can be a big problem as
+asking for 1.0 because the URL isn't any different than somebody asking for 1.1 or 2.0. That can be a big problem as
 API consumers asking for a specific version need to get that version, not a different one.
 
 Beyond that rather tricky caching issue, it is just generally annoying. If you use a custom header then
@@ -283,7 +283,7 @@ or `Foursquare-Version` or `X-Api-Version` or `Dave`. Who knows, and who can rem
 ### Approach #5: Content Negotiation
 
 The `Accept` header is designed to ask the server to respond with a specific resource in a different format.
-Traditionally many developers think of this in terms of only (X)HTML, JSON, Images, etc, but it can be more
+Traditionally many developers think of this in terms of only (X)HTML, JSON, Images, etc., but it can be more
 generic than that. If we can RESTfully ask for our data to come back with different content-types having
 different syntax, then why not reuse this exact same header for versions too?
 
@@ -420,7 +420,7 @@ They essentially make a custom version for each single client application. The w
 email API developers about it, and ask those developers to log into the developer area on the Facebook platform to manage their application.
 
 Basically, they warn you that things are going to break in a few months. They list all the changes and give
-the chance to see if this will effect your application. If your application does not use an endpoint that is 
+the chance to see if this will affect your application. If your application does not use an endpoint that is 
 being changed, or they are removing a field your application does not use then you can click "Enable" for 
 the migration. From that point on any interaction your application has with the Facebook Graph API will use 
 the new format.

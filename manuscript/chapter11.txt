@@ -5,11 +5,11 @@
 Regardless of whether you decide to keep an API private or release it to the
 general public, documentation is incredibly important.
 
-In the very early stages of development some API developers will rely soley on a Postman collection (discussed in [Chapter 8: Debugging](#chapter-8)) to be a sufficient source of documentation for their API. This may be the case but as soon as the API is in use by more people than just the one developer with their one collection this quickly becomes a nightmare.
+In the very early stages of development some API developers will rely solely on a Postman collection (discussed in [Chapter 8: Debugging](#chapter-8)) to be a sufficient source of documentation for their API. This may be the case but as soon as the API is in use by more people than just the one developer with their one collection this quickly becomes a nightmare.
 
 Even if the API is in use internally, without a single source of regularly updated documentation for your API you will be answering questions from anyone using the API about how that works non-stop.
 
-If the API is public then... well without documentation nobody will use your API at all, which could drastically effect the successes of your company. Integration with services via an API these days is a very important factor for many companies, from startups to huge corporations, so do not go through the trouble of building something amazing only to have it completely ignored due to a lack of documentation.
+If the API is public then... well without documentation nobody will use your API at all, which could drastically affect the successes of your company. Integration with services via an API these days is a very important factor for many companies, from startups to huge corporations, so do not go through the trouble of building something amazing only to have it completely ignored due to a lack of documentation.
 
 ## Types of Documentation
 
@@ -17,7 +17,7 @@ There should be a few different types of documentation:
 
 ### API Reference
 
-The "API Reference" is sometimes refered to as "Endpoint Reference" and is essentially a list of all endpoints and their associated HTTP Methods, descriptions of what they do and a list of all arguments that can be passed with descriptions about what values work and in what format those values could be. That is a lot of work. But, it can be made easier with some tools. More on that later.
+The "API Reference" is sometimes referred to as "Endpoint Reference" and is essentially a list of all endpoints and their associated HTTP Methods, descriptions of what they do and a list of all arguments that can be passed with descriptions about what values work and in what format those values could be. That is a lot of work. But, it can be made easier with some tools. More on that later.
 
 ### Sample Code
 
@@ -50,7 +50,7 @@ site generator works well; [Sculpin] (PHP), [Jekyll] (Ruby) and [Hyde] (Python) 
 
 There are no doubt multiple tools out there for generating your API/Endpoint documentation. Some recommend a system called [Swagger] which is a great looking tool and works with a _huge_ array of languages. Sadly to me it seems to be somewhat of a black art.
 
-Swagger defines a specification and various language or framework specific implementations come up with their own solution. For PHP the way you go about this is through a rather confusing (and poorly documented) set of annotations with strange names. Furthermore it requires you to put these annotations throughout a large chunk of your application, including data mapper style models, which you might not even have. It wanted property-level annotations, and neither my models or Fractal transformers have properties, so this was a wild and whacky way to try and work.
+Swagger defines a specification and various language or framework specific implementations come up with their own solution. For PHP the way you go about this is through a rather confusing (and poorly documented) set of annotations with strange names. Furthermore it requires you to put these annotations throughout a large chunk of your application, including data mapper style models, which you might not even have. It wanted property-level annotations, and neither my models or Fractal transformers have properties, so this was a wild and wacky way to try and work.
 
 Another tool called [API Blueprint] takes care of this nicely. A company called [Apiary] released this tool as open-source,
 and as their entire company is about API generation it seems like rather a good fit.
@@ -63,7 +63,7 @@ and as their entire company is about API generation it seems like rather a good 
 
 API Blueprint has a very easy to understand set of [Getting Started instructions](http://apiblueprint.org/#get-started) which
 has a series of approaches to creating your documentation with various languages and tool combinations. They are working on a
-Ruby utility and .NET seems to be covered. Sublime Text has [a plugin][st-plugin], but by far the easiest is the command-line executable
+Ruby utility and .NET seems to be covered. Sublime Text has [a plugin](https://github.com/apiaryio/api-blueprint-sublime-plugin), but by far the easiest is the command-line executable
 called [Aglio].
 
 There is one caveat: this tool uses NodeJS. That sounds like a blocker to some but it should not be. Only the command-line utility
@@ -131,7 +131,7 @@ you can use, but there are doubtless other options available.
 
 ## Learning API Blueprint Syntax
 
-To make the output reflect your API documentation, the Markdown source files will need updated. While
+To make the output reflect your API documentation, the Markdown source files will need updating. While
 they are generally just Markdown, there is a specific format to this, known as "API Blueprint
 format 1A".
 
@@ -145,7 +145,7 @@ The rest of this section will walk through this `example.md` and explain what va
 
 ### Meta Data
 
-This is simple. The API title, URL, introduction, etc is just some Markdown:
+This is simple. The API title, URL, introduction, etc. is just some Markdown:
 
 {title="Very start of an API Blueprint markdown file, showing meta data", lang=markdown}
 ~~~~~~~~
@@ -255,7 +255,7 @@ Places can have an image associated with them, that will act as a cover photo or
 ~~~~~~~~
 
 Here we have four "Resource Sections", each for a different resource. The one oddity here
-is that there are two entires are for `/places`. The reasoning here is that each "Resource
+is that there are two entries for `/places`. The reasoning here is that each "Resource
 Group" has its own "URI Template". No two groups can have the same template (two with `/places`
 would error) and if you want to document parameters then you need to put them in the template.
 
@@ -326,7 +326,7 @@ parameters for the URL with a very special syntax:
         + `<enumeration element N>`]
 ~~~~~~~~
 
-Our example has used slighty shorter syntax and skipped the additional description and enum values, but takes advantage
+Our example has used slightly shorter syntax and skipped the additional description and enum values, but takes advantage
 of much of the first line.
 
 ~~~~~~~~
