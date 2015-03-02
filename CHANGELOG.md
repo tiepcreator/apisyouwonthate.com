@@ -1,5 +1,10 @@
 # Change Log
+
 All notable changes to the book will be documented in this file.
+
+## Unreleased
+
+- Chapter 13: Add screenshot of Roy F. saying that `/v1/` in the URL makes it fundamentally not REST.
 
 ## 1.6.0 - 2014-11-18
 
