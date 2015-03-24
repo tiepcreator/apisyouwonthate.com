@@ -18,8 +18,8 @@ versioning is your only solution.
 
 > Sure, you could say that your API needs to maintain backward compatibility, but that is not very realistic when you are reusing your API properly across your product line. To demonstrate further, let us say you have 30 applications (and maybe a handful of external companies using the API), all of which are relying on the 'customer' REST resource. Your choices now are:  
 >  
->  1. Keep it backward compatible (and lose the million dollar sale because you couldn't implement cool feature X)  
->  2. Change all 30 applications simultaneously to handle the new data (you likely don't have enough resource to do this and deliver on time)  
+>  1. Keep it backward compatible (and lose the million dollar sale because you could not implement cool feature X)  
+>  2. Change all 30 applications simultaneously to handle the new data (you likely do not have enough resource to do this and deliver on time)  
 >  3. Make the change, breaking the apps you do not have time to upgrade, but get the sale. (Of course, you will fix the remaining apps in the future, right?)  
 > -- **Source:** [Jeremy Highley, "Versioning and Types in REST/HTTP API Resources"]
 
@@ -41,16 +41,16 @@ versioning they use. Credit goes to Tim Wood for compiling an extensive list in 
 
 Throwing a version number in the URI is a very common practice amongst popular public APIs.
 
-Essentially, all you do here is put a `v1` or `1` in the URL, so that the next version can be easily changed.
+Essentially, all you do here is put a 'v1' or '1' in the URL, so that the next version can be easily changed.
 
 > https://api.example.com/v1/places
 
 Due to being so prolific throughout various public APIs, this is often the first approach API developers take
 when building their own. It is by far the easiest and it does the job.
 
-Twitter has two versions, `/1/` and `/1.1/`, both of which were live at the the time of writing. This
+Twitter has two versions, '/1/' and '/1.1/', both of which were live at the the time of writing. This
 gives developers a chance to update any code that is referencing the old endpoints, so they can use the new
-ones. Most APIs would have called it `/2/`, but since it was not a drastic change, perhaps they wanted a more
+ones. Most APIs would have called it '/2/', but since it was not a drastic change, perhaps they wanted a more
 subtle number.
 
 Some say that URI versioning allows for a more 'copy & paste'-friendly URL than other approaches (many of 
