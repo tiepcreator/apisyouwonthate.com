@@ -16,11 +16,11 @@ can laugh at that and say it will never happen to you, but it will. When you are
 business requirements will come at you like a wet mackerel to the face. When that happens, API
 versioning is your only solution.
 
-> Sure, you could say that your API needs to maintain backward compatibility, but that is not very realistic when you are reusing your API properly across your product line. To demonstrate further, let's say you have 30 applications (and maybe a handful of external companies using the API), all of which are relying on the 'customer' REST resource. Your choices now are:  
+> Sure, you could say that your API needs to maintain backward compatibility, but that is not very realistic when you are reusing your API properly across your product line. To demonstrate further, let us say you have 30 applications (and maybe a handful of external companies using the API), all of which are relying on the 'customer' REST resource. Your choices now are:  
 >  
 >  1. Keep it backward compatible (and lose the million dollar sale because you couldn't implement cool feature X)  
 >  2. Change all 30 applications simultaneously to handle the new data (you likely don't have enough resource to do this and deliver on time)  
->  3. Make the change, breaking the apps you don't have time to upgrade, but get the sale. (Of course, you will fix the remaining apps in the future, right?)  
+>  3. Make the change, breaking the apps you do not have time to upgrade, but get the sale. (Of course, you will fix the remaining apps in the future, right?)  
 > -- **Source:** [Jeremy Highley, "Versioning and Types in REST/HTTP API Resources"]
 
 [Jeremy Highley, "Versioning and Types in REST/HTTP API Resources"]: http://thereisnorightway.blogspot.com.tr/2011/02/versioning-and-types-in-resthttp-api.html
@@ -56,7 +56,7 @@ subtle number.
 Some say that URI versioning allows for a more 'copy & paste'-friendly URL than other approaches (many of 
 which involve HTTP headers) and this is supposedly better for support.
 
-That might be true in some ways but isn't totally accurate. No REST/Hypermeida API is ever going to be entirely 'copy & paste'-friendly because there will always be headers involved: `Cache-Control`, `Accept`, `Content-Type`, `Authorization`, etc. Trying to make an entire API request fit in a URL just seems like a fool's errand.
+That might be true in some ways but is not totally accurate. No REST/Hypermeida API is ever going to be entirely 'copy & paste'-friendly because there will always be headers involved: `Cache-Control`, `Accept`, `Content-Type`, `Authorization`, etc. Trying to make an entire API request fit in a URL just seems like a fool's errand.
 
 While the copy-paste argument is simply a lack of a positive, this versioning approach does have some 
 potentially frustrating downsides.
@@ -78,11 +78,11 @@ this:
 
 > https://api.example.com/v1/places/213
 
-One day, you get an email from 'example.com' stating that their `v1` API is going to be deprecated in three months, and you need to start using the `v2` API as soon as you can.
+One day, you get an email from `example.com` stating that their 'v1' API is going to be deprecated in three months, and you need to start using the 'v2' API as soon as you can.
 
 If you update your code to match the updated format, with whatever new or renamed fields the
 new version may contain then great, your new code will be ready to work with the new API version and you can
-start saving the new URL when you enter the record in your database. That works for new records, but you can't leave the old records in there referencing the old API `v1` URL.
+start saving the new URL when you enter the record in your database. That works for new records, but you cannot leave the old records in there referencing the old API 'v1' URL.
 
 So what do you do? One solution would be to string replace the old URL and hope the new URL is right:
 
@@ -95,8 +95,8 @@ to use slugs instead:
 > https://api.example.com/**v2**/places/taksim-bunk-hostel
 
 Now what? The only solution here is to create a script that goes through each and every record in your
-database, hits their `v1` API and gets information (hopefully that slug is available) and then constructs
-a `v2` compatible URL to store.
+database, hits their 'v1' API and gets information (hopefully that slug is available) and then constructs
+a 'v2' compatible URL to store.
 
 If you do that with a few million records then you will probably hit some API limits fairly quickly. Twitter,
 for example, limits applications to 15 requests per endpoint per 15 minutes in some situations, so this would
@@ -105,12 +105,12 @@ take about two weeks to update one million records.
 Maybe that sounds like an edge case, but putting the API version in the URL is asking for all sorts
 of obscure problems down the line, and asking your developers to manually construct resource URLs with string replacement is just rude. Peter Williams pointed this out in an article titled ["Versioning REST Web Services"] back in 2008, but everyone has been consistently ignoring him, it seems.
  
-Another downside to this approach is that pointing `v1` and `v2` to different servers can be difficult, unless you use some sort of Apache Proxy feature or nginx-as-a-proxy trickery. Generally speaking, most systems expect the same path to be on the same server (doing otherwise can lead to overhead), so if 'v1' is PHP and 'v2' is Scala, you can run into some trouble having them all set up on the same server.
+Another downside to this approach is that pointing 'v1' and 'v2' to different servers can be difficult, unless you use some sort of Apache Proxy feature or nginx-as-a-proxy trickery. Generally speaking, most systems expect the same path to be on the same server (doing otherwise can lead to overhead), so if 'v1' is PHP and 'v2' is Scala, you can run into some trouble having them all set up on the same server.
 
 The opposite of the 'putting them on the same server can be hard' problem, is when API developers try to let one single code base take care of this versioning internally in their web app. They simply make routes
-with the prefix `/v1/places`, then when they want to make `v2` they copy the routes, copy the controllers and
+with the prefix `/v1/places`, then when they want to make 'v2' they copy the routes, copy the controllers and
 tweak things. This _can_ be done if you also version your transformers (to maintain structure and data
-types), and you are confident that all shared code (libraries, packages, etc) will maintain a consistent output throughout. This is rarely the case, and people putting `v1` in their URLs are just doing it because it's the only solution they know.
+types), and you are confident that all shared code (libraries, packages, etc) will maintain a consistent output throughout. This is rarely the case, and people putting 'v1' in their URLs are just doing it because it is the only solution they know.
 
 Instead, consider making each version its own code base. This means the code is totally separate, executed 
 separately, with different web server vhosts or maybe even on different servers. 
@@ -160,7 +160,7 @@ and simply put the version number in the hostname (or sub-domain) instead:
 
 > https://api-v1.example.com/places
 
-This doesn't really solve any of the other problems. Having it in the URL in general (URI or sub-domain)
+This does not really solve any of the other problems. Having it in the URL in general (URI or sub-domain)
 shares all the same problems for API consumers, but it does at least reduce the chances of API developers
 trying to let one code base handle it all.
 
@@ -192,7 +192,7 @@ Content-Type: application/json
 ~~~~~~~~
 
 This solves the problem of URLs changing over time, but can lead to inconsistent experiences. If the API
-developer is posting JSON or a similar data structure then it's easy, but if they are posting with a `Content-Type` of `image/png` or even `text/csv` then this becomes very complicated very quickly.
+developer is posting JSON or a similar data structure then it is easy, but if they are posting with a `Content-Type` of `image/png` or even `text/csv` then this becomes very complicated very quickly.
 
 Some suggest the solution to that problem is to move the parameter to the query string, but now the API version is in the URL again! Immediately, many of the problems of the first two approaches are back.
 
@@ -252,11 +252,11 @@ This example was lifted from [Mark Nottingham], who is the chair of the [IEFT HT
 > Otherwise, intervening caches can give clients the wrong response (e.g. a 1.2 response to a 1.1 client, or vice versa).  
 > -- **Source:** [Mark Nottingham, "Bad HTTP API Smells: Version Headers"]
 
-Without specifying the `Vary` header, it's hard for a cache system like Varnish to know that somebody
-is asking for 1.0 because the URL isn't any different than somebody asking for 1.1 or 2.0. That can be a big problem as
+Without specifying the `Vary` header, it is hard for a cache system like Varnish to know that somebody
+is asking for 1.0 because the URL is not any different than somebody asking for 1.1 or 2.0. That can be a big problem as
 API consumers asking for a specific version need to get that version, not a different one.
 
-Beyond that rather tricky caching issue, it's just generally annoying. If you use a custom header then
+Beyond that rather tricky caching issue, it is generally just annoying. If you use a custom header then
 API consumers need to go and look at your documentation to remember which it is. Maybe it is `API-Version`
 or `Foursquare-Version` or `X-Api-Version` or `Dave`. Who knows, and who can remember.
 
@@ -306,7 +306,7 @@ Basically if you ask for either of the following two MIME types, the result will
 * `application/json`
 * `application/vnd.github+json`
 
-Without specifying further, they will show you the current default response, which at the time of writing is `v3` but could at any time change to `v4`. They warn that if you do not specify the version then your apps
+Without specifying further, they will show you the current default response, which at the time of writing is 'v3' but could at any time change to 'v4'. They warn that if you do not specify the version then your apps
 will break; fair enough.
 
 To specify the version, you must use the following:
@@ -315,15 +315,15 @@ To specify the version, you must use the following:
 Accept: application/vnd.github.v3+json
 ~~~~~~~~
 
-If the default switches to `v4` at some point in the future, your application will continue to use `v3`.
+If the default switches to 'v4' at some point in the future, your application will continue to use 'v3'.
 
 This solves the caching problem, solves the URL manipulation problems of the URL-based versioning approaches and
 is considered rather RESTful, but it can confuse some developers. You could train them to get used to it, or perhaps stick with URL-based versioning, but it is semantically more correct and generally works very well. This was done at Kapture for the internal API and it worked without problems.
 
-The only downside is one that's found with all the approaches mentioned so far: if you version
+The only downside is one that is found with all the approaches mentioned so far: if you version
 the entire API as a whole, it becomes very hard for API developers to upgrade their applications. It could
 be that only 10% of the API has changed between versions, but changing the version of the entire API
-can scare developers. Even with a changelog, it's hard for the developer to know if their entire 
+can scare developers. Even with a changelog, it is hard for the developer to know if their entire 
 application is going to break completely when they switch over. Even an extensive test-suite is not going to 
 catch every issue with a third-party service like this, because most developers use hard-coded JSON responses 
 in their unit-tests to mock interactions. 
@@ -344,7 +344,7 @@ If changing the version of the whole API is too much, the only other option is t
 
 **Cons**
 
-* API developers can get confused (if they don't know about headers)
+* API developers can get confused (if they do not know about headers)
 * Versioning the WHOLE thing can confuse users (but this is the same with all previous approaches)
 
 [GitHub, "Media Types"]: https://developer.github.com/v3/media/#api-v3-media-type-and-the-future
@@ -374,7 +374,7 @@ Picking between `application/vnd.example.place.v1+json` and `application/vnd.exa
 version=1` will no doubt have pros and cons itself. Apparently, Rails is not able to pick up the latter (or
 at least could not in 2011) but that should not be considered much of a reason.
 
-The other argument for using the latter media type is that arbitrary parameter names can have the same confusion as arbitrary version header names, but developers can all just agree to just call it `version`. Right?
+The other argument for using the latter media type is that arbitrary parameter names can have the same confusion as arbitrary version header names, but developers can all just agree to just call it 'version'. Right?
 
 Whichever way you end up specifying the header, the advantage is not just specifying 'I want the v4 API' 
 but instead saying 'I would like the v4 version of a place(s)'. Services that provide an API can email
@@ -419,20 +419,20 @@ They essentially make a custom version for each single client application. The w
 email API developers about it, and ask those developers to log into the developer area on the Facebook platform to manage their application.
 
 Basically, they warn you that things are going to break in a few months. They list all the changes and give
-you the chance to see if this will affect your application. If your application does not use an endpoint that's 
-being changed, or they are removing a field your application doesn't use, then you can click 'enable' for 
+you the chance to see if this will affect your application. If your application does not use an endpoint that is 
+being changed, or they are removing a field your application does not use, then you can click 'enable' for 
 the migration. From that point on, any interaction your application has with the Facebook Graph API will use 
 the new format.
 
 If you wait, eventually they will flip that switch regardless. This is considered a fair warning, and means 
-they don't have to support an old version for years. Facebook simply maintain one version with a few feature 
+they do not have to support an old version for years. Facebook simply maintain one version with a few feature 
 flags and those flags exist for a few months before that old code is removed. If your application still uses 
-the old format then it's just tough.
+the old format then it is just tough.
 
 To me, this system has the most benefits. One tricky part is that getting the timing right for the 
 changeover is hard on API consumers. If your code is live looking at the old style, then you cannot push new code for the new style, because it will be broken until you flip the switch. That might only be seconds, but if you have multiple applications then you have to update and deploy all of them within minutes (or seconds) and then flip the switch.
 
-Realistically speaking, that's very hard to do, so you'll end up with code having a lot of `if` statements,
+Realistically speaking, that is very hard to do, so you will end up with code having a lot of 'if' statements,
 ready to look for fields that may or may not be there depending on the version. That leads to lots of extra
 code which you have to remember to remove afterwards by shoving comment blocks throughout your code:
 
@@ -440,18 +440,18 @@ code which you have to remember to remove afterwards by shoving comment blocks t
 
 This is not insanely hard, but it can be complicated sometimes.
 
-Generally speaking, the Feature Flag solution is the easiest for API consumers if the changes happen to hit a part of the API they don't care about. They don't need to be scared of changing to an entirely new version of the API, they know their code will work, and things seem safer. If they _do_ require changes then... well a few `if` statements never really hurt anyone.
+Generally speaking, the Feature Flag solution is the easiest for API consumers if the changes happen to hit a part of the API they do not care about. They do not need to be scared of changing to an entirely new version of the API, they know their code will work, and things seem safer. If they _do_ require changes then... well a few 'if' statements never really hurt anyone.
 
 ## Ask Your Users
 
-None of these will have a drastic impact on your business, especially if your API is internal. If you're
+None of these will have a drastic impact on your business, especially if your API is internal. If you are
 creating a platform as big as Facebook, then maybe you need a solution as complex as theirs, but that is
 probably not the case.
 
 My advice with versioning (as with most aspects of your API) is to know your audience. Twitter gets away
 with flagrant disregard for almost every single concept or principle that ever makes something RESTful whilst still calling it a REST API, so you can probably break a few rules too.
 
-> I leave those considering how to version their APIs with a final thought: nobody will use your API until you’ve built it. Stop procrastinating. None of these are 'bad' in any tangible sense, they’re just different.  
+> If I may leave others considering how to version their APIs with a final thought: Nobody will use your API until you’ve built it. Stop procrastinating. None of these are “bad” in any tangible sense, they're just different.  
 > They are all easily consumable, they all return the same result and none of them are likely to have any real impact on the success of your project.  
 > -- **Source:** [Troy Hunt, "Your API versioning is wrong, which is why I decided to do it 3 different 
 wrong ways"][troy-hunt-wrong]
