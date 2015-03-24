@@ -154,7 +154,7 @@ type-casting of various fields turn numeric strings into integers, coordinates i
 (DateTime) object from Laravel into a string, instead of letting the object turn itself into an array.
 
 The only issue this has not taken care of from the above example is performance, but that is a job for pagination which
-will be covered in [Chapter 10](#chapter-10). 
+will be covered in [Chapter 10](#chapter-10).
 
 A new issue has however been created, which should be a fairly obvious one: This is icky. Our theoretical developer now
 tries something else.
@@ -201,14 +201,14 @@ class PlaceController extends ApiController
 Certainly much better, but what if a different controller wants to show a place at any point? You could theoretically
 move all of these transform methods to a new class or shove them in the `ApiController`, but that would just be odd.
 
-Really you want to make what I have come to call "Transformers", partially because the name is 
-awesome and because that is what they are doing; "Transforming" data from the format it was stored as 
+Really you want to make what I have come to call "Transformers", partially because the name is
+awesome and because that is what they are doing; "Transforming" data from the format it was stored as
 in the data store, into something ready to be converted into JSON or whatever else, with a bit more
 structure than just dumping out whatever your DB driver happened to give you.
 
-I built a component to do this called [Fractal](http://fractal.thephpleague.com/), because PHP did 
+I built a component to do this called [Fractal](http://fractal.thephpleague.com/), because PHP did
 not seem to have anything that would let me do this.  Other languages have great solutions for this
-already. Some call it "Data Marshalling" or "Serialization", but it is all achieving roughly the 
+already. Some call it "Data Marshalling" or "Serialization", but it is all achieving roughly the
 same goal: take potentially complicated data from a range of stores and turn it into a consistent
 output.
 
@@ -223,7 +223,7 @@ output.
 ## Transformations with Fractal
 
 With Fractal, Transformers are created as either a callback or an instance of an object implementing
-`League\Fractal\TransformerAbstract`. They do exactly the job that our `transformPlaceToJson()` method did but they live
+`TransformerAbstract`. They do exactly the job that our `transformPlaceToJson()` method did but they live
 on their own, are easily unit-testable (if that floats your boat) and remove a lot of presentation clutter from the
 controller.
 
