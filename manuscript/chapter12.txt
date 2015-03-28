@@ -2,8 +2,8 @@
 
 ## Introduction
 
-HATEOAS is a tricky subject to explain, but it is actually rather simple. It stands for "Hypermedia as the
-Engine of Application State", and is pronounced as either "hat-ee-os", "hate O-A-S" or "hate-ee-ohs" - which
+HATEOAS is a tricky subject to explain, but it is actually rather simple. It stands for 'Hypermedia as the
+Engine of Application State', and is pronounced as either 'hat-ee-os', 'hate O-A-S' or 'hate-ee-ohs'; the latter of which
 sounds a little like a cereal for API developers.
 
 However you want to try and say it, it basically means two things for your API:
@@ -11,10 +11,10 @@ However you want to try and say it, it basically means two things for your API:
 1. Content negotiation
 2. Hypermedia controls
 
-In my experience content negotiation is one of the first things many API developers implement. When building
-my CodeIgniter Rest-Server extension it was the first feature I added, because hey - it is fun! Changing the
+In my experience, content negotiation is one of the first things many API developers implement. When building
+my CodeIgniter Rest-Server extension it was the first feature I added, because hey, it is fun! Changing the
 `Accept` header and seeing the `Content-Type` header in the response switch from JSON to XML or CSV is
-great, and is super easy to do.
+great, and also super easy to do.
 
 ## Content Negotiation
 
@@ -24,11 +24,11 @@ extensions. Their URLs often look like:
 * `/statuses/show.json?id=210462857140252672`
 * `/statuses/show.xml?id=210462857140252672` 
 
-This is a bit of a misuse of the concept of a "resource," and forces users to know that the endpoint "show" exists, and that they must pick a content-type extension, and that the `id` parameter must be used...
+This is a bit of a misuse of the concept of a 'resource' and forces users to know not only that the endpoint 'show' exists, but that they must pick a content-type extension and that the `id` parameter must be used.
 
-A good API would simply have `/statuses/210462857140252672`. This has the dual benefit of letting the API respond with a default content-type, or respect the `Accept` header and either output the request content-type or spit out a `415` status code if the API does not support it. The second benefit is that the consumer does not need to know about `?id=`.
+A good API would simply have `/statuses/210462857140252672`. This has the dual benefit of letting the API respond with a default content-type, or respecting the `Accept` header and either outputting the request content-type or spitting out a `415` status code if the API does not support it. The second benefit is that the consumer does not need to know about `?id=`.
 
-URIs are not supposed to be a bunch of folders and file names, and an API is not a list of JSON files or XML files. They are a list of resources that can be represented in different formats depending on the `Accept` header, **and nothing else.**
+URIs are not supposed to be a bunch of folders and file names and an API is not a list of JSON files or XML files. They are a list of resources that can be represented in different formats depending on the `Accept` header, **and nothing else**.
 
 {title="A simple example of content negotiation requesting JSON"}
 ~~~~~~~~
@@ -37,7 +37,7 @@ Host: localhost:8000
 Accept: application/json
 ~~~~~~~~
 
-A response would then contain JSON, if the API supports JSON as an output format.
+A response would then contain JSON if the API supports JSON as an output format.
 
 {title="A shortened example of the HTTP response with JSON data"}
 ~~~~~~~~
@@ -66,11 +66,11 @@ Connection: close
 ~~~~~~~~
 
 Most popular APIs will support JSON by default, or maybe _only_ JSON as our sample app has done so far.
-This is not realistic, but was done mainly for the sake of simplicity throughout the book so far.
+This is not realistic, but has been done throughout the book so far, mainly for the sake of simplicity.
 
 XML is still a tricky one to do as you need to require view files, and that is out of scope of this chapter.
 
-YAML however is rather easy to achieve, so we can see how content negotiation works with a little change to
+YAML, however, is rather easy to achieve, so we can see how content negotiation works with a little change to
 our app. Check `~/apisyouwonthate/chapter12/` for the updated sample app.
 
 The main change other than including the [Symfony YAML component] was to simply update the
@@ -152,28 +152,28 @@ $response = $client->get('/places', [
 $response->getBody(); // YAML, ready to be parsed
 ~~~~~~~~
 
-This is not the end of the conversation for content negotiation, as there is a little bit more to talk about
-with vendor-based MIME types for resources, which can be versioned too. To keep this chapter on point, that
+This is not the end of the conversation for content negotiation as there is more to talk about
+with vendor-based MIME types for resources, which can also be versioned. To keep this chapter on point, that
 discussion will happen in [Chapter 13: API Versioning](#chapter-13).
 
 [Symfony YAML component]: http://symfony.com/doc/current/components/yaml/introduction.html
 
 ## Hypermedia Controls
 
-The second part of HATEOAS however is drastically underused, and is the last step in making your API
+The second part of HATEOAS, however, is drastically underused, and is the last step in making your API
 technically a RESTful API.
 
 ![Batman provides a standard response to often futile bucket remark "But it's not RESTful if you..." Credit to Troy Hunt (@troyhunt)](images/chapter12/notrestful.png)
 
-While you often hear complaints like "but that is not RESTful!" from people about silly things, this is one
+While you often hear complaints like 'but that is not RESTful!' from people about silly things, this is one
 instance where they are completely right. Roy Fielding says that [without hypermedia controls an API
 is not RESTful](http://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven), writing 
 back in 2008. People have been ignoring that ever since, and the last estimate was that 74% of APIs 
-claiming to be "RESTful" do not actually use hypermedia.
+claiming to be 'RESTful' do not actually use hypermedia.
 
 ### RESTful Nirvana
 
-There is something floating around the REST/Hypermedia community called the ["Richardson Maturity Model"], written about here by [Martin Fowler] but originally invented by [Leonard Richardson]. It covers what he considers to be "the Four levels of REST":
+There is something floating around the REST/Hypermedia community called the ['Richardson Maturity Model'], written about here by [Martin Fowler] but originally invented by [Leonard Richardson]. It covers what he considers to be 'the four levels of REST':
 
 >  1. **"The Swamp of POX."** You’re using HTTP to make RPC calls. HTTP is only really used as a tunnel.
 >  1. **Resources.** Rather than making every call to a service endpoint, you have multiple endpoints that are used to represent resources, and you’re talking to them. This is the very beginnings of supporting REST.
@@ -181,24 +181,24 @@ There is something floating around the REST/Hypermedia community called the ["Ri
 >  1. **Hypermedia Controls.** HATEOAS. You’re 100% REST compliant. 
 > -- **Source: ** [Steve Klabnik, "Haters gonna HATEOAS"](http://timelessrepo.com/haters-gonna-hateoas)
 
-Some dispute this model because - as Roy says - unless you have hypermedia then it is not REST. 
-The model is good as long as you understand that steps 1, 2 and 3 are still "not REST" and step 4
-is "REST."
+Some dispute this model because, as Roy says, unless you have hypermedia then it is not REST. 
+The model is good as long as you understand that steps 1, 2 and 3 are still 'not REST' and step 4
+is 'REST'.
 
 So, what are hypermedia controls? They are just links to other content, relationships and further actions. These allow a consumer to browse around the API, discovering actions as it goes.
 
-Basically, your data needs to have "hyperlinks", which you have probably been using in your HTML
+Basically, your data needs to have 'hyperlinks', which you have probably been using in your HTML
 output for years. I said early on in the book that REST is just using the same conventions as the
-actual Internet instead of inventing new ones, so it makes sense that linking to other resources 
+actual Internet, instead of inventing new ones, so it makes sense that linking to other resources 
 should be the same in an API as it is in a web page.
 
-The underlying theme of hypermedia in general is that an API should be able to make perfect sense
+The general underlying theme of hypermedia is that an API should be able to make perfect sense
 to an API client application and the human looking at the responses, entirely without having to 
 hunt through documentation to work out what is going on.
 
-Small HATEOAS concepts have sneakily been sprinkled throughout this book, from suggesting error codes be
+Small HATEOAS concepts have been sneakily sprinkled throughout this book, from suggesting error codes be
 combined with human readable error messages and documentation links, to helping the client application avoid
-math when interacting with pagination. The underlying theme is always to make controls such as next, previous or any other sort of related interaction clearly obvious to a human or a computer.
+maths when interacting with pagination. The underlying theme is always to make controls such as next, previous (or any other sort of related interaction) clearly obvious to either a human or a computer.
 
 [Martin Fowler]: http://martinfowler.com/
 ["Richardson Maturity Model"]: http://martinfowler.com/articles/richardsonMaturityModel.html
@@ -206,12 +206,12 @@ math when interacting with pagination. The underlying theme is always to make co
 
 ### Understanding Hypermedia Controls
 
-This is the easiest part of building a RESTful API, so I am going to try really hard to not just leave this
-section at: "Just add links mate." - which is my normal advice for anyone asking about HATEOAS.
+This is the easiest part of building a RESTful API, so I am going to try really hard not to leave this
+section at: 'just add links mate' (my normal advice for anyone asking about HATEOAS).
 
 Our usual data is output in such a way that only represents one or more resources. By itself, this one piece
 of data is an island, completely cut off from the rest of the API. The only way to continue interacting
-with the API is for the developer to read the documentation and understand what data can be related, and discover where that data might live. This is far from ideal.
+with the API is for the developer to read the documentation and understand what data can be related, and to discover where that data might live. This is far from ideal.
 
 To tie one `place` to the related resources, sub-resources or collections is easy.
 
@@ -247,12 +247,12 @@ To tie one `place` to the related resources, sub-resources or collections is eas
 }
 ~~~~~~~~
 
-Here are three simple entries, with the first is linking to itself. They all contain a `uri` (Universal
+Here are three simple entries, with the first linking to itself. They all contain a `uri` (Universal
 Resource Indicator) and a `rel` (Relationship).
 
 I> ### URI v URL
-I> The acronym "URI" is often used to refer to only content after the protocol, hostname and port
-(meaning URI is the path, extension and query string), whilst "URL" is used to describe the full address.
+I> The acronym 'URI' is often used to refer to only content after the protocol, hostname and port
+(meaning URI is the path, extension and query string), whilst 'URL' is used to describe the full address.
 While this is not strictly true, it is perpetuated by many software projects such as CodeIgniter.
 [Wikipedia][wiki-urivurl] and the [W3][w3-urivurl] say a bunch of conflicting things, but I feel like a
 URI is easily described as being simply any sort of identifier for the location of a resource on the
@@ -264,7 +264,7 @@ wrongly. Got it?
 
 Some people scoff at the `self` relationship suggesting that it is pointless. While you certainly know what
 URL you just called, that URL is not always going to match up with the `self` URI. For example, if you just
-created a `place` resource you will have called `POST /places`, and that is not a what you would want to
+created a `place` resource, you will have called `POST /places`, and that is not what you would want to
 call again to get updated information on the same resource. Regardless of the context, outputting a `place`
 always needs to have a `self` relationship, and that `self` should not just output whatever is in the
 address bar. Basically put, the `self` relationship points to where the resource lives, not the current
@@ -273,7 +273,7 @@ address.
 As for the other `rel` items, they are links to sub-resources which contain related information. The content
 of the tags can be anything you like, just keep it consistent throughout. The convention used in this
 example is to namespace relationships so that they are unique. Two different types of resources could have
-a `checkins` relationship (eg: `users` and `places`) so keeping them unique could be of benefit for the sake
+a `checkins` relationship (eg: `users` and `places`), so keeping them unique could be of benefit for the sake
 of documentation at least. Maybe you would prefer to remove the namespace, but that is up to you.
 
 Those custom relationships have fairly unique names, but for more generic relationships you can consider
@@ -288,7 +288,7 @@ other things.
 ### Creating Hypermedia Controls
 
 This is literally a case of shoving some links into your data output. However you chose to do that, it
-can be part of your "transformation" or "presentation" layer.
+can be part of your 'transformation' or 'presentation' layer.
 
 If you are using the PHP component Fractal - which has been used as an example throughout the book - then
 you can simply do the following:
@@ -328,12 +328,12 @@ public function transform(Place $place)
 }
 ~~~~~~~~
 
-People try to get smarter and have various relationships based off of their `$_SERVER` settings or based
-off of their ORM relationships, but all of that is just going to cause you problems. If you have these
-transformers then you only need to write this lot out once and it avoids exposing any database logic and
+People try to get smarter and have various relationships based on their `$_SERVER` settings or based
+on their ORM relationships, but all of that is just going to cause you problems. If you have these
+transformers then you only need to write this lot out once. This then avoids exposing any database logic and
 keeps your code readable and understandable.
 
-Once you have input these links, other people need to know how to interact with them. You might think "Surely I should put `GET` or `PUT` in there so people know what to do?" Wrong. They are links to resources,
+Once you have input these links, other people need to know how to interact with them. You might think, 'surely I should put `GET` or `PUT` in there so people know what to do'. Wrong. They are links to resources,
 not actions. An image exists for a place, and we can either blindly assume we can make certain actions on it,
 or we can ask our API what actions are available and cache the result.
 
@@ -366,7 +366,7 @@ Taking a shortened example from earlier on in this chapter, we can expect to see
 We can assume that a `GET` will work on both the `self` and the `place.checkins` endpoints, but
 what else can we do with them? Beyond that, what on Earth do we do with the `place.image` endpoint?
 
-HTTP has us covered here, with a simple and effective verb that so far has not been discussed: `OPTIONS`.
+HTTP has us covered here, with a simple and effective verb that has so far not been discussed: `OPTIONS`.
 
 {title="An HTTP request using the OPTIONS verb"}
 ~~~~~~~~
@@ -406,9 +406,9 @@ them by making a `POST` HTTP request to that URL. We can also do a `HEAD` check,
 this is handy for checking if a resource or collection exists without having to download the entire body
 content (i.e: just look for a `200` or a `404`).
 
-It might seem a little nuts to go to this extra step to interact with an API, but really it should be
-considered much easier than hunting for documentation. Think about it, trying to find that little
-"Developers" link on the website, then navigate to the documentation for the correct API (because they are
+It might seem a little nuts to take this extra step to interact with an API, but really it should be
+considered much easier than hunting for documentation. Think about it: trying to find that little
+'Developers' link on the website, then navigating to the documentation for the correct API (because they are
 so cool they have about three), then wondering if you have the right version... not fun. Compare that to a
 programmatically self-documenting API, which can grow, change and expand over time, rename URLs and... well that is a real win. Trust me.
 
