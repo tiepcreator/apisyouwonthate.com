@@ -16,9 +16,9 @@ There are a few reasons for doing this:
 2. Your database might not be happy about trying to return 100,000 records in one go
 3. Presentation logic iterating over 100,000 records is no fun
 
-As you can probably tell, 100,000 is a arbitrary number. An API could have endpoints like `/places` with over 1 million
+As you can probably tell, 100,000 is an arbitrary number. An API could have endpoints like `/places` with over a million
 records, or checkins which could be unlimited. While developing an API many people forget about this, and
-while 10 or 100 records will display quite quickly during development, infinity is considerably slower. Data grows exponentially.
+while ten or a hundred records will display quite quickly during development, infinity is considerably slower. Data grows exponentially.
 
 A good API will allow the client to request the number of items it would like returned per HTTP request. Some developers
 try to be smart and use custom HTTP headers for this, but this is literally what the query string is for.
@@ -36,7 +36,7 @@ W> could have some interesting effects.
 
 ## Paginators
 
-I stole the word "Paginator" from Laravel, which uses a `Paginator` class for a very specific type of pagination. It
+I stole the word 'paginator' from Laravel, which uses a `Paginator` class for a very specific type of pagination. It
 is not the most efficient form of pagination by any means, but it is rather easy to understand and works fine on
 relatively small data sets.
 
@@ -59,9 +59,9 @@ $per_page = isset($_GET['number']) ? (int) $_GET['number'] : 20;
 $page_count = ceil($total / $per_page);
 ~~~~~~~~
 
-With that basic math taken care of we now know how many pages there are in total, and have rounded it up with `ceil()`.
-That is a PHP function equivalent of `Math.round()`, which rounds it up to the nearest integer. If `$total` is 1000, 
-then `$page_count` will be 83.333. Obviously nobody wants to go to page 83.333 so round that up to page 84. 
+With that basic maths taken care of we know how many pages there are in total, and have rounded it up with `ceil()`.
+This is a PHP function equivalent of `Math.round()`, which rounds it up to the nearest integer. If `$total` is 1000, 
+then `$page_count` will be 83.333. Obviously nobody wants to go to page 83.333, so round that up to page 84. 
 
 Using these variables, an API can output some simple meta-data that goes next to the main `data` namespace:
 
@@ -81,10 +81,10 @@ Using these variables, an API can output some simple meta-data that goes next to
 }
 ~~~~~~~~
 
-The names of items in this pagination example are purely based off what Kapture's iPhone developer suggested at the
-time, but should portray the intent.
+The names of items in this pagination example are purely based on what Kapture's iPhone developer suggested at the
+time but should portray the intent.
 
-You basically give the client enough information to do math itself if that is something it wants to do, or you let them
+You basically give the client enough information to do maths itself, if that is something it wants to do, or you let them
 ingest basic HTTP links too.
 
 ### Counting lots of Data is Hard
@@ -92,18 +92,18 @@ ingest basic HTTP links too.
 The main trouble with this method is the `SELECT count(*)` that is required to find out the total, which can be a very
 expensive request.
 
-The first thing to mind will be caching. Sure you can cache the count, or even pre-populate the request. In many cases
+The first thing to mind will be caching. Sure, you can cache the count, or even pre-populate the request. In many cases
 you certainly could, but you have to consider that most endpoints will have multiple query string parameters
 to customise the data returned.
 
 > /places?merchant=X
 
-That means you will now have a single cache for ever count of places by each specific merchant. That too could be
+That means you will now have a single cache for every count of places by each specific merchant. That could also be
 cached or pre-populated, but when it comes to geo data you have no chance:
 
 > /places?lat=42.2345&lon=1.234
 
-Unfortuntately the chances of having multiple people request the exact same set of coordinates regularly enough to make a
+Unfortuntately, the chances of having multiple people request the exact same set of coordinates regularly enough to make a
 cache worthwhile is unlikely, especially as those coordinates point to a remote, mountainous region of Spain.
 
 Pre-population for those results also seems highly unlikely. If you have literally millions of places then trying to
@@ -111,12 +111,12 @@ count all places for somebody in Spain is just silly. Indexes can help. Slicing 
 slicing it together with some clever trickery can help. Generally speaking though, using this sort of pagination
 introduces big-data problems to what can be potentially small-data setups, especially when you have filtering options.
 
-This is not bad (and I have used it myself for plenty of APIs) but you definitely need to keep this sort of thing in
+This is not bad (and I have used it myself for plenty of APIs), but you definitely need to keep this sort of thing in
 mind.
 
 ### Moving Goal Posts
 
-Another tricky issue with the "count everything then pick which page number" approach is that if a new item is
+Another tricky issue with the 'count everything then pick which page number' approach is that if a new item is
 added between HTTP requests, the same content can show up twice.
 
 Imagine the scenario, where the `number` per page is set to 2, `places` are ordered by name, and the values are hip bars
@@ -129,7 +129,7 @@ in Brooklyn, NY:
   * Videology
 
 If the client requests Page 1, then they will see the first two results. While the results for Page 1 are being
-displayed to the end user, some hip new bar opens up with the name "Lucky Dog" and joins the platform.
+displayed to the end user, some hip new bar opens up with the name 'Lucky Dog' and joins the platform.
 
 Now the data set looks like this:
 
@@ -140,12 +140,12 @@ Now the data set looks like this:
   * Pickle Shack
   * Videology
 
-If the client does not refresh Page 1 (which most would not do for the sake of speed) then "Pickle Shack" is going to
-show up twice, and "Lucky Dog" will not be on the list at all.
+If the client does not refresh Page 1 (which most would not do for the sake of speed) then 'Pickle Shack' is going to
+show up twice, and 'Lucky Dog' will not be on the list at all.
 
 ### Using Paginators with Fractal
 
-This is a rather specific example, requiring Laravel's Eloquent and Pagination packages, and [Fractal](http://fractal.thephpleague.com/). If you are not using any of those things then you can skip it and just use some simple math like the
+This is a rather specific example, requiring Laravel's Eloquent and Pagination packages, and [Fractal](http://fractal.thephpleague.com/). If you are not using any of those things then you can skip it and just use some simple maths like the
 example JSON above. Otherwise, follow on:
 
 ~~~~~~~
@@ -164,8 +164,8 @@ $resource->setPaginator(new IlluminatePaginatorAdapter($paginator));
 
 ## Offsets and Cursors
 
-Another common pagination method is to use "cursors" (sometimes called "markers"). A cursor is usually a unique
-identifier, or an offset, so that the API can just request "more" data.
+Another common pagination method the use of 'cursors', sometimes called 'markers'. A cursor is usually a unique
+identifier, or an offset, so that the API can just request 'more' data.
 
 If there is more data to be found, the API will return that data. If there is not more data, then either an error (404)
 or an empty collection will be returned.
@@ -190,23 +190,23 @@ To try the same example:
 }
 ~~~~~~~~
 
-This JSON has been returned `after` requesting the first 12 records; 1-12 were all available, and (for the sake of example) were all
-auto-increment integers, so, in this example, if we would like the content that is _after_ 12, then the records having ID from 13 to 24 would be on the
+This JSON has been returned `after` requesting the first 12 records. 1-12 were all available and, for the sake of example, were all
+auto-increment integers. Therefore, in this example, if we would like the content that is _after_ 12, then the records having ID from 13 to 24 would be on the
 next page.
 
-While this provides an incredibly simplistic explanation, generally speaking using IDs is a tricky idea. A specific
+While this provides a very simplified explanation, generally speaking using IDs is a tricky idea. A specific
 record can move from one category to another, or could be deactivated, or all sorts of things. You _can_ use IDs, but
-it is generally considered best practise to use an offset instead.
+it is generally considered best practice to use an offset instead.
 
-Using an offset is simple. Regardless of your IDs, hashed, etc, you simply put 12 in there and say "I would like 12 records, with an offset of 12", instead of saying "I would like records after id=12".
+Using an offset is simple. Regardless of your IDs, hashed, etc, you simply put 12 in there and say 'I would like 12 records, with an offset of 12', instead of saying 'I would like records after id=12'.
 
 ### Obscuring Cursors
 
-Facebook sometimes use cursors to obscure actual IDs, but sometimes use them for "cursor-based offsets". Regardless of what the cursor actually is your user should never really care, so obfuscating it seems like a good idea.
+Facebook sometimes use cursors to obscure actual IDs, but sometimes use them for 'cursor-based offsets'. Regardless of what the cursor actually is, your user should never really care, so obfuscating it seems like a good idea.
 
 ![Facebook Graph API using Cursors](images/chapter10/facebook-cursors.png)
 
-How did Facebook get `"MTA="` and `"MQA=="` as values? Well, they are intentionally odd looking as you are not meant to know what they are. A cursor is an opaque value which you can pass to the pagination system to get more information, so it could be 1, 6, 10, 120332435 or "Tuesday" and it wouldn't matter.
+How did Facebook get `"MTA="` and `"MQA=="` as values? Well, they are intentionally odd-looking as you are not meant to know what they are. A cursor is an opaque value which you can pass to the pagination system to get more information, so it could be 1, 6, 10, 120332435 or 'Tuesday' and it would not matter.
 
 [Don Gilbert](http://dongilbert.net/) let me know that in the example of Facebook they just Base64 encode their cursors:
 
@@ -218,14 +218,13 @@ php > var_dump(base64_decode('MQ=='));
 string(1) "1"
 ~~~~~~~~
 
-Obfuscating the values is not done for security, but - I assume - to avoid people trying to do math on the values. Ignorance is bliss in this scenario, as somebody doing maths on an offset-based paginated result might end up doing the
-same math on a primary key integer. If everything is an opaque cursor or marker then nobody can do that.
+Obfuscating the values is not done for security but, I assume, to avoid people trying to do maths on the values. Ignorance is bliss in this scenario, as somebody doing maths on an offset-based paginated result might end up using the same calculation on a primary key integer. If everything is an opaque cursor or marker then nobody can do that.
 
 ### Extra Requests = Sadness
 
-This approach is not favored by some client developers as they do not like the idea of having to make extra HTTP
-requests to find out that there is no data, but this just seems like the only realistic way to achieve a performant pagination system for large data. Even with a "pages" system, if there is only 1 record on the last page and that
-record (or any other in any page) is removed then the last page will be empty anyway, so... every pagination system
+This approach is not favoured by some client developers, as they do not like the idea of having to make extra HTTP
+requests to find out that there is no data. However, this seems like the only realistic way to achieve a performant pagination system for large data. Even with a 'pages' system, if there is only one record on the last page and that
+record (or any other in any page) is removed then the last page will be empty anyway. Every pagination system
 needs to respond to an empty collection.
 
 ### Using Cursors with Fractal
@@ -271,19 +270,19 @@ Link: <https://api.github.com/user/repos?page=3&per_page=100>; rel="next", <http
 
 I have never used this and am dubious. Some argue that pagination is meta-data, and meta-data should be kept out of the response. 
 
-Inserting pagination data into the API response in a `"pagination"` namespace is very common and 
-has been my go-to solution for years. I would slot it next to the `"data"` namespace, and that makes
-it very easy for clients who A) cannot read those HTTP headers and B) do not know to look there.
+Inserting pagination data into the API response in a `'pagination'` namespace is very common and 
+has been my go-to solution for years. I would slot it next to the `'data'` namespace, and that makes
+it very easy for clients who a) cannot read those HTTP headers and b) do not know to look there.
 
-That said, using the `Link` header can help you avoid needing to wrap your collections in a
+That said, using the `Link` header can help you avoid the need to wrap your collections in a
 namespace at all. This might be something that interests you, as through developing Fractal I ran
 into many developers who _hate_ using a namespace for their collections.
 
 The final advantage to mention would be that the `Link` is standard. Parsing it is going to be 100% 
-the same for each API, and not expect the client to work out if the link is contained in `uri`, `url`, `href` or something else.
+the same for each API, and will not expect the client to work out if the link is contained in `uri`, `url`, `href` or something else.
 
 Every API should choose its approach to pagination itself. Using this specific header does not make 
-it "more RESTful" regardless of how many people seem to think that is the case. It just makes it
-more "HTTPish" than defining your own pagination meta-data.
+it 'more RESTful' regardless of how many people seem to think that is the case. It just makes it
+more 'HTTPish' than defining your own pagination meta-data.
 
 [RFC 5988]: http://tools.ietf.org/html/rfc5988#page-6
