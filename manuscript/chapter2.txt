@@ -7,97 +7,97 @@ The first step is to work out the requirements of an API, then we can move onto 
 
 ## Functional Requirements
 
-Try thinking of _everything_ your API will need to handle. This will initially be a list of CRUD (Create, Read, Update, Delete) endpoints for your resources, Talk to your mobile app developer, your JS frontend people, or just talk to yourself if you are the only developer on the project.
+Try thinking of _everything_ your API will need to handle. This will initially be a list of CRUD (create, read, update, delete) endpoints for your resources. Talk to your mobile app developer, your JS front-end people, or just talk to yourself if you are the only developer on the project.
 
 Definitely talk to your customers or "the business" (they are the customers) and get them to help you think of functionality too, but they will probably not know what an endpoint is.
 
-When you have a relatively extensive list the next step is to make a simple list of "Actions". This is very much like planning a PHP class, you first write up pseudo-code referencing the classes and methods like they exist, right? TDD (Test Driven Development)? If not that is how you should do it, or Chris Hartjes will find you, and he _will_ kill you.
+When you have a relatively extensive list the next step is to make a simple list of "Actions". This is very much like planning a PHP class. You first write up pseudo-code referencing the classes and methods like they exist, right? TDD (Test Driven Development)? If not, that is how you should do it, or Chris Hartjes will find you, and he _will_ kill you.
 
 I will go ahead with the check-in application, introduced in the previous chapter, to show how these principles can be put in practice.
 
 So if I have a "Places" resource in mind, I need to list out with just bullet points what it will do:
 
-> Places  
-> - **Create**  
-> - **Read**  
-> - **Update**  
-> - **Delete**  
+> Places
+> - **Create**
+> - **Read**
+> - **Update**
+> - **Delete**
 
-That is fairly obvious. Who will be able to view these places and who will be able to create and edit them is (for now) irrelevant in our planning stages, as this API will get much smarter with the ideas of user-context and permissions at a later date. For now just list all the things that need to be done.
+That is fairly obvious. Who will be able to view these places and who will be able to create and edit them is, for now, irrelevant in our planning stages, as this API will get much smarter with the ideas of user-context and permissions at a later date. For now, just list all the things that need to be done.
 
 A paginate-able list of places is also a requirement, so get that down:
 
-> Places  
-> - Create  
-> - Read  
-> - Update  
-> - Delete  
-> - **List**  
+> Places
+> - Create
+> - Read
+> - Update
+> - Delete
+> - **List**
 
-The API will need to offer the ability to search places by location too, but that is not a brand new endpoint. If the API was built with SOAP or XML-RPC you would create a `getPlacesByLatAndLon` method to hit in the URL, but this isn't SOAP - thankfully. The list method will handle that with a few parameters, so why not shove them in as a note for later:
+The API will need to offer the ability to search places by location too, but that is not a brand new endpoint. If the API was built with SOAP or XML-RPC, you would create a `getPlacesByLatAndLon` method to hit in the URL, but this isn't SOAP - thankfully. The list method will handle that with a few parameters, so why not shove them in as a note for later:
 
-> Places  
-> - Create  
-> - Read  
-> - Update  
-> - Delete  
+> Places
+> - Create
+> - Read
+> - Update
+> - Delete
 > - List **(lat, lon, distance or box)**
 
-Adding a few parameters as a reminder at this stage is cool, but lets not worry about adding too much. For example, create and update are complicated so adding every single field would be a mess.
+Adding a few parameters as a reminder, at this stage, is cool, but lets not worry about adding too much. For example, Create and Update are complicated, so adding every single field would be a mess.
 
-Update is more than just updating the specific "places" fields in the places SQL table. Update can do all sorts of cool stuff. If you need to "favorite" a place, just send `is_favorite` to that endpoint and you've favorited it. More on that later, just remember that not every single action requires its own endpoint.
+Update is more than just updating the specific Places fields in a `places` SQL table. Update can do all sorts of cool stuff. If you need to "favorite" a Place, just send `is_favorite` to that endpoint and you've favorited it. More on that later, just remember that not every single action requires its own endpoint.
 
-Places will also need to have an image uploaded via the API. In this example we are only going to accept one image for a place and a new image overrides the old, so add "Image" to the list. Otherwise you'd add "Images" to the list:
+Places will also need to have an image uploaded via the API. In this example, we are only going to accept one image for a place and a new image overrides the old, so add "Image" to the list. Otherwise you'd add "Images" to the list:
 
-> Places  
-> - Create  
-> - Read  
-> - Update  
-> - Delete  
-> - List (lat, lon, distance or box)  
-> - **Image**  
+> Places
+> - Create
+> - Read
+> - Update
+> - Delete
+> - List (lat, lon, distance or box)
+> - **Image**
 
-A complete API "action plan" might look like this:
+A complete API action plan might look like this:
 
-> Categories  
-> - Create  
-> - List  
+> Categories
+> - Create
+> - List
 
-> Checkins  
-> - Create  
-> - Read  
-> - Update  
-> - Delete  
-> - List  
-> - Image  
+> Checkins
+> - Create
+> - Read
+> - Update
+> - Delete
+> - List
+> - Image
 
-> Opps  
-> - Create  
-> - Read  
-> - Update  
-> - Delete  
-> - List  
-> - Image  
-> - Checkins  
+> Opps
+> - Create
+> - Read
+> - Update
+> - Delete
+> - List
+> - Image
+> - Checkins
 
-> Places  
-> - Create  
-> - Read  
-> - Update  
-> - Delete  
-> - List (lat, lon, distance or box)  
-> - Image  
+> Places
+> - Create
+> - Read
+> - Update
+> - Delete
+> - List (lat, lon, distance or box)
+> - Image
 
-> Users  
-> - Create  
-> - Read  
-> - Update  
-> - Delete  
-> - List (active, suspended)  
-> - Image  
-> - Favorites  
-> - Checkins  
-> - Followers  
+> Users
+> - Create
+> - Read
+> - Update
+> - Delete
+> - List (active, suspended)
+> - Image
+> - Favorites
+> - Checkins
+> - Followers
 
 That might not contain everything, but it seems like a fairly solid start to our API. It is certainly going to take long enough to write all that so if somebody thinks of something else they can just make an issue.
 
@@ -105,13 +105,13 @@ Moving on.
 
 ## Endpoint Theory
 
-Turning this "Action Plan" into actual endpoints requires knowing a little theory on RESTful APIs and "best practices" for naming conventions. There are no right answers here, but some approaches have fewer cons than others. I will try to push you in the direction I have found to be most useful, and highlight the pros and cons of each.
+Turning this action plan into actual endpoints requires knowing a little theory on RESTful APIs and best practices for naming conventions. There are no right answers here, but some approaches have fewer cons than others. I will try to push you in the direction I have found to be most useful, and highlight the pros and cons of each.
 
 ### GET Resources
 
-* `GET /resources` - Some paginated list of stuff, in some logical default order for that specific data.
+* `GET /resources` - Some paginated list of stuff, in some logical default order, for that specific data.
 
-* `GET /resources/X` - Just entity X. That can be an ID, hash, slug, username, etc. as long as it's unique to one "resource".
+* `GET /resources/X` - Just entity X. That can be an ID, hash, slug, username, etc., as long as it's unique to one "resource".
 
 * `GET /resources/X,Y,Z` - The client wants multiple things, so give them multiple things.
 
@@ -123,13 +123,13 @@ It can be hard to pick between sub-resource URLs or embedded data. Embedded data
 
 * `GET /users/X/checkins/Y` - Find a specific checkin for a specific user.
 
-The latter is questionable, and not something I have ever personally done. At that point I would prefer to simply use `/checkins/X`.
+The latter is questionable and not something I have ever personally done. At that point, I would prefer to simply use `/checkins/X`.
 
 W> ## Auto-Increment is the Devil
 W>
 W> In these examples X and Y can be an auto-incrementing ID as many developers will assume. One important factor with auto-incrementing ID's is that anyone with access to your API will know exactly how many resources you have, which might not be a statistic you want your competitors to have.
 W>
-W> Consumers could also write a script which hits `/users/1`, then `/users/2` and `/users/3`, etc scraping all data as it goes. Sure they could probably do that from the "list" endpoints anyway, but not all resources should have a "get all" approach.
+W> Consumers could also write a script which hits `/users/1`, then `/users/2` and `/users/3`, etc., scraping all data as it goes. Sure they could probably do that from the "list" endpoints anyway, but not all resources should have a "get all" approach.
 W>
 W> Instead a unique identifier is often a good idea. A universal unique identifier (UUID) seems like a logical thing to do: [ramsey\uuid for PHP](https://github.com/ramsey/uuid), [uuid for Ruby](https://rubygems.org/gems/uuid), [uuid in Python 2.5+](http://docs.python.org/2/library/uuid.html).
 
@@ -205,7 +205,7 @@ Traditionally APIs would consist of a series of endpoints which all described ac
 POST /SendUserMessage HTTP/1.1
 Host: example.com
 Content-Type: application/x-www-form-urlencoded
- 
+
 id=5&message=Hello!
 ~~~~~~~~
 
@@ -217,11 +217,11 @@ Some API developers consider the following approach to be more RESTful because i
 POST /users/5/send-message HTTP/1.1
 Host: example.com
 Content-Type: application/json
- 
+
 { "message" : "Hello!" }
 ~~~~~~~~
 
-Nope, because that is still using a verb in the URL. A verb is an action - a doing term, and our API 
+Nope, because that is still using a verb in the URL. A verb is an action - a doing term, and our API
 only needs one verb - the HTTP Method. All other verbs need to stay out of the URL.
 
 A noun is a "place" or a "thing". Resources are "things", and a URL becomes the "place" on the Internet where a "thing" lives.
@@ -232,7 +232,7 @@ This example would be drastically more RESTful:
 POST /users/5/messages HTTP/1.1
 Host: example.com
 Content-Type: application/json
- 
+
 { "message" : "Hello!" }
 ~~~~~~~~
 
@@ -251,7 +251,7 @@ thousands - you could even make messages its own endpoint and send the messages 
 POST /messages HTTP/1.1
 Host: example.com
 Content-Type: application/json
- 
+
 [
 	{
 		"user" : { "id" : 10 },

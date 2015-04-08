@@ -4,9 +4,9 @@
 
 The first step to creating any sort of application is creating the database. Whether you are using some sort of relational platform, MongoDB, Riak, or whatever, you will need a vague idea of how your data is going to be stored.
 
-For relational databases it is very likely you will start off your planning with an entity-relationship diagram and for document based databases such as MongoDB, CouchDB or ElasticSearch you will just let your application magically build a schema, but either way you need to create a plan - even if it is on a napkin. This book will assume a traditional relational database is storing your data but the principles are easily adapted for NoSQL systems too.
+For relational databases it is very likely you will start off your planning with an entity-relationship diagram. For document based databases such as MongoDB, CouchDB or ElasticSearch, you will just let your application magically build a schema. Either way, you need to create a plan - even if it is on a napkin. This book will assume a traditional relational database is storing your data, but the principles are easily adapted for NoSQL systems too.
 
-This chapter assumes you have already got a database designed and built. This chapter skips the "planning a database" section because there are plenty of other books on that already.
+This chapter assumes you have already got a database designed and built. This chapter skips the "planning a database" section, because there are plenty of other books on that already.
 
 ## Introduction to Database Seeding
 
@@ -22,7 +22,7 @@ This data could be:
 * fake notifications to display in an iPhone app (one of each type)
 * credit-card payments at various stages of processing - with some complete, some half done and some super-fraudulent looking ones
 
-The process of creating seeding scripts means you can avoid wasting time creating this manually over and over again. Ultimately, the more processes you can automate during the development of your API, the more time you have to consider the intricacies of your applications which need much more consideration.
+The process of creating seeding scripts means you can avoid wasting time creating them manually over and over again. Ultimately, the more processes you can automate during the development of your API, the more time you have to consider the intricacies of your applications, which need much more consideration.
 
 Dummy data is necessary for realistic acceptance testing, getting freelancers/new hires up to speed with useful content, keeping real customer data private to those outside your company, and avoiding the temptation to copy live data over to your development environments.
 
@@ -30,7 +30,7 @@ Dummy data is necessary for realistic acceptance testing, getting freelancers/ne
 
 Have you ever been writing a script that sends out emails and used some dummy copy while you're building it? Ever used some cheeky words in that content? Ever accidentally sent that email out to 10,000 real customers email addresses? Ever been fired for losing a company over £200,000?
 
-I haven't, but I know a guy that has. Don't be that guy.
+I haven't, but I know a guy that has been. Don't be that guy.
 
 ### What data should you use?
 
@@ -38,15 +38,15 @@ Garbage! Use absolute nonsense for your development database, but nonsense of th
 
 ## Building Seeders
 
-Kapture, the company I work for, uses the Laravel framework which has the joys of having [Database Seeding] baked in. This is essentially a tarted up CLI task which almost any modern PHP framework will have (or bloody well should do) so the principles are applicable to all.
+Kapture, the company I previously worked for, used the Laravel framework, which has the joys of having [Database Seeding] baked in. This is essentially a tarted up CLI task, which almost any modern PHP framework will have (or bloody well should do), so the principles are applicable to all.
 
-Break your Database Seeders down into logical groupings. This does not need to be "one seeder-per-table" but it can be. Sometimes your data needs to be built at the same time as other types of data, so for us Users
-are created in the same "seeder" as their settings, OAuth tokens, and friendship data is made. Putting that
+Break your database seeders down into logical groupings. This does not need to be "one seeder-per-table" but it can be. Sometimes your data needs to be built at the same time as other types of data, so for us, Users
+are created in the same seeder as their settings, OAuth tokens, and friendship data is made. Putting that
 into multiple seeders purely to keep things tidy would complicate your seeders and slow things down a lot, so maybe consider combining them.
 
 In this chapter I will use, as an example, a check-in application. The application handles "users" and tracks their "check-ins" into "merchants" (or "venues"). "Merchants" also provide "campaigns" (or "opportunities").
 
-So, this is a drastically simplified version of our user seeder all in one go, ignoring the Laravel specific structure. _If you are using Laravel 4, just shove this in your `run()` method._
+So, this is a drastically simplified version of the user seeder all in one go, ignoring the Laravel specific structure. _If you are using Laravel, just shove this in your `run()` method._
 
 {title="Creating a user with Faker and Eloquent ORM", lang=php}
 ~~~~~~~~
@@ -114,13 +114,13 @@ Gender equality is important.
         'timezone'           => mt_rand(-10, 10),
 ~~~~~~~~
 
-Our original developer decided that saving timezones as an integer was a clever thing to do. 
+Our original developer decided that saving time zones as an integer was a clever thing to do.
 
-W> ### Store Timezones, Not Offsets
-W> Did you know that some timezones are not complete hours? Did you know that Nepal is UTC/GMT +05:45? Did you know that Chatham Island (New Zealand) goes from 
-W> UTC/GMT +12:45 to UTC/GMT +13:45 in their local summer? Did you know that some places add 30 minutes when in daylight savings time? Don't use integers as 
-W> timestamps.  
-W> PHP implements the [IANA](http://www.iana.org/time-zones) timezone database, which is an industry standard. If you store `America/New_York` or `Asia/Khandyga` for
+W> ### Store Time zones, Not Offsets
+W> Did you know that some time zones are not complete hours? Did you know that Nepal is UTC/GMT +05:45? Did you know that Chatham Island (New Zealand) goes from
+W> UTC/GMT +12:45 to UTC/GMT +13:45 in their local summer? Did you know that some places add 30 minutes when in daylight savings time? Don't use integers as
+W> timestamps.
+W> PHP implements the [IANA](http://www.iana.org/time-zones) time zone database, which is an industry standard. If you store `America/New_York` or `Asia/Khandyga` for
 W> users, then the offset and daylight savings time will be automatically calculated.
 
 {lang=php,starting-line-number=11}
@@ -206,9 +206,9 @@ T> should run `DB::statement('SET FOREIGN_KEY_CHECKS=0;');` before the truncatio
 
 ## Secondary Data
 
-As I said it is quite likely that you will need to insert data that relates to each other. To do this you work out which data will be primary (like users); in the case of a check-in system probably you will also consider "venues" or "merchants" depending on the nomenclature of your system.
+As I said, it is quite likely that you will need to insert data that relates to each other. To do this, you work out which data will be primary (like users). In the case of a check-in system probably you will also consider "venues" or "merchants" depending on the nomenclature of your system.
 
-For this example I will show how to create "merchants", then attach "opportunities", which are essentially "campaigns".
+For this example, I will show how to create "merchants", then attach "opportunities", which are essentially "campaigns".
 
 {title="Primary Seeder for the Merchant Table", lang=php}
 ~~~~~~~~
@@ -331,7 +331,7 @@ class OppTableSeeder extends Seeder
 }
 ~~~~~~~~
 
-This might look a little crazy and it is certainly a mixture of lazy-static ORM usage in the controller and some dependency injection, but these seeders have not received a large amount of love. They definitely do their job, and could always be cleaner, but the basics here are:
+This might look a little crazy, and it is certainly a mixture of lazy-static ORM usage in the controller and some dependency injection, but these seeders have not received a large amount of love. They definitely do their job, and could always be cleaner, but the basics here are:
 
 {lang=php,starting-line-number=41}
 ~~~~~~~~
@@ -357,7 +357,7 @@ Create between 1 and 4 opportunities for a merchant.
                 ]);
 ~~~~~~~~
 
-Add an image from our array of example images on S3 or our website somewhere. The more the merrier.
+Add an image from our array of example images on S3, or our website somewhere. The more the merrier.
 
 {lang=php,starting-line-number=66}
 ~~~~~~~~
@@ -368,18 +368,18 @@ I will talk more about finders in a later chapter, but for now just know this is
 
 The rest should all be relatively obvious.
 
-If you're using Laravel 4 you can run the above commands on the command line with: `$ php artisan db:seed`.
+If you're using Laravel, you can run the above commands on the command line with: `$ php artisan db:seed`. The Rails equivalent is hilariously similar: `$ rake db:seed`.
 
 ## When to run this?
 
-This is often run manually, and automatically depending on the instances.
+Database seeds are often run both manually, and automatically, depending on what is going on.
 
-For example, if you just added a new endpoint with new data, you will want to let your team-mates know to pull the latest code, run the migrations and run the db seed.
+For example, if you just added a new endpoint with new data, you will want to let your teammates know to pull the latest code, run the migrations and run the seed.
 
-This is also great of course when a freelancer comes in to do some work, or a new developer starts up, or your iPhone dev wants to get some data to use. In all these instances that command just needs to be run on the command line.
+This is also great when a freelancer comes in to do some work, or a new developer starts up, or your iPhone dev wants to get some data to use. In all these instances, that command just needs to be run on the command line.
 
-This is also occasionally run manually on the staging server, and automatically on the Jenkins testing server when we deploy new builds of the API.
+This is also occasionally run manually on the staging server and automatically on the Jenkins testing server when we deploy new builds of the API.
 
 [Faker]: https://github.com/fzaninotto/Faker
 [Database Seeding]: http://laravel.com/docs/migrations#database-seeding
-*[CLI]: Command Line Interface
+[CLI]: Command Line Interface
