@@ -5,15 +5,27 @@ title: Startup Bros
 .hero.section.section--primary
   .container
     .hero__content.section--large
-      %h1.hero__title Build APIs you won't hate
+      %h1.hero__title Build APIs You Won't Hate
       %h2.h4 Everyone and their dog wants an API, so you should probably learn how to build them.
       %p Tasked with building an API for your company but don't have a clue where to start? Taken over an existing API and hate it? Built your own API and still hate it? This book is for you.
 
       .hero__actions
-        %a.btn.btn--secondary.btn--large Buy now
-        %a.btn.btn--tertiary.btn--large{:href => "#learnmore"}
-          Learn more
-      %p.small Avaliable in PDF, ePUB, Mobi, Kindle & Paperback.
+        %a{ href: "https://leanpub.com/build-apis-you-wont-hate", title: 'Buy the eBook from LeanPub', class: 'btn btn--secondary btn--large' }
+          Buy digital
+        %a{ href: "#", onclick: 'alert("Paperback will be ready in a week or so. Please subscribe to the mailing list to find out when it is ready!"); window.location = "#mailing-list"; return false;', title: 'Buy the eBook from LeanPub', class: 'btn btn--tertiary btn--large' }
+          Buy the paperback
+
+      %p.small Available in PDF, ePUB, Mobi, Kindle & Paperback.
+
+      .banner#mailing-list
+        Get updates and exclusive content direct from Phil Sturgeon
+
+        %form.form-inline#mc-embedded-subscribe-form{ action: "//apisyouwonthate.us10.list-manage.com/subscribe/post?u=f5c5ff66d95d11dec1b88cf54&amp;id=f4b69a177b", method: "post", name: "mc-embedded-subscribe-form", novalidate: "", target: "_blank"}
+          %input#mce-EMAIL.required.email{ name: "EMAIL", type: "email", value: "", placeholder: "E-mail", class: "btn--natural" }
+          %div{ style: "position: absolute; left: -5000px;" }
+          %input#mc-embedded-subscribe{name: "subscribe", type: "submit", value: "Subscribe", class: "btn btn--primary btn--natural" }
+
+
 
     .hero__aside.section--large-top
       .ebook
@@ -26,33 +38,37 @@ title: Startup Bros
 
     .topics.text-center
       .topics__topic
-        %h4 Lorem ipsum dolor sit amet
-        %p Ttempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        %h4 Endpoints
+        %p Naming things is hard, and working out how to structure your endpoints can be tough. Understand the benefits of plural v singular, collections, resources, sub-resources, sub-collections, etc.
       .topics__topic
-        %h4 Lorem ipsum dolor sit amet
-        %p Ttempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        %h4 Input and Output
+        %p Learn which data formats are nice to work with, and why form data is so entirely useless. Compare Facebook, Twitter and existing standards like <a href="http://jsonapi.org/">JSON-API</a>.
       .topics__topic
-        %h4 Lorem ipsum dolor sit amet
-        %p Ttempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        %h4 Status Codes, Errors and Messages
+        %p Look at what makes a good error message, making it understandable for humans and computers alike with the inclusion of codes, documentation links, and usage of standards.
       .topics__topic
-        %h4 Lorem ipsum dolor sit amet
-        %p Ttempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+        %h4 Debugging
+        %p Working with APIs can be a little confusing at first, especially if you're trying to use the browser or Curl. This chapter outlines some powerful tools to make it easy as pie.
+      .topics__topic
+      .topics__topic
+        %h4 Authentication
+        %p Shoud you use HTTP Basic, HTTP Digest, OAuth 1.0a or OAuth 2.0 to secure your API? The answer is probably OAuth 2.0, but find out a huge load of pros and cons on each of them.
+      .topics__topic
+        %h4 Documentation
+        %p Regardless of whether you decide to keep an API private or release it to the general public, documentation is incredibly important. These tools will make documentation much easier to maintain and manage.
 
 .section.section--medium.section--secondary
   .container.container--large
     .statistics
       .statistics__item
-        %h1 2286
+        %h1 2357
         %h4 Copies sold
       .statistics__item
-        %h1 182
+        %h1 181
         %h4 Pages
       .statistics__item
-        %h1 35,519
+        %h1 35,335
         %h4 Words
-      .statistics__item
-        %h1 27
-        %h4 Reviews
 
 
 %section.section.section--large
@@ -67,83 +83,40 @@ title: Startup Bros
     %p By passing on some best practices and general good advice you can hit the ground running with API development, combined with some horror stories and how they were overcome/avoided/averted. This book will discuss the theory of designing and building APIs in any language or framework, with this theory applied in PHP-based examples.
 
     %p Some of the more advanced topics covered here are endpoint testing, embedding data objects in a consistent and scalable manner, paginating responses (including embedded objects) and hypermedia "HATEOAS" controls.
-    
+
 
 %section.section.section--large.section--secondary
   .container
     %h2.text-center.padding-bottom--40 People who no longer hate their APIs
+
     %ul.reviews
-      %li.reviews__review
-        .media
-          .media__image
-            %img{src: 'images/ebook.jpg', width: '120px', height: '120px'}
-          .media__body
-            %blockquote
-              %p After finding many of the existing resources for API development to be lacking, Phil learned a lot of things the hard way through years of trial and error. This book aims to condense that experience.
-              %cite James Seymour-Lock
-      %li.reviews__review
-        .media
-          .media__image
-            %img{src: 'images/ebook.jpg', width: '120px', height: '120px'}
-          .media__body
-            %blockquote
-              %p After finding many of the existing resources for API development to be lacking, Phil learned a lot of things the hard way through years of trial and error. This book aims to condense that experience.
-              %cite James Seymour-Lock
-      %li.reviews__review
-        .media
-          .media__image
-            %img{src: 'images/ebook.jpg', width: '120px', height: '120px'}
-          .media__body
-            %blockquote
-              %p After finding many of the existing resources for API development to be lacking, Phil learned a lot of things the hard way through years of trial and error. This book aims to condense that experience.
-              %cite James Seymour-Lock
-      %li.reviews__review
-        .media
-          .media__image
-            %img{src: 'images/ebook.jpg', width: '120px', height: '120px'}
-          .media__body
-            %blockquote
-              %p After finding many of the existing resources for API development to be lacking, Phil learned a lot of things the hard way through years of trial and error. This book aims to condense that experience.
-              %cite James Seymour-Lock
-      
-
-
-%section.section.section--large.clients#order
-  .container.text-center
-    .banner Comming soon to physical stores too
-    
-    %ul.logos.clients__logos
-      %li
-        %a{:href => "#"}
-          %img{:src => "http://placehold.it/350x150"}
-      %li
-        %a{:href => "#"}
-          %img{:src => "http://placehold.it/350x150"}
-      %li
-        %a{:href => "#"}
-          %img{:src => "http://placehold.it/350x150"}
-      %li
-        %a{:href => "#"}
-          %img{:src => "http://placehold.it/350x150"}
-
-
-%section.section.section--primary.service
-  .content
-    .container.section--large.content__container
-      %h2 About Phil Sturgon
-      %p have seen a few trends come and go during my long and varied career of building stuff for money as an employee, freelancer, consultant and now CTO. One of the recent trends is the rise of APIs as an everyday part of the average server-side developers job.
-
-      %p Back in 2009 Phil released a CodeIgniter Rest Server, wrote a few articles about how to use it and built handfuls of APIs for his freelance clients. This tool was fairly basic, but covered HTTP-based routing, HTTP Basic/Digest/API Key authentication, added logging and throttling and did not force "PUT = CREATE OR DIE!" CRUD-based conventions. The internet seemed to like it, and this code is still used by Apple, the UN and USA.gov.
-  .aside
-    .section__background{style: "background-image: url(/images/phil.jpg)"}
-
-
+      - data.quotes.each do |quote|
+        %li.reviews__review
+          .media
+            .media__image
+              = image_tag "quotes/#{quote.image}", width: '120px', height: '120px'
+            .media__body.text-center
+              %blockquote
+                = quote.text.html_safe
+                %cite
+                  = quote.name
 
 
 .section.section--medium
   .container.container--large.text-center
     %h4 Just buy the damn book
-    %a.btn.btn--secondary.btn--huge Buy digital
-    %a.btn.btn--tertiary.btn--huge Buy the paperback
+    %a{ href: "https://leanpub.com/build-apis-you-wont-hate", title: 'Buy the eBook from LeanPub', class: 'btn btn--secondary btn--huge' }
+      Buy digital
+    %a{ href: "#", onclick: 'alert("Paperback will be ready in a week or so. Please subscribe to the mailing list to find out when it is ready!"); window.location = "#mailing-list"; return false;', title: 'Buy the eBook from LeanPub', class: 'btn btn--tertiary btn--huge' }
+      Buy the paperback
 
-    
+
+%section.section.section--primary.service
+  .content
+    .container.section--large.content__container
+      %h2 About Phil Sturgeon
+      %p I have seen a few trends come and go during my long and varied career of building stuff for money, as an employee, freelancer, consultant and CTO. One of the recent trends is the rise of APIs as an everyday part of the average server-side developers job.
+
+      %p Since 2009 I have built 20+ HTTP APIs, and learned a lot of things the hard way. I have been lucky enough to give multiple talks on APIs at conferences and user groups around the world, sharing this experience with as many developers as will listen.
+  .aside
+    .section__background{style: "background-image: url(/images/phil.jpg)"}

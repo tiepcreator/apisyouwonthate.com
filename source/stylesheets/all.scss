@@ -296,9 +296,12 @@
 .topics__topic {
   @include span-columns(7);
   @include omega(2);
+  @include omega(4);
 
   &:nth-child(1),
-  &:nth-child(2) {
+  &:nth-child(2),
+  &:nth-child(3),
+  &:nth-child(4) {
     margin-bottom: 40px;
   }
 }

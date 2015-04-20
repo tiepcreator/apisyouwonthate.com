@@ -1,0 +1,24 @@
+
+- name: Bruno Skvorc
+  twitter: bitfalls
+  image: bitfalls.jpg
+  text: >
+    <p>As someone who deals with other people’s APIs daily and is working on his own, I could appreciate all the tips within. Not only does Phil go out of his way to recommend excellent accompanying tools to use during development and debugging (and show their basic use), his examples are all real-world and based on his experiences working on a heavy duty API.</p>
+
+- name: Jeremy Gibson
+  twitter: j_gibson
+  image: j_gibson.jpg
+  text: >
+    <p>I read this book in a single sitting, and then read it again. There is a wealth of information including tips, tools, and links to useful libraries and further reading.</p>
+
+    <p>This is a must read for anyone planning to build an API, regardless of programming language, prior to starting.</p>
+
+- name: Paul Halett
+  twitter: phalt_
+  image: phalt_.jpg
+  text: >
+    <p>Phil has managed to distill the core fundamentals of building modern Web API services. I rate it at one of the most practically useful books I've read on Web APIs.</p>
+
+    <p>I had already spent a lot of time learning about Web APIs, but "Build APIs You Won't Hate" gave me a refresh on some foundation rules and also introduced me to a lot of new concepts that I hadn't even considered.</p>
+
+    <p>Phil's knowledge of modern Web APIs is solid and he's got the experience behind him to prove that his advice has worked.</p>
