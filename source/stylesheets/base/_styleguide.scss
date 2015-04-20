@@ -1,0 +1,32 @@
+.brand-color {
+  padding: 80px 20px;
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  width: 100%;
+  float: left;
+  height: 180px;
+}
+
+.brand-color--primary {
+  background: $brand-primary;
+}
+.brand-color--secondary {
+  background: $brand-secondary;
+}
+.brand-color--tertiary {
+  background: $brand-tertiary;
+}
+.brand-color--gray {
+  background: $gray;
+}
+.brand-color--gray-light {
+  color: $base-font-color;
+  background: $gray-light;
+}
+.brand-color--green {
+  background: $green;
+}
+.brand-color--yellow {
+  background: $yellow;
+}

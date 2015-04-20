@@ -1,0 +1,58 @@
+// Button variants
+//
+// Easily pump out default styles, as well as :hover, :focus, :active,
+// and disabled options for all buttons
+
+@mixin button-variant($color, $background) {
+  color: $color;
+  background-color: $background;
+
+  &:hover {
+    color: $color;
+    background-color: darken($background, 10%);
+  }
+  &:focus,
+  &:active,
+  &.active {
+    color: $color;
+    background-color: darken($background, 15%);
+    outline: 0;
+  }
+  &.disabled,
+  &[disabled],
+  fieldset[disabled] & {
+    &,
+    &:hover,
+    &:focus,
+    &.focus,
+    &:active,
+    &.btn--active {
+      background-color: $background;
+      opacity: 0.5;
+      color: white;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// Button sizes
+@mixin button-size($padding-vertical, $padding-horizontal, $font-size, $line-height) {
+  padding: $padding-vertical $padding-horizontal $padding-vertical;
+  font-size: $font-size;
+  line-height: $line-height;
+  .btn__icon--left {
+    margin-right: $padding-horizontal*0.5;
+  }
+  .btn__icon--right {
+    margin-left: $padding-horizontal*0.5;
+  }
+
+  &.btn--animate {
+    padding-left: $padding-horizontal + $padding-horizontal*0.5 + 18px;
+  }
+}
+
+@mixin background-opacity($color, $opacity: 0.3) {
+  background-color: $color; /* The Fallback */
+  background-color: rgba($color, $opacity);
+}

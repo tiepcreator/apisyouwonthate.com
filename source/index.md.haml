@@ -1,0 +1,149 @@
+---
+title: Startup Bros
+---
+
+.hero.section.section--primary
+  .container
+    .hero__content.section--large
+      %h1.hero__title Build APIs you won't hate
+      %h2.h4 Everyone and their dog wants an API, so you should probably learn how to build them.
+      %p Tasked with building an API for your company but don't have a clue where to start? Taken over an existing API and hate it? Built your own API and still hate it? This book is for you.
+
+      .hero__actions
+        %a.btn.btn--secondary.btn--large Buy now
+        %a.btn.btn--tertiary.btn--large{:href => "#learnmore"}
+          Learn more
+      %p.small Avaliable in PDF, ePUB, Mobi, Kindle & Paperback.
+
+    .hero__aside.section--large-top
+      .ebook
+        %img{src: 'images/ebook.jpg', width: '800px', height: '1035px'}
+
+
+%section.section.section--large#learnmore
+  .container.container--large
+    %h2.text-center What the book covers
+
+    .topics.text-center
+      .topics__topic
+        %h4 Lorem ipsum dolor sit amet
+        %p Ttempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      .topics__topic
+        %h4 Lorem ipsum dolor sit amet
+        %p Ttempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      .topics__topic
+        %h4 Lorem ipsum dolor sit amet
+        %p Ttempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+      .topics__topic
+        %h4 Lorem ipsum dolor sit amet
+        %p Ttempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+.section.section--medium.section--secondary
+  .container.container--large
+    .statistics
+      .statistics__item
+        %h1 2286
+        %h4 Copies sold
+      .statistics__item
+        %h1 182
+        %h4 Pages
+      .statistics__item
+        %h1 35,519
+        %h4 Words
+      .statistics__item
+        %h1 27
+        %h4 Reviews
+
+
+%section.section.section--large
+  .container.container--medium
+    %h2 About the book
+    %p API development is becoming increasingly common for server-side developers thanks to the rise of front-end JavaScript frameworks, iPhone applications, and API-centric architectures. It might seem like grabbing stuff from a data source and shoving it out as JSON would be easy, but surviving changes in business logic, database schema updates, new features, or deprecated endpoints can be a nightmare.
+
+    %p After finding many of the existing resources for API development to be lacking, Phil learned a lot of things the hard way through years of trial and error. This book aims to condense that experience, taking examples and explanations further than the trivial apples and pears nonsense tutorials often provide.
+
+    %p Phil worked primarily as an API developer for the last three years. One horror was managing an API built in FuelPHP by a freelancer at the million dollar startup he joined. It was utilizing a then deprecated ORM which had been hacked to death by the previous developer, so took the time to delete that mess and build the next version in Laravel, leveraging it's simple routing, database migrations, schema, seeding, etc. When the following major version of the API was built no rewrite was required, and both managed to live side-by-side on the same "API" servers.
+
+    %p By passing on some best practices and general good advice you can hit the ground running with API development, combined with some horror stories and how they were overcome/avoided/averted. This book will discuss the theory of designing and building APIs in any language or framework, with this theory applied in PHP-based examples.
+
+    %p Some of the more advanced topics covered here are endpoint testing, embedding data objects in a consistent and scalable manner, paginating responses (including embedded objects) and hypermedia "HATEOAS" controls.
+    
+
+%section.section.section--large.section--secondary
+  .container
+    %h2.text-center.padding-bottom--40 People who no longer hate their APIs
+    %ul.reviews
+      %li.reviews__review
+        .media
+          .media__image
+            %img{src: 'images/ebook.jpg', width: '120px', height: '120px'}
+          .media__body
+            %blockquote
+              %p After finding many of the existing resources for API development to be lacking, Phil learned a lot of things the hard way through years of trial and error. This book aims to condense that experience.
+              %cite James Seymour-Lock
+      %li.reviews__review
+        .media
+          .media__image
+            %img{src: 'images/ebook.jpg', width: '120px', height: '120px'}
+          .media__body
+            %blockquote
+              %p After finding many of the existing resources for API development to be lacking, Phil learned a lot of things the hard way through years of trial and error. This book aims to condense that experience.
+              %cite James Seymour-Lock
+      %li.reviews__review
+        .media
+          .media__image
+            %img{src: 'images/ebook.jpg', width: '120px', height: '120px'}
+          .media__body
+            %blockquote
+              %p After finding many of the existing resources for API development to be lacking, Phil learned a lot of things the hard way through years of trial and error. This book aims to condense that experience.
+              %cite James Seymour-Lock
+      %li.reviews__review
+        .media
+          .media__image
+            %img{src: 'images/ebook.jpg', width: '120px', height: '120px'}
+          .media__body
+            %blockquote
+              %p After finding many of the existing resources for API development to be lacking, Phil learned a lot of things the hard way through years of trial and error. This book aims to condense that experience.
+              %cite James Seymour-Lock
+      
+
+
+%section.section.section--large.clients#order
+  .container.text-center
+    .banner Comming soon to physical stores too
+    
+    %ul.logos.clients__logos
+      %li
+        %a{:href => "#"}
+          %img{:src => "http://placehold.it/350x150"}
+      %li
+        %a{:href => "#"}
+          %img{:src => "http://placehold.it/350x150"}
+      %li
+        %a{:href => "#"}
+          %img{:src => "http://placehold.it/350x150"}
+      %li
+        %a{:href => "#"}
+          %img{:src => "http://placehold.it/350x150"}
+
+
+%section.section.section--primary.service
+  .content
+    .container.section--large.content__container
+      %h2 About Phil Sturgon
+      %p have seen a few trends come and go during my long and varied career of building stuff for money as an employee, freelancer, consultant and now CTO. One of the recent trends is the rise of APIs as an everyday part of the average server-side developers job.
+
+      %p Back in 2009 Phil released a CodeIgniter Rest Server, wrote a few articles about how to use it and built handfuls of APIs for his freelance clients. This tool was fairly basic, but covered HTTP-based routing, HTTP Basic/Digest/API Key authentication, added logging and throttling and did not force "PUT = CREATE OR DIE!" CRUD-based conventions. The internet seemed to like it, and this code is still used by Apple, the UN and USA.gov.
+  .aside
+    .section__background{style: "background-image: url(/images/phil.jpg)"}
+
+
+
+
+.section.section--medium
+  .container.container--large.text-center
+    %h4 Just buy the damn book
+    %a.btn.btn--secondary.btn--huge Buy digital
+    %a.btn.btn--tertiary.btn--huge Buy the paperback
+
+    

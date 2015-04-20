@@ -1,0 +1,85 @@
+@mixin container-padding {
+  padding-left: 15px;
+  padding-right: 15px;
+
+  @include media(min-width 860px) {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  @include media(min-width 1200px) {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+  .container {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
+.container {
+  @include outer-container;
+  @include container-padding;
+}
+.container--large {
+  max-width: 1024px;
+}
+.container--medium {
+  max-width: 800px;
+}
+.container--small {
+  max-width: 460px;
+}
+.container--vsmall {
+  max-width: 280px;
+}
+
+.span1 {
+  @include span-columns(1);
+}
+.span2 {
+  @include span-columns(2);
+}
+.span3 {
+  @include span-columns(3);
+}
+.span4 {
+  @include span-columns(4);
+}
+.span5 {
+  @include span-columns(5);
+}
+.span6 {
+  @include span-columns(6);
+}
+.span7 {
+  @include span-columns(7);
+}
+.span8 {
+  @include span-columns(8);
+}
+.span9 {
+  @include span-columns(9);
+}
+.span10 {
+  @include span-columns(10);
+}
+.span11 {
+  @include span-columns(11);
+}
+.span12 {
+  @include span-columns(12);
+}
+.span13 {
+  @include span-columns(13);
+}
+.span14 {
+  @include span-columns(14);
+}
+.spanthird {
+  @include span-columns(4.66);
+  @include omega(3n);
+}
+
+.shift1 {
+  @include shift(1);
+}

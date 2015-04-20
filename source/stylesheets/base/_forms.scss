@@ -1,0 +1,104 @@
+fieldset {
+  background: lighten($base-border-color, 10);
+  border: 1px solid $base-border-color;
+  margin: 0 0 ($base-line-height / 2) 0;
+  padding: $base-line-height;
+}
+
+label {
+  font-weight: bold;
+  margin-bottom: $base-line-height / 4;
+
+  &.required:after {
+    content: "*";
+  }
+
+  abbr {
+    display: none;
+  }
+}
+
+.form-control {
+  display: block;
+  background-color: white;
+  border-radius: $form-border-radius;
+  border: 0;
+  font-family: $form-font-family;
+  font-size: rem($form-font-size);
+  margin-bottom: rem($base-line-height) / 2;
+  padding: 9px 15px;
+  height: 38px;
+  width: 100%;
+
+  &:hover {
+
+  }
+
+  &:focus {
+    outline: 0;
+    box-shadow: none;
+  }
+}
+
+.form-group {
+  position: relative;
+}
+
+textarea.form-control {
+  resize: none;
+  height: auto;
+  min-height: 180px;
+}
+
+input[type="search"] {
+  @include appearance(none);
+}
+
+input[type="checkbox"], input[type="radio"] {
+  display: inline;
+  margin-right: $base-line-height / 4;
+}
+
+input[type="file"] {
+  margin-bottom: $base-line-height / 2;
+  padding-bottom: ($base-line-height / 3);
+  width: 100%;
+}
+
+select {
+  width: auto;
+  max-width: 100%;
+  margin-bottom: $base-line-height;
+}
+
+.has-feedback {
+  // Enable absolute positioning
+  position: relative;
+
+  // Ensure icons don't overlap text
+  .form-control {
+    padding-left: 42px;
+  }
+}
+// Feedback icon (requires .glyphicon classes)
+.form-control-feedback {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: $zindex-form-control-feedback; // Ensure icon is above input groups
+  display: block;
+  pointer-events: none;
+  color: $base-font-color;
+  margin-left: 10px;
+  height: 38px;
+  width: 30px;
+  text-align: center;
+  font-size: rem($base-font-size*0.8);
+  &:before {
+    position: absolute;
+    width: 100%;
+    line-height: 0;
+    top: 50%;
+    left: 0;
+  }
+}

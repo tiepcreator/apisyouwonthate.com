@@ -1,0 +1,32 @@
+.about {
+
+}
+.about__content {
+  @include media(min-width 768px) {
+    @include span-columns(9);
+  }
+  @include media(min-width 1000px) {
+    @include span-columns(8);
+    @include shift(1);
+  }
+
+  h1 {
+    @include media(max-width 767px) {
+      text-align: center;
+    }
+  }
+}
+.about__aside {
+  text-align: center;
+
+  @include media(min-width 768px) {
+    @include span-columns(5);
+  }
+
+  img {
+    max-width: 200px;
+    @include media(min-width 768px) {
+      max-width: 100%;
+    }
+  }
+}

@@ -1,0 +1,96 @@
+.btn {
+  -webkit-font-smoothing: antialiased;
+  border-radius: 4px;
+  color: white;
+  display: inline-block;
+  font-weight: $btn-font-weight;
+  font-size: rem($btn-font-size);
+  letter-spacing: 0.05rem;
+  text-decoration: none;
+  text-align: center;
+  touch-action: manipulation;
+  background-image: none;
+  border: 0;
+  border: none;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  white-space: nowrap;
+  text-transform: uppercase;
+
+  @include appearance(none);
+  @include transition(all 0.2s ease-in-out);
+  @include button-size($btn-padding-vertical, $btn-padding-horizontal, $btn-font-size, 1);
+  @include button-variant($btn-base-color, $btn-base-bg);
+}
+
+// Button Styles
+.btn--primary {
+  @include button-variant($btn-primary-color, darken($btn-primary-bg, 20%));
+}
+.btn--secondary {
+  @include button-variant(white, $brand-secondary);
+}
+.btn--tertiary {
+  @include button-variant($btn-tertiary-color, darken($btn-tertiary-bg, 10%));
+}
+
+.btn--empty {
+  @include button-variant($base-font-color, transparent);
+  border-radius: 0;
+  &:hover {
+    @include button-variant($base-font-color, transparent);
+  border-radius: 0;
+  }
+}
+
+.btn--full {
+  display: block;
+  width: 100%;
+}
+.btn--hard {
+  border-radius: 0;
+}
+.btn--natural {
+  vertical-align: baseline;
+  @include button-size(0, $btn-small-padding-horizontal, $btn-font-size, inherit);
+}
+
+// Button Sizes
+.btn--small {
+  @include button-size($btn-small-padding-vertical, $btn-small-padding-horizontal, $btn-font-size, 1);
+}
+.btn--large {
+  @include button-size($btn-large-padding-vertical, $btn-large-padding-horizontal*2, $btn-font-size, 1);
+}
+.btn--huge {
+  @include button-size($btn-huge-padding-vertical, $btn-huge-padding-horizontal, $btn-font-size, 1);
+}
+
+// Buttons with text increases
+.btn--alpha {
+  @include button-size($btn-huge-padding-vertical, $btn-huge-padding-horizontal, $btn-huge-font-size, 1);
+}
+.btn--beta {
+  @include button-size($btn-large-padding-vertical, $btn-large-padding-horizontal, $btn-large-font-size, 1);
+}
+
+// Button icons
+.btn__icon {
+  @extend %icon;
+  vertical-align: middle;
+}
+
+.btn--animate {
+  .btn__icon {
+    position: relative;
+    transform: translateX(-15px);
+    opacity: 0;
+    vertical-align: top;
+  }
+
+  &:hover .btn__icon {
+    @include animation(btn-glide $timing-normal forwards ease);
+  }
+}
+

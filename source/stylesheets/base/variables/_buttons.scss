@@ -1,0 +1,30 @@
+// Buttons
+$btn-font-weight:               600;
+
+$btn-font-size:					12px;
+$btn-large-font-size:			$btn-font-size*1.5;
+$btn-huge-font-size:			$btn-font-size*2;
+
+$btn-base-color:              	white;
+$btn-base-bg:                 	$brand-tertiary;
+
+$btn-primary-color:             white;
+$btn-primary-bg:                $brand-secondary;
+
+$btn-secondary-color:           $base-font-color;
+$btn-secondary-bg:              $gray-light;
+
+$btn-tertiary-color:           	white;
+$btn-tertiary-bg:              	$brand-primary;
+
+$btn-padding-vertical: 			13px;
+$btn-padding-horizontal: 		$btn-padding-vertical*1.5;
+
+$btn-small-padding-vertical: 	$btn-padding-vertical*0.5;
+$btn-small-padding-horizontal: 	$btn-padding-horizontal*0.5;
+
+$btn-large-padding-vertical: 	$btn-padding-vertical*1.5;
+$btn-large-padding-horizontal: 	$btn-padding-horizontal*1.2;
+
+$btn-huge-padding-vertical: 	$btn-padding-vertical*2;
+$btn-huge-padding-horizontal: 	$btn-padding-horizontal*1.4;

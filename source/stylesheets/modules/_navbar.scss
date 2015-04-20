@@ -1,0 +1,144 @@
+.navbar {
+  text-align: center;
+  @extend %clearfix;
+
+  @include media(min-width 768px) {
+    float: right;
+
+    ul {
+      padding-bottom: 0;
+    }
+
+    li:last-child button {
+      padding-right: 0;
+    }
+  }
+
+  .header--share & {
+    float: left;
+  }
+
+  .btn {
+    @include button-size($btn-padding-vertical*1.8, $btn-padding-horizontal, $btn-font-size, 1);
+
+    @include media(max-width 599px) {
+      display: block;
+      padding-right: 0;
+      padding-left: 0;
+      text-align: left;
+    }
+
+    &:hover {
+      color: $brand-primary;
+    }
+  }
+
+  li {
+    border-bottom: 0;
+    @include media(max-width 767px) {
+      border-bottom: 1px solid darken(white, 10%);
+    }
+
+    @include media(min-width 420px max-width 599px, 6) {
+      @include span-columns(3);
+      @include omega(2n);
+    }
+
+    @include media(min-width 600px) {
+      display: inline-block;
+    }
+  }
+
+  li:last-child {
+    @include media(max-width 699px) {
+      display: none;
+    }
+  }
+}
+
+.navbar__active {
+  a {
+    color: $brand-primary;
+  }
+}
+
+.navbar .trigger-search {
+  @include transform(scale(1));
+  @include transition(transform 0.2s ease-in-out);
+  z-index: $zindex-navbar-trigger-search;
+  position: relative;
+
+  &:hover {
+    @include transform(scale(1.4));
+  }
+
+  &.active {
+    @include transform(scale(2.4) translateY(1px) translateX(-2px));
+
+    .icon:before {
+      content: "\e601"
+    }
+  }
+}
+
+.header {
+  .navbar--social, .btn--primary {
+    opacity: 0;
+    display: none;
+  }
+}
+
+
+.header--share {
+  display: none;
+
+  .navbar--social {
+    float: left;
+    display: block;
+    opacity: 1;
+  }
+  .btn--empty {
+    text-transform: none;
+    font-size: 14px;
+    padding-top: 21px;
+    padding-bottom: 18px;
+  }
+  .icon {
+    vertical-align: middle;
+    font-size: 22px;
+    display: inline-block;
+    margin-top: -3px;
+  }
+  .btn--primary {
+    margin: 10px 0;
+    float: right;
+    display: block;
+    opacity: 1;
+  }
+  .icon--google {
+    color: $red;
+  }
+  .icon--facebook {
+    color: darken($blue, 20%);
+  }
+  .icon:hover {
+    color: $base-font-color;
+  }
+
+  .bro {
+    background-repeat: no-repeat;
+    background-position: center left 0px;
+    background-size: 35px auto;
+    padding-left: 40px;
+  }
+  .will {
+    background-image: url(/images/will.png);
+  }
+  .kyle {
+    background-image: url(/images/kyle.png);
+  }
+
+  .logo-container {
+    display: none;
+  }
+}

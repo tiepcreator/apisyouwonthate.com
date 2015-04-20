@@ -1,0 +1,18 @@
+// SCSS variables
+// ---------------------------------------
+
+// Note: For the following Sass maps enter values as if they would be px units.
+
+// Breakpoint sizes from px to ems. Add more values here to add more breakpoints.
+// Change names if you prefer, it wont break the mixin as long as they are strings not just numbers.
+$breakpoints: (
+  break-0: 0,     // 0px       Mobile first
+  break-1: 768   // 768px   ~ Tablet
+);
+
+// Root font-sizes for each breakpoint. Set to half desired line-height of body text.
+// ! Make sure to have as many sizes as breakpoints above.
+$rootsizes: (
+  rootsize-0: 14,   // 28px line-height body text
+  rootsize-1: 16,   // 32px line-height body text
+);

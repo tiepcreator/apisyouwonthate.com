@@ -1,0 +1,23 @@
+.footer {
+  text-transform: uppercase;
+}
+.footer__copyright {
+	padding: 15px 0;
+	font-weight: $btn-font-weight;
+    letter-spacing: 0.05rem;
+    color: lighten($base-font-color, 50%);
+    @include button-size($btn-padding-vertical*1.8, $btn-padding-horizontal, $btn-font-size, 1);
+
+    @include media(min-width 420px max-width 767px) {
+    	text-align: center;
+    }
+    @include media(min-width 768px) {
+    	float: left;
+    }
+
+    span {
+    	@include media(min-width 768px max-width 959px) {
+    		display: none;
+    	}
+    }
+}

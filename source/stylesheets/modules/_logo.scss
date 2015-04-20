@@ -1,0 +1,19 @@
+.logo {
+  display: block;
+}
+.logo__mark {
+  display: block;
+  margin: auto;
+  width: 110px;
+  height: 70px;
+  background-image: url(/images/logo.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  @include media(min-width 960px) {
+  	width: 235px;
+  }
+}
+.logo__content {
+  display: none;
+}

@@ -1,0 +1,41 @@
+.testimonials {
+  @extend %clearfix;
+
+
+  .testimonials__item {
+    margin-bottom: 80px;
+
+    @include media(min-width 520px, 6) {
+      @include span-columns(3);
+      @include omega(2n);
+
+      &:nth-last-child(-n+2) {
+        margin-bottom: 0; 
+      }
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.testimonial {
+  img, p {
+    margin-bottom: 10px;
+  }
+
+  img {
+    max-width: 200px;
+    @include media(max-width 599px) {
+      max-width: 120px;
+    }
+  }
+
+  cite {
+    font-size: 24px;
+    &:before {
+      content: '\2014 \00A0';
+    }
+  }
+}
