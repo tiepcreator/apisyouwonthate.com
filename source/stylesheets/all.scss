@@ -26,7 +26,6 @@
 @import 'modules/images';
 @import 'modules/search';
 @import 'modules/about';
-@import 'modules/testimonial';
 @import 'modules/download';
 @import 'modules/modal';
 
@@ -231,9 +230,14 @@
     margin: 0;
   }
   cite {
-    font-weight: 800;
-    margin-top: 10px;
-    display: block;
+    padding-top: 10px;
+    .name {
+      color: white;
+      font-weight: 800;
+    }
+    .company {
+
+    }
   }
 
 

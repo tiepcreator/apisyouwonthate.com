@@ -99,7 +99,8 @@ title: Build APIs You Won't Hate
               %blockquote
                 = quote.text.html_safe
                 %cite
-                  = quote.name
+                  %a.name{ href: "https://twitter.com/#{quote.twitter}", title: "Follow #{quote.name} on Twitter" }="#{quote.name},"
+                  %span.company=quote.company
 
 
 .section.section--medium

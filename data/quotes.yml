@@ -1,12 +1,15 @@
 
 - name: Bruno Skvorc
   twitter: bitfalls
+  company: Sitepoint
+  position: PHP Editor
   image: bitfalls.jpg
   text: >
     <p>As someone who deals with other people’s APIs daily and is working on his own, I could appreciate all the tips within. Not only does Phil go out of his way to recommend excellent accompanying tools to use during development and debugging (and show their basic use), his examples are all real-world and based on his experiences working on a heavy duty API.</p>
 
 - name: Jeremy Gibson
   twitter: j_gibson
+  company: Levelist
   image: j_gibson.jpg
   text: >
     <p>I read this book in a single sitting, and then read it again. There is a wealth of information including tips, tools, and links to useful libraries and further reading.</p>
@@ -15,6 +18,7 @@
 
 - name: Paul Halett
   twitter: phalt_
+  company: Lyst
   image: phalt_.jpg
   text: >
     <p>Phil has managed to distill the core fundamentals of building modern Web API services. I rate it at one of the most practically useful books I've read on Web APIs.</p>
@@ -25,6 +29,8 @@
 
 - name: Elena Kolevska
   twitter: elena_kolevska
+  company: SpeedToContact
+  position: Lead Developer
   image: elena_kolevska.png
   text: >
     <p>You know the saying "Smart people learn from their mistakes, but the real sharp ones learn from the mistakes of others"? Phil Sturgeon used his years of experience to write a book that covers everything a developer needs to know about building a modern API that any consumer would enjoy using.</p>
