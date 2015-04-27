@@ -235,6 +235,22 @@
     margin-top: 10px;
     display: block;
   }
+
+
+  @include media(max-width 599px) {
+    .media__image {
+      width: 120px;
+      display: block;
+      margin: 0 auto 15px ;
+      float: none;
+    }
+
+    .media__body {
+      width: 100%;
+      margin: 0;
+      display: block;
+    }
+  }
 }
 
 
@@ -294,15 +310,20 @@
   @include clearfix;
 }
 .topics__topic {
-  @include span-columns(7);
-  @include omega(2);
-  @include omega(4);
+  margin-bottom: 40px;
 
-  &:nth-child(1),
-  &:nth-child(2),
-  &:nth-child(3),
-  &:nth-child(4) {
-    margin-bottom: 40px;
+  @include media(min-width 700px) {
+    @include span-columns(7);
+    @include omega(2);
+    @include omega(4);
+    margin-bottom: 0;
+
+    &:nth-child(1),
+    &:nth-child(2),
+    &:nth-child(3),
+    &:nth-child(4) {
+      margin-bottom: 40px;
+    }
   }
 }
 
@@ -312,7 +333,10 @@
   @include clearfix;
   width: 100%;
   position: relative;
-  padding-right: 180px;
+
+  @include media(min-width 520px) {
+    padding-right: 180px;
+  }
 
   .email {
     width: 100%;
@@ -325,8 +349,16 @@
     }
   }
   .btn {
-    position: absolute;
-    top: 0;
-    right: 0;
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+
+    @include media(min-width 520px) {
+      margin-top: 0;
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: auto;
+    }
   }
 }

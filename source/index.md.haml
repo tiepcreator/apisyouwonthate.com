@@ -95,7 +95,7 @@ title: Build APIs You Won't Hate
           .media
             .media__image
               = image_tag "quotes/#{quote.image}", width: '120px', height: '120px'
-            .media__body.text-center
+            .media__body
               %blockquote
                 = quote.text.html_safe
                 %cite

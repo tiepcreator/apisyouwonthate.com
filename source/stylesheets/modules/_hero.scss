@@ -7,6 +7,10 @@
 }
 
 .hero__content {
+  @include media(max-width 859px) {
+    padding-top: 0;
+  }
+  
   @include media(min-width 860px) {
     @include span-columns(7);
   }
@@ -15,7 +19,11 @@
 
 
 .hero__aside {
-  @include media(min-width 980px) {
+  @include media(max-width 859px) {
+    padding-top: 0;
+  }
+
+  @include media(min-width 860px) {
     @include span-columns(6);
     @include shift(1);
   }
@@ -30,5 +38,14 @@
   
   a:first-child {
     margin-right: 15px;
+  }
+
+  @include media(max-width 559px) {
+    a {
+      display: block;
+      width: 100%;
+      margin: 0;
+      margin-bottom: 10px;
+    }
   }
 }
