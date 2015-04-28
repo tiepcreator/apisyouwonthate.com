@@ -44,16 +44,13 @@ activate :deploy do |deploy|
   deploy.branch   = 'gh-pages'
 end
 
+activate :google_analytics do |ga|
+  ga.tracking_id = 'UA-8523256-6' # Replace with your property ID.
+end
+
 # Reload the browser automatically whenever files change
 # configure :development do
 #   activate :livereload
-# end
-
-# Methods defined in the helpers block are available in templates
-# helpers do
-#   def some_helper
-#     "Helping"
-#   end
 # end
 
 set :css_dir, 'stylesheets'
