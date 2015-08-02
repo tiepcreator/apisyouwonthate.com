@@ -1,5 +1,7 @@
-
 activate :react
+
+activate :dotenv
+activate :leanpub
 
 ###
 # Compass

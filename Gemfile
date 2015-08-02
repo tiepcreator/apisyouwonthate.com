@@ -2,16 +2,12 @@
 # the following line to use "https"
 source 'http://rubygems.org'
 
-gem "middleman", "~>3.3.5"
+gem 'middleman', "~>3.3.5"
 gem 'middleman-deploy', '~> 1.0'
-gem "middleman-google-analytics", '~> 1.1'
-gem "middleman-livereload", "~> 3.1.0"
-
-# For faster file watcher updates on Windows:
-gem "wdm", "~> 0.1.0", :platforms => [:mswin, :mingw]
-
-# Windows does not come with time zone data
-gem "tzinfo-data", platforms: [:mswin, :mingw]
+gem 'middleman-dotenv', '~> 1.0'
+gem 'middleman-leanpub', :path => "./middleman-leanpub"
+gem 'middleman-google-analytics', '~> 1.1'
+gem 'middleman-livereload', "~> 3.1.0"
 
 gem 'sass', '~> 3.4'
 gem 'compass', '~> 1.0.0'
@@ -20,3 +16,7 @@ gem 'neat'
 gem 'bitters'
 gem 'middleman-react'
 gem 'react-source'
+
+group :development, :build do
+  gem 'pry'
+end
