@@ -1,5 +1,7 @@
 ---
 title: Build APIs You Won't Hate
+digital_url: https://leanpub.com/build-apis-you-wont-hate
+print_url: https://www.createspace.com/4838053
 ---
 
 .hero.section.section--primary
@@ -10,13 +12,12 @@ title: Build APIs You Won't Hate
       %p Tasked with building an API for your company but don't have a clue where to start? Taken over an existing API and hate it? Built your own API and still hate it? This book is for you.
 
       .hero__actions
-        %a{ href: "https://leanpub.com/build-apis-you-wont-hate", title: 'Buy the eBook from LeanPub', class: 'btn btn--secondary btn--large' }
+        %a{ href: current_page.data.digital_url, title: 'Buy the eBook from LeanPub', class: 'btn btn--secondary btn--large' }
           Buy digital
-        %a{ href: "#", onclick: 'alert("Paperback will be ready in a week or so. Please subscribe to the mailing list to find out when it is ready!"); window.location = "#subscribe"; return false;', title: 'Buy the eBook from LeanPub', class: 'btn btn--tertiary btn--large' }
+        %a{ href: current_page.data.print_url, title: 'Buy the paperback from CreateSpace', class: 'btn btn--tertiary btn--large' }
           Buy the paperback
 
       %p.small Available in PDF, ePUB, Mobi, Kindle & Paperback.
-
 
 
     .hero__aside.section--large-top
@@ -64,10 +65,10 @@ title: Build APIs You Won't Hate
         %h1= data.leanpub.reader_count
         %h4 Copies sold
       .statistics__item
-        %h1 181
+        %h1 190
         %h4 Pages
       .statistics__item
-        %h1 35,335
+        %h1 35,853
         %h4 Words
 
 
@@ -106,9 +107,9 @@ title: Build APIs You Won't Hate
 .section.section--medium
   .container.container--large.text-center
     %h4 Just buy the damn book
-    %a{ href: "https://leanpub.com/build-apis-you-wont-hate", title: 'Buy the eBook from LeanPub', class: 'btn btn--secondary btn--huge' }
+    %a{ href: current_page.data.digital_url, title: 'Buy the eBook from LeanPub', class: 'btn btn--secondary btn--huge' }
       Buy digital
-    %a{ href: "#", onclick: 'alert("Paperback will be ready in a week or so. Please subscribe to the mailing list to find out when it is ready!"); window.location = "#subscribe"; return false;', title: 'Buy the eBook from LeanPub', class: 'btn btn--tertiary btn--huge' }
+    %a{ href: current_page.data.print_url, title: 'Buy the paperback from CreateSpace', class: 'btn btn--tertiary btn--huge' }
       Buy the paperback
 
 
