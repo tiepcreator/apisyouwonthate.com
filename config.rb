@@ -3,6 +3,10 @@ activate :react
 activate :dotenv
 activate :leanpub
 
+activate :blog do |blog|
+  blog.permalink = "blog/{year}/{title}.xhtml"
+end
+
 ###
 # Compass
 ###
