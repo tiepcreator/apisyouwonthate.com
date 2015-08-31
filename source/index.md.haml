@@ -1,20 +1,20 @@
 ---
 title: Build APIs You Won't Hate
-digital_url: https://leanpub.com/build-apis-you-wont-hate
-print_url: https://www.amazon.com/Build-APIs-You-Wont-Hate/dp/0692232699/
 ---
 
 .hero.section.section--primary
   .container
     .hero__content.section--large
-      %h1.hero__title Build APIs You Won't Hate
+      %h1.hero__title
+        %a{ href: "/" }
+          Build APIs You Won't Hate
       %h2.h4 Everyone and their dog wants an API, so you should probably learn how to build them.
       %p Tasked with building an API for your company but don't have a clue where to start? Taken over an existing API and hate it? Built your own API and still hate it? This book is for you.
 
       .hero__actions
-        %a{ href: current_page.data.digital_url, title: 'Buy the eBook from LeanPub', class: 'btn btn--secondary btn--large' }
+        %a{ href: data.book.digital_url, title: 'Buy the eBook from LeanPub', class: 'btn btn--secondary btn--large' }
           Buy digital
-        %a{ href: current_page.data.print_url, title: 'Buy the paperback from CreateSpace', class: 'btn btn--tertiary btn--large' }
+        %a{ href: data.book.print_url, title: 'Buy the paperback from CreateSpace', class: 'btn btn--tertiary btn--large' }
           Buy the paperback
 
       %p.small Available in PDF, ePUB, Mobi, Kindle & Paperback.
@@ -103,22 +103,13 @@ print_url: https://www.amazon.com/Build-APIs-You-Wont-Hate/dp/0692232699/
                   %a.name{ href: "https://twitter.com/#{quote.twitter}", title: "Follow #{quote.name} on Twitter" }="#{quote.name},"
                   %span.company=quote.company
 
-
 .section.section--medium
   .container.container--large.text-center
     %h4 Just buy the damn book
-    %a{ href: current_page.data.digital_url, title: 'Buy the eBook from LeanPub', class: 'btn btn--secondary btn--huge' }
+    %a{ href: data.book.digital_url, title: 'Buy eBook from LeanPub', class: 'btn btn--secondary btn--huge' }
       Buy digital
-    %a{ href: current_page.data.print_url, title: 'Buy the paperback from CreateSpace', class: 'btn btn--tertiary btn--huge' }
+    %a{ href: data.book.print_url, title: 'Buy paperback from Amazon', class: 'btn btn--tertiary btn--huge' }
       Buy the paperback
 
 
-%section.section.section--primary.service
-  .content
-    .container.section--large.content__container
-      %h2 About Phil Sturgeon
-      %p I have seen a few trends come and go during my long and varied career of building stuff for money, as an employee, freelancer, consultant and CTO. One of the recent trends is the rise of APIs as an everyday part of the average server-side developers job.
-
-      %p Since 2009 I have built 20+ HTTP APIs, and learned a lot of things the hard way. I have been lucky enough to give multiple talks on APIs at conferences and user groups around the world, sharing this experience with as many developers as will listen.
-  .aside
-    .section__background{style: "background-image: url(/images/phil.jpg)"}
+= partial "partials/footer"

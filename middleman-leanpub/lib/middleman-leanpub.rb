@@ -10,20 +10,24 @@ class LeanpubExtension < ::Middleman::Extension
       require "net/http"
       require "uri"
 
-      uri = URI.parse("https://leanpub.com/build-apis-you-wont-hate.json?api_key=#{ENV['LEANPUB_API_KEY']}")
+      begin
+        uri = URI.parse("https://leanpub.com/build-apis-you-wont-hate.json?api_key=#{ENV['LEANPUB_API_KEY']}")
 
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
+        http = Net::HTTP.new(uri.host, uri.port)
+        http.use_ssl = true
 
-      request = Net::HTTP::Get.new(uri.request_uri)
-      response = http.request(request)
-      result = JSON.parse(response.body)
+        request = Net::HTTP::Get.new(uri.request_uri)
+        response = http.request(request)
+        result = JSON.parse(response.body)
 
-      raise "ERROR!!!" unless response.code == "200"
-
-      filepath = File.join(app.root_path, app.config.data_dir, 'leanpub.yml')
-      file = File.open(filepath, 'w') do |f|
-        f.write("reader_count: #{result['total_copies_sold'].to_i}")
+        raise "ERROR!!!" unless response.code == "200"
+      rescue
+        puts "Shit did not go well with LeanPub"
+      else
+        filepath = File.join(app.root_path, app.config.data_dir, 'leanpub.yml')
+        file = File.open(filepath, 'w') do |f|
+          f.write("reader_count: #{result['total_copies_sold'].to_i}")
+        end
       end
     end
   end

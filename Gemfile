@@ -2,8 +2,8 @@
 # the following line to use "https"
 source 'http://rubygems.org'
 
-gem 'middleman', "~>3.3.5"
-gem 'middleman-blog'
+gem "middleman", "~> 3.3.10"
+gem "middleman-blog", "~> 3.5.3"
 gem 'middleman-deploy', '~> 1.0'
 gem 'middleman-dotenv', '~> 1.0'
 gem 'middleman-leanpub', :path => "./middleman-leanpub"
@@ -21,3 +21,5 @@ gem 'react-source'
 group :development, :build do
   gem 'pry'
 end
+# For feed.xml.builder
+gem "builder", "~> 3.0"
