@@ -1,144 +1,122 @@
-.navbar {
-  text-align: center;
-  @extend %clearfix;
 
-  @include media(min-width 768px) {
+section.navigation {
+  $base-border-color: gainsboro !default;
+  $base-border-radius: 3px !default;
+  $action-color: #477DCA !default;
+  $large-screen: em(860) !default;
+  $navigation-padding: 1em;
+  $navigation-background: $brand-primary;
+  $navigation-color: transparentize(white, 0.3);
+  $navigation-color-hover: white;
+  $navigation-height: 60px;
+  $navigation-search-background: lighten($navigation-background, 5);
+  $navigation-search-border: 1px solid darken($navigation-background, 5);
+  $navigation-active-link-color: transparentize(white, 0.5);
+  $navigation-submenu-padding: 1em;
+  $navigation-submenu-width: 12em;
+  $horizontal-bar-mode: $large-screen;
+
+  background-color: $navigation-background;
+  border-bottom: 1px solid darken($navigation-background, 10);
+  min-height: $navigation-height;
+  width: 100%;
+  z-index: 999;
+
+  .navigation-wrapper {
+    @include clearfix;
+    @include outer-container;
+    position: relative;
+    z-index: 9999;
+  }
+
+  // Mobile view
+
+  .navigation-menu-button {
+    color: $navigation-color;
+    display: block;
     float: right;
+    line-height: $navigation-height;
+    margin: 0;
+    padding-right: 1em;
+    text-decoration: none;
+    text-transform: uppercase;
 
-    ul {
-      padding-bottom: 0;
-    }
-
-    li:last-child button {
-      padding-right: 0;
-    }
-  }
-
-  .header--share & {
-    float: left;
-  }
-
-  .btn {
-    @include button-size($btn-padding-vertical*1.8, $btn-padding-horizontal, $btn-font-size, 1);
-
-    @include media(max-width 599px) {
-      display: block;
-      padding-right: 0;
-      padding-left: 0;
-      text-align: left;
-    }
-
-    &:hover {
-      color: $brand-primary;
-    }
-  }
-
-  li {
-    border-bottom: 0;
-    @include media(max-width 767px) {
-      border-bottom: 1px solid darken(white, 10%);
-    }
-
-    @include media(min-width 420px max-width 599px, 6) {
-      @include span-columns(3);
-      @include omega(2n);
-    }
-
-    @include media(min-width 600px) {
-      display: inline-block;
-    }
-  }
-
-  li:last-child {
-    @include media(max-width 699px) {
+    @include media ($horizontal-bar-mode) {
       display: none;
     }
-  }
-}
 
-.navbar__active {
-  a {
-    color: $brand-primary;
-  }
-}
-
-.navbar .trigger-search {
-  @include transform(scale(1));
-  @include transition(transform 0.2s ease-in-out);
-  z-index: $zindex-navbar-trigger-search;
-  position: relative;
-
-  &:hover {
-    @include transform(scale(1.4));
-  }
-
-  &.active {
-    @include transform(scale(2.4) translateY(1px) translateX(-2px));
-
-    .icon:before {
-      content: "\e601"
+    &:focus,
+    &:hover {
+      color: $navigation-color-hover;
     }
   }
-}
 
-.header {
-  .navbar--social, .btn--primary {
-    opacity: 0;
+  // Nav menu
+
+  nav {
+    float: none;
+    min-height: $navigation-height;
+    z-index: 9999999;
+
+    @include media ($horizontal-bar-mode) {
+      float: left;
+    }
+  }
+
+  ul.navigation-menu {
+    -webkit-transform-style: preserve-3d; // stop webkit flicker
+    clear: both;
     display: none;
+    margin: 0 auto;
+    overflow: visible;
+    padding: 0;
+    width: 100%;
+    z-index: 9999;
+
+    &.show {
+      display: block;
+    }
+
+    @include media ($horizontal-bar-mode) {
+      display: inline;
+      margin: 0;
+      padding: 0;
+    }
   }
-}
 
+  // The nav items
 
-.header--share {
-  display: none;
-
-  .navbar--social {
-    float: left;
+  ul li.nav-link {
+    background: $navigation-background;
     display: block;
-    opacity: 1;
-  }
-  .btn--empty {
-    text-transform: none;
-    font-size: 14px;
-    padding-top: 21px;
-    padding-bottom: 18px;
-  }
-  .icon {
-    vertical-align: middle;
-    font-size: 22px;
-    display: inline-block;
-    margin-top: -3px;
-  }
-  .btn--primary {
-    margin: 10px 0;
-    float: right;
-    display: block;
-    opacity: 1;
-  }
-  .icon--google {
-    color: $red;
-  }
-  .icon--facebook {
-    color: darken($blue, 20%);
-  }
-  .icon:hover {
-    color: $base-font-color;
-  }
+    line-height: $navigation-height;
+    overflow: hidden;
+    padding-right: 0.8em;
+    text-align: right;
+    width: 100%;
+    z-index: 9999;
 
-  .bro {
-    background-repeat: no-repeat;
-    background-position: center left 0px;
-    background-size: 35px auto;
-    padding-left: 40px;
-  }
-  .will {
-    background-image: url(/images/will.png);
-  }
-  .kyle {
-    background-image: url(/images/kyle.png);
-  }
+    @include media ($horizontal-bar-mode) {
+      background: transparent;
+      display: inline;
+      line-height: $navigation-height;
+      text-decoration: none;
+      width: auto;
+    }
 
-  .logo-container {
-    display: none;
+    a {
+      color: $navigation-color;
+      display: inline-block;
+      text-decoration: none;
+
+      @include media ($horizontal-bar-mode) {
+        padding-right: 1em;
+      }
+
+      &:focus,
+      &:hover {
+        color: $navigation-color-hover;
+      }
+    }
   }
 }
