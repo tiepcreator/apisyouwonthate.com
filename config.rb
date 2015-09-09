@@ -1,7 +1,10 @@
 activate :react
 
 activate :dotenv
-activate :leanpub
+activate :leanpub do |leanpub|
+  leanpub.api_key = ENV['LEANPUB_API_KEY']
+  leanpub.book = "build-apis-you-wont-hate"
+end
 
 activate :blog do |blog|
   # This will add a prefix to all links, template references and source paths

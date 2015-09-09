@@ -1,9 +1,3 @@
-PATH
-  remote: ./middleman-leanpub
-  specs:
-    middleman-leanpub (0.0.1)
-      middleman-core (>= 3.3.10)
-
 GEM
   remote: http://rubygems.org/
   specs:
@@ -102,6 +96,8 @@ GEM
     middleman-google-analytics (1.1.0)
       middleman-core (~> 3.2)
       uglifier (>= 2.1, < 3.0)
+    middleman-leanpub (0.0.1)
+      middleman-core (~> 3.3, >= 3.3.10)
     middleman-livereload (3.1.1)
       em-websocket (>= 0.2.0)
       middleman-core (>= 3.0.2)
@@ -181,7 +177,7 @@ DEPENDENCIES
   middleman-deploy (~> 1.0)
   middleman-dotenv (~> 1.0)
   middleman-google-analytics (~> 1.1)
-  middleman-leanpub!
+  middleman-leanpub (~> 0.0.1)
   middleman-livereload (~> 3.1.0)
   middleman-react
   neat
