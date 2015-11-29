@@ -6,23 +6,18 @@ title: Build APIs You Won't Hate
   .container
     .hero__content.section--large
       %h1.hero__title
-        %a{ href: "/" }
+        %a{ href: '/' }
           Build APIs You Won't Hate
       %h2.h4 Everyone and their dog wants an API, so you should probably learn how to build them.
       %p Tasked with building an API for your company but don't have a clue where to start? Taken over an existing API and hate it? Built your own API and still hate it? This book is for you.
 
       .hero__actions
-        %a{ href: data.book.digital_url, title: 'Buy the eBook from LeanPub', class: 'btn btn--secondary btn--large' }
-          Buy digital
-        %a{ href: data.book.print_url, title: 'Buy the paperback from CreateSpace', class: 'btn btn--tertiary btn--large' }
-          Buy the paperback
-
+        = partial 'partials/buy-options'
       %p.small Available in PDF, ePUB, Mobi, Kindle & Paperback.
-
 
     .hero__aside.section--large-top
       .ebook
-        %img{src: 'images/ebook.jpg', width: '800px', height: '1035px'}
+        %img{ src: 'images/ebook.jpg', width: '800px', height: '1035px' }
 
 %section#subscribe.section.section--medium.section--secondary
   .container.container--medium
@@ -30,7 +25,7 @@ title: Build APIs You Won't Hate
 
     %form.form-inline{ action: "//apisyouwonthate.us10.list-manage.com/subscribe/post?u=f5c5ff66d95d11dec1b88cf54&amp;id=f4b69a177b", method: "post", name: "mc-embedded-subscribe-form", novalidate: "", target: "_blank"}
       %input.email{ name: "EMAIL", type: "email", value: "", placeholder: "E-mail"}
-      %input.btn.btn--primary.btn--large{name: "subscribe", type: "submit", value: "Subscribe"}
+      %input.btn.btn--subscribe.btn--large{name: "subscribe", type: "submit", value: "Subscribe"}
 
 
 %section.section.section--large#learnmore
@@ -106,10 +101,6 @@ title: Build APIs You Won't Hate
 .section.section--medium
   .container.container--large.text-center
     %h4 Just buy the damn book
-    %a{ href: data.book.digital_url, title: 'Buy eBook from LeanPub', class: 'btn btn--secondary btn--huge' }
-      Buy digital
-    %a{ href: data.book.print_url, title: 'Buy paperback from Amazon', class: 'btn btn--tertiary btn--huge' }
-      Buy the paperback
+    = partial 'partials/buy-options'
 
-
-= partial "partials/footer"
+= partial 'partials/footer'

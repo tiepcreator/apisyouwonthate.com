@@ -1,0 +1,30 @@
+ebook:
+  - label: Buy it here
+    title: Use a debut/credit card to buy the digital book
+    class_name: btn--primary
+    url: https://leanpub.com/build-apis-you-wont-hate
+  - label: Buy with Bitcoin
+    title: Send directly to a Bitcoin wallet, or using a Coinbase account
+    class_name: btn--secondary
+    url: https://www.coinbase.com/checkouts/940b9903303a2c0e44e1b6186e5bf31f
+print:
+  - label: Amazon US
+    title: Buy on Amazon.com
+    class_name: btn--primary
+    url: https://www.amazon.com/Build-APIs-You-Wont-Hate/dp/0692232699/
+  - label: Amazon UK
+    title: Buy on Amazon UK
+    class_name: btn--secondary
+    url: https://www.amazon.co.uk/dp/0692232699/
+  - label: Amazon FR
+    title: Buy on Amazon.fr
+    class_name: btn--secondary
+    url: http://www.amazon.fr/Build-APIs-You-Wont-Hate/dp/0692232699/
+  - label: Amazon DE
+    title: Buy on Amazon.de
+    class_name: btn--secondary
+    url: http://www.amazon.de/Build-APIs-You-Wont-Hate/dp/0692232699/
+  - label: Buy with Bitcoin
+    title: Send directly to a Bitcoin wallet, or using a Coinbase account
+    class_name: btn--tertiary
+    url: https://www.coinbase.com/checkouts/97749c25449640b34041637494c83db7

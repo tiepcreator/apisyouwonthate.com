@@ -86,6 +86,64 @@ var Avgrund = (function(){
 
 })();
 
+function ready(fn) {
+  if (document.readyState != 'loading'){
+    fn();
+  } else {
+    document.addEventListener('DOMContentLoaded', fn);
+  }
+}
+
+ready(function() {
+	function addClass(element, name) {
+		element.className = element.className.replace( /\s+$/gi, '' ) + ' ' + name;
+	}
+
+	function removeClass(element, name) {
+		console.log('trying to remove' + name);
+		element.className = element.className.replace(name, '');
+	}
+
+	function fireChangeEvent(element) {
+    if ("createEvent" in document) {
+      var evt = document.createEvent("HTMLEvents");
+      evt.initEvent("change", false, true);
+      element.dispatchEvent(evt);
+    }
+    else element.fireEvent("onchange");		
+	}
+
+  var modals = document.getElementsByClassName("modal-state");
+	for (var i = 0; i < modals.length; i++) {
+		modals[i].addEventListener("change", function() {
+			var body = document.querySelector('body');
+	    if (this.checked) {
+	      addClass(body, "modal-open");
+	    } else {
+	      removeClass(body, "modal-open");
+	    }
+	  });
+	}
+
+	// Close
+  var closeElements = document.querySelectorAll(".modal-fade-screen, .modal-close");
+	for (var i = 0; i < closeElements.length; i++) {
+		closeElements[i].addEventListener("click", function() {
+			for (var j = 0; j < modals.length; j++) {
+				var state = modals[j];
+				if (state.checked) {
+					state.checked = false;
+					fireChangeEvent(state);
+				}
+			}
+  	}, false);
+	}
+
+  document.querySelector(".modal-inner").addEventListener('click', function(e) {
+    e.stopPropagation();
+  }, false);
+});
+
 
 // Facebook Pixel
 (function() {

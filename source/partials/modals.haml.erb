@@ -1,0 +1,24 @@
+.modal
+  %input.modal-state{id: "modal-ebook", type: "checkbox"}
+  .modal-fade-screen
+    .modal-inner
+      .modal-close{for: "modal-ebook"}
+      %h1 Buy the eBook
+      %p.modal-intro
+        If you want the book to read on your iPad, Kindle, iPhone, computer or whatever the heck else, grab the eBook here. Both purchase options will give you ePub, Mobi and PDF. You'll get all of them, not just one.
+      %div.modal-content
+        - data.books.ebook.each do |link|
+          %a{ href: link.url, title: link.title, class: "btn btn--huge cta #{link.class_name}" }
+            = link.label
+
+  %input.modal-state{id: "modal-print", type: "checkbox"}
+  .modal-fade-screen
+    .modal-inner
+      .modal-close{for: "modal-print"}
+      %h1 Buy the print version
+      %p.modal-intro
+        There are loads of Amazons and they all sell the book in paperback form.
+      %div.modal-content
+        - data.books.print.each do |link|
+          %a{ href: link.url, title: link.title, class: "btn btn--huge cta #{link.class_name}" }
+            = link.label

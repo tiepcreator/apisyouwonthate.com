@@ -35,6 +35,9 @@
   @include button-variant($btn-tertiary-color, darken($btn-tertiary-bg, 10%));
 }
 
+.btn--subscribe {
+  @include button-variant($btn-subscribe-color, darken($btn-subscribe-bg, 20%));
+}
 .btn--empty {
   @include button-variant($base-font-color, transparent);
   border-radius: 0;
@@ -93,4 +96,3 @@
     @include animation(btn-glide $timing-normal forwards ease);
   }
 }
-
