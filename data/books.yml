@@ -2,7 +2,7 @@ ebook:
   - label: Buy it here
     title: Use a debut/credit card to buy the digital book
     class_name: btn--primary
-    url: https://leanpub.com/build-apis-you-wont-hate/c/CYBERMONDAY15
+    url: https://leanpub.com/build-apis-you-wont-hate
   - label: Buy with Bitcoin
     title: Send directly to a Bitcoin wallet, or using a Coinbase account
     class_name: btn--secondary
