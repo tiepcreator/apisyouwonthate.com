@@ -158,6 +158,11 @@
     @include media(min-width 768px) {
       width: 45%;
     }
+
+    a {
+      color: white;
+      text-decoration: underline;
+    }
   }
 }
 
