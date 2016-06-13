@@ -13,6 +13,11 @@
 
 .section--primary, .section--secondary {
   color: white;
+
+  a {
+    color: white;
+    text-decoration: underline;
+  }
 }
 
 .section--small {
@@ -72,7 +77,7 @@
 
   h2 {
     margin-bottom: 10px;
-    
+
     @include media(min-width 860px) {
       margin-bottom: 0;
       z-index: 20;
