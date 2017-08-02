@@ -29,9 +29,9 @@ title: Build APIs You Won't Hate
       %input.btn.btn--subscribe.btn--large{name: "subscribe", type: "submit", value: "Subscribe"}
 
     .text-center
-      Also, if a mailing list is not enough for you, we have a
-      %a{href: 'https://slack.apisyouwonthate.com/'} Slack channel.
-      Get help with your API, REST and HTTP questions.
+      Not into mailing lists? Get all modern with Slack. We're home to the largest API-centric
+      %a{href: 'https://slack.apisyouwonthate.com/'} Slack channel around.
+      Get your API, REST and HTTP questions answered by 1,000 people.
 
 %section.section.section--large#learnmore
   .container.container--large
@@ -45,18 +45,23 @@ title: Build APIs You Won't Hate
         %h4 Input and Output
         %p Learn which data formats are nice to work with, and why form data is so entirely useless. Compare Facebook, Twitter and existing standards like <a href="http://jsonapi.org/">JSON-API</a>.
       .topics__topic
-        %h4 Status Codes, Errors and Messages
+        %h4 File Uploads and Downloads
+        %p APIs aren't just about JSON data, you can upload and download files of all sorts. Images, videos, CSV, etc.
+      .topics__topic
+        %h4 Documentation
+        %p Public and Private APIs need good quality documentation, generated from simple specifications. Otherwise you're all just guessing at what the contracts are.
+      .topics__topic
+        %h4 Errors and Validation
         %p Look at what makes a good error message, making it understandable for humans and computers alike with the inclusion of codes, documentation links, and usage of standards.
-      .topics__topic
-        %h4 Debugging
-        %p Working with APIs can be a little confusing at first, especially if you're trying to use the browser or Curl. This chapter outlines some powerful tools to make it easy as pie.
-      .topics__topic
       .topics__topic
         %h4 Authentication
         %p Shoud you use HTTP Basic, HTTP Digest, OAuth 1.0a or OAuth 2.0 to secure your API? The answer is probably OAuth 2.0, but find out a huge load of pros and cons on each of them.
       .topics__topic
-        %h4 Documentation
-        %p Regardless of whether you decide to keep an API private or release it to the general public, documentation is incredibly important. These tools will make documentation much easier to maintain and manage.
+        %h4 Debugging
+        %p Working with APIs can be a little confusing at first, especially if you're trying to use the browser or Curl. This chapter outlines some powerful tools to make it easy as pie.
+      .topics__topic
+        %h4 Versioning
+        %p What approach should you take to versioning your APIs, when to use which approach, and why they're all terrible.
 
 .section.section--medium.section--secondary
   .container.container--large
@@ -75,7 +80,7 @@ title: Build APIs You Won't Hate
 %section.section.section--large
   .container.container--medium
     %h2 About the book
-    %p API development is becoming increasingly common for server-side developers thanks to the rise of front-end JavaScript frameworks, iPhone applications, and API-centric architectures. It might seem like grabbing stuff from a data source and shoving it out as JSON would be easy, but surviving changes in business logic, database schema updates, new features, or deprecated endpoints can be a nightmare.
+    %p API development is increasingly common for server-side developers thanks to the rise of front-end JavaScript frameworks, iPhone applications, and API-centric architectures. It might seem like grabbing stuff from a data source and shoving it out as JSON would be easy, but surviving changes in business logic, database schema updates, new features, or deprecated endpoints can be a nightmare.
 
     %p After finding many of the existing resources for API development to be lacking, Phil learned a lot of things the hard way through years of trial and error. This book aims to condense that experience, taking examples and explanations further than the trivial apples and pears nonsense tutorials often provide.
 
@@ -85,6 +90,12 @@ title: Build APIs You Won't Hate
 
     %p Some of the more advanced topics covered here are endpoint testing, embedding data objects in a consistent and scalable manner, paginating responses (including embedded objects) and hypermedia "HATEOAS" controls.
 
+    %p
+      %em
+        %label{for: 'modal-ebook'}
+          Buy the
+          %a{onclick: 'javascript:void();'} ebook
+          and get some extra-special bonus chapters not included in the paperback.
 
 %section.section.section--large.section--secondary
   .container

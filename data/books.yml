@@ -6,7 +6,7 @@ ebook:
   - label: Buy with Bitcoin
     title: Send directly to a Bitcoin wallet, or using a Coinbase account
     class_name: btn--secondary
-    url: https://www.coinbase.com/checkouts/940b9903303a2c0e44e1b6186e5bf31f
+    url: https://www.coinbase.com/checkouts/a988afcd88ea6a71934289d031c22cb5
 print:
   - label: Amazon US
     title: Buy on Amazon.com

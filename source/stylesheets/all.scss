@@ -316,6 +316,7 @@
     @include span-columns(7);
     @include omega(2);
     @include omega(4);
+    @include omega(6);
     margin-bottom: 0;
 
     &:nth-child(1),
