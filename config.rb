@@ -50,7 +50,7 @@ activate :deploy do |deploy|
 end
 
 activate :google_analytics do |ga|
-  ga.tracking_id = 'UA-8523256-6' # Replace with your property ID.
+  ga.tracking_id = 'UA-8523256-6'
 end
 
 # Reload the browser automatically whenever files change
