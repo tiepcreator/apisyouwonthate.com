@@ -6,7 +6,6 @@ GEM
       minitest (~> 5.1)
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
-    addressable (2.3.8)
     bitters (1.0.0)
       bourbon (>= 3.2)
       sass (>= 3.2)
@@ -67,10 +66,6 @@ GEM
       middleman-sprockets (>= 3.1.2)
       sass (>= 3.4.0, < 4.0)
       uglifier (~> 2.5)
-    middleman-blog (3.5.3)
-      addressable (~> 2.3.5)
-      middleman-core (~> 3.2)
-      tzinfo (>= 0.3.0)
     middleman-core (3.4.1)
       activesupport (~> 4.1)
       bundler (~> 1.1)
@@ -170,7 +165,6 @@ DEPENDENCIES
   builder (~> 3.0)
   compass (~> 1.0.0)
   middleman (~> 3.4)
-  middleman-blog
   middleman-deploy (~> 1.0)
   middleman-dotenv (~> 1.0)
   middleman-google-analytics

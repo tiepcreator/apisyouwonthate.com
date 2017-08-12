@@ -5,8 +5,12 @@
     = partial 'partials/head'
 
 %body
+  = partial 'partials/header'
+
   = yield
 
-= javascript_include_tag 'all'
-= google_analytics_tag
-= yield_content :footer
+  = javascript_include_tag 'all'
+  = google_analytics_tag
+
+  = partial 'partials/footer'
+  = partial 'partials/modals'

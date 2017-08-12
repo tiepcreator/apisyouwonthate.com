@@ -3,9 +3,13 @@ header.section--primary {
   width: 100%;
   background: $brand-primary;
   overflow: hidden;
-  
+
   h1 {
     margin-top: 20px;
     margin-bottom: 0;
+
+    a {
+      color: #fff;
+    }
   }
 }

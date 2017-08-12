@@ -1,7 +1,7 @@
 
-section.navigation {
-  $base-border-color: gainsboro !default;
-  $base-border-radius: 3px !default;
+// Nav menu
+
+nav {
   $action-color: #477DCA !default;
   $large-screen: em(860) !default;
   $navigation-padding: 1em;
@@ -16,51 +16,12 @@ section.navigation {
   $navigation-submenu-width: 12em;
   $horizontal-bar-mode: $large-screen;
 
-  background-color: $navigation-background;
-  border-bottom: 1px solid darken($navigation-background, 10);
+  float: none;
   min-height: $navigation-height;
-  width: 100%;
-  z-index: 999;
+  z-index: 9999999;
 
-  .navigation-wrapper {
-    @include clearfix;
-    @include outer-container;
-    position: relative;
-    z-index: 9999;
-  }
-
-  // Mobile view
-
-  .navigation-menu-button {
-    color: $navigation-color;
-    display: block;
-    float: right;
-    line-height: $navigation-height;
-    margin: 0;
-    padding-right: 1em;
-    text-decoration: none;
-    text-transform: uppercase;
-
-    @include media ($horizontal-bar-mode) {
-      display: none;
-    }
-
-    &:focus,
-    &:hover {
-      color: $navigation-color-hover;
-    }
-  }
-
-  // Nav menu
-
-  nav {
-    float: none;
-    min-height: $navigation-height;
-    z-index: 9999999;
-
-    @include media ($horizontal-bar-mode) {
-      float: left;
-    }
+  @include media ($horizontal-bar-mode) {
+    float: left;
   }
 
   ul.navigation-menu {
@@ -82,40 +43,38 @@ section.navigation {
       margin: 0;
       padding: 0;
     }
-  }
 
-  // The nav items
-
-  ul li.nav-link {
-    background: $navigation-background;
-    display: block;
-    line-height: $navigation-height;
-    overflow: hidden;
-    padding-right: 0.8em;
-    text-align: right;
-    width: 100%;
-    z-index: 9999;
-
-    @include media ($horizontal-bar-mode) {
-      background: transparent;
-      display: inline;
+    li {
+      background: $navigation-background;
+      display: block;
       line-height: $navigation-height;
-      text-decoration: none;
-      width: auto;
-    }
-
-    a {
-      color: $navigation-color;
-      display: inline-block;
-      text-decoration: none;
+      overflow: hidden;
+      padding-right: 0.8em;
+      text-align: right;
+      width: 100%;
+      z-index: 9999;
 
       @include media ($horizontal-bar-mode) {
-        padding-right: 1em;
+        background: transparent;
+        display: inline;
+        line-height: $navigation-height;
+        text-decoration: none;
+        width: auto;
       }
 
-      &:focus,
-      &:hover {
-        color: $navigation-color-hover;
+      a {
+        color: $navigation-color;
+        display: inline-block;
+        text-decoration: none;
+
+        @include media ($horizontal-bar-mode) {
+          padding-right: 1em;
+        }
+
+        &:focus,
+        &:hover {
+          color: $navigation-color-hover;
+        }
       }
     }
   }

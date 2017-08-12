@@ -3,7 +3,6 @@
 source 'http://rubygems.org'
 
 gem "middleman", "~> 3.4"
-gem "middleman-blog"
 gem 'middleman-deploy', '~> 1.0'
 gem 'middleman-dotenv', '~> 1.0'
 gem 'middleman-google-analytics'
