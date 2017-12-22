@@ -1,0 +1,205 @@
+<div id='product-component-f1fe1a4ab06'></div>
+<script type="text/javascript">
+/*<![CDATA[*/
+
+(function () {
+  var scriptURL = 'https://sdks.shopifycdn.com/buy-button/latest/buy-button-storefront.min.js';
+  if (window.ShopifyBuy) {
+    if (window.ShopifyBuy.UI) {
+      ShopifyBuyInit();
+    } else {
+      loadScript();
+    }
+  } else {
+    loadScript();
+  }
+
+  function loadScript() {
+    var script = document.createElement('script');
+    script.async = true;
+    script.src = scriptURL;
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(script);
+    script.onload = ShopifyBuyInit;
+  }
+
+  function ShopifyBuyInit() {
+    var client = ShopifyBuy.buildClient({
+      domain: 'apisyouwonthate.myshopify.com',
+      apiKey: '7c0d8ea3d286decd83b1ffe8cac166ff',
+      appId: '6',
+    });
+
+    ShopifyBuy.UI.onReady(client).then(function (ui) {
+      ui.createComponent('product', {
+        id: [11798524234],
+        node: document.getElementById('product-component-f1fe1a4ab06'),
+        moneyFormat: '%24%7B%7Bamount%7D%7D',
+        options: {
+  "product": {
+    "variantId": "all",
+    "width": "240px",
+    "contents": {
+      "img": false,
+      "imgWithCarousel": false,
+      "title": false,
+      "variantTitle": false,
+      "price": false,
+      "description": false,
+      "buttonWithQuantity": false,
+      "quantity": false
+    },
+    "styles": {
+      "product": {
+        "text-align": "left",
+        "@media (min-width: 601px)": {
+          "max-width": "100%",
+          "margin-left": "0",
+          "margin-bottom": "50px"
+        }
+      },
+      "button": {
+        "font-family": "Open Sans, sans-serif",
+        "font-weight": "bold"
+      },
+      "variantTitle": {
+        "font-family": "Open Sans, sans-serif",
+        "font-weight": "normal"
+      },
+      "title": {
+        "font-family": "Arvo, serif",
+        "font-weight": "normal",
+        "font-size": "26px"
+      },
+      "description": {
+        "font-family": "Open Sans, sans-serif",
+        "font-weight": "normal"
+      },
+      "price": {
+        "font-family": "Open Sans, sans-serif",
+        "font-size": "18px",
+        "font-weight": "normal"
+      },
+      "compareAt": {
+        "font-size": "15px",
+        "font-family": "Open Sans, sans-serif",
+        "font-weight": "normal"
+      }
+    },
+    "googleFonts": [
+      "Open Sans",
+      "Open Sans",
+      "Arvo",
+      "Open Sans",
+      "Open Sans",
+      "Open Sans"
+    ]
+  },
+  "cart": {
+    "contents": {
+      "button": true
+    },
+    "styles": {
+      "button": {
+        "font-family": "Open Sans, sans-serif",
+        "font-weight": "bold"
+      },
+      "footer": {
+        "background-color": "#ffffff"
+      }
+    },
+    "googleFonts": [
+      "Open Sans"
+    ]
+  },
+  "modalProduct": {
+    "contents": {
+      "img": false,
+      "imgWithCarousel": true,
+      "variantTitle": false,
+      "buttonWithQuantity": true,
+      "button": false,
+      "quantity": false
+    },
+    "styles": {
+      "product": {
+        "@media (min-width: 601px)": {
+          "max-width": "100%",
+          "margin-left": "0px",
+          "margin-bottom": "0px"
+        }
+      },
+      "button": {
+        "font-family": "Open Sans, sans-serif",
+        "font-weight": "bold"
+      },
+      "variantTitle": {
+        "font-family": "Open Sans, sans-serif",
+        "font-weight": "normal"
+      },
+      "title": {
+        "font-family": "Arvo, serif",
+        "font-weight": "normal"
+      },
+      "description": {
+        "font-family": "Open Sans, sans-serif",
+        "font-weight": "normal"
+      },
+      "price": {
+        "font-family": "Open Sans, sans-serif",
+        "font-weight": "normal"
+      },
+      "compareAt": {
+        "font-family": "Open Sans, sans-serif",
+        "font-weight": "normal"
+      }
+    },
+    "googleFonts": [
+      "Open Sans",
+      "Open Sans",
+      "Arvo",
+      "Open Sans",
+      "Open Sans",
+      "Open Sans"
+    ]
+  },
+  "toggle": {
+    "styles": {
+      "toggle": {
+        "font-family": "Open Sans, sans-serif",
+        "font-weight": "bold"
+      }
+    },
+    "googleFonts": [
+      "Open Sans"
+    ]
+  },
+  "option": {
+    "styles": {
+      "label": {
+        "font-family": "Open Sans, sans-serif"
+      },
+      "select": {
+        "font-family": "Open Sans, sans-serif"
+      }
+    },
+    "googleFonts": [
+      "Open Sans",
+      "Open Sans"
+    ]
+  },
+  "productSet": {
+    "styles": {
+      "products": {
+        "@media (min-width: 601px)": {
+          "margin-left": "-20px"
+        }
+      }
+    }
+  }
+}
+      });
+    });
+  }
+})();
+/*]]>*/
+</script>
