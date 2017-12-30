@@ -1,30 +1,37 @@
-ebook:
-  - label: Buy it here
-    title: Use a debut/credit card to buy the digital book
-    class_name: btn--primary
-    url: https://leanpub.com/build-apis-you-wont-hate
-  - label: Buy with Bitcoin
-    title: Send directly to a Bitcoin wallet, or using a Coinbase account
-    class_name: btn--secondary
-    url: https://www.coinbase.com/checkouts/a988afcd88ea6a71934289d031c22cb5
-print:
-  - label: Amazon US
-    title: Buy on Amazon.com
-    class_name: btn--primary
-    url: https://www.amazon.com/Build-APIs-You-Wont-Hate/dp/0692232699/
-  - label: Amazon UK
-    title: Buy on Amazon UK
-    class_name: btn--secondary
-    url: https://www.amazon.co.uk/dp/0692232699/
-  - label: Amazon FR
-    title: Buy on Amazon.fr
-    class_name: btn--secondary
-    url: http://www.amazon.fr/Build-APIs-You-Wont-Hate/dp/0692232699/
-  - label: Amazon DE
-    title: Buy on Amazon.de
-    class_name: btn--secondary
-    url: http://www.amazon.de/Build-APIs-You-Wont-Hate/dp/0692232699/
-  - label: Buy with Bitcoin
-    title: Send directly to a Bitcoin wallet, or using a Coinbase account
-    class_name: btn--tertiary
-    url: https://www.coinbase.com/checkouts/97749c25449640b34041637494c83db7
+talking-to-other-peoples-apis:
+  title: Talking to Other People's APIs
+  slogan: Designing the worlds most beautiful API is only half the story, somebody needs to interact with it!
+  description: |+
+    API Developers focus so much on designing and building their APIs, yet often we seem to forget the folks on the other end of the line. You, the frontend and backend developers trying to integrate our data and functionality into your own work, often get left with junky docs, or are just assumed to know how things are going to work.
+  # download:
+    # label: Buy eBook
+    # id: 11798524234
+  links:
+    - label: Preorder via LeanPub
+      title: Preorder on LeanPub
+      url: https://leanpub.com/talking-to-other-peoples-web-apis
+      class_name: btn--primary
+
+build-apis-you-wont-hate:
+  title: Build APIs You Won't Hate
+  slogan: Everyone and their dog wants an API, so you should probably learn how to build them.
+  description: |+
+    Tasked with building an API for your company but don't have a clue where to start? Taken over an existing API and hate it? Built your own API and still hate it? This book is for you.
+    <br><br>
+    This book has been up on the LeanPub top 10 for most of its lifetime, and was <a href="https://leanpub.com/blog/2015/12/top-ten-bestselling-books-2015">#5 Best Selling Book of 2015</a>, so it can't be too bad.
+  download:
+    label: Buy eBook
+    id: 11798524234
+  links:
+    - label: Amazon US
+      title: Buy on Amazon.com
+      url: https://www.amazon.com/Build-APIs-You-Wont-Hate/dp/0692232699/
+    - label: Amazon UK
+      title: Buy on Amazon UK
+      url: https://www.amazon.co.uk/dp/0692232699/
+    - label: Amazon FR
+      title: Buy on Amazon.fr
+      url: http://www.amazon.fr/Build-APIs-You-Wont-Hate/dp/0692232699/
+    - label: Amazon DE
+      title: Buy on Amazon.de
+      url: http://www.amazon.de/Build-APIs-You-Wont-Hate/dp/0692232699/

@@ -1,23 +1,9 @@
 ---
-title: Build APIs You Won't Hate
+title: "Build APIs You Won't Hate"
 ---
 
 .hero.section.section--primary
-  .container
-    .hero__content.section--large
-      %h2
-        Build APIs You Won't Hate
-      %h3.h4 Everyone and their dog wants an API, so you should probably learn how to build them.
-      %p Tasked with building an API for your company but don't have a clue where to start? Taken over an existing API and hate it? Built your own API and still hate it? This book is for you.
-      %p This book has been up on the LeanPub top 10 for most of its lifetime, and was <a href="https://leanpub.com/blog/2015/12/top-ten-bestselling-books-2015">#5 Best Selling Book of 2015</a>, so it can't be too bad.
-
-      .hero__actions
-        = partial 'partials/buy-options'
-      %p.small Available in PDF, ePUB, Mobi, Kindle & Paperback.
-
-    .hero__aside.section--large-top
-      .ebook
-        %img{ src: '/images/ebook.jpg', width: '800px', height: '1035px' }
+  = partial 'partials/book_intro', locals: { book: 'build-apis-you-wont-hate' }
 
 %section.section.section--large#learnmore
   .container.container--large
@@ -94,7 +80,7 @@ title: Build APIs You Won't Hate
                   %a.name{ href: "https://twitter.com/#{quote.twitter}", title: "Follow #{quote.name} on Twitter" }="#{quote.name},"
                   %span.company=quote.company
 
-.section.section--medium
-  .container.container--large.text-center
-    %h4 Just buy the damn book
-    = partial 'partials/buy-options'
+-# .section.section--medium
+-#   .container.container--large.text-center
+-#     %h4 Just buy the damn book
+-#     = partial 'partials/buy-options'

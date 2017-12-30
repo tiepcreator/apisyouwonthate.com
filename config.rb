@@ -1,6 +1,7 @@
 activate :react
 
 activate :dotenv
+
 # activate :leanpub do |leanpub|
 #   leanpub.api_key = ENV['LEANPUB_API_KEY']
 #   leanpub.book = "build-apis-you-wont-hate"
@@ -45,8 +46,8 @@ activate :automatic_image_sizes
 
 activate :deploy do |deploy|
   deploy.method = :git
-  deploy.remote   = 'origin'
-  deploy.branch   = 'gh-pages'
+  deploy.remote = 'origin'
+  deploy.branch = 'master'
 end
 
 activate :google_analytics do |ga|
