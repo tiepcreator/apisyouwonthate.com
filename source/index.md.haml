@@ -11,9 +11,12 @@ title: APIs You Won't Hate - Books, articles and community that care about API d
         %h3.h4= book.slogan
         %p= book.description
 
-        .hero__actions
-          %a.btn.btn--secondary.btn--large{ href: "/books/#{slug}.html" }
-            Find out more
+        -# - if data.books[slug].buttons
+        -#   - data.books[slug].buttons.each do |button|
+        -#     .shopify-product{'data-id': button.id, 'data-label': button.label}
+
+        %a.btn.btn--secondary.btn--large{ href: "/books/#{slug}.html" }
+          Find out more
 
       .hero__aside.section--large
         .ebook-small

@@ -19,9 +19,12 @@ build-apis-you-wont-hate:
     Tasked with building an API for your company but don't have a clue where to start? Taken over an existing API and hate it? Built your own API and still hate it? This book is for you.
     <br><br>
     This book has been up on the LeanPub top 10 for most of its lifetime, and was <a href="https://leanpub.com/blog/2015/12/top-ten-bestselling-books-2015">#5 Best Selling Book of 2015</a>, so it can't be too bad.
-  download:
-    label: Buy eBook
-    id: 11798524234
+
+  buttons:
+    - label: Buy eBook
+      id: 11798524234
+    - label: Buy Dead tree
+      id: 425073377316
   links:
     - label: Amazon US
       title: Buy on Amazon.com

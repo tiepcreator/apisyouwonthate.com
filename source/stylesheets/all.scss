@@ -7,7 +7,6 @@
 @import 'neat';
 @import 'base/base';
 
-
 @import 'modules/buttons';
 @import 'modules/select';
 @import 'modules/sections';
@@ -23,57 +22,18 @@
 @import 'modules/about';
 @import 'modules/modal';
 
-.clients {
-  .banner {
-    margin-bottom: $padding-section-medium;
-  }
+// I just want to go to bed
+
+.shopify-buy-frame--product{
+  display: inline-block !important;
 }
 
-.logos {
-  line-height: 0;
-  text-align: center;
-
-  @include media(min-width 500px) {
-    @include display(flex);
-    @include justify-content(center);
-    @include justify-content(space-between);
-  }
-
-  img {
-    @include filter(grayscale(100%));
-    opacity: 0.5;
-    @include transition(all 300ms ease-in-out);
-
-    &:hover {
-      opacity: 0.6;
-      @include transform(scale(0.95));
-      @include filter(grayscale(30%));
-    }
-
-    @include media(max-width 499px) {
-      width: 80%;
-    }
-    @include media(min-width 500px) {
-      width: 100%;
-      max-width: 280px;
-    }
-  }
-
-  li {
-    @include media(max-width 499px) {
-      width: 28%;
-      display: inline-block;
-      margin: 0 2%;
-    }
-    @include media(min-width 500px) {
-      margin-left: 40px;
-    }
-  }
-
-  li:first-child {
-    margin-left: 0;
-  }
+.also-on {
+  margin: 1em;
+  font-style: italic;
 }
+
+// end excuses
 
 
 // Section with aside (such as video)

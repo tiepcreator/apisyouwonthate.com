@@ -1,0 +1,21 @@
+.container
+  .hero__content.section--large
+    %h2= data.books[locals[:book]].title
+    %h3.h4= data.books[locals[:book]].slogan
+
+    %p= data.books[locals[:book]].description
+
+    .hero__actions
+      - if data.books[locals[:book]].buttons
+        - data.books[locals[:book]].buttons.each do |button|
+          .shopify-product{'data-id': button.id, 'data-label': button.label}
+
+        %p.small.also-on It's also available on these sites, but a much bigger chunk goes in their pocket.
+
+      - data.books[locals[:book]].links.each do |link|
+        %a{ href: link.url, title: link.title, class: "btn cta btn--tertiary #{link.class_name}" }
+          = link.label
+
+  .hero__aside.section--large-top
+    .ebook
+      %img{ src: "/images/covers/#{locals[:book]}.jpg", width: '800px', height: '1035px' }
