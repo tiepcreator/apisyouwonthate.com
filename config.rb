@@ -2,23 +2,16 @@ activate :react
 
 activate :dotenv
 
-# activate :leanpub do |leanpub|
-#   leanpub.api_key = ENV['LEANPUB_API_KEY']
-#   leanpub.book = "build-apis-you-wont-hate"
-# end
-
-###
-# Compass
-###
-
-# Change Compass configuration
-# compass_config do |config|
-#   config.output_style = :compact
-# end
+activate :leanpub do |leanpub|
+  leanpub.api_key = ENV['LEANPUB_API_KEY']
+  leanpub.book = "build-apis-you-wont-hate"
+end
 
 ###
 # Page options, layouts, aliases and proxies
 ###
+
+redirect "/books/talking-to-other-peoples-apis.html", to: "/books/surviving-other-peoples-apis.html"
 
 # Per-page layout changes:
 #
@@ -54,9 +47,6 @@ activate :google_analytics do |ga|
   ga.tracking_id = 'UA-8523256-6'
 end
 
-# Reload the browser automatically whenever files change
-# activate :livereload
-
 set :css_dir, 'stylesheets'
 
 set :js_dir, 'javascripts'
@@ -70,16 +60,6 @@ configure :build do
 
   # Minify Javascript on build
   activate :minify_javascript
-
-  # Enable cache buster
-  # activate :asset_hash
-
-  # Use relative URLs
-  # activate :relative_assets
-
-  # Or use a different image path
-  # set :http_prefix, "/Content/images/"
-
 end
 
 after_configuration do

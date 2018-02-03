@@ -1,5 +1,5 @@
 ---
-title: APIs You Won't Hate - Books, articles and community that care about API design and development.
+title: "APIs You Won't Hate - A community that cares about API design and development."
 ---
 
 - data.books.each do |slug, book|
@@ -33,15 +33,4 @@ title: APIs You Won't Hate - Books, articles and community that care about API d
 
     %p APIs You Won't Hate is dedicated to learning, writing, sharing ideas and bettering understanding of API practices. Together we can erradicate APIs we hate.
 
-%section#subscribe.section.section--medium.section--secondary
-  .container.container--medium
-    %h6.text-center Get pragmatic API, HTTP and REST info monthly!
-
-    %form.form-inline{ action: "//apisyouwonthate.us10.list-manage.com/subscribe/post?u=f5c5ff66d95d11dec1b88cf54&amp;id=f4b69a177b", method: "post", name: "mc-embedded-subscribe-form", novalidate: "", target: "_blank"}
-      %input.email{ name: "EMAIL", type: "email", value: "", placeholder: "E-mail"}
-      %input.btn.btn--subscribe.btn--large{name: "subscribe", type: "submit", value: "Subscribe"}
-
-    .text-center
-      Not into mailing lists? Get all modern with Slack. We're the largest API-centric
-      %a{href: '/community.html'} Slack channel around.
-      Get your API, REST and HTTP questions answered by 2,000+ people.
+= partial 'partials/subscribe'

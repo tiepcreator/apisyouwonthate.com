@@ -1,5 +1,5 @@
-talking-to-other-peoples-apis:
-  title: Talking to Other People's APIs
+surviving-other-peoples-apis:
+  title: Surviving Other People's APIs
   slogan: Designing the worlds most beautiful API is only half the story, somebody needs to interact with it!
   description: |+
     API Developers focus so much on designing and building their APIs, yet often we seem to forget the folks on the other end of the line. You, the frontend and backend developers trying to integrate our data and functionality into your own work, often get left with junky docs, or are just assumed to know how things are going to work.
@@ -9,7 +9,7 @@ talking-to-other-peoples-apis:
   links:
     - label: Preorder via LeanPub
       title: Preorder on LeanPub
-      url: https://leanpub.com/talking-to-other-peoples-web-apis
+      url: https://leanpub.com/surviving-other-peoples-web-apis
       class_name: btn--primary
 
 build-apis-you-wont-hate:
