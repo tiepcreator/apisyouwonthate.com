@@ -11,8 +11,6 @@ end
 # Page options, layouts, aliases and proxies
 ###
 
-redirect "/books/talking-to-other-peoples-apis.html", to: "/books/surviving-other-peoples-apis.html"
-
 # Per-page layout changes:
 #
 # With no layout
@@ -41,10 +39,6 @@ activate :deploy do |deploy|
   deploy.method = :git
   deploy.remote = 'origin'
   deploy.branch = 'master'
-end
-
-activate :google_analytics do |ga|
-  ga.tracking_id = 'UA-8523256-6'
 end
 
 set :css_dir, 'stylesheets'
