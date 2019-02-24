@@ -15,8 +15,12 @@ gem 'bitters', '~> 1.2'
 gem 'middleman-react'
 gem 'react-source'
 
+gem 'execjs'
+gem 'therubyracer'
+
 group :development, :build do
   gem 'pry'
 end
+
 # For feed.xml.builder
 gem "builder", "~> 3.0"
