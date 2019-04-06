@@ -3,7 +3,6 @@ import PropTypes from "prop-types"
 import React from "react"
 
 import classes from './Header.module.css';
-console.log('classes are', classes);
 
 const Header = ({ siteTitle }) => (
   <header>
