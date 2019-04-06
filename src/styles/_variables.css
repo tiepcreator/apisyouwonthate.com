@@ -1,6 +1,11 @@
 :root {
   /* colors */
   --hateful-green: #80b682;
+
+  --black: #222;
+  --black_hex: var(--black);
+  --black_rgb: 34, 34, 34;
+
   
   --white: #fff;
   --white_hex: var(--white);
