@@ -28,12 +28,13 @@ const Layout = ({ children }) => (
         <Header />
         <div className={classes.container}>
           <main>{children}</main>
+
+          <footer>
+            © {new Date().getFullYear()}
+            {` APIs You Won't Hate, Built with `}
+            <a href="https://www.gatsbyjs.org">Gatsby</a>
+          </footer>
         </div>
-        <footer>
-          © {new Date().getFullYear()}
-          {` APIs You Won't Hate, Built with `}
-          <a href="https://www.gatsbyjs.org">Gatsby</a>
-        </footer>
       </>
     )}
   />
