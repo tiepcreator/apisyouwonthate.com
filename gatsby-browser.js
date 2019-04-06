@@ -4,7 +4,7 @@
  * See: https://www.gatsbyjs.org/docs/browser-apis/
  */
 
-// You can delete this file if you're not using it
+import "./src/styles/reset.css"
 import "./src/styles/_variables.css"
 import "./src/styles/global.css"
 
