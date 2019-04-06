@@ -45,10 +45,16 @@ module.exports = {
         cookieDomain: "apisyouwonthate.com",
       },
     },
-    `gatsby-plugin-sitemap`,
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
+    {
+      resolve: 'gatsby-plugin-robots-txt',
+      options: {
+        policy: [{ userAgent: '*', disallow: '/' }]
+      }
+    }
+    `gatsby-plugin-sitemap`,
     `gatsby-plugin-netlify`, // make sure to put last in the array
   ],
 }
