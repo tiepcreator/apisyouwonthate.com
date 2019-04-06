@@ -5,6 +5,8 @@
  */
 
 // You can delete this file if you're not using it
-
 import "./src/styles/_variables.css"
 import "./src/styles/global.css"
+
+// prismjs color theme
+import "./src/styles/prism.css"
