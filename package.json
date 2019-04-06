@@ -39,6 +39,8 @@
     "build": "gatsby build",
     "develop": "gatsby develop",
     "format": "prettier --write src/**/*.{js,jsx}",
+    "prettier-check": "prettier \"src/./**/*.{js,json,css,md}\" --check",
+    "prettier-fix": "prettier \"src/./**/*.{js,json,css,md}\" --write",
     "start": "npm run develop",
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\""

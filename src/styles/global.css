@@ -1,4 +1,5 @@
-html, body {
+html,
+body {
   background-color: var(--white);
   font-family: var(--sans-serif-font-family);
   color: var(--black);
@@ -11,6 +12,11 @@ body {
   padding: 0;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--serif-font-family);
 }

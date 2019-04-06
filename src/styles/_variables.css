@@ -6,7 +6,6 @@
   --black_hex: var(--black);
   --black_rgb: 34, 34, 34;
 
-  
   --white: #fff;
   --white_hex: var(--white);
   --white_rgb: 255, 255, 255;
@@ -17,13 +16,12 @@
 
   /* alpha variables */
   --alpha-dimmed: 0.7;
-  --alpha-full: 1.0;
+  --alpha-full: 1;
   --alpha-transparent: 0;
 
-
   /* font stuff */
-  --serif-font-family: "Arvo", serif;
-  --sans-serif-font-family: "Open sans", sans-serif;
+  --serif-font-family: 'Arvo', serif;
+  --sans-serif-font-family: 'Open sans', sans-serif;
 
   /* sizes */
   --site-width: 1260px;

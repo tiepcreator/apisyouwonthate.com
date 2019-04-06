@@ -70,17 +70,17 @@ module.exports = {
       resolve: 'gatsby-plugin-web-font-loader',
       options: {
         google: {
-          families: ['Arvo:700', 'Open Sans:400,700']
-        }
-      }
+          families: ['Arvo:700', 'Open Sans:400,700'],
+        },
+      },
     },
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
-        trackingId: "UA-8523256-6",
+        trackingId: 'UA-8523256-6',
         // Puts tracking script in the head instead of the body
         head: false,
-        cookieDomain: "apisyouwonthate.com",
+        cookieDomain: 'apisyouwonthate.com',
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
@@ -89,10 +89,10 @@ module.exports = {
     {
       resolve: 'gatsby-plugin-robots-txt',
       options: {
-        policy: [{ userAgent: '*', disallow: '/' }]
-      }
+        policy: [{ userAgent: '*', disallow: '/' }],
+      },
     },
     `gatsby-plugin-sitemap`,
     `gatsby-plugin-netlify`, // make sure to put last in the array
   ],
-}
+};

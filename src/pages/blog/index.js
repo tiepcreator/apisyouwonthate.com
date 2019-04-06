@@ -1,10 +1,10 @@
-import React from "react"
-import { Link, graphql } from "gatsby"
+import React from 'react';
+import { Link, graphql } from 'gatsby';
 
-import Layout from "../../components/layout"
-import SEO from "../../components/seo"
+import Layout from '../../components/layout';
+import SEO from '../../components/seo';
 
-import classes from "./BlogPage.module.css"
+import classes from './BlogPage.module.css';
 
 const BlogPage = ({ data }) => (
   <Layout>
@@ -22,9 +22,9 @@ const BlogPage = ({ data }) => (
       ))}
     </article>
   </Layout>
-)
+);
 
-export default BlogPage
+export default BlogPage;
 
 export const query = graphql`
   query {
@@ -45,4 +45,4 @@ export const query = graphql`
       }
     }
   }
-`
+`;

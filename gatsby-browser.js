@@ -4,9 +4,9 @@
  * See: https://www.gatsbyjs.org/docs/browser-apis/
  */
 
-import "./src/styles/reset.css"
-import "./src/styles/_variables.css"
-import "./src/styles/global.css"
+import './src/styles/reset.css';
+import './src/styles/_variables.css';
+import './src/styles/global.css';
 
 // prismjs color theme
-import "./src/styles/prism.css"
+import './src/styles/prism.css';
