@@ -53,7 +53,7 @@ module.exports = {
       options: {
         policy: [{ userAgent: '*', disallow: '/' }]
       }
-    }
+    },
     `gatsby-plugin-sitemap`,
     `gatsby-plugin-netlify`, // make sure to put last in the array
   ],
