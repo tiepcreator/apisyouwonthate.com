@@ -14,6 +14,10 @@
   --purple_hex: var(--purple);
   --purple_rgb: 137, 112, 155;
 
+  --dark-green: #547d56;
+  --dark-green_hex: var(--dark-green);
+  --dark-green_rgb: 84, 125, 86;
+
   /* alpha variables */
   --alpha-dimmed: 0.7;
   --alpha-full: 1;
