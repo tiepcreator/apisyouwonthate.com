@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import Img from 'gatsby-image/withIEPolyfill';
 
 import classes from './AuthorDisplay.module.css';
@@ -9,6 +11,10 @@ const AuthorDisplay = ({ authorImage, name, date, readTimeInMinutes }) => {
     authorImage &&
     authorImage.childImageSharp &&
     authorImage.childImageSharp.fluid;
+
+  const readTimeDisplay = readTimeInMinutes && (
+    <span className={classes.readingTime}>{readTimeInMinutes} min read</span>
+  );
 
   return (
     <div className={classes.container}>
@@ -22,14 +28,19 @@ const AuthorDisplay = ({ authorImage, name, date, readTimeInMinutes }) => {
         <span className={classes.authorName}>{name}</span>
         <div>
           <span className={classes.date}>{date}</span>
-          {' · '}
-          <span className={classes.readingTime}>
-            {readTimeInMinutes} min read
-          </span>
+          {date && readTimeDisplay && ` · `}
+          {readTimeDisplay}
         </div>
       </div>
     </div>
   );
+};
+
+AuthorDisplay.propTypes = {
+  authorImage: PropTypes.shape({}),
+  name: PropTypes.string,
+  date: PropTypes.string,
+  readTimeInMinutes: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 export default AuthorDisplay;
