@@ -6,7 +6,7 @@
 
 header {
   max-width: var(--site-width);
-  margin: 0 auto 1rem auto;
+  margin: 0 auto;
   padding: 1rem 0 1rem 0;
 }
 

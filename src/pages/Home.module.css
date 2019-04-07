@@ -1,0 +1,9 @@
+.books {
+  padding: 5rem 0;
+  background-color: var(--hateful-green);
+}
+
+.container {
+  max-width: var(--site-width);
+  margin: auto;
+}
