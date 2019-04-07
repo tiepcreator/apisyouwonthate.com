@@ -4,7 +4,7 @@ import { Link, graphql } from 'gatsby';
 import Layout from '../../components/layout';
 import SEO from '../../components/seo';
 
-import classes from './BlogPage.module.css';
+import './BlogPage.module.css';
 
 const BlogPage = ({ data }) => (
   <Layout>
