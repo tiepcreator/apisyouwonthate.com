@@ -3,6 +3,7 @@ import { Link, graphql } from 'gatsby';
 
 import Layout from '../../components/layout';
 import SEO from '../../components/seo';
+import { FullWidthFeature } from '../../components/FullWidthFeature';
 
 import './BlogPage.module.css';
 
@@ -13,10 +14,12 @@ const BlogPage = ({ data }) => (
       {data.allMarkdownRemark.edges.map(({ node }) => (
         <div key={node.id}>
           <Link to={node.fields.slug}>
-            <h3>
-              {node.frontmatter.title} <span>— {node.frontmatter.date}</span>
-            </h3>
-            <p>{node.excerpt}</p>
+            <FullWidthFeature
+              authorName="Mike Bifulco"
+              date="Apr 4"
+              title={node.frontmatter.title}
+              subtitle={node.frontmatter.subtitle || node.excerpt}
+            />
           </Link>
         </div>
       ))}
