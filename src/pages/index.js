@@ -34,7 +34,7 @@ const IndexPage = () => (
         </Row>
         <BookFeature
           title="Well this is book 3"
-          coverImageRelativePath="images/books/build-apis-you-wont-hate.jpg"
+          coverImageFileName="build-apis-you-wont-hate.jpg"
         />
       </Container>
     </div>

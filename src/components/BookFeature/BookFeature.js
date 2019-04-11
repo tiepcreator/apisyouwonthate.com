@@ -1,15 +1,16 @@
 import React from 'react';
-import Media from 'react-bootstrap/Media';
+import { Col, Row } from 'react-bootstrap';
 
 import Img from '../image';
 
-const BookFeature = ({ relativePath }) => {
+const BookFeature = ({ coverImageFileName, title }) => {
   return (
-    <Media>
-      <Media.Body>
-        <Img src={relativePath} />
-      </Media.Body>
-    </Media>
+    <Row>
+      <Col>{title}</Col>
+      <Col xs={3}>
+        <Img src={coverImageFileName} />
+      </Col>
+    </Row>
   );
 };
 
