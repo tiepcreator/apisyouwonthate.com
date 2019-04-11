@@ -9,7 +9,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { StaticQuery, graphql } from 'gatsby';
 
+import Container from 'react-bootstrap/Container';
+
 import { Header } from './Header';
+import { Footer } from './Footer';
+
 import classes from './layout.module.css';
 
 const Layout = ({ children }) => (
@@ -24,18 +28,13 @@ const Layout = ({ children }) => (
       }
     `}
     render={data => (
-      <>
+      <Container fluid className={classes.baseGrid}>
         <Header />
         <div className={classes.container}>
           <main>{children}</main>
-
-          <footer>
-            © {new Date().getFullYear()}
-            {` APIs You Won't Hate, Built with `}
-            <a href="https://www.gatsbyjs.org">Gatsby</a>
-          </footer>
         </div>
-      </>
+        <Footer />
+      </Container>
     )}
   />
 );
