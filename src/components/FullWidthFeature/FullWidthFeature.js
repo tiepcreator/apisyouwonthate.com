@@ -8,7 +8,7 @@ import './FullWidthFeature.module.css';
 
 const FullWidthFeature = ({ authorName, date, image, subtitle, title }) => (
   <article>
-    <Image data={image} />
+    <Image src={image} />
     <main>
       <h1>{title}</h1>
       <h2>{subtitle}</h2>
