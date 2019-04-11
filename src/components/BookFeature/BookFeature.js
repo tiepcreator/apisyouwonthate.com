@@ -7,7 +7,7 @@ const BookFeature = ({ relativePath }) => {
   return (
     <Media>
       <Media.Body>
-        <Img src={relativePath} />;
+        <Img src={relativePath} />
       </Media.Body>
     </Media>
   );
