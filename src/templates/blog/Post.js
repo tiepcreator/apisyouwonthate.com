@@ -5,6 +5,9 @@ import { graphql, Link } from 'gatsby';
 import { MDXRenderer } from 'gatsby-mdx';
 import { Helmet } from 'react-helmet';
 
+// bootstrap
+import { Container, Col, Row } from 'react-bootstrap';
+
 import Layout from '../../components/layout';
 
 import classes from './Post.module.css';
@@ -19,9 +22,14 @@ const Post = ({ data, pageContext }) => {
       <Helmet>
         <title>{post.frontmatter.title}</title>
       </Helmet>
-
-      <h2>{post.frontmatter.title}</h2>
-      <MDXRenderer>{post.code.body}</MDXRenderer>
+      <Container>
+        <Row>
+          <Col>
+            <h2>{post.frontmatter.title}</h2>
+            <MDXRenderer>{post.code.body}</MDXRenderer>
+          </Col>
+        </Row>
+      </Container>
     </Layout>
   );
 };

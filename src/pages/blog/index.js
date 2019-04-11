@@ -1,6 +1,9 @@
 import React from 'react';
 import { Link, graphql } from 'gatsby';
 
+// bootstrap
+import { Container, Col, Row } from 'react-bootstrap';
+
 import Layout from '../../components/layout';
 import SEO from '../../components/seo';
 import { FullWidthFeature } from '../../components/FullWidthFeature';
@@ -10,22 +13,26 @@ import './BlogPage.module.css';
 const BlogPage = ({ data }) => (
   <Layout>
     <SEO title="Blog" />
-    <article>
-      {data.allMdx.nodes.map(node => {
-        return (
-          <div key={node.id}>
-            <Link to={`blog/${node.frontmatter.slug}`}>
-              <FullWidthFeature
-                authorName="Mike Bifulco"
-                date="Apr 4"
-                title={node.frontmatter.title}
-                subtitle={node.frontmatter.subtitle || node.excerpt}
-              />
-            </Link>
-          </div>
-        );
-      })}
-    </article>
+    <Container>
+      <Row>
+        <Col>
+          {data.allMdx.nodes.map(node => {
+            return (
+              <article key={node.id}>
+                <Link to={`blog/${node.frontmatter.slug}`}>
+                  <FullWidthFeature
+                    authorName="Mike Bifulco"
+                    date="Apr 4"
+                    title={node.frontmatter.title}
+                    subtitle={node.frontmatter.subtitle || node.excerpt}
+                  />
+                </Link>
+              </article>
+            );
+          })}
+        </Col>
+      </Row>
+    </Container>
   </Layout>
 );
 
