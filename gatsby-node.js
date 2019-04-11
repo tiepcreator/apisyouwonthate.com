@@ -53,7 +53,7 @@ const turnBooksIntoPages = async ({ graphql, actions }) => {
   const books = await getMdxDataForType({ type: 'book', graphql });
   books.forEach((book, i) => {
     actions.createPage({
-      path: `book/${book.frontmatter.slug}`,
+      path: `books/${book.frontmatter.slug}`,
       component: bookTemplate,
       context: {
         id: book.id,
