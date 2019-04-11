@@ -1,35 +1,31 @@
 const path = require(`path`);
 const { createFilePath } = require(`gatsby-source-filesystem`);
 
-const turnBlogPostsIntoPages = async ({ graphql, actions }) => {
-  const blogPostTemplate = path.resolve('./src/templates/blog/Post.js');
+const getMdxDataForType = async ({ type, graphql }) => {
   const { data } = await graphql(`
     {
-      allMdx(filter: { frontmatter: { type: { eq: "blog" } } }) {
+      allMdx(filter: { frontmatter: { type: { eq: "${type}" } } }) {
         nodes {
           id
-          code {
-            body
-            scope
-          }
           frontmatter {
             slug
-            title
           }
         }
       }
     }
   `);
+  console.log(
+    `🔥 found ${data.allMdx.nodes.length} .mdx files with type: ${type}`
+  );
+  return data.allMdx.nodes;
+};
+
+const turnBlogPostsIntoPages = async ({ graphql, actions }) => {
+  const blogPostTemplate = path.resolve('./src/templates/blog/Post.js');
 
   // Loop over the posts
-  const posts = data.allMdx.nodes;
-
-  console.group('Blog Posts');
+  const posts = await getMdxDataForType({ type: 'blog', graphql });
   posts.forEach((post, i) => {
-    console.log(
-      `Found post: [${post.frontmatter.slug}] ${post.frontmatter.title}`
-    );
-    console.log('post id is', post.id);
     let prevPost;
     let nextPost;
 
@@ -50,7 +46,20 @@ const turnBlogPostsIntoPages = async ({ graphql, actions }) => {
       },
     });
   });
-  console.groupEnd();
+};
+
+const turnBooksIntoPages = async ({ graphql, actions }) => {
+  const bookTemplate = path.resolve('./src/templates/book/BookPage.js');
+  const books = await getMdxDataForType({ type: 'book', graphql });
+  books.forEach((book, i) => {
+    actions.createPage({
+      path: `book/${book.frontmatter.slug}`,
+      component: bookTemplate,
+      context: {
+        id: book.id,
+      },
+    });
+  });
 };
 
 exports.onCreateNode = ({ node, getNode, actions }) => {
@@ -67,4 +76,5 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
 
 exports.createPages = async ({ graphql, actions }) => {
   await turnBlogPostsIntoPages({ graphql, actions });
+  await turnBooksIntoPages({ graphql, actions });
 };
