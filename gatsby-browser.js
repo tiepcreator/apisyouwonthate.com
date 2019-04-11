@@ -5,6 +5,8 @@
  */
 
 import './src/styles/reset.css';
+import 'bootstrap/dist/css/bootstrap.css';
+
 import './src/styles/_variables.css';
 import './src/styles/global.css';
 
