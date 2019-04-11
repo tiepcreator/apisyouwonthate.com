@@ -15,8 +15,6 @@ import Layout from '../../components/layout';
 const Post = ({ data, pageContext }) => {
   const post = data.mdx;
 
-  console.log('trying to render a post', post);
-
   return (
     <Layout>
       <Helmet>
