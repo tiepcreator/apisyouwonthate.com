@@ -1,0 +1,22 @@
+.metadata {
+  padding-right: 10rem;
+}
+
+.title {
+  text-decoration: underline;
+  font-size: 2.75rem;
+  color: var(--white);
+}
+
+.title:hover {
+  color: rgba(var(--white_rgb), var(--alpha-dimmed));
+}
+
+.subtitle {
+  margin: 2rem 0 1rem;
+  font-family: var(--sans-serif-font-family);
+  font-size: 1.25rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  line-height: 1.5rem;
+}

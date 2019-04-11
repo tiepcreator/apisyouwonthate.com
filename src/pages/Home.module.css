@@ -4,6 +4,10 @@
   color: var(--white);
 }
 
+.bookSpacer {
+  height: 5rem;
+}
+
 .container {
   max-width: var(--site-width);
   margin: auto;
