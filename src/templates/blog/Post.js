@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { graphql, Link } from 'gatsby';
+import { graphql } from 'gatsby';
 import { MDXRenderer } from 'gatsby-mdx';
 import { Helmet } from 'react-helmet';
 
@@ -10,7 +10,7 @@ import { Container, Col, Row } from 'react-bootstrap';
 
 import Layout from '../../components/layout';
 
-import classes from './Post.module.css';
+// import classes from './Post.module.css';
 
 const Post = ({ data, pageContext }) => {
   const post = data.mdx;

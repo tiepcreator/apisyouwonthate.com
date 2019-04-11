@@ -8,12 +8,12 @@ import Layout from '../../components/layout';
 import SEO from '../../components/seo';
 import { FullWidthFeature } from '../../components/FullWidthFeature';
 
-import './BlogPage.module.css';
+import classes from './BlogPage.module.css';
 
 const BlogPage = ({ data }) => (
   <Layout>
     <SEO title="Blog" />
-    <Container>
+    <Container className={classes.container}>
       <Row>
         <Col>
           {data.allMdx.nodes.map(node => {
