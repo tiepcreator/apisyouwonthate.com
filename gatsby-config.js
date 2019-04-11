@@ -1,8 +1,8 @@
 module.exports = {
   siteMetadata: {
     title: `APIs You Won't Hate - A community that cares about API design and development.`,
-    description: `Kick off your next, great Gatsby project with this default starter. This barebones starter ships with the main Gatsby configuration files you might need.`,
-    author: `@gatsbyjs`,
+    description: ``,
+    author: `@irreverentmike`,
     siteUrl: `https://apisyouwonthate.com`,
   },
   plugins: [
@@ -14,31 +14,30 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
+    // source mdx for content
     {
-      resolve: `gatsby-source-filesystem`,
+      resolve: 'gatsby-source-filesystem',
       options: {
-        name: `pages`,
-        path: `${__dirname}/src/pages`,
+        path: `${__dirname}/src/content`,
+        name: 'content',
       },
     },
+    // parse markdown with gatsby-mdx
     {
-      resolve: `gatsby-transformer-remark`,
+      resolve: 'gatsby-mdx',
       options: {
-        plugins: [
+        root: __dirname,
+        gatsbyRemarkPlugins: [
+          // set up config for embedded images in mdx files
           {
-            resolve: 'gatsby-remark-embed-video',
+            resolve: 'gatsby-remark-images',
             options: {
-              related: false,
-              noIframeBorder: true,
-            },
-          },
-          {
-            resolve: `gatsby-remark-images`,
-            options: {
-              maxWidth: 800,
+              maxWidth: 500,
               quality: 100,
+              linkImagesToOriginal: false,
             },
           },
+          // code formatting in mdx files
           {
             resolve: `gatsby-remark-prismjs`,
             options: {
@@ -47,6 +46,8 @@ module.exports = {
               aliases: {},
               showLineNumbers: false,
               noInlineHighlight: false,
+              maxWidth: 500,
+              linkImagesToOriginal: false,
             },
           },
         ],
