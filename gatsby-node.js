@@ -21,7 +21,6 @@ const turnBlogPostsIntoPages = async ({ graphql, actions }) => {
     }
   `);
 
-  console.log('data is', data);
   // Loop over the posts
   const posts = data.allMdx.nodes;
 
