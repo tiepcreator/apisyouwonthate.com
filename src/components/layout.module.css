@@ -6,3 +6,8 @@ footer {
   margin-top: 4rem;
   font-size: 9pt;
 }
+
+.baseGrid {
+  margin: 0;
+  padding: 0;
+}
