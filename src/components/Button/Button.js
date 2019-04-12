@@ -12,14 +12,12 @@ const Button = ({ onClick, children, to }) => {
     }
   };
 
-  const ParentComponent = to ? <Link /> : <div />;
-
   return to ? (
     <Link to={to} className={classes.button}>
       {children}
     </Link>
   ) : (
-    <div onClick={onClick} role="button" className={classes.button}>
+    <div onClick={handleClick} role="button" className={classes.button}>
       {children}
     </div>
   );
