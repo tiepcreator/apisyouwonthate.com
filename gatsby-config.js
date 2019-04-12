@@ -71,7 +71,7 @@ module.exports = {
       resolve: 'gatsby-plugin-web-font-loader',
       options: {
         google: {
-          families: ['Arvo:700', 'Open Sans:400,500,700'],
+          families: ['Arvo:700, 400, 200', 'Open Sans:400,500,700'],
         },
       },
     },
