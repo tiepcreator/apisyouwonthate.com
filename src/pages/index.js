@@ -9,6 +9,8 @@ import Layout from '../components/layout';
 import SEO from '../components/seo';
 
 import classes from './Home.module.css';
+import { Button } from '../components/Button';
+import { NewsletterForm } from '../components/NewsletterForm';
 
 const IndexPage = ({ data }) => {
   const { books } = data;
@@ -57,6 +59,16 @@ const IndexPage = ({ data }) => {
           </Col>
         </Row>
       </Container>
+
+      <div className={classes.newsletter}>
+        <Container>
+          <Row>
+            <Col xl={{ span: 8, offset: 2 }}>
+              <NewsletterForm />
+            </Col>
+          </Row>
+        </Container>
+      </div>
     </Layout>
   );
 };

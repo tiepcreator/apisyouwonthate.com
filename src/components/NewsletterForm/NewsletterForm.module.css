@@ -1,0 +1,8 @@
+.group {
+  width: 100%;
+}
+
+.email {
+  flex-grow: 2;
+  padding-right: 2rem;
+}

@@ -20,3 +20,7 @@ h5,
 h6 {
   font-family: var(--serif-font-family);
 }
+
+h6 {
+  font-weight: 400;
+}

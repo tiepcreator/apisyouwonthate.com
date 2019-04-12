@@ -16,3 +16,9 @@
 .about {
   padding: 5rem 0;
 }
+
+.newsletter {
+  padding: 3rem 0;
+  background: var(--purple);
+  color: var(--white);
+}

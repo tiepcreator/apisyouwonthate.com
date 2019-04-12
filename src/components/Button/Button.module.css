@@ -6,6 +6,7 @@
   background-color: var(--purple);
   text-transform: uppercase;
   color: var(--white);
+  cursor: pointer;
 }
 
 .button a,
@@ -19,4 +20,5 @@ a.button {
 .button:hover {
   background-color: rgba(var(--purple_rgb), var(--alpha-dimmed));
   color: var(--white);
+  text-decoration: underline;
 }
