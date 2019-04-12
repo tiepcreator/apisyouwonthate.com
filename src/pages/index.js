@@ -21,8 +21,8 @@ const IndexPage = ({ data }) => {
         <Container>
           {books.nodes.map((book, i) => {
             return (
-              <React.Fragment>
-                <BookFeature key={book.id} book={book} />
+              <React.Fragment key={book.id}>
+                <BookFeature book={book} />
                 {i < books.nodes.length - 1 && (
                   <div className={classes.bookSpacer} />
                 )}
