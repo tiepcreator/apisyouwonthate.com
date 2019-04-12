@@ -6,8 +6,6 @@ import Layout from '../../components/layout';
 import { Col, Container, Row } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
 
-import classes from './BookPage.module.css';
-
 const BookPage = ({ data }) => {
   const book = data.mdx;
 
