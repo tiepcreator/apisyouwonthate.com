@@ -12,3 +12,7 @@
   max-width: var(--site-width);
   margin: auto;
 }
+
+.about {
+  padding: 5rem 0;
+}
