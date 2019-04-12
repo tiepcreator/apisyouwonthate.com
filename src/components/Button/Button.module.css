@@ -1,0 +1,21 @@
+.button {
+  box-shadow: none;
+  border: none;
+  border-radius: 4px;
+  padding: 1rem 2rem;
+  background-color: var(--purple);
+  text-transform: uppercase;
+  color: var(--white);
+}
+
+.button a,
+a.button {
+  color: var(--white);
+  text-transform: uppercase;
+  text-decoration: underline;
+}
+
+.button:hover {
+  background-color: rgba(var(--purple_rgb), var(--alpha-dimmed));
+  color: var(--white);
+}
