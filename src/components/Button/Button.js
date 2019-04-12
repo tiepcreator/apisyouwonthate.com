@@ -5,19 +5,21 @@ import { Link } from 'gatsby';
 
 import classes from './Button.module.css';
 
-const Button = ({ onClick, children, to }) => {
+const Button = ({ onClick, children, className = '', to, ...rest }) => {
   const handleClick = event => {
     if (typeof onClick === 'function') {
       onClick(event);
     }
   };
 
+  const classNames = `${classes.button} ${className}`;
+
   return to ? (
-    <Link to={to} className={classes.button}>
+    <Link to={to} className={classNames} {...rest}>
       {children}
     </Link>
   ) : (
-    <div onClick={handleClick} role="button" className={classes.button}>
+    <div onClick={handleClick} role="button" className={classNames} {...rest}>
       {children}
     </div>
   );

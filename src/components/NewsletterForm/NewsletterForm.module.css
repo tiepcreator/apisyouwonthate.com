@@ -4,5 +4,20 @@
 
 .email {
   flex-grow: 2;
-  padding-right: 2rem;
+  margin-right: 1.5rem;
+}
+
+.link {
+  color: var(--white);
+  text-decoration: underline;
+}
+
+.link:hover {
+  color: rgba(var(--white_rgb), var(--alpha-dimmed));
+}
+
+.button,
+.button:hover {
+  background: #554461;
+  padding: 0.5rem 2rem;
 }

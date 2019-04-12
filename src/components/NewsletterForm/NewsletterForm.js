@@ -27,14 +27,20 @@ const NewsletterForm = () => {
             placeholder="name@example.com"
             className={classes.email}
           />
-          <Button onClick={handleSubscribeClicked}>Subscribe</Button>
+          <Button onClick={handleSubscribeClicked} className={classes.button}>
+            Subscribe
+          </Button>
         </Form.Group>
       </Form>
       <Row>
         <Col>
           Not into mailing lists? Get all modern with Slack. We're the largest
-          API-centric <Link to="/community">Slack channel around.</Link>
-          Get your API, REST and HTTP questions answered by 2,000+ people.
+          API-centric{' '}
+          <Link className={classes.link} to="/community">
+            Slack channel
+          </Link>{' '}
+          around. Get your API, REST and HTTP questions answered by 2,000+
+          people.
         </Col>
       </Row>
     </React.Fragment>
