@@ -10,6 +10,9 @@ const BookFeature = ({ book }) => {
   const bookUrl = `books/${book.frontmatter.slug}`;
   return (
     <Row>
+      <Col xs={12} className="d-lg-none">
+        <Img src={book.frontmatter.coverImage} />
+      </Col>
       <Col>
         <div className={classes.metadata}>
           <h2>
@@ -22,7 +25,7 @@ const BookFeature = ({ book }) => {
           <Button to={bookUrl}>Find out more</Button>
         </div>
       </Col>
-      <Col xs={4}>
+      <Col md={4} className="d-none d-sm-none d-md-none d-lg-block">
         <Img src={book.frontmatter.coverImage} />
       </Col>
     </Row>
