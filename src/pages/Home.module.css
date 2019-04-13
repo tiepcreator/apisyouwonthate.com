@@ -33,3 +33,12 @@
   flex-direction: column;
   justify-content: center;
 }
+
+.aboutTeam a {
+  color: var(--white);
+  text-decoration: underline;
+}
+
+.aboutTeam a:hover {
+  color: rgba(var(--white_rgb), var(--alpha-dimmed));
+}
