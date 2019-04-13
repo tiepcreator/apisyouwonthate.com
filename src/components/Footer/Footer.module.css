@@ -1,15 +1,13 @@
 .footer {
-  background: var(--purple);
   font-size: 9pt;
-  padding: 6rem 3rem;
-  color: var(--white);
+  padding: 3rem;
 }
 
 .footer a {
-  color: var(--white);
+  color: var(--purple);
   text-decoration: underline;
 }
 
 .footer a:hover {
-  color: var(--white);
+  color: var(--purple);
 }

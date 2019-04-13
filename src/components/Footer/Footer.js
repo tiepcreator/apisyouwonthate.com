@@ -9,7 +9,7 @@ const Footer = () => (
       <Col>
         © {new Date().getFullYear()}
         {` APIs You Won't Hate, Built with `}
-        <a href="https://www.gatsbyjs.org">Gatsby</a>
+        <a href="https://www.gatsbyjs.org">Gatsby</a> 🎉
       </Col>
     </Row>
   </footer>
