@@ -7,9 +7,9 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { BookFeature } from '../components/BookFeature';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
+import Image from '../components/image';
 
 import classes from './Home.module.css';
-import { Button } from '../components/Button';
 import { NewsletterForm } from '../components/NewsletterForm';
 
 const IndexPage = ({ data }) => {
@@ -39,9 +39,9 @@ const IndexPage = ({ data }) => {
           <Col xl={{ span: 8, offset: 2 }}>
             <h2>About this Community</h2>
             <p>
-              API development is a topic very close to Phils heart. APIs You
-              Won't Hate started out as a book, with Phil pouring everything API
-              related he knew, all the problems he faced, all the design
+              API development is a topic very close to Phil{"'"}s heart. APIs
+              You Won't Hate started out as a book, with Phil pouring everything
+              API related he knew, all the problems he faced, all the design
               decisions he wish he thought about earlier.
             </p>
             <p>
@@ -52,7 +52,7 @@ const IndexPage = ({ data }) => {
               API chat group on the internet.
             </p>
             <p>
-              APIs You Won't Hate is dedicated to learning, writing, sharing
+              APIs You Won{"'"}t Hate is dedicated to learning, writing, sharing
               ideas and bettering understanding of API practices. Together we
               can erradicate APIs we hate.
             </p>
@@ -69,6 +69,57 @@ const IndexPage = ({ data }) => {
           </Row>
         </Container>
       </div>
+
+      <Row noGutters>
+        <Col>
+          <div className={classes.aboutTeam}>
+            <h2>About Phil Sturgeon</h2>
+            <p>
+              Since 2010 I've worked as a freelancer, consultant, Head of API,
+              and CTO, for several API-centric technology startups.
+            </p>
+            <p>
+              Previously at{' '}
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://venturebeat.com/2015/04/07/carpooling-startup-ride-launches-with-help-from-ubers-first-cto/"
+              >
+                Ride
+              </a>
+              , I was given me the chance to work with amazing developers,
+              including several Rails API contributors. We built an event-driven
+              architecture with several REST APIs and a few RPC ones, and it was
+              here I learned the benefits of REST being a state machine over
+              HTTP.
+            </p>
+            <p>
+              Then at{' '}
+              <a
+                target="_blank"
+                rel="noopener noreferrer"
+                href="https://wework.com/"
+              >
+                WeWork
+              </a>
+              , I used my experience to help educate developers, define
+              standards for API design and architecture, and work on open-source
+              tooling for OpenAPI, JSON Schema, and HTTP. WeWork has 50+ APIs,
+              and here I have had a chance to learn a lot about keeping
+              distributed applications performant. Tmeouts, retries, circuit
+              breakers, keep alive settings, and HTTP caching specificially.
+            </p>
+            <p>
+              I try to turn all of this learning into books, videos, and
+              articles, so others can learn easily things I've had to learn the
+              hard way.
+            </p>
+          </div>
+        </Col>
+        <Col>
+          <Image src="about-phil.jpg" alt="Phil speaking at a conference" />
+        </Col>
+      </Row>
     </Layout>
   );
 };
