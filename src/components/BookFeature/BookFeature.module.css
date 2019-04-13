@@ -1,7 +1,3 @@
-.metadata {
-  padding-right: 10rem;
-}
-
 .title {
   text-decoration: underline;
   font-size: 2.75rem;
@@ -23,4 +19,9 @@
 
 .description {
   margin-bottom: 3rem;
+}
+
+.smallCover {
+  max-width: 50vw;
+  margin: 2rem auto;
 }

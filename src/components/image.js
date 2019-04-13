@@ -10,7 +10,7 @@ export const Image = ({ src, alt }) => {
         edges {
           node {
             fluid(maxWidth: 500) {
-              ...GatsbyImageSharpFluid_withWebp_tracedSVG
+              ...GatsbyImageSharpFluid_withWebp_noBase64
               originalName
             }
           }
