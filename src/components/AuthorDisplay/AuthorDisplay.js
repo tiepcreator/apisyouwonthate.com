@@ -1,13 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { graphql, useStaticQuery } from 'gatsby';
+import moment from 'moment';
+
 import Img from 'gatsby-image/withIEPolyfill';
 
 import classes from './AuthorDisplay.module.css';
 
 const AuthorDisplay = ({ authorImage, name, date, readTimeInMinutes }) => {
+  // const author = useStaticQuery(graphql(``));
+
   const readTimeDisplay = readTimeInMinutes && (
     <span className={classes.readingTime}>{readTimeInMinutes} min read</span>
+  );
+
+  const dateDisplay = date && (
+    <span className={classes.date}>
+      {moment(new Date(date)).format('MMM D YYYY')}
+    </span>
   );
 
   return (
@@ -18,7 +29,7 @@ const AuthorDisplay = ({ authorImage, name, date, readTimeInMinutes }) => {
       <div className={classes.metadataContainer}>
         <span className={classes.authorName}>{name}</span>
         <div>
-          <span className={classes.date}>{date}</span>
+          {dateDisplay}
           {date && readTimeDisplay && ` · `}
           {readTimeDisplay}
         </div>
