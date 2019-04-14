@@ -26,6 +26,8 @@
   /* font stuff */
   --serif-font-family: 'Arvo', serif;
   --sans-serif-font-family: 'Open sans', sans-serif;
+  --post-serif-font-family: 'Noto Serif TC', Georgia, Cambria, 'Times New Roman',
+    Times, serif;
 
   /* sizes */
   --site-width: 1260px;

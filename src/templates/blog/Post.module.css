@@ -1,0 +1,6 @@
+.container {
+  margin-top: 3rem;
+  font-family: var(--post-serif-font-family);
+  font-size: 21px;
+  font-weight: light;
+}

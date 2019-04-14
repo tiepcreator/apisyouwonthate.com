@@ -10,7 +10,7 @@ import { Container, Col, Row } from 'react-bootstrap';
 
 import Layout from '../../components/layout';
 
-// import classes from './Post.module.css';
+import classes from './Post.module.css';
 
 const Post = ({ data, pageContext }) => {
   const post = data.mdx;
@@ -20,10 +20,11 @@ const Post = ({ data, pageContext }) => {
       <Helmet>
         <title>{post.frontmatter.title}</title>
       </Helmet>
-      <Container>
+      <Container className={classes.container}>
         <Row>
-          <Col>
+          <Col lg={{ span: 10, offset: 1 }} xl={{ span: 8, offset: 2 }}>
             <h2>{post.frontmatter.title}</h2>
+            <h3>{post.frontmatter.author}</h3>
             <MDXRenderer>{post.code.body}</MDXRenderer>
           </Col>
         </Row>
