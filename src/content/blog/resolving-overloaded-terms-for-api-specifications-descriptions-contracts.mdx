@@ -1,0 +1,82 @@
+---
+title: Resolving Overloaded Terms for API Specifications… Descriptions… Contract?
+slug: resolving-overloaded-terms-for-api-specifications-descriptions-contracts
+date: 2019-04-04
+type: blog
+author: Phil Sturgeon
+---
+
+Recently a bunch of us API nerds got into a big old chat about what to call what you are writing when you write OpenAPI for _your_ API.
+
+Some people call it the API specification, others think that “specification” is a word reserved only for [the markdown file in GitHub](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md) which stipulates the exact functionality of OpenAPI itself.
+
+Others call it a description document, others call it a contract, and I have definitely called it all of them from time to time. Sometimes it depends on the context. For example in the process of contract testing, the specification is definitely a contract. AGGGHH.
+
+The excellent [Matthew Reinbold](https://matthewreinbold.com/2019/02/27/APIsandPedantry/) took a stab at this problem by writing up his model:
+
+- **API Specification ** —  A technical standard, like OpenAPI 3.0, that defines how to describe an API’s interface in a general, broadly applicable way that is both a machine-parsable and human-readable.
+- **API Description ** —  A file articulating a single API’s interface that fulfills the requirements and expectations of an API specification.
+- **API Interface **—   The obvious or described (and, according to Hyrum’s law, not so obvious) means to communicate with a set of functionality within a system.
+- **API Implementation/Code ** —  The gobbledygook created by software developers necessary to accomplish a business function to be exposed via an interface.
+- **API Executable/Deployable**  — The version of code that is promoted to a live environment and responding to production requests.
+- **API Documentation ** —  The collection of things necessary to convey sufficient meaning so that clients can successfully use the deployed API through the interface. This includes, but is not limited to, the API Description.
+
+This certainly works, but lets just talk about specifications for a minute. If you want to get technical about it there are a lot of different specifications involved in an API. Say you have a HTTP/2 API that implements JSON:API, which happens to be written in Go and uses OAuth 2.
+
+- [JSON:API has a specification](https://jsonapi.org/)
+- [JSON has a specification](https://tools.ietf.org/html/rfc7159)
+- [HTTP/2 has a specification](https://tools.ietf.org/html/rfc7540)
+- [Golang has a specification](https://golang.org/ref/spec)
+- [OAuth 2 has a specification](https://tools.ietf.org/html/rfc6749)
+
+All of this can be described by OpenAPI (which has a spec) and is probably written in YAML (which guess what has a spec).
+
+Everything has a specification, so maybe that word is blown out, and we can use something else. Maybe API Description is fine. Originally I had concerns about description making it sound like it should come later, but you can absolutely describe what something should be before it exists, then check the implementation against the description to see if it matches up. Sure.
+
+At Stoplight, we had a few places where we said “the OpenAPI Specification” to mean OpenAPI itself, then a few other places where we used the word specification to mean your stuff. The former has mostly been switched to simply “OpenAPI” in the open-source docs, but and the latter in OSS docs is mostly “API description” following Matthew’s model. There are a few instances of “spec” left to disambiguate.
+
+## “Resolving” OpenAPI files
+
+There are multiple distinct concepts surrounding resolution, and many of us seem to be using a few of them interchangeably. This might seem like pedantry, but there have been a few issues at work, and people using various API related tools, where they see the word “resolve” and expect it to do something other than what it does.
+
+### Definition A
+
+> Looking for the value found at the end of a \$ref, but no changes are made (to file or object)
+
+Aliases include: “lookup”
+
+Some folks say the resolving part is literally just following the \$ref, and no lossy actions are performed.
+
+### Definition B
+
+> External \$refs were pulled in from various external sources
+
+Aliases include: ”bundling” or “external inlining”
+
+Replacing $ref: “http://” and $ref: “otherfile.yaml” with \$ref: “#/components/…”
+
+This is a potentially lossy action and extra metadata needs to be tracked to figure out the origin file/line of a specific part of the API description.
+
+### Definition C
+
+> All \$refs and replaced with their values a’la copy & paste.
+
+Aliases include: “dereferencing”, “internal inlining” or “transclusion”
+
+No more \$ref’s exist in the file/object representation. If you have 10 operations referencing the same model 10 times, you now have 10 different models.
+
+### So What
+
+Every utility on [OpenAPI.Tools](http://openapi.tools/) uses them slightly differently. [Speccy](http://speccy.io/) uses definition B for its optional (-r) resolve CLI switch. [Spectral](https://github.com/stoplightio/spectral) uses definition C in its CLI automatically for rules that need it.
+
+When folks switch from Speccy to Spectral they are confused to find out that only internal $ref’s work, and external $ref’s do not. It seems like a bug, but really it is just a different definition…
+
+The technical solution there is to allow multiple resolvers, or multiple… pre-processors, which allow the file to be mucked about with in different ways, so the source is maintained and the processed one is available for those that need the processed object.
+
+At some point we will probably need to a way to approach a consensus in the community. OpenAPI could help out here, maybe we could get some official guidance for tooling vendors.
+
+![It's complicated](../../images/posts/qr-code-box.jpg)
+
+Right now there are a lot of different camps who all think their approach is the one true correct way, but tool vendors are starting to collaborate and it’s getting a bit weird to have a bunch of different words for the same thing, and also have the same word mean multiple things. Words are hard, so guidance from the OpenAPI overlords could improve things a smidge.
+
+For now, at Stoplight we are still using the term resolver, but we have different types of resolver, and are branding them as internal, external, etc. Spectral will get [an `— external` switch](https://github.com/stoplightio/spectral/issues/134) and that’ll support refs that hit the filesystem and HTTP, etc. with support for others. In the future, we might try and reimagine that a bit, but at least it should lessen some of the confusion.
