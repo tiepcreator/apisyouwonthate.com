@@ -8,7 +8,7 @@ author: Phil Sturgeon
 
 Recently a bunch of us API nerds got into a big old chat about what to call what you are writing when you write OpenAPI for _your_ API.
 
-Some people call it the API specification, others think that “specification” is a word reserved only for [the markdown file in GitHub](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md) which stipulates the exact functionality of OpenAPI itself.
+Some people call it the API specification, others think that "specification" is a word reserved only for [the markdown file in GitHub](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md) which stipulates the exact functionality of OpenAPI itself.
 
 Others call it a description document, others call it a contract, and I have definitely called it all of them from time to time. Sometimes it depends on the context. For example in the process of contract testing, the specification is definitely a contract. AGGGHH.
 
@@ -33,17 +33,17 @@ All of this can be described by OpenAPI (which has a spec) and is probably writt
 
 Everything has a specification, so maybe that word is blown out, and we can use something else. Maybe API Description is fine. Originally I had concerns about description making it sound like it should come later, but you can absolutely describe what something should be before it exists, then check the implementation against the description to see if it matches up. Sure.
 
-At Stoplight, we had a few places where we said “the OpenAPI Specification” to mean OpenAPI itself, then a few other places where we used the word specification to mean your stuff. The former has mostly been switched to simply “OpenAPI” in the open-source docs, but and the latter in OSS docs is mostly “API description” following Matthew’s model. There are a few instances of “spec” left to disambiguate.
+At Stoplight, we had a few places where we said "the OpenAPI Specification" to mean OpenAPI itself, then a few other places where we used the word specification to mean your stuff. The former has mostly been switched to simply "OpenAPI" in the open-source docs, but and the latter in OSS docs is mostly "API description" following Matthew’s model. There are a few instances of "spec" left to disambiguate.
 
-## “Resolving” OpenAPI files
+## "Resolving" OpenAPI files
 
-There are multiple distinct concepts surrounding resolution, and many of us seem to be using a few of them interchangeably. This might seem like pedantry, but there have been a few issues at work, and people using various API related tools, where they see the word “resolve” and expect it to do something other than what it does.
+There are multiple distinct concepts surrounding resolution, and many of us seem to be using a few of them interchangeably. This might seem like pedantry, but there have been a few issues at work, and people using various API related tools, where they see the word "resolve" and expect it to do something other than what it does.
 
 ### Definition A
 
 > Looking for the value found at the end of a \$ref, but no changes are made (to file or object)
 
-Aliases include: “lookup”
+Aliases include: "lookup"
 
 Some folks say the resolving part is literally just following the \$ref, and no lossy actions are performed.
 
@@ -51,9 +51,9 @@ Some folks say the resolving part is literally just following the \$ref, and no 
 
 > External \$refs were pulled in from various external sources
 
-Aliases include: ”bundling” or “external inlining”
+Aliases include: "bundling" or "external inlining"
 
-Replacing $ref: “http://” and $ref: “otherfile.yaml” with \$ref: “#/components/…”
+Replacing $ref: "http://" and $ref: "otherfile.yaml" with \$ref: "#/components/…"
 
 This is a potentially lossy action and extra metadata needs to be tracked to figure out the origin file/line of a specific part of the API description.
 
@@ -61,7 +61,7 @@ This is a potentially lossy action and extra metadata needs to be tracked to fig
 
 > All \$refs and replaced with their values a’la copy & paste.
 
-Aliases include: “dereferencing”, “internal inlining” or “transclusion”
+Aliases include: "dereferencing", "internal inlining" or "transclusion"
 
 No more \$ref’s exist in the file/object representation. If you have 10 operations referencing the same model 10 times, you now have 10 different models.
 
