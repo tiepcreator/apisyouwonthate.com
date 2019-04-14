@@ -27,9 +27,14 @@ const Header = ({ siteTitle }) => (
               <Link to="/videos" className={classes.link}>
                 Videos
               </Link>
-              <Link to="/consulting" className={classes.link}>
+              <a
+                href="https://calendly.com/philsturgeon"
+                className={classes.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Consulting
-              </Link>
+              </a>
               <Link to="/community" className={classes.link}>
                 Community
               </Link>
