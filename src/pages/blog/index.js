@@ -21,8 +21,8 @@ const BlogPage = ({ data }) => (
               <article key={node.id}>
                 <Link to={`blog/${node.frontmatter.slug}`}>
                   <FullWidthFeature
-                    authorName="Mike Bifulco"
-                    date="Apr 4"
+                    authorName={node.frontmatter.author}
+                    date={node.frontmatter.date}
                     title={node.frontmatter.title}
                     subtitle={node.frontmatter.subtitle || node.excerpt}
                   />
@@ -48,6 +48,8 @@ export const query = graphql`
           scope
         }
         frontmatter {
+          date
+          author
           slug
           title
         }
