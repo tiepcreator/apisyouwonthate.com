@@ -1,6 +1,5 @@
 .footer {
-  font-size: 9pt;
-  padding: 3rem;
+  padding: 3em 3rem;
 }
 
 .footer a {
@@ -10,4 +9,19 @@
 
 .footer a:hover {
   color: var(--purple);
+}
+
+.linkList li {
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  text-transform: uppercase;
+  font-weight: bold;
+  color: var(--gray);
+  margin-bottom: 1rem;
+}
+
+.copyright {
+  text-align: right;
 }

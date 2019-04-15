@@ -6,6 +6,10 @@
   --black_hex: var(--black);
   --black_rgb: 34, 34, 34;
 
+  --gray: #669;
+  --gray_hex: var(--gray);
+  --gray_rgb: 102, 102, 159;
+
   --white: #fff;
   --white_hex: var(--white);
   --white_rgb: 255, 255, 255;
