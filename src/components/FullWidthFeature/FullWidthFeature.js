@@ -1,20 +1,30 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Col, Row } from 'react-bootstrap';
+
 import Image from '../image';
 import { AuthorDisplay } from '../AuthorDisplay';
 
-import './FullWidthFeature.module.css';
+import classes from './FullWidthFeature.module.css';
 
 const FullWidthFeature = ({ authorName, date, image, subtitle, title }) => (
-  <article>
-    <Image src={image} />
-    <main>
-      <h1>{title}</h1>
-      <h2>{subtitle}</h2>
-      <AuthorDisplay name={authorName} date={date} />
-    </main>
-  </article>
+  <div className={classes.container}>
+    <Row>
+      <Col md={8}>
+        <div className={classes.container}>
+          <Image src={image} />
+        </div>
+      </Col>
+      <Col>
+        <main>
+          <h2 className={classes.title}>{title}</h2>
+          <h3>{subtitle}</h3>
+          <AuthorDisplay name={authorName} date={date} />
+        </main>
+      </Col>
+    </Row>
+  </div>
 );
 
 FullWidthFeature.propTypes = {

@@ -1,4 +1,7 @@
-article {
-  display: flex;
-  flex-direction: row;
+.title {
+  font-size: 38px;
+}
+
+.container {
+  max-height: 10rem;
 }

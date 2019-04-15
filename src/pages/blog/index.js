@@ -16,16 +16,21 @@ const BlogPage = ({ data }) => (
     <Container className={classes.container}>
       <Row>
         <Col>
-          {data.allMdx.nodes.map(node => {
+          {data.allMdx.nodes.map((node, idx) => {
             return (
               <article key={node.id}>
                 <Link to={`blog/${node.frontmatter.slug}`}>
-                  <FullWidthFeature
-                    authorName={node.frontmatter.author}
-                    date={node.frontmatter.date}
-                    title={node.frontmatter.title}
-                    subtitle={node.frontmatter.subtitle || node.excerpt}
-                  />
+                  {idx === 0 ? (
+                    <FullWidthFeature
+                      image={node.frontmatter.coverImage}
+                      authorName={node.frontmatter.author}
+                      date={node.frontmatter.date}
+                      title={node.frontmatter.title}
+                      subtitle={node.frontmatter.subtitle || node.excerpt}
+                    />
+                  ) : (
+                    <h1>Hay</h1>
+                  )}
                 </Link>
               </article>
             );
@@ -48,6 +53,7 @@ export const query = graphql`
           scope
         }
         frontmatter {
+          coverImage
           date
           author
           slug
