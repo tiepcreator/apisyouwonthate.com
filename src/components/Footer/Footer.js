@@ -17,7 +17,7 @@ const Footer = () => (
           <div className={classes.subtitle}>Contents</div>
           <ul className={classes.linkList}>
             <li>
-              <Link to="books">Books</Link>
+              <Link to="/books">Books</Link>
             </li>
             <li>
               <Link to="/blog">Blog</Link>
