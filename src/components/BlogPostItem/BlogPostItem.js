@@ -10,7 +10,6 @@ import { AuthorDisplay } from '../AuthorDisplay';
 import classes from './BlogPostItem.module.css';
 
 const BlogPostItem = ({ post, feature = false }) => {
-  console.log('we got a post', post);
   const { author, date, coverImage, subtitle, slug, title } = post.frontmatter;
   return (
     <Link to={`/blog/${slug}`} className={classes.container}>
