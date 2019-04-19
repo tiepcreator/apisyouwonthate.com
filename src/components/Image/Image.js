@@ -9,7 +9,7 @@ export const Image = ({ src, alt, ...rest }) => {
       allImageSharp {
         edges {
           node {
-            fluid(maxWidth: 500) {
+            fluid(maxWidth: 1200) {
               ...GatsbyImageSharpFluid_withWebp_noBase64
               originalName
             }
