@@ -12,23 +12,35 @@ import Layout from '../../components/layout';
 
 import classes from './Post.module.css';
 import AuthorDisplay from '../../components/AuthorDisplay/AuthorDisplay';
+import { CoverImage } from '../../components/Image';
 
 const Post = ({ data, pageContext }) => {
   const post = data.mdx;
 
+  const { coverImage, title, author, date } = post.frontmatter;
+
   return (
     <Layout>
       <Helmet>
-        <title>{post.frontmatter.title}</title>
+        <title>{title}</title>
       </Helmet>
+      {coverImage && (
+        <Container fluid className={classes.coverImageContainer}>
+          <Row noGutters>
+            <Col>
+              <CoverImage src={coverImage} className={classes.coverImage} />
+            </Col>
+          </Row>
+        </Container>
+      )}
       <Container className={classes.post}>
         <Row>
           <Col lg={{ span: 10, offset: 1 }} xl={{ span: 8, offset: 2 }}>
             <div className={classes.metadata}>
               <h2 className={classes.postTitle}>{post.frontmatter.title}</h2>
               <AuthorDisplay
-                name={post.frontmatter.author}
-                date={post.frontmatter.date}
+                name={author}
+                date={date}
                 readTimeInMinutes={post.timeToRead}
               />
             </div>
@@ -58,6 +70,7 @@ export const query = graphql`
         title
         author
         date
+        coverImage
       }
     }
   }

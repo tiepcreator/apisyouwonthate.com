@@ -1,3 +1,8 @@
+.coverImageContainer {
+  margin: 0;
+  padding: 0;
+}
+
 .post {
   margin-top: 3rem;
   font-family: var(--post-serif-font-family);

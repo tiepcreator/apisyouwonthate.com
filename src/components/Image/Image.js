@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useStaticQuery, graphql } from 'gatsby';
 import Img from 'gatsby-image';
 
-export const Image = ({ src, alt }) => {
+export const Image = ({ src, alt, ...rest }) => {
   const { allImageSharp } = useStaticQuery(graphql`
     query {
       allImageSharp {
@@ -24,7 +24,7 @@ export const Image = ({ src, alt }) => {
   if (!image) {
     return null;
   }
-  return <Img fluid={image.node.fluid} alt={alt} />;
+  return <Img fluid={image.node.fluid} alt={alt} {...rest} />;
 };
 
 Image.propTypes = {
