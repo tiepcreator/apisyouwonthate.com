@@ -22,5 +22,6 @@
 
 .date,
 .readingTime {
-  color: rgba(var(--black-_rgb), var(--alpha-dimmed));
+  color: rgba(var(--black_rgb), var(--alpha-dimmed));
+  font-size: 10pt;
 }

@@ -10,6 +10,7 @@ import { AuthorDisplay } from '../AuthorDisplay';
 import classes from './BlogPostItem.module.css';
 
 const BlogPostItem = ({ post, feature = false }) => {
+  console.log('we got a post', post);
   const { author, date, coverImage, subtitle, slug, title } = post.frontmatter;
   return (
     <Link to={`/blog/${slug}`} className={classes.container}>
@@ -25,7 +26,7 @@ const BlogPostItem = ({ post, feature = false }) => {
         <Col>
           <main>
             <h2 className={classes.title}>{title}</h2>
-            <h3>{subtitle}</h3>
+            <p className={classes.subtitle}>{subtitle}</p>
             <AuthorDisplay name={author} date={date} />
           </main>
         </Col>

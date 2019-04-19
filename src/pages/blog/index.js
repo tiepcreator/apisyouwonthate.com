@@ -48,6 +48,7 @@ export const query = graphql`
           author
           slug
           title
+          subtitle
         }
       }
     }
