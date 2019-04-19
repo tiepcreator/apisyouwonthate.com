@@ -7,7 +7,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { BookFeature } from '../components/BookFeature';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
-import { Image } from '../components/Image';
+import { CoverImage } from '../components/Image';
 
 import classes from './Home.module.css';
 import { NewsletterForm } from '../components/NewsletterForm';
@@ -70,7 +70,7 @@ const IndexPage = ({ data }) => {
         </Container>
       </div>
 
-      <Row noGutters>
+      <Row noGutters className="align-items-stretch">
         <Col>
           <div className={classes.aboutTeam}>
             <h2>About Phil Sturgeon</h2>
@@ -117,7 +117,10 @@ const IndexPage = ({ data }) => {
           </div>
         </Col>
         <Col>
-          <Image src="about-phil.jpg" alt="Phil speaking at a conference" />
+          <CoverImage
+            src="about-phil.jpg"
+            alt="Phil speaking at a conference"
+          />
         </Col>
       </Row>
     </Layout>
