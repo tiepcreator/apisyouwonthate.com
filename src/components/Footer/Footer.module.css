@@ -14,6 +14,13 @@
 
 .linkList li {
   margin-bottom: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.linkList li svg + a {
+  margin-left: 0.5rem;
 }
 
 .subtitle {
