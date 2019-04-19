@@ -1,36 +1,22 @@
 import React, { useState } from 'react';
 import { Link } from 'gatsby';
 
-import * as EmailValidator from 'email-validator';
-
 // boostrap stuff
 import { Col, Form, Row } from 'react-bootstrap';
 
-import { Button } from '../Button';
 import classes from './NewsletterForm.module.css';
 
 const NewsletterForm = () => {
-  const [emailAddress, setEmailAddress] = useState();
-  const [isEmailValid, setEmailValid] = useState(false);
-  const [isPristine, setPristine] = useState(false);
-
-  const handleEmailInputChanged = event => {
-    setPristine(false);
-
-    setEmailValid(EmailValidator.validate(event.currentTarget.value));
-  };
-
-  const handleSubscribeClicked = event => {
-    if (event && typeof event.preventDefault === 'function') {
-      event.preventDefault();
-    }
-  };
-
   return (
     <React.Fragment>
       <h6>Get Pragmatic API, HTTP And REST Info Monthly!</h6>
-      <div>valid: {!!isEmailValid ? 'yes' : 'no'}</div>
-      <Form inline>
+      <Form
+        inline
+        method="post"
+        novalidate
+        target="_blank"
+        action={`https://apisyouwonthate.us10.list-manage.com/subscribe/post?u=f5c5ff66d95d11dec1b88cf54&amp;id=532b212b06`}
+      >
         <Form.Group
           controlId="exampleForm.ControlInput1"
           className={classes.group}
@@ -40,25 +26,23 @@ const NewsletterForm = () => {
             name="email"
             placeholder="name@example.com"
             className={classes.email}
-            onChange={handleEmailInputChanged}
-            isValid={isPristine || isEmailValid}
           />
-          <Button onClick={handleSubscribeClicked} className={classes.button}>
-            Subscribe
-          </Button>
+          <input type="submit" value="Submit" className={classes.button} />
         </Form.Group>
       </Form>
-      <Row>
-        <Col>
-          Not into mailing lists? Get all modern with Slack. We're the largest
-          API-centric{' '}
-          <Link className={classes.link} to="/community">
-            Slack channel
-          </Link>{' '}
-          around. Get your API, REST and HTTP questions answered by 2,000+
-          people.
-        </Col>
-      </Row>
+      <div className={classes.description}>
+        <Row>
+          <Col>
+            Not into mailing lists? Get all modern with Slack. We're the largest
+            API-centric{' '}
+            <Link className={classes.link} to="/community">
+              Slack channel
+            </Link>{' '}
+            around. Get your API, REST and HTTP questions answered by 2,000+
+            people.
+          </Col>
+        </Row>
+      </div>
     </React.Fragment>
   );
 };

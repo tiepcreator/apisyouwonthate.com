@@ -1,3 +1,7 @@
+.description {
+  margin-top: 1rem;
+}
+
 .group {
   width: 100%;
   margin: 1rem 0;
@@ -20,5 +24,10 @@
 .button,
 .button:hover {
   background: #554461;
-  padding: 0.5rem 2rem;
+  padding: 0.6rem 2rem;
+  border: none;
+  border-radius: 3px;
+  color: var(--white);
+  text-transform: uppercase;
+  font-size: smaller;
 }
