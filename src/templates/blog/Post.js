@@ -9,6 +9,7 @@ import { Helmet } from 'react-helmet';
 import { Container, Col, Row } from 'react-bootstrap';
 
 import Layout from '../../components/layout';
+import { Colophon } from '../../components/Colophon';
 
 import classes from './Post.module.css';
 import AuthorDisplay from '../../components/AuthorDisplay/AuthorDisplay';
@@ -45,6 +46,11 @@ const Post = ({ data, pageContext }) => {
               />
             </div>
             <MDXRenderer>{post.code.body}</MDXRenderer>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Colophon />
           </Col>
         </Row>
       </Container>
