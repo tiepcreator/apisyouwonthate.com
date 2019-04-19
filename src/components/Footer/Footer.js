@@ -67,7 +67,12 @@ const Footer = () => (
         </ul>
       </Col>
       <Col lg={2}>
-        <div className={classes.subtitle}>Made with ❤️</div>
+        <div className={classes.subtitle}>
+          Made with{' '}
+          <span role="img" aria-label="love">
+            ❤️
+          </span>
+        </div>
         <ul className={classes.linkList}>
           <li>
             © {new Date().getFullYear()}
