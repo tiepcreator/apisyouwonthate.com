@@ -32,7 +32,7 @@ const Footer = () => (
             </li>
           </ul>
         </Col>
-        <Col lg={2}>
+        <Col lg={3}>
           <div className={classes.subtitle}>Find us online</div>
           <ul className={classes.linkList}>
             <li>
@@ -67,7 +67,7 @@ const Footer = () => (
             </li>
           </ul>
         </Col>
-        <Col lg={2}>
+        <Col lg={{ span: 3, offset: 3 }}>
           <div className={classes.subtitle}>
             Made with{' '}
             <span role="img" aria-label="love">
