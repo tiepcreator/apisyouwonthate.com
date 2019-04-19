@@ -14,3 +14,9 @@
 .article:first-of-type {
   grid-column: span 3;
 }
+
+@media screen and (max-width: 100px) {
+  .article {
+    grid-column: span 3;
+  }
+}

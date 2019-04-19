@@ -14,7 +14,7 @@ const BlogPostItem = ({ post, feature = false }) => {
   return (
     <Link to={`/blog/${slug}`} className={classes.container}>
       <Row>
-        <Col md={feature ? 8 : 12}>
+        <Col sm={12} xs={12} md={12} lg={feature ? 8 : 12}>
           <CoverImage
             src={coverImage}
             className={
