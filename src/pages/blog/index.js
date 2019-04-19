@@ -1,12 +1,12 @@
 import React from 'react';
-import { Link, graphql } from 'gatsby';
+import { graphql } from 'gatsby';
 
 // bootstrap
 import { Container, Col, Row } from 'react-bootstrap';
 
 import Layout from '../../components/layout';
 import SEO from '../../components/seo';
-import { FullWidthFeature } from '../../components/FullWidthFeature';
+import { BlogPostItem } from '../../components/BlogPostItem';
 
 import classes from './BlogPage.module.css';
 
@@ -16,25 +16,15 @@ const BlogPage = ({ data }) => (
     <Container className={classes.container}>
       <Row>
         <Col>
-          {data.allMdx.nodes.map((node, idx) => {
-            return (
-              <article key={node.id}>
-                <Link to={`blog/${node.frontmatter.slug}`}>
-                  {idx === 0 ? (
-                    <FullWidthFeature
-                      image={node.frontmatter.coverImage}
-                      authorName={node.frontmatter.author}
-                      date={node.frontmatter.date}
-                      title={node.frontmatter.title}
-                      subtitle={node.frontmatter.subtitle || node.excerpt}
-                    />
-                  ) : (
-                    <h1>Hay</h1>
-                  )}
-                </Link>
-              </article>
-            );
-          })}
+          <div className={classes.postsContainer}>
+            {data.allMdx.nodes.map((post, idx) => {
+              return (
+                <article key={post.id} className={classes.article}>
+                  <BlogPostItem post={post} feature={idx === 0} />
+                </article>
+              );
+            })}
+          </div>
         </Col>
       </Row>
     </Container>

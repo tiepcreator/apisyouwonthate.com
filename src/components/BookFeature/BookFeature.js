@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { Link } from 'gatsby';
 
-import Image from '../image';
+import { Image } from '../Image';
 import { Button } from '../Button';
 import classes from './BookFeature.module.css';
 

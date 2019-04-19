@@ -7,7 +7,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { BookFeature } from '../components/BookFeature';
 import Layout from '../components/layout';
 import SEO from '../components/seo';
-import Image from '../components/image';
+import { Image } from '../components/Image';
 
 import classes from './Home.module.css';
 import { NewsletterForm } from '../components/NewsletterForm';

@@ -1,0 +1,22 @@
+.title {
+  font-size: 1.5rem;
+  font-family: var(--sans-serif-font-family);
+}
+
+.title {
+  color: var(--black);
+}
+
+.container:hover {
+  text-decoration: none;
+}
+
+.imageContainer {
+  max-height: 15rem;
+  border: 1px solid #ccc;
+}
+
+.featureImageContainer {
+  max-height: 22rem;
+  border: 1px solid #ccc;
+}

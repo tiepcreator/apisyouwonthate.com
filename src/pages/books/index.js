@@ -11,7 +11,6 @@ import { BookFeature } from '../../components/BookFeature';
 import classes from './BooksPage.module.css';
 
 const BooksPage = ({ data }) => {
-  console.log('data is', data);
   const { books } = data;
   return (
     <Layout>
