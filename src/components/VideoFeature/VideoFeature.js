@@ -1,6 +1,5 @@
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { Link } from 'gatsby';
 import { MDXRenderer } from 'gatsby-mdx';
 
 import classes from './VideoFeature.module.css';
