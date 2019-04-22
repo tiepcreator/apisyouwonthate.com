@@ -1,0 +1,127 @@
+[[redirects]]
+  from = "/a-happy-compromise-between-customization-and-cacheability-*"
+  to = "/a-happy-compromise-between-customization-and-cacheability"
+
+[[redirects]]
+  from = "/api-versioning-has-no-right-way-*"
+  to = "/api-versioning-has-no-right-way"
+
+[[redirects]]
+  from = "/common-hypermedia-patterns-with-json-hyper-schema-*"
+  to = "/common-hypermedia-patterns-with-json-hyper-schema"
+
+[[redirects]]
+  from = "/creating-api-specifications-from-bulls-t-*"
+  to = "/creating-api-specifications-from-bulls-t"
+
+[[redirects]]
+  from = "/getting-started-with-json-hyper-schema-*"
+  to = "/getting-started-with-json-hyper-schema"
+
+[[redirects]]
+  from = "/getting-started-with-json-hyper-schema-part-2-*"
+  to = "/getting-started-with-json-hyper-schema-part-2"
+
+[[redirects]]
+  from = "/govern-your-apis-with-speccy-*"
+  to = "/govern-your-apis-with-speccy"
+
+[[redirects]]
+  from = "/graphql-vs-rest-caching-*"
+  to = "/graphql-vs-rest-caching"
+
+[[redirects]]
+  from = "/graphql-vs-rest-overview-*"
+  to = "/graphql-vs-rest-overview"
+
+[[redirects]]
+  from = "/guessing-api-contracts-*"
+  to = "/guessing-api-contracts"
+
+[[redirects]]
+  from = "/health-checks-for-rest-grpc-apis-kubernetes-and-beyond-*"
+  to = "/health-checks-for-rest-grpc-apis-kubernetes-and-beyond"
+
+[[redirects]]
+  from = "/json-api-openapi-and-json-schema-working-in-harmony-*"
+  to = "/json-api-openapi-and-json-schema-working-in-harmony"
+
+[[redirects]]
+  from = "/keeping-documentation-honest-*"
+  to = "/keeping-documentation-honest"
+
+[[redirects]]
+  from = "/lets-stop-building-apis-around-a-network-hack-*"
+  to = "/lets-stop-building-apis-around-a-network-hack"
+
+[[redirects]]
+  from = "/making-the-most-of-json-api-*"
+  to = "/making-the-most-of-json-api"
+
+[[redirects]]
+  from = "/meet-the-api-community-*"
+  to = "/meet-the-api-community"
+
+[[redirects]]
+  from = "/openapi-and-json-schema-divergence-part-1-*"
+  to = "/openapi-and-json-schema-divergence-part-1"
+
+[[redirects]]
+  from = "/openapi-and-json-schema-divergence-part-2-*"
+  to = "/openapi-and-json-schema-divergence-part-2"
+
+[[redirects]]
+  from = "/optimizing-for-the-speed-of-light-*"
+  to = "/optimizing-for-the-speed-of-light"
+
+[[redirects]]
+  from = "/picking-the-right-api-paradigm-*"
+  to = "/picking-the-right-api-paradigm"
+
+[[redirects]]
+  from = "/put-vs-patch-vs-json-patch-*"
+  to = "/put-vs-patch-vs-json-patch"
+
+[[redirects]]
+  from = "/remote-api-consulting-*"
+  to = "/remote-api-consulting"
+
+[[redirects]]
+  from = "/representing-state-in-rest-and-graphql-*"
+  to = "/representing-state-in-rest-and-graphql"
+
+[[redirects]]
+  from = "/speeding-up-apis-apps-smart-toasters-with-http-response-caching-*"
+  to = "/speeding-up-apis-apps-smart-toasters-with-http-response-caching"
+
+[[redirects]]
+  from = "/the-many-amazing-uses-of-json-schema-client-side-validation-*"
+  to = "/the-many-amazing-uses-of-json-schema-client-side-validation"
+
+[[redirects]]
+  from = "/tricking-colleagues-into-writing-documentation-via-contract-testing-*"
+  to = "/tricking-colleagues-into-writing-documentation-via-contract-testing"
+
+[[redirects]]
+  from = "/turning-contracts-into-beautiful-documentation-*"
+  to = "/turning-contracts-into-beautiful-documentation"
+
+[[redirects]]
+  from = "/understanding-rpc-rest-and-graphql-*"
+  to = "/understanding-rpc-rest-and-graphql"
+
+[[redirects]]
+  from = "/various-variables-effecting-api-design-*"
+  to = "/various-variables-effecting-api-design"
+
+[[redirects]]
+  from = "/what-is-api-rate-limiting-all-about-*"
+  to = "/what-is-api-rate-limiting-all-about"
+
+[[redirects]]
+  from = "/why-do-people-dislike-json-*"
+  to = "/why-do-people-dislike-json"
+
+[[redirects]]
+  from = "/you-might-not-need-graphql-*"
+  to = "/you-might-not-need-graphql"
