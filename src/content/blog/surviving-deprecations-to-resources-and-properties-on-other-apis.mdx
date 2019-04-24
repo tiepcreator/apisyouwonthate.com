@@ -1,0 +1,98 @@
+---
+title: Surviving Deprecations to Resources and Properties on Other APIs
+subtitle: >-
+  Deprecation, is the art of telling people to stop using that thing, because
+  that thing is probably going away at some point. Even if there…
+date: '2018-06-03T00:24:02.870Z'
+coverImage: useful-api-errors.jpg
+type: blog
+author: Phil Sturgeon
+---
+
+Deprecation, is the art of telling people to stop using that thing, because that thing is probably going away at some point. Even if there are no solid plans to delete the thing entirely, the thing might be deprecated just because it sucks to work with, but usually it’s because it has been replaced with a better idea.
+
+Regardless of the [type of API](https://blog.apisyouwonthate.com/picking-the-right-api-paradigm-d476f1a622e8) you are interacting with, and the [approach they take to versioning](https://blog.apisyouwonthate.com/api-versioning-has-no-right-way-f3c75457c0b7), there are no absolute promises the team in charge will deprecate things carefully. Some API providers [act like jerks](https://groups.google.com/forum/#!topic/strava-api/_HW3UN4Mxt4) and just arbitrarily change things, remove things, and break stuff. Closing APIs down with no warning (or poor warning) is utterly disgraceful behavior, but it does happen.
+
+Wrapping dependencies and having backup plans for this sort of situation is another article. Luckily, more often than not a more reasonable approach is taken, and API providers will communicate change in a variety of ways. This chapter is going to outline a few ways in which you might find out about changing happening to an API you’re interacting with, so you don’t lose business from not noticing a breaking change.
+
+#### Low-Tech General Solutions
+
+As ludicrous as it might sound, the entire extent of some API providers attempts to communicate upcoming change is to write a blog about it and hope you notice. These blog articles explain things like “Hey we’re closing off the free access to this API”, or “We are replacing this Foo API with a Bar API, and you have 3 months to stop using the Foo API before we shut it down”. Fingers crossed you see it!
+
+This low-tech approach has no real solutions I can think of, other than… subscribe to the api providers engineering blog on RSS, and — so long as the RSS reader you’re using doesn’t get shut down — you might notice the article.
+
+If they have a newsletter then subscribe to that, maybe with a ”devs@” email address or team-specific email address, to improve the bus factor on this. You don’t want the announcement going to a member of the team who’s quit, then the API breaks just because the rest of the team didn’t know about the change.
+
+APIs requiring authentication will usually ask for an email address in return for the authentication credentials (API keys, access tokens, etc.) This gives API providers one more way to get in touch about change, and again, make sure it’s not the email of a manager or team lead, but a distribution email address for the team.
+
+#### Endpoint-based APIs
+
+If an API is using global versioning, then they might deprecate all the endpoints under `/v1/` at the same time, and suggest you use all the `/v2/` endpoints. If they’re using evolution they might suggest that `/companies` is going away, and you should start to work with `/accounts` instead. The suggestions here may come in the form of low-tech announcements, but they can also be communicated in-band.
+
+![The old Kosciuszko bridge ran side by side with its replacement, until it was time to get rid of the old one. Sadly they didn’t blow it up as planned, I had beers, binoculars and a camp chair all set up… AP Photo/Mark Lennihan](https://cdn-images-1.medium.com/max/800/0*FhDpOM-Mo46zEutZ.jpg)
+The old Kosciuszko bridge ran side by side with its replacement, until it was time to get rid of the old one. Sadly they didn’t blow it up as planned, I had beers, binoculars and a camp chair all set up… AP Photo/Mark Lennihan
+
+**Deprecating Endpoints
+**There is a a proposed standard: [Sunset Header](https://tools.ietf.org/html/draft-wilde-sunset-header-05), which at the time of writing is at draft 05. APIs can add a simple header to the HTTP response, to let clients know the endpoint is nearing the end of its life. 
+Supporting Sunset is as simple as sniffing for the `sunset` header, and it contains a [HTTP date](https://tools.ietf.org/html/rfc7231#section-7.1.1.1) which looks a little like this:
+
+Sunset: Sat, 31 Dec 2018 23:59:59 GMT
+
+The proposed standard also allows responses to contain a HTTP link header, with `rel=sunset`. The link can be a link to anything, the endpoint replacing it, a link to some human readable documentation, a blog post, whatever. 
+Keep an eye out for sunset headers and their accompanying links coming back in responses your code is getting, and log, or alert, or pass to a dashboard accordingly. If you are using Ruby or PHP there are already easy to use middleware for the most popular HTTP clients:
+
+• PHP: [hskrasek/guzzle-sunset](https://github.com/hskrasek/guzzle-sunset)
+ • Ruby: [wework/faraday-sunset](https://github.com/wework/faraday-sunset)
+
+[Sunset is on GitHub](https://github.com/dret/I-D/tree/master/sunset-header), and the issue tracker is used for discussion around it’s development. I’ve been trying to get folks using this. Some API gateways like [Tyk](http://tyk.io/) are [building in support](https://github.com/TykTechnologies/tyk/issues/1626), and it’s going to become far more wide-spread over time. If you make an implementation for your favorite HTTP client please get in touch in the comments.
+
+Another approach commonly used by API providers is to provide SDKs, and if they are kept up to date they’ll fling out deprecation warnings about resources that are going away.
+
+When you get these notifications, check the errors for what to do next, or go to their documentation to figure it out, or shout at their customer support for not making it clear what you’re meant to be doing next and they’ll do a better job next time.
+
+**Deprecating Properties
+**Other than the entire endpoint going away, specific properties may over time be deprecated. This is less common in global versioning as they would just remove those in the next global version. It is not a regular occurrence in evolution as they too would just wait until the creation of a new resource for the concept, but it can happen if a property absolutely has to go away.
+JSON is the main content type in use these days, which does not have a type system built in. There is no way to mark a JSON field as deprecated in just JSON, and no standards exist to help, even JSON Schema still has this on the todo list.
+
+Again SDKs can mark things as deprecated over time, especially those built with OpenAPI v3.0.0 or later. OpenAPI added the deprecated: true keyword, so SDKs can now look for this and fire off deprecation warnings for clients using that property in their code. Keeping up to date is important, so make sure something like [Snyk](https://snyk.io/) or [Greenkeeper](https://greenkeeper.io/) is implemented to keep tabs on dependencies.
+
+#### GraphQL
+
+GraphQL pushes hard for evolution in its marketing and most advice in the ecosystem, which is awesome. They do not have a huge amount of documentation covering deprecations, and much of it comes from third-parties like Apollo, but it’s certainly possible.
+
+**Deprecating Types
+**Instead of endpoints, GraphQL has types. There is no first class support for deprecating types in GraphQL at the time of writing. When an API is unable to evolve a concept through adding new properties alone, a new type will pop up somewhere. A low-tech solution like a blog or email announcement may be used to communicate this new type, and the deprecation of the old type. Another possible solution is to deprecate all the properties in the type, and mark in the deprecation reason that the whole type is going away.
+
+**Deprecating Properties**
+The API provider will add the `@deprecated` keyword to the type:
+
+type User {
+ name: String @deprecated(reason: "Property 'name' was split into 'firstname' and lastname'")
+ firstname: String
+ lastname: String
+}
+
+When looking at a GraphQL API through GraphiQL, the documentation that it autogenerates will show deprecated fields, visually separated from the other fields (smart!)
+
+![Image is from [Kevin Simper’s](https://medium.com/@kevinsimper/) awesome article: [_How to deprecate fields in GraphQL_](https://medium.com/@kevinsimper/how-to-deprecate-fields-in-graphql-52fbd03fb9d7).](https://cdn-images-1.medium.com/max/800/1*kq-wGBtiZc1dTAn2PgrlGg.png)
+Image is from [Kevin Simper’s](https://medium.com/@kevinsimper/) awesome article: [_How to deprecate fields in GraphQL_](https://medium.com/@kevinsimper/how-to-deprecate-fields-in-graphql-52fbd03fb9d7).
+
+#### GRPC (Protobuf)
+
+Protobuf has an option for marking a “field” as deprecated.
+
+optional int32 old\_field = 6 \[deprecated=true\];
+
+Full snipped from their documentation:
+
+> `**deprecated**` **(field option):** If set to true, indicates that the field is deprecated and should not be used by new code. In most languages this has no actual effect. In Java, this becomes a `@Deprecated` annotation. In the future, other language-specific code generators may generate deprecation annotations on the field’s accessors, which will in turn cause a warning to be emitted when compiling code which attempts to use the field. If the field is not used by anyone and you want to prevent new users from using it, consider replacing the field declaration with a reserved statement.
+
+Seems like they don’t have an option for deprecating the whole message, but theoretically you can just mark _a_nything as deprecated. The implementations won’t actually do anything about it, but you can probably hack something into something or send some PRs to get that done.
+
+#### Summary
+
+Whatever system you’re using, things feel pretty similar. Keep an eye out for deprecations at various levels if you’re talking to an evolving API, and keep an eye out for new versions if the API is globally versioned.
+
+If you work for a company that considers itself an API provider, what is your approach to letting folks know something is going away? Do you have a support team who reach out? Is there another approach I missed?
+
+Get in touch in the comments. I’d love to hear from folks who have been handling deprecations in GraphQL and protobuf successfully.

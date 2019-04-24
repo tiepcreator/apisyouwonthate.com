@@ -1,0 +1,84 @@
+---
+title: Commit to API Contracts
+subtitle: >-
+  When building and maintaining a Web API, it’s surprisingly common for the “I”
+  (interface) part to be overlooked. Often new functionality is…
+date: '2017-09-16T00:08:02.791Z'
+coverImage: useful-api-errors.jpg
+type: blog
+author: Phil Sturgeon
+---
+
+When building and maintaining a Web API, it’s surprisingly common for the “I” (interface) part to be overlooked. Often new functionality is built in close contact with a specific client, with the backend and frontend developers sitting together to hash out the functionality.
+
+The frontend developer will write their side of the code, and the backend developer will write theirs. As they go, the fields and types are explained verbally, DMed over slack, dumped into a Google Doc somewhere, shoved in a wiki, or written up in HTML.
+
+These methods are only a snapshot of the “contract” at a certain point in time, and due to their useless format they will not kept up to date.
+
+> Fred: Hey Sarah, there’s a new “fudge” field and it can be “blah” or “whatever”
+
+> Sarah: Great! Thanks I’ll chuck that in now.
+
+After-all, why bother keeping them up to date? The code works, the iOS app runs fine, we’re making money, and we’re onto the next thing!
+
+Well, when another client or dependant service comes along, how do they know how to use this endpoint?
+
+#### The Hunt for a Contract
+
+When no contract is written, we have to deduce it ourselves, which is hard even when you have access to the source code. If you don’t it is almost impossible, and results in guesswork.
+
+#### **Guessing from a HTTP Response**
+
+Using the request to guess what the contract could be is black magic guesswork, and is about as fun as interacting with an LED panel that has no driver or docs.
+
+One single example is not enough to extrapolate all potential variations.
+
+#### **Guessing from Source Code**
+
+When you’re trying to integrate with an internal API, it can be very tempting for people to suggest that you RTFC (Read the F\*\*king Code). Even if you’re familiar enough with the language and framework used, that’s not always easy.
+
+Different serializers, ORMs, controllers, observers, and whatever other layers of abstraction can have sneaky effects on the data coming in and out of an API, especially when it comes to validation.
+
+Don’t make people learn your entire application just to use an endpoint.
+
+#### **Guessing from Tests**
+
+Regardless of how you handle your testing, most frameworks will have a thing to unit/integration/something on controllers and check responses to give you some JSON to play with.
+
+Maybe you work with Rails and have a “request test” like:
+
+get '/something/123'
+expect(response\[:foo\]).to be\_a(String)
+expect(response\[:bar\]).to be true
+
+Ok, that’s great, but this test doesn’t show that a `baz` field was added. The test still passes so the API team is happy about it, but the new client won’t know about it. And this is when there’s actually a test for this, often there isn’t.
+
+#### Gaaaah!
+
+Commit to your contract by writing it down, in a standard way, and keep it up to date. It doesn’t matter which of the tools you use, but if you don’t use any of these tools you’re doing it incredibly wrong.
+
+1.  [JSON Schema](http://json-schema.org/)
+2.  [API Blueprint](https://apiblueprint.org/)
+3.  [OpenAPI](http://openapis.org) (formerly Swagger)
+4.  [RAML](https://raml.org/)
+5.  [GraphQL Types](http://graphql.org/)
+6.  [Protobuff](https://developers.google.com/protocol-buffers/)
+7.  [JSON-LD](https://www.w3.org/TR/json-ld/) / [Hydra](http://www.markus-lanthaler.com/hydra/)
+8.  [XML Schema](https://www.w3.org/standards/techs/xmlschema)
+9.  [WSDL](https://www.w3.org/TR/wsdl)
+10.  [OData](http://www.odata.org/)
+
+There’s a lot of tools out there that aren’t the same sort of thing. JSON Schema and OpenAPI are where I’m putting my efforts, but API Blueprint is a great, simple, starting point. You can use OpenAPI or API Blueprint with [Dredd](https://github.com/apiaryio/dredd) to ensure your specifications are still valid over time.
+
+These tools can create docs, mocks, contract tests, client validation, server validation, and help do amazing things. Articles coming on all of these topics, so follow for updates!
+
+Unspecified JSON (or any unexplained data in general) makes people mad, and it’s really easy to avoid pissing people off.
+
+[**Why Do People Dislike JSON?**
+_It was cool and then it started getting a bad rap_blog.apisyouwonthate.com](https://blog.apisyouwonthate.com/why-do-people-dislike-json-a7d67c8d38c1 "https://blog.apisyouwonthate.com/why-do-people-dislike-json-a7d67c8d38c1")[](https://blog.apisyouwonthate.com/why-do-people-dislike-json-a7d67c8d38c1)
+
+#### Summary
+
+In my experience, fear and uncertainty lead to whole new endpoints being developed for this client, when it easily could have used the existing endpoint. This double the surface area for bugs, security issues, performance problems, and just doubles, triples, and quadruples work for no reason.
+
+Don’t create a boatload of extra work for everyone who ever goes near this API. This pain is passed onto the frontend and the backend, and your whole team suffer, just because you’re “too busy” to write down the contract and maintain it.

@@ -1,0 +1,64 @@
+---
+title: 'JSON API, OpenAPI and JSON Schema Working in Harmony'
+description: >-
+  A regular question on Twitter, at WeWork, and in the APIs You Won’t Hate Slack
+  community, is: “What standard should my API follow? Should…
+date: '2018-09-24T00:11:40.197Z'
+coverImage: useful-api-errors.jpg
+type: blog
+author: Phil Sturgeon
+---
+
+A regular question on Twitter, at WeWork, and in the [APIs You Won’t Hate Slack community,](http://slack.apisyouwonthate.com/) is: “What standard should my API follow? Should it be JSON API or something else?” At which point a bunch of people usually start discussing things like OpenAPI and/or JSON Schema. In this article, I’d like to talk about how they can all work together in harmony, to do different things.
+
+#### **JSON API**
+
+[JSON API](http://jsonapi.org/) is a specification written by a group of folks, with the goal of being an anti-[bikeshedding](http://bikeshed.org) tool for writing JSON APIs. The name often causes a bit of confusion, but JSON API is one of many data formats that is often applied to REST (or RESTish) APIs, as an alternative to [Siren, HAL, Uber, etc](https://sookocheff.com/post/api/on-choosing-a-hypermedia-format/).
+
+The goal of JSON API is to standardize some of the specifics of API design that the REST paradigm leaves to the implementer. REST has no opinions on how you implement resources vs collections, or where meta data should go, how to include related resources, how pagination should work, or anything else, so JSON API tries to fill in a lot of those gaps for you.
+
+Many people try to figure those things out their selves, and there are a lot of things that can go wrong. [_Build APIs You Won’t Hate_](https://apisyouwonthate.com/books/build-apis-you-wont-hate.html)  would have been a lot slimmer if everyone had just used JSON API back then.
+
+Firstly, JSON API explains what shape the body of the HTTP request and response should take. Specifically, where primary data goes, where meta data goes, where should links to other resources be placed, and how exactly should related data be included.
+
+```
+{  "links": {    "self": "http://example.com/articles",    "next": "http://example.com/articles?page[offset]=2",    "last": "http://example.com/articles?page[offset]=10"  },  "data": [{    "type": "articles",    "id": "1",    "attributes": {      "title": "JSON API paints my bikeshed!",      "stuff": "and nonsense",    },    "relationships": {      "author": {        "links": {          "self": "http://example.com/articles/1/relationships/author",          "related": "http://example.com/articles/1/author"        }      },      "comments": {        "links": {          "self": "http://example.com/articles/1/relationships/comments",          "related": "http://example.com/articles/1/comments"        }      }    },    "links": {      "self": "http://example.com/articles/1"    }  }]}
+```
+
+_This structure initially seems like a lot of noise to somebody who is expecting an API to do one thing: transfer a few fields from the server to their client, but when an API is more of a_ [_state machine over HTTP_](https://blog.apisyouwonthate.com/representing-state-in-rest-and-graphql-9194b291d127)_, a lot of this starts to make sense._
+
+Secondly, beyond just the shape of the request/response body, JSON API helps with a few other things, like [Sparse Fieldsets](http://jsonapi.org/format/#fetching-sparse-fieldsets). You can let clients pass `/articles?fields[articles]=title,body` to get just the title and body fields, a feature much loved by GraphQL advocates. They’re a controversial topic in the REST world because they can slim down responses, but also [screw up cache ratios](https://philsturgeon.uk/api/2017/08/13/a-happy-compromise-between-customization-and-cacheability/). Maybe use them maybe don’t, but JSON API is there to give you the option for this. It helps out with a lot of other things, like `?includes=` for [compound documents](http://jsonapi.org/format/#document-compound-documents), it takes a stab at [pagination](http://jsonapi.org/format/#fetching-pagination), makes [a vague hand-wave at filtering](http://jsonapi.org/format/#fetching-filtering), and covers things like [error objects](http://jsonapi.org/examples/#error-objects-basics) for those not using [RFC 7807](https://tools.ietf.org/html/rfc7807).
+
+All of this is basically very structural, but none of it tells you anything about _what_ the data is, or anything about the data. There is no “schema” functionality (or types, as some folks call them). For that, you need to look at something like OpenAPI, or JSON Schema.
+
+#### OpenAPI and JSON Schema
+
+[OpenAPI](http://openapis.org/) and [JSON Schema](http://json-schema.org/) are two different specifications that have inspired each other a lot, but are subtly different.
+
+OpenAPI aims to describe both the service model (the API in general, endpoints, request metadata like headers, authentication strategies, response metadata, etc., and it also covers the HTTP request/response body using a bunch of keywords based on JSON Schema, that have [diverged over time](https://blog.apisyouwonthate.com/openapi-and-json-schema-divergence-part-1-1daf6678d86e). The [divergence is slowly being solved](https://blog.apisyouwonthate.com/openapi-and-json-schema-divergence-part-2-52e282e06a05).
+
+JSON Schema aims to describe an instance of JSON data, like the ones found in a HTTP request or response, but is in no way limited to a HTTP API.
+
+In describing the data, you can say which fields are required, mention common formats like email, UUID, etc., add more complex validation rules to those fields like maximum length, or regex patterns, and all sorts of other functionality. The data could be in any shape, but whatever data is there can be described with one of these two tools.
+
+At WeWork, we use JSON Schema to describe the data models, OpenAPI to describe everything else, then the message being described is usually JSON API.
+
+OpenAPI has a lot of design-time and build-time [tooling](http://openapi.tools/), so it’s popularly used for mocking services and generating SDKs. It is not commonly used for run-time functionality. For that, most folks use JSON Schema, which can do many amazing things like [client-side validation](https://blog.apisyouwonthate.com/the-many-amazing-uses-of-json-schema-client-side-validation-c78a11fbde45).
+
+Seeing as JSON Schema does not touch the service model, it’s quite tough to build things like SDK generators as they do not know anything about the endpoints. There could be a future where JSON HyperSchema can take over this role from OpenAPI, as a fully RESTful API with JSON HyperSchema would be able to build a HATEOAS compatible SDK, which would focus on navigating from root, to resource, to resource, instead of worrying about memorizing endpoints in the first place.
+
+JSON API and JSON HyperSchema can actually complement each other quite well. Aaron Hedges recently wrote about [how JSON HyperSchema can be used to describe JSON API payloads](https://blog.apisyouwonthate.com/common-hypermedia-patterns-with-json-hyper-schema-17c78cf884ff), taking the plain old “here is a HTTP link do with it what you will” approach to HATEOAS, and peppering it with all sorts of useful information.
+
+[**Common Hypermedia Patterns with JSON Hyper-Schema**
+_In the last two JSON-Hyper Schema articles (Getting Started — Part One and Part Two), we covered the basics:_blog.apisyouwonthate.com](https://blog.apisyouwonthate.com/common-hypermedia-patterns-with-json-hyper-schema-17c78cf884ff "https://blog.apisyouwonthate.com/common-hypermedia-patterns-with-json-hyper-schema-17c78cf884ff")[](https://blog.apisyouwonthate.com/common-hypermedia-patterns-with-json-hyper-schema-17c78cf884ff)
+
+Some folks refer to this as upgrading an APIs “Hypermedia Maturity Model”, taking JSON API from HMM 1 to HMM 2. More on the [Hypermedia Maturity Model here](https://8thlight.com/blog/jason-desrosiers/2018/05/30/the-hypermedia-maturity-model.html).
+
+![[https://www.etsy.com/listing/121737141/zelda-triforce-lamp](https://www.etsy.com/listing/121737141/zelda-triforce-lamp)](https://cdn-images-1.medium.com/max/800/1*orDLx658x4EwEzoGexNUfg.jpeg)
+[https://www.etsy.com/listing/121737141/zelda-triforce-lamp](https://www.etsy.com/listing/121737141/zelda-triforce-lamp)
+
+#### Summary
+
+The point here is that these three things all have rather different jobs, and can be used together. You don’t want multiple teams cranking out handfuls of REST APIs with completely different payload shapes and completely different approaches to things, and whatever shape the API data is in, you need to know more about what that data actually is. Think of one as a “Data Format” and another as a “Data Contract” and things make a bunch more sense.
+
+_I’ve used JSON API extensively for years, flipping from being a big fan to an outspoken critic, and back again multiple times. JSON API is a great way to solve a lot of problems in a HTTP/1 world, but_ [_HTTP/2 should handle a lot of the things that JSON API focuses on_](https://blog.apisyouwonthate.com/lets-stop-building-apis-around-a-network-hack-9a68f7e83dd2)_. That said, a lot of tooling (especially in the Ruby world) is still completely ignoring HTTP/2. I recommend JSON API as an alternative to anarchy, but it is full of potential foot-guns, like any powerful concept used carelessly. Please read_ [_Making the Most of JSON API_](https://blog.apisyouwonthate.com/making-the-most-of-json-api-7fb51f4407aa) _if you are considering using it, and do not take my mentioning of it here as tacit approval for every idea in the specification._

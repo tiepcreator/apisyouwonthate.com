@@ -1,0 +1,66 @@
+---
+title: Optimizing for the Speed of Light
+subtitle: 'Written by Darrel Miller, on his blog Bizcoder.com'
+date: '2019-02-24T13:26:00.698Z'
+coverImage: useful-api-errors.jpg
+type: blog
+author: Phil Sturgeon
+---
+
+_Written by Darrel Miller, on his blog_ [_Bizcoder.com_](http://www.bizcoder.com/optimizing-for-the-speed-of-light)_. This article makes a case for trying to acoid batch requests (or compound documents, included resources, etc) in situations that make interactions slower. HTTP/2 is here, and we need tos foip some of the ways we think on our head! – Phil_
+
+It is true three women can’t make a baby in 3 months, but it also doesn’t take 27 months for them to have 3 babies!
+
+You might be wondering what on earth I am talking about but this is something I see API developers getting confused about regularly. There is **oft-repeated guidance that if an API needs to make multiple calls, it is more efficient to bundle them into a single call**. The reasoning is based on one universal truth and one piece of legacy dogma.
+
+![](https://cdn-images-1.medium.com/max/800/0*Y36wSqCB0YL8X7eb.jpg)
+
+### Damn Physics
+
+I regularly tell folks that until we find a way of making network calls faster than the speed of light there are **fundamental rules of network based computing that just won’t change**. Network latency between user and server is usually in the 10s of milliseconds and making many round-trips sequentially is going to impact user experience. **Minimizing round-trips is generally good guidance**, except for when it is not.
+
+### Abandoned Runways
+
+![](https://cdn-images-1.medium.com/max/800/0*EgGpUKoO4UnML0pa.jpg)
+
+If I make 1000 HTTP requests simultaneously I only pay the speed of light tax once. So, why is it that we don’t just make every request really small and make many of them at once. The primary reason is based on piece of history. **HTTP/1.1 implementations aren’t very good at sending more than one request simultaneously over a single connection** and generally clients are limited to only opening a certain number of connections with a server. Historically, building servers that could maintain open connections with tens of thousands of clients was challenging. In order to achieve scalable systems it was necessary to limit the state that servers needed to hold onto for each client, and therefore limiting open connections was one way to do this.
+
+Over the years, massively increased hardware capacity and clever engineering optimizations have made maintaining large numbers of server connections far less of an issue. More recently the introduction of **HTTP/2 has made it possible to easily tunnel many requests simultaneously over a single connection**. We no longer need to be constrained by connection limits.
+
+### Solutions to unnatural problems
+
+In order to work around the connection limit, it has become a best practice in the web world to “bundle” resources together to allow retrieving a set of resources in a single request. Clever tooling has evolved to make the bundling process almost automatic. **Few people question why it is being done**.
+
+The same mantra of “minimizing round trips” has become a best practice of the HTTP API world with a slight twist. Instead of the server creating bundles of content for the client to consume, **the client aggregates a set of requests into a single request** and the server splits that request, collects the data and creates a custom aggregated response. The client can then tear apart the composed result into the component parts. Some APIs present this as a kind of “batch request”, others in a form of query language against an aggregated server side data model.
+
+### Knobs and switches
+
+This model of a single batch or query request has some advantages to the client developer. For client developers to make simultaneous HTTP calls it is necessary to deal with multiple asynchronous requests that don’t block on IO. This experience is not the easiest to manage. In Java Script you end up with multiple callbacks. In C#/typescript you can no longer use the friendly \`await\` keyword that makes async calls almost as easy synchronous calls. **Ironically, the \`await\` keyword makes it really easy to force HTTP requests to execute sequentially that could easily execute in parallel.** This is what the pit of fail looks like!
+
+![](https://cdn-images-1.medium.com/max/800/0*tBL3Qzv7nT4wNW4t.jpg)
+
+### Consequences
+
+So, what’s the problem? The speed of light doesn’t let multiple smaller requests return any faster than the single large result. The composite payload size is not any bigger than the sum of the smaller results. The server has to process less HTTP requests which will probably create less overhead work.
+
+To answer this question we need to point to a failing of my initial analogy. **Human babies tend to take approximately the same time to produce. Individual HTTP requests have no such constraint.** Executing a query that returns a user’s profile information combined with the calculated statistics of how much time they spent writing emails this week, and their online presence indicator will cause varying degrees of work to determine those values. Using a batch or query usually means that we wait for all the results to be calculated before get any answers.
+
+Maybe we want to render the results to a user interface. Should we need to wait for the statistics to be calculated before we can render their profile information and presence?
+
+### Do you really want to minimize round trips?
+
+There is another industry mantra that is very useful here:
+
+“The fastest round-trip is no round trip”.
+
+![](https://cdn-images-1.medium.com/max/800/0*D8kJ4E797TYPzluH.png)
+
+This sounds a whole lot like what lead us to batching, but in fact this is referring to local caching. **If I have previously retrieved the information and it is still good, there is no need to retrieve it again.** With a batch request it is the responsibility of a client application to choose which requests to batch together to ensure data stays fresh. When the client wants to update the user presence indicator, it probably doesn’t need to update the user profile information. At least not nearly as often. If the server calculates the email statistics only once a day, refreshing that data more often is a waste of time. It is a non-trivial task for a client to choose when to refresh those pieces of data and aggregate the requests into batches to minimize roundtrips.
+
+However, relying on standard out-of-box caching intermediaries allows the server to communicate when the data will become stale. The client can continue making independent requests to the distinct resources and if a fresh copy exists in the local private cache, then no round-trip will happen. **The client programming model becomes massively simpler.** It is possible for generic client infrastructure code to maintain a cache of individual responses and transparently return those responses if they are not stale. Web Browsers do this all the time. Web sites are heavily optimized to take advantage of caching.
+
+**Developers of HTTPs API tend to towards claiming that their API data is not cacheable.** That may be the case if you have bundled some highly volatile data along with rarely changing data in order to reduce round trips. Data volatility is a critical factor to consider when designing API resources.
+
+### You have options, until you don’t
+
+There is no doubt that high latency HTTP requests can make an application unusable. Just try your favorite app from airplane WIFI sometime. However, **chunkier round trips are not always the most effective way to reduce latency costs**. Local HTTP caching is a low cost, low impact option that can drastically improve performance in some cases. Be careful not to close that door because you are busy bundling your requests.
