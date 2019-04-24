@@ -91,8 +91,8 @@ const Footer = () => (
               {` APIs You Won't Hate`}
             </li>
             <li>
-              {`Built with `}
-              <OutboundLink
+              {`Built with`}
+              &nbsp;<OutboundLink
                 href="https://www.gatsbyjs.org"
                 target="_blank"
                 rel="noreferrer noopener"

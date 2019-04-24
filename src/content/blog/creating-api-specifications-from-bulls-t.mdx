@@ -1,0 +1,74 @@
+---
+title: Creating API Specifications from Bulls**t
+subtitle: >-
+  So you are using design-first for new APIs, but what about old APIs? Play
+  catchup with a few sneaky methods.
+date: 2018-03-09
+coverImage: useful-api-errors.jpg
+type: blog
+author: Phil Sturgeon
+---
+
+So you want to get into design-first API development. Getting started can seem a little tricky, especially when you have a bunch of old APIs floating around and feature work keeps piling up. Writing out full specs for code that already exists can seem like a challenge, and a lot of people get tempted down the dark nonsense path of annotation-based specifications.
+
+Don’t do that to yourself, just use one of these handy tricks to catch your legacy APIs up with a bunch of specs, then your old APIs and new APIs can be on the [same workflow](https://blog.apisyouwonthate.com/weworks-api-specification-workflow-defec45cc037?source=---------5---------------------), maintained with awesome [OpenAPI editors](https://openapi.tools/), [used for contract testing](https://blog.apisyouwonthate.com/tricking-colleagues-into-writing-documentation-via-contract-testing-206308b47e05), etc.
+
+#### Convert from Postman
+
+Most teams will at the very least half-assedly update a Postman Collection for their more important endpoints, and sometimes these are vaguely up-to-date.
+
+Postman Collections are essentially just another API specification format, so taking this can be a good start. Accepting that it is not going to be a complete list of endpoints, aware that it is missing all sorts of metadata like field descriptions, formats, enum values, etc., you can use this as a head start.
+
+Step 1 is to Export your Postman Collection.
+
+![Open the Postman application, find your API and click Export.](https://cdn-images-1.medium.com/max/800/1*ZtxIXvosFR6tUGD1y-Nakg.png)
+Open the Postman application, find your API and click Export.
+
+There are a lot of “Postman to Swagger” or “Postman to OpenAPI” tools out there, but if you are luck enough to find one that works, it is definitely outdated. Many of them only work wiht Postman Collection v1, and they all only convert to OpenAPI v2.0…
+
+The best closest CLI tool out there is API Flow, but even after [sending 7 pull requests](https://github.com/luckymarmot/API-Flow/pulls) that tool is still OpenAPI v2.0 only, and their version is completely broken. Give [my fork](https://github.com/philsturgeon/API-Flow) a try if you are interested.
+
+Luckily the [APImatic Transformer](https://apimatic.io/transformer) is amazing. You can use their website to upload the Postman Collection, and download the OpenAPI v3.0 in JSON or YAML. Fantastic!
+
+Their output is not perfect, but it is a start. Run the [Speccy](https://github.com/wework/speccy) lint command on the output to get advice on things to add, and use the serve command to get a preview in your browser.
+
+#### Generate from Real Traffic
+
+From a mere chunk of JSON, a “schema generator” can attempt to make a very basic schema for you. If something looks like a string, and maybe contains a date, it can rather easily list the field as`type: string` and `format: date-time`. That might not be mind blowing, and it’s certainly not the most advanced usage of schema, but it is rather useful when you have a whole API with a few thousand fields spread over various resources.
+
+There are a few tools around for OpenAPI and JSON Schema.
+
+**_Update 2018–05–16:_** _Smartbear (creators of the Swagger tooling for OpenAPI) have just released_ [_Swagger Inspector_](https://inspector.swagger.io/builder)_, which is explained in_ [_this blog post_](https://swagger.io/blog/convert-oas-3-swagger-inspector/)_. You basically use it like a HTTP client, import it into SwaggerHub, then export as OpenAPI v2 or v3 and use it however you like._
+
+If you want to create JSON Schema there are a whole bunch of [JSON Schema Generators](http://json-schema.org/implementations.html#schema-generation), including [one written in Ruby](https://github.com/maxlinc/json-schema-generator), and [one written for NodeJS](https://github.com/stoplightio/json-schema-generator).
+
+There is also [jsonschema.net](http://jsonschema.net), which is a really handy online tool that supports loads of different drafts of JSON Schema.
+
+![Throw JSON in on the left, get a bunch of JSON Schema out on the right.](https://cdn-images-1.medium.com/max/800/1*yoc45QH20TEfiIu4k7K8BQ.png)
+Throw JSON in on the left, get a bunch of JSON Schema out on the right.
+
+_Caveat, if you are referencing these JSON Schema files in an OpenAPI v3.0 specification, make sure your JSON Schema Generator is outputting the JSON Sceham as draft4, or it will break OpenAPI._
+
+[**OpenAPI and JSON Schema Divergence: Part 1**
+_This article is going to explain OpenAPI and JSON Schema divergence, which I’ve been calling the subset/superset problem…_blog.apisyouwonthate.com](https://blog.apisyouwonthate.com/openapi-and-json-schema-divergence-part-1-1daf6678d86e "https://blog.apisyouwonthate.com/openapi-and-json-schema-divergence-part-1-1daf6678d86e")[](https://blog.apisyouwonthate.com/openapi-and-json-schema-divergence-part-1-1daf6678d86e)
+
+#### Generate Specs from Code
+
+Annotation based systems aare terrifying and not something I can understand people wanting to do.
+
+That said, if you have a strictly typed language like Go, you probably have enough information in your code-base to generate some OpenAPI specs. To create a bunch of specs rather quickly, [goswagger](https://goswagger.io/generate/spec.html) can help you out.
+
+```
+swagger generate spec -o ./swagger.json
+```
+
+It will only return OpenAPI v2 right now, but slap the v2 spec through [APImatic Transformer](https://apimatic.io/transformer) and you’ll have v3 ready to go.
+
+#### Onwards
+
+When you have both your data model defined in OpenAPI or JSON Schema, and your service model defined in OpenAPI or [JSON HyperSchema](https://blog.apisyouwonthate.com/getting-started-with-json-hyper-schema-184775b91f), you’re off to the races!
+
+![What is data model vs what is service model.](https://cdn-images-1.medium.com/max/800/1*HJNeScvRLelLDfn5RgoXSg.png)
+What is data model vs what is service model.
+
+Now all you need to do is save those specification files in your API’s GitHub repository, create some [beautiful documentation](https://blog.apisyouwonthate.com/turning-contracts-into-beautiful-documentation-deac7013af18), serve them up for [client-side validation,](https://blog.apisyouwonthate.com/the-many-amazing-uses-of-json-schema-client-side-validation-c78a11fbde45) and all sorts of other handy stuff.

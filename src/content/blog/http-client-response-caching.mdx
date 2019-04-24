@@ -1,0 +1,193 @@
+---
+title: Speeding Up APIs/Apps/Smart Toasters with HTTP Response Caching
+subtitle: >-
+  Caching is a huge topic, and there’s a lot of different types of caching. No
+  one type of cache is going to suite all needs and cover…
+date: 2017-10-12
+coverImage: useful-api-errors.jpg
+type: blog
+author: Phil Sturgeon
+---
+
+Caching is a huge topic, and there’s a lot of different types of caching. No one type of cache is going to suite all needs and cover everything needed to make a performant application, but one type that’s often overlooked is client caching at the HTTP level.
+
+Building a permissions API at work, a user and company UUID are provided. The permissions API fetches the user and company data from another API, and may make a few other calls. The evaluator decides if they can do the thing or not, based on their data, and some rules. [ABAC is fun y’all](https://en.wikipedia.org/wiki/Attribute-based_access_control).
+
+Checking one policy could internally generate 3–5 HTTP calls to a handful of dependencies. The client calling permissions (client A) would be waiting for those responses, because permissions (client B) is making a whole bunch of calls.
+
+Client A could be asking to check 10 policies, all of which might request different remote data sources, and the user could belong to multiple companies, all of which need to be looked up too. This could mean 20 HTTP requests are need be made, which is a lot.
+
+We implemented a little Ruby memoization to avoid duplicate requests, but that will not help with multiple Client A calls making similar requests, or the same requests shortly after.
+
+At this point people usually recommend adding some cache logic to the application (application caching), which [in Rails](http://guides.rubyonrails.org/caching_with_rails.html#low-level-caching) looks a bit like this:
+
+Rails.cache.fetch("users/#{uuid}") do
+  UserAPI.find\_user(uuid)
+end
+
+If there is nothing in the cache matching that user then it’ll run the block and fetch the thing. That’s handy and all, but how long does that cache entry last?
+
+Forever! Infinity is a long time, so we have to provide a reasonable date.
+
+Rails.cache.fetch("users/#{uuid}", expires\_in: 12.hours.from\_now) do
+  UserAPI.find\_user(uuid)
+end
+
+That’s great and all, but 12 is an arbitrary number plucked out of thin air. Client B is now making up its own rules about resources it doesn’t own…
+
+At the most basic this leads to “My email address is showing up differently in two systems”, but beyond that there may be all sorts of business logic potentially involved with how long data should be cached.
+
+Ignoring those concerns, I still have to litter my codebase with all of this code, wrapping every HTTP call in caching logic that I had to guess at.
+
+Orrrr….
+
+The server can tell the client how long to store things, just as browsers do!
+
+Whenever you go to pretty much any website, the server defines various cache-related headers. These headers are outlined in [RFC 7234: HTTP/1.1 Caching](http://Speeding%20Up%20APIs/Apps/Smart%20Toasters%20with%20HTTP%20Response%C2%A0Caching%20Caching%20is%20a%20huge%20topic,%20and%20there’s%20a%20lot%20of%20different%20types%20of%20caching.%20No%20one%20type%20of%20cache%20is%20going%20to%20suite%20all%20needs%20and%20cover%20everything%20needed%20to%20make%20a%20performant%20application,%20but%20one%20type%20that’s%20often%20overlooked%20is%20client%20caching%20at%20the%20HTTP%20level.%20A%20client%20is%20just%20whoever%20is%20doing%20the%20calling.%20There%20can%20be%20a%20few%20clients%20in%20any%20transaction.%20That%20could%20be%20a%20JS%20frontend%20app%20calling%20a%20Web%20API,%20and%20that%20API%20could%20call%20another%20API.%20They’d%20both%20be%20clients%20in%20the%20specific%20HTTP%20request%20they’re%20making.%C2%A0%20Most%20clients%20can%20benefit%20from%20client-side%20caching,%20and%20you%20benefit%20%28for%20example%29%20every%20time%20you%20use%20your%20browser.%C2%A0%20The%20server%20can%20set%20various%20rules,%20defined%20in%C2%A0%20Cache%20control%20example%20TODO%20Your%20browser%20will%20respect%20the%20headers%20of%20CSS/JS/HTML%20files%20it%20downloads,%20and%20skip%20the%20request%20if%20it’s%20already%20got%20that%20file/page%20in%20the%20cache.%20Sadly%20when%20we%20build%20systems%20that%20call%20other%20systems,%20it’s%20often%20forgotten%20about.%C2%A0%20Real%20World%20Building%20a%20permissions%20API%20at%20work,%20a%20user%20and%20company%20UUID%20are%20provided.%20The%20API%20fetches%20that%20user%20and%20company,%20and%20may%20make%20a%20few%20other%20calls,%20then%20the%20evaluator%20decides%20if%20they%20can%20do%20the%20thing%20or%20not.%20This%20is%20a%20cool%20system,%20but%20checking%20one%20policy%20could%20internally%20generate%203–5%20HTTP%20calls%20to%20a%20handful%20of%20downstream%20dependencies.%20The%20client%20calling%20permissions%20%28client%20A%29%20would%20be%20waiting%20for%20those%20responses,%20because%20permissions%20%28client%20B%29%20is%20making%20a%20whooole%20bunch%20of%20calls.%20Client%20A%20could%20be%20asking%20to%20check%2010%20policies%20for%20the%20same%20user,%20and%20Client%20B%20would%20fire%20out%2050%20HTTP%20requests…%20including%20multiple%20calls%20for%20the%20same%20user%20and%20company%20profiles…%C2%A0%20I%20know%20what%20you’re%20thinking.%20Of%20course%20permissions%20could%20have%20been%20refactored%20a%20bit%20to%20avoid%20making%20those%20extra%20calls.%20Maybe%20wrap%20it%20in%20a%20class%20and%20store%20each%20user%20and%20company%20as%20a%20property,%20then%20don’t%20request%20them%20a%20second%20time.%20Well,%20those%20properties%20don’t%20persist%20through%20multiple%20calls.%20Each%20time%20any%20instance%20of%20Client%20A%20calls%20permissions%20API,%20it’s%20going%20to%20make%20fresh%20calls%20for%20those%20same%20users.%20Many%20people%20would%20then%20recommend%20adding%20some%20cache%20logic.%20Rails.cache.fetch%20do%20.%20Thing%20Done%20Um…%20how%20Long%20does%20that%20cache%20for?%C2%A0%20Fetch%201.week%20Well%20now%20client%20B%20is%20making%20up%20its%20own%20rules%20about%20how%20long%20resources%20from%20other%20servers%20should%20be%20cached%20for.%20Not%20only%20is%20there%20all%20sorts%20of%20business%20logic%20potentially%20involved%20with%20that,%20but%20now%20I%20have%20to%20throw%20all%20this%20code%20around%20my%20application%20to%20wrap%20every%20HTTP%20call%20in%20some%20caching%20that%20I%20have%20to%20guess%20at.%20Orrrr….%C2%A0%20Using%20a%20single%20gem,%20I%20can%20have%20the%20permissions%20API%20do%20the%20same%20thing%20browsers%20do,%20and%20skip%20making%20duplicate%20requests,%20serving%20responses%20instead%20from%20a%20cache.%20In%20most%20cases,%20for%20most%20good%20HTTP%20clients%20in%20most%20languages,%20there%20will%20exist%20a%20middleware%20to%20automatically%20do%20that%20for%20you.%C2%A0%20Ruby%20plataformatec/faraday-http-cache%20faraday-http-cache%20-%20a%20faraday%20middleware%20that%20respects%20HTTP%20cachegithub.com%20PHP%20Kevinrob/guzzle-cache-middleware%20guzzle-cache-middleware%20-%20A%20HTTP%20Cache%20for%20Guzzle%206.%20It%27s%20a%20simple%20Middleware%20to%20be%20added%20in%20the%20HandlerStack.github.com%20JavaScript%C2%A0%20%20%20Python%20%20%20%20%20On%20The%20Other%C2%A0Hand%C2%A0%20Not%20every%20HTTP%20GET%20request%20is%20one%20you%20want%20to%20cache.%20The%20middleware%20will%20generally%20do%20the%20correct%20thing%20so%20long%20as%20the%20server%20has%20declared%20their%20intentions%20well.%20If%20no%20cache%20rules%20are%20declared,%20it%20won’t%20cache.%20If%20a%20resource%20is%20marked%20as%20private%20it%20won’t%20cache.%20If%20expires%20is%20set%20to%20300%20seconds,%20it’ll%20fetch%20new%20data%20when%20you%20call%20after%20that.%C2%A0%20Regardless%20of%20how%20well%20the%20server%20declares%20its%20cacheability,%20you%20may%20way%20to%20store%20things%20for%20longer.%20Disrespecting%20the%20use%20by%20date%20can%20have%20similar%20effects%20to%20ignoring%20the%20date%20on%20a%20carton%20of%20milk,%20but%20if%20you’re%20aware%20of%20what%20you’re%20doing%20then%20sometimes%20you%20might%20want%20to%20ignore%20the%20intentions%20of%20the%20server%20and%20cache%20for%20longer.%C2%A0%20Another%20scenario.%20When%20making%20multiple%20calls%20to%20APIs%20with%20large%20responses%20to%20create%20one%20composite%20resource%20%28one%20local%20thing%20made%20out%20of%20multiple%20remote%20things.%29%20If%20the%20client%20is%20only%20using%20a%20few%20fields%20from%20each%20response,%20caching%20all%20of%20the%20responses%20is%20going%20to%20swamp%20the%20cache%20server.%C2%A0%20If%20its%20file%20based%20it%20might%20get%20slower%20than%20making%20the%20HTTP%20call,%20and%20if%20it’s%20Redis%20or%20Memcache%20the%20server%20may%20well%20run%20out%20of%20space.%20Besides,%20restitching%20the%20data%20from%20those%20multiple%20requests%20to%20make%20the%20composite%20resource%20locally%20may%20be%20too%20costly%20on%20the%20CPU.%20In%20that%20case%20absolutely%20stick%20to%20application-level%20caching%20the%20composite%20resource%20instead%20of%20using%20the%20low%20level%20HTTP%20cache.%20You%20can%20use%20your%20own%20rules%20and%20logic%20on%20expiry,%20etc%20because%20the%20composite%20item%20is%20yours.%C2%A0%20Conventions%20=%C2%A0Prizes%20The%20cool%20thing%20about%20HTTP%20caching%20is%20that%20once%20a%20server%20has%20declared%20its%20cacheability,%20not%20only%20can%20clients%20leverage%20that%20metadata%20to%20seamlessly%20know%20when%20to%20skip%20requests,%20but%20cache%20proxies%20can%20then%20offer%20cached%20responses%20to%20requests%20clients%20do%20actually%20make.%C2%A0%20Properly%20explaining%20cache%20proxies%20is%20%20another%20article%20in%20itself,%20but%20the%20topic%20is%20outlined%20in%20the%20previous%20article%20GraphQL%20vs%20REST:%20Caching.%20GraphQL%20vs%20REST:%20Caching%20Outlining%20the%20approach%20the%20two%20API%20paradigms%20take%20to%20cachingblog.apisyouwonthate.com).
+
+Expires: Sat, 06 Oct 2018 12:00:00 GMT
+
+This is an example of the most basic cache header, but there are [many more](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching).
+
+Your browser will respect these HTTP headers unless it’s told not to (e.g: hard refresh) and that’s how CSS/JS/HTML is cached. Basically the browser will skip the request that response is already in the cache.
+
+When we build systems that call other systems, we often skip out this step, and performance can suffer.
+
+#### Implementing HTTP Response Caching
+
+Using a single gem, I calmed Client B down substantially. Benchmarking with [siege](https://www.joedog.org/siege-home/):
+
+siege -c 5 --time=5m --content-type "application/json" -H "Authorization: Token token=snip" '[https://permissions-platform-staging.wework.com/check-matrix](https://permissions-platform-staging.wework.com/check-matrix) POST { ...not relevant... }
+
+All of a sudden the Permissions API (client B) went from this:
+
+Transactions:            443 hits
+Response time:           3.35 secs
+Transaction rate:        1.48 trans/sec
+Throughput:              0.00 MB/sec
+Successful transactions: 443
+Failed transactions:     0
+Longest transaction:     5.95
+Shortest transaction:    0.80
+
+… to this:
+
+Transactions:            5904 hits
+Response time:           0.25 secs
+Transaction rate:        19.75 trans/sec
+Throughput:              0.00 MB/sec
+Successful transactions: 5904
+Failed transactions:     0
+Longest transaction:     1.75
+Shortest transaction:    0.12
+
+Boom!
+
+This benchmark is of course fairly artificial due to requesting the same user and membership data thousands of times, but the initial requests are ~800ms (down from ~3.5s) and repeat requests are down to ~200ms (from also 3.5s). This is substantial however you spin it.
+
+This is all done with standard expire-based caching, and not [conditional caching](https://www.joedog.org/siege-home/). That’s a whole other barrel of fish, which we’re not going to get into here.
+
+### I WANT THIS!
+
+Writing all the code to do this would be a big job. Luckily, there are solutions built in pretty much every single language.
+
+#### Ruby
+
+client = Faraday.new do |builder|
+  builder.use :http\_cache, store: Rails.cache
+  ...
+end
+
+[**plataformatec/faraday-http-cache**
+_faraday-http-cache - a faraday middleware that respects HTTP cache_github.com](https://github.com/plataformatec/faraday-http-cache "https://github.com/plataformatec/faraday-http-cache")[](https://github.com/plataformatec/faraday-http-cache)
+
+#### PHP
+
+use GuzzleHttp\\Client;
+use GuzzleHttp\\HandlerStack;
+use Kevinrob\\GuzzleCache\\CacheMiddleware;
+
+// Create default HandlerStack
+$stack = HandlerStack::create();
+
+// Add this middleware to the top with \`push\`
+$stack->push(new CacheMiddleware(), 'cache');
+
+// Initialize the client with the handler option
+$client = new Client(\['handler' => $stack\]);
+
+[**Kevinrob/guzzle-cache-middleware**
+_guzzle-cache-middleware - A HTTP Cache for Guzzle 6. It's a simple Middleware to be added in the HandlerStack._github.com](https://github.com/Kevinrob/guzzle-cache-middleware "https://github.com/Kevinrob/guzzle-cache-middleware")[](https://github.com/Kevinrob/guzzle-cache-middleware)
+
+#### Python
+
+import requests
+import requests\_cache
+
+requests\_cache.install\_cache('demo\_cache')
+
+[**requests-cache 0.4.13 : Python Package Index**
+_Persistent cache for requests library_pypi.python.org](https://pypi.python.org/pypi/requests-cache "https://pypi.python.org/pypi/requests-cache")[](https://pypi.python.org/pypi/requests-cache)
+
+#### JavaScript (Node)
+
+const http = require('http');
+const CacheableRequest = require('cacheable-request');
+
+const cacheableRequest = new CacheableRequest(http.request);
+const cacheReq = cacheableRequest('http://example.com', cb);
+
+cacheReq.on('request', req => req.end());
+
+[**cacheable-request**
+_Wrap native HTTP requests with RFC compliant cache support_www.npmjs.com](https://www.npmjs.com/package/cacheable-request "https://www.npmjs.com/package/cacheable-request")[](https://www.npmjs.com/package/cacheable-request)
+
+#### Go
+
+proxy := &httputil.ReverseProxy{
+    Director: func(r \*http.Request) {
+    },
+}
+
+handler := httpcache.NewHandler(httpcache.NewMemoryCache(), proxy)
+handler.Shared = true
+
+log.Printf("proxy listening on http://%s", listen)
+log.Fatal(http.ListenAndServe(listen, handler))
+
+[**lox/httpcache**
+_httpcache - An RFC7234 compliant golang http.Handler for caching HTTP responses_github.com](https://github.com/lox/httpcache "https://github.com/lox/httpcache")[](https://github.com/lox/httpcache)
+
+#### On The Other Hand
+
+Not every HTTP GET request is one you want to cache. The middleware will generally do the correct thing so long as the server has declared their intentions well.
+
+Regardless of how well the server declares its cacheability, you may way to store things for longer. Disrespecting the use-by date can have similar effects to ignoring the date on a carton of milk, but if you’re aware of what you’re doing then sometimes ignoring the intentions of the server to persist longer makes sense.
+
+#### Sometimes its Inefficient
+
+If you are making multiple calls to APIs with large responses to create one composite resource (one local thing made out of multiple remote things) you might not want to cache the calls.
+
+If the client is only using a few fields from each response, caching all of the responses is going to swamp the cache server. File-based cache stores might be slower than making the HTTP call, and Redis or Memcache caches may well run out of space.
+
+Besides, restitching the data from those multiple requests to make the composite resource locally may be too costly on the CPU. In that case absolutely stick to application-level caching the composite resource instead of using the low level HTTP cache. You can use your own rules and logic on expiry, etc. because the composite item is yours.
+
+One final example: if you have data that changes based on the authenticated user, you’ll need to use `Vary: Authentication`, which basically segments the caches by Authentication header. Two requests that are identical in all ways other than the Authentication header will result in two different cache results.
+
+This can lower cache hit ratios so much it might not be worth worrying about. Depends. Give it a try.
+
+#### Conventions = Prizes
+
+The cool thing about HTTP caching is that once a server has declared its cacheability, not only can clients leverage that metadata to seamlessly know when to skip requests, but cache proxies can then offer cached responses to requests clients do actually make.
+
+Properly explaining cache proxies is another article in itself, but the topic is outlined in the previous article [GraphQL vs REST: Caching](https://blog.apisyouwonthate.com/graphql-vs-rest-caching-2e599077dc88).
+
+[**GraphQL vs REST: Caching**
+_Outlining the approach the two API paradigms take to caching_blog.apisyouwonthate.com](https://blog.apisyouwonthate.com/graphql-vs-rest-caching-2e599077dc88 "https://blog.apisyouwonthate.com/graphql-vs-rest-caching-2e599077dc88")[](https://blog.apisyouwonthate.com/graphql-vs-rest-caching-2e599077dc88)
+
+Caching is a great way to avoid doing slow stuff multiple times. Of course keep working on making things not be slow in the first place, but being able to have servers define their rules and clients automatically follow those rules is a fantastic way to add some stability to your architecture.
+
+The fewer HTTP calls we make, the better our smart toasters will run, and with all that saved energy we’ll stop the ice caps melting! 👍🏼
+
+![A ridiculous stock image that I’m essentially forced to add if I want a cool picture on the index page.](https://cdn-images-1.medium.com/max/1200/1*tYNUaltPqEB9dlIdMQSY6Q.jpeg)
+A ridiculous stock image that I’m essentially forced to add if I want a cool picture on the index page.

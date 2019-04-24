@@ -1,0 +1,150 @@
+---
+title: Keeping Documentation Honest
+subtitle: Don’t Let Docs and Code Get Out of Sync
+date: 2017-11-21
+coverImage: useful-api-errors.jpg
+type: blog
+author: Phil Sturgeon
+---
+
+We’ve been talking a lot about documentation and specifications recently. About how it’s important to [write down your contract](https://blog.apisyouwonthate.com/guessing-api-contracts-ac1b7eaebced) using API specifications, and how to turn specifications into [beautiful human-readable documentation](https://blog.apisyouwonthate.com/turning-contracts-into-beautiful-documentation-deac7013af18). Now let’s look at how we can ensure that documentation is actually telling the truth!
+
+Specification comes in a few forms, and if you’re writing JSON Schema you can use things like [json\_matchers](https://github.com/thoughtbot/json_matchers) (Ruby/Rspec) to simplify your integration tests, and confirm your response matches a certain schema.
+
+context 'with a valid payload' do
+  it 'has a valid contract' do
+    result = JSON.parse(subject.body)\['result'\]
+    expect(result).to match\_response\_schema('foo')
+  end
+end
+
+context 'with an invalid payload' do
+  it 'has a valid error' do
+    result = JSON.parse(subject.body)\['result'\]
+    expect(result).to match\_response\_schema('shared/error')
+  end
+end
+
+That `foo` lines up with `schemas/foo.json` and the error matches up with `schemas/shared/error.json`. This is really handy if your documentation is based entirely off of JSON Schema, or if you’re managing to walk that creepy line of [writing JSON Schema and having it generate OpenAPI](https://philsturgeon.uk/api/2017/07/20/my-vision-for-a-perfect-world-in-api-specification/) despite their discrepancies.
+
+![Don’t lie to your users, because they won’t like it.](https://cdn-images-1.medium.com/max/600/1*YlmckN-mKBhhQT-PvdiF5Q.jpeg)
+Don’t lie to your users, because they won’t like it.
+
+When your code is guaranteed to match the schema, then when you generate documentation from the schema you _know_ the documented responses are going to be honest.
+
+For example, if docs show the `foo` field is going to be there, but your code doesn’t have it, your tests should fail. If you say `bar` is going to be a string, but it somehow is output as an integer, you should know about that too. Using JSON Schema combined with a schema matcher in your integration tests, you have contract testing _and_ documentation testing all in one.
+
+The only downside there, is that this approach _only confirms responses_. Request bodies, query strings and their values, possible enum values, etc. are all kinda ignored, and you’re left hoping that whatever you wrote in your specs is accurate…
+
+There are two tools which set out to help ensure more than just the responses are validated.
+
+#### Dredd
+
+Dredd supports [API Blueprint](https://apiblueprint.org/) and OpenAPI v2.0. The idea with Dredd is that you want to test your documentation works, and seeing as your documentation is full of URLs, query string parameters, enums, and example values, it can throw those at a locally running instance of your API and see how it responds.
+
+Dredd provides documentation testing, and essentially you end up with generated integration and contract testing as a side benefit. It’s not intended to replace integration tests or contract testing, but seeing as it’s making requests and testing the response is the right shape, you could consider it basic contract testing.
+
+Dredd can be pretty complex, and I’ve made videos in the past showing how to get it going.
+
+You’ll need to create a database seed to generate test data for your tests to play with. You’ll need to use the `--sorted` switch or corresponding YAML config to ensure `GET` runs before your `DELETE`, otherwise you get a bunch of 404s as there is no rollback ability. There are plenty of other gotchas to figure out.
+
+As complex as Dredd can be, it’s an absolute lifesaver, which is why I’ve been recommending it for the last few years, but I’ve been curious if an alternative tool could live inside the test suite a little more… Transactions and rollbacks are important, and with Dredd just being a node cli tool that hits your API from the outside, you can’t play with that sort of thing.
+
+I’ve never known anything like this to exist from time in PHP, but working in Ruby land these days meant a tool was recommended...
+
+#### Apivore
+
+[Apivore](https://github.com/westfieldlabs/apivore) initially looked to be the answer to my hopes and dreams. I read the article [_Automating Empathy: Test Your Documentation With Swagger and Apivore_](http://amcaplan.ninja/blog/2016/12/27/automating-empathy-test-your-documentation-with-swagger-and-apivore/), which gives a bunch of insight into how it works.
+
+The idea is that you make an RSpec test, pass your OpenAPI file, and Apivore will do two things. First it will validate the file (which is handy), but what is fantastic is that it’ll then let you hit each of your API endpoints to make sure they’re all valid against the responses you’ve defined.
+
+The promise here immediately seemed ideal, but as soon as I started implementing it I was hitting problems.
+
+Apivore expects your OpenAPI file to be available on URL instead of a filepath and [the PR for that has been abandoned](https://github.com/westfieldlabs/apivore/pull/88) since July 2016… I also noticed its failure to load YAML files, as it just runs `JSON.parse()` on any file you give it regardless of the extension… so [I added YAML support](https://github.com/westfieldlabs/apivore/pull/118).
+
+With YAML being loaded I hit a fresh problem: `$ref` is not respected to the extent that the OpenAPI spec allows it. Another stale conflict-ridden PR exists for supporting `$ref` inside `responses`, but I want it inside `paths`.
+
+paths:
+  /foos:
+    $ref: paths/foos.yml
+  /foos/{id}:
+    $ref: paths/foos-id.yml
+
+To avoid spending another half day on a PR, I temporarily used [swagger-cli](https://github.com/BigstickCarpet/swagger-cli) to bundle up a JSON file with no `$ref` usage:
+
+swagger-cli bundle -r docs/api.yml > docs/api.json
+
+This temporary solution got me far enough to notice that the API for sending query string, headers, body data, etc. is rather convoluted. I found myself building a params hash from smaller lets as the “Autiomating Empathy” article suggested:
+
+require 'rails\_helper'
+
+RSpec.describe 'Valid OpenAPI', type: :apivore, order: :defined do
+
+  subject { Apivore::SwaggerChecker.instance\_for('docs/api.json') }
+
+  let(:api\_key) { create(:api\_key) }
+  let(:url\_params) {{}}
+  let(:query\_string\_params) {{}}
+  let(:data\_params) {{}}
+
+  let(:headers) do
+    {
+      'Authorization' => "Token token=#{api\_key.access\_token}",
+      'Content-Type' => 'application/json'
+    }
+  end
+
+  let(:params) {
+    url\_params.merge(
+      '\_headers' => headers,
+      '\_query\_string' => query\_string\_params.to\_query,
+      '\_data' => data\_params.to\_json
+    )
+  }
+
+  describe '/foos' do
+    context 'get' do
+      before { create(:foo) }
+      it { is\_expected.to validate(:get, '/foos', 200, params) }
+    end
+
+    context 'post' do
+      let(:data\_params) do
+        {
+          user\_uuid: SecureRandom.uuid,
+          account\_uuid: SecureRandom.uuid,
+        }
+      end
+
+      it { is\_expected.to validate(:post, '/foos', 201, params) }
+    end
+  end
+
+This starts to seem fairly cool, and tests started passing… but I have already noticed myself copying code from my integration tests to make this work. This file is going to get huge, especially as I have the `validate_all_paths` in there.
+
+Failure/Error: expect(subject).to validate\_all\_paths
+ post /foos is untested for response code 400
+
+If I have to test all success and failure scenarios in this special type of RSpec test, I’m really wasting my time, as my integration tests are already doing that. Now I need to copy all of the business logic from all of the existing integration tests, stub things out, make sure VCR requests are happening, etc. just to make Apivore happy…
+
+I commented out that `validate_all_paths` test to make this error go away, and my tests pass, but it’s left me a bit confused about the goals of this thing.
+
+Building this special `type: :apivore` test file, repeating the URLs, copying items from my integration tests to make it work, and doing this all manually… it seems like a lot of extra work. I would prefer an RSpec helper much like json\_matcher like… openapi\_matcher which just helps me confirm the response is correct.
+
+Setting everything up myself seems rough, as Dredd would automatically test all paths for the default response and let you know which didn’t work. I don’t need to write the test, Dredd generates that test from example values. Conveniently Dredd will not try to cover every response status, which means if you list your success first and failures after, it’ll skip those. That is fine as I’m using `expect(result).to match_response_schema('shared/error')` in the integration tests failure cases. Once again JSON Schema has saved the day.
+
+Apivore seems especially useless as it turns out, [Apivore does not help with query string parameters](https://github.com/westfieldlabs/apivore/issues/91)_._
+
+> Tests your rails API against its Swagger description of end-points, models, and query parameters. — [https://github.com/westfieldlabs/apivore](https://github.com/westfieldlabs/apivore)
+
+It lies…
+
+That means all it does is check the response, which I am already doing with [json\_matchers](https://github.com/thoughtbot/json_matchers)… so…
+
+#### Summary
+
+For me I’ll keep using [json\_matchers](https://github.com/thoughtbot/json_matchers) in integration tests to ensure the contract of each response, and use Dredd to check everything else is working. I’ll suggest my PHP coworkers use [JsonGuard](http://json-guard.thephpleague.com/) in a similar fashion, and take Apivore off the recommended tool list here at the day job for now.
+
+I’ll be writing more about Dredd in the future, so subscribe if you want to get that!
+
+You could also buy my book [Build APIs You Won’t Hate](https://apisyouwonthate.com/books/build-apis-you-wont-hate.html)!

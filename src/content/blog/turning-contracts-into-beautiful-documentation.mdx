@@ -1,0 +1,133 @@
+---
+title: Turning Contracts into Beautiful Documentation
+subtitle: >-
+  Continuing on the topic of contracts — metadata that describes your data — it
+  makes sense to see what easy early wins you can make from…
+date: '2017-09-22T16:02:01.058Z'
+coverImage: useful-api-errors.jpg
+type: blog
+author: Phil Sturgeon
+---
+
+Continuing on the topic of contracts — metadata that describes your data — it makes sense to see what easy early wins you can make from this stuff.
+
+Having a bunch of files written in JSON Schema, API Blueprint, RAML, OpenAPI, etc is not particularly exciting for developers who understand the format, and it’s completely useless for anyone else.
+
+Taking those contracts and turning them into beautiful documentation is one of the most rewarding results of contracting your API, although there are many more.
+
+Sadly, some of these formats suffer from a lack of documentation tools. For example, API Blueprint has Aglio, which has themes and looks quite nice, but does not document Data Structures (the most important part).
+
+OpenAPI (formerly known as Swagger) has some amazing tools, but people often only know of the one: Swagger UI. There are two others you should know about, and here’s a comparison.
+
+#### [**Swagger UI**](https://swagger.io/swagger-ui/)
+
+_This is not a tool I recommend. If you don’t like the look of it, please scroll down to two amazing tools._
+
+![Right from swagger.io, this RPC-style API shows that Swagger UI is RPC first](https://cdn-images-1.medium.com/max/800/1*YrjooRs7DYUndQQzB3Kn_g.png)
+Right from swagger.io, this RPC-style API shows that Swagger UI is RPC first
+
+Looking at Swagger UI, it’s clear that it was designed by a developer, and also clear that developer was a big fan of RPC.
+
+Documenting an API as purely HTTP requests with the actual objects being hidden away as an afterthought is entirely backwards for a REST API. These tools promote RPC thinking in APIs that have Hypermedia and it’s just propagating the problem.
+
+![Trying to find the object is hidden under “model” and it looks really bad.](https://cdn-images-1.medium.com/max/800/1*lzic0pcw6UfnwhD24Lc80A.png)
+Trying to find the object is hidden under “model” and it looks really bad.
+
+Whilst having docs is better than not having docs (people will just [guess the contracts](https://blog.apisyouwonthate.com/guessing-api-contracts-ac1b7eaebced) and RPC your REST API anyway), you don’t want to use a doc tool that really seems to suggest you completely ignore Hypermedia entirely.
+
+Trying to install Swagger UI is a weird one too. The docs send you to [their GitHub repo](https://github.com/swagger-api/swagger-ui), and the README is banging on about Docker. As wonderful as it is to work with Docker on a daily basis, it is not something somebody should need to learn to turn their OpenAPI files into HTML.
+
+I think (hope!) this is going away, as Swagger CodeGen has a HTML mode. CodeGen is designed primarily to generate code like SDKs, but it provides other templates too. Two of those templates output HTML, even though it’s not ready to be used as docs, and seems to be missing a bunch of stuff.
+
+### Community to the Rescue!
+
+#### [Spectacle](https://sourcey.com/spectacle/)
+
+With an obvious install (npm/yarn install) you get a simple CLI tool that converts OpenAPI into great looking HTML.
+
+![Demo API talks about Cheese **Source:** sourcey.com/spectacle](https://cdn-images-1.medium.com/max/800/1*XUYRHWH4v8J-kbT9MQnrkw.png)
+Demo API talks about Cheese **Source:** sourcey.com/spectacle
+
+Spectacle splits the logic into two different sections, Operations and Schema Definitions. Operations give it the usual RPC-ish explanation you’re probably used to, and Schema Definitions is dedicated to outlining objects and their properties.
+
+Whilst this isn’t as 100% HATEOAStastic as some would like, this is a big step towards highlighting the importance of the objects instead of “lets just fire these fields at this endpoint” RPC thinking.
+
+In general I’m a fan, but there are a few small downsides noticed from my experiments.
+
+The enum output is bit weird, with lines looking like:
+
+**status:** _string_  , x ∈ { available , pending , sold }
+
+I’m no designer so I really don’t mean to belittle anyone, but… I’d have asked a friend to help me instead of doing that.
+
+Also despite having the objects linked in there (under request and response will be a “Cheese” link), it’s not particularly clear, and if Object A embeds Object B, that’s not made clear in the example. Some systems will annotate the JSON Example with more details, such as…
+
+#### [ReDoc](https://github.com/Rebilly/ReDoc/)
+
+By far my favourite of the lot, ReDoc just looks absolutely stunning. You can add a logo with the `x-logo` vendor extension, tweak colors, and you get that awesome three-column style popularized by docs like the Stripe.
+
+![Fancy/modern looking three-col API documentation from OpenAPI](https://cdn-images-1.medium.com/max/800/1*JhG3HfXxwMZG2zmj9nPyvQ.png)
+Fancy/modern looking three-col API documentation from OpenAPI
+
+The “data structures” unfortunately don’t live in their own navigation section like Spectacle, but they are fantastic to look at.
+
+![](https://cdn-images-1.medium.com/max/800/1*KZZj5asLnWadJxj1bkzmZg.gif)
+
+It works a little differently to many of the CLI-based tools though, as it’s a node module that you embed into a HTML document and load through the browser.
+
+To make the CLI stuff a little easier, I made a shell script that would fire off a web server:
+
+#!/bin/sh
+set -e
+
+echo "Launching Documentation on [http://localhost:8088/](http://localhost:8088/)"
+echo "Press CTRL+C to terminate server"
+ruby -run -ehttpd ./docs/ -p8088
+
+Then I have a `docs/index.html` that looks like this:
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Permissions API Documentation</title>
+    <!-- needed for adaptive design -->
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!--
+    ReDoc doesn't change outer page styles
+    -->
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <redoc spec-url='/api.yml'></redoc>
+    <script src="[https://rebilly.github.io/ReDoc/releases/latest/redoc.min.js](https://rebilly.github.io/ReDoc/releases/latest/redoc.min.js)"> </script>
+  </body>
+</html>
+
+This is just the development version so I can build out my specs as I’m adding functionality, and the actual HTML is collated for our many many APIs with a fancy Ruby called [Redocaholic](https://github.com/philsturgeon/redocaholic).
+
+This workflow lets your specs live in your repo, and Jenkins just rebuilds a Redocaholic-based static site every push/nightly so folks can see the wonderful API docs in their browsers.
+
+ReDoc is still only on OpenAPI v2.0, but they’re working on a [ReactJS rewrite](https://github.com/Rebilly/ReDoc/issues/312) which will then make the [OpenAPI v3.0 support](https://github.com/Rebilly/ReDoc/issues/312) easier.
+
+_I’ll certainly be pitching in to help with the OpenAPI v3.0 efforts once it’s in React, because I’m like 60% good at that, vs 20% at AngularJS._
+
+#### Is OpenAPI The Right Tool?
+
+Breaking away from this RPC-style approach to documenting your REST APIs is hard. Some folks are coming up with [drastic new approaches](http://mfadhel.com/2017/API_Tables/) which may or may not float down into the common documentation tools, but the way we’ve been doing it aint right.
+
+OpenAPI has some hypermedia support in v3.0 which hasn’t made it to any of the tools, but that functionality isn’t the best anyway… More on that another time.
+
+#### Summary
+
+Whilst there are plenty of people who think OpenAPI is a poor tool for documenting your REST APIs, I think its mostly the design of the HTML output that creates this concern.
+
+Hopefully we’ll see tools like ReDoc elevate the importance of objects over operations, but in the mean time I’m really glad that RPC APIs (and REST APIs that are used in an RPC-style) can eliminate guesswork for their consumers.
+
+_Documentation is only one benefit to having contracts for your API. I’ll be writing more about using your in-repo contracts to sync to Postman collections that stay up-to-date, integration testing, client/server-side validation, and much much more soon._
