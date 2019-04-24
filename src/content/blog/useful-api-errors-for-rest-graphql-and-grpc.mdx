@@ -1,0 +1,19 @@
+---
+title: Creating Good API Errors in REST, GraphQL and gRPC
+slug: useful-api-errors-for-rest-graphql-and-grpc
+coverImage: useful-api-errors.jpg
+date: 2019-04-16
+type: blog
+author: Phil Sturgeon
+subtitle: Dealing with the Happy Path™ in an API is pretty easy, but creating useful error messages can be tricky at first.
+---
+
+Dealing with the Happy Path™ in an API is pretty easy: When a client asks for a resource, show them the resource. When they trigger a procedure, let them know if it was triggered OK, and maybe if it completed without a problem.
+
+What to do when something doesn’t go according to plan? Well, that can be tricky.
+
+HTTP status codes are part of the picture, they can define a category of issue, but they are never going to explain the whole story.
+
+Two examples from a carpooling application which had a “simulated savings” endpoint, to let folks know how much they might save picking up a passenger on their daily commute:
+
+This error let the client know the coordinates were too close together, meaning it is not even worth driving let alone trying to pick anyone else up.

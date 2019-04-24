@@ -1,0 +1,38 @@
+.background {
+  background-color: var(--hateful-green);
+}
+
+header {
+  /* max-width: var(--site-width); */
+  margin: 0 auto;
+  padding: 1rem 0 1rem 0;
+}
+
+.title {
+  margin: 0 0 1rem 0;
+  padding: 0;
+  font-weight: 400;
+  font-size: 3.8rem;
+  line-height: 1.2em;
+  letter-spacing: 0.05rem;
+}
+
+.title a {
+  font-weight: 700;
+  text-decoration: none;
+  color: var(--white);
+}
+
+.title:hover a {
+  border-bottom: 1px solid;
+}
+
+.link {
+  color: rgba(var(--white_rgb), var(--alpha-dimmed));
+  text-decoration: none;
+  padding-right: 2rem;
+}
+
+.link:hover {
+  color: rgba(var(--white_rgb), var(--alpha-full));
+}
