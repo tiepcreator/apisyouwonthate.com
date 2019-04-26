@@ -53,7 +53,6 @@ export const query = graphql`
           coverImage
           date
           author
-          slug
           title
           subtitle
         }

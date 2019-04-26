@@ -4,15 +4,16 @@ import { Link } from 'gatsby';
 
 import { Col, Row } from 'react-bootstrap';
 
+import slugify from '../../utils/slugify';
 import { CoverImage } from '../Image';
 import { AuthorDisplay } from '../AuthorDisplay';
 
 import classes from './BlogPostItem.module.css';
 
 const BlogPostItem = ({ post, feature = false }) => {
-  const { author, date, coverImage, subtitle, slug, title } = post.frontmatter;
+  const { author, date, coverImage, subtitle, title } = post.frontmatter;
   return (
-    <Link to={`/blog/${slug}`} className={classes.container}>
+    <Link to={`/blog/${slugify(title)}`} className={classes.container}>
       <Row>
         <Col sm={12} xs={12} md={12} lg={feature ? 8 : 12}>
           <CoverImage

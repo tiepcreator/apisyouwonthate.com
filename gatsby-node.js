@@ -1,6 +1,8 @@
 const path = require(`path`);
 const { createFilePath } = require(`gatsby-source-filesystem`);
 
+const slugify = require('./src/utils/slugify');
+
 const getMdxDataForType = async ({ type, graphql }) => {
   const { data } = await graphql(`
     {
@@ -8,7 +10,7 @@ const getMdxDataForType = async ({ type, graphql }) => {
         nodes {
           id
           frontmatter {
-            slug
+            title
           }
         }
       }
@@ -33,9 +35,15 @@ const turnBlogPostsIntoPages = async ({ graphql, actions }) => {
       if (i !== 0) prevPost = posts[i - 1];
       if (i !== post.length - 1) nextPost = posts[i + 1];
     }
+
+    console.log(
+      'hey we gettin a slug of',
+      `blog/${slugify(post.frontmatter.title)}`
+    );
+
     actions.createPage({
       // What is the URL?
-      path: `blog/${post.frontmatter.slug}`,
+      path: `blog/${slugify(post.frontmatter.title)}`,
       // What react component should we use to render this page?
       component: blogPostTemplate,
       // What data should be surfaced to the Component or Query on this page?
@@ -53,7 +61,7 @@ const turnBooksIntoPages = async ({ graphql, actions }) => {
   const books = await getMdxDataForType({ type: 'book', graphql });
   books.forEach((book, i) => {
     actions.createPage({
-      path: `books/${book.frontmatter.slug}`,
+      path: `books/${slugify(book.frontmatter.title)}`,
       component: bookTemplate,
       context: {
         id: book.id,
