@@ -56,7 +56,7 @@ In general I’m a fan, but there are a few small downsides noticed from my expe
 
 The enum output is bit weird, with lines looking like:
 
-**status:** _string_ , x ∈ { available , pending , sold }
+**status:** _string_  , x ∈ { available , pending , sold }
 
 I’m no designer so I really don’t mean to belittle anyone, but… I’d have asked a friend to help me instead of doing that.
 
@@ -86,16 +86,15 @@ ruby -run -ehttpd ./docs/ -p8088
 
 Then I have a `docs/index.html` that looks like this:
 
-```html
 <!DOCTYPE html>
 <html>
   <head>
     <title>Permissions API Documentation</title>
     <!-- needed for adaptive design -->
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <!--
+<!--
     ReDoc doesn't change outer page styles
     -->
     <style>
@@ -106,11 +105,10 @@ Then I have a `docs/index.html` that looks like this:
     </style>
   </head>
   <body>
-    <redoc spec-url="/api.yml"></redoc>
-    <script src="[https://rebilly.github.io/ReDoc/releases/latest/redoc.min.js](https://rebilly.github.io/ReDoc/releases/latest/redoc.min.js)"></script>
+    <redoc spec-url='/api.yml'></redoc>
+    <script src="[https://rebilly.github.io/ReDoc/releases/latest/redoc.min.js](https://rebilly.github.io/ReDoc/releases/latest/redoc.min.js)"> </script>
   </body>
 </html>
-```
 
 This is just the development version so I can build out my specs as I’m adding functionality, and the actual HTML is collated for our many many APIs with a fancy Ruby called [Redocaholic](https://github.com/philsturgeon/redocaholic).
 
