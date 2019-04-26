@@ -36,11 +36,6 @@ const turnBlogPostsIntoPages = async ({ graphql, actions }) => {
       if (i !== post.length - 1) nextPost = posts[i + 1];
     }
 
-    console.log(
-      'hey we gettin a slug of',
-      `blog/${slugify(post.frontmatter.title)}`
-    );
-
     actions.createPage({
       // What is the URL?
       path: `blog/${slugify(post.frontmatter.title)}`,
