@@ -1,11 +1,13 @@
-import slugifyLib from 'slugify';
+// using require syntax so this works in gatsby-node.js as well 😞
+const slugifyLib = require('slugify');
 
 const slugify = input => {
   return slugifyLib(input, {
     lower: true,
     replacement: '',
-    remove: /[…*+~.()'"!:@]/g,
+    // this regex contains characters to remove from slugs.  Add any that may be missing!
+    remove: /[…?/*+~.,()'"!:@]/g,
   });
 };
 
-export default slugify;
+module.exports = slugify;
