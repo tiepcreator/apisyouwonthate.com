@@ -4,7 +4,7 @@ const slugify = input => {
   return slugifyLib(input, {
     lower: true,
     replacement: '',
-    remove: /[*+~.()'"!:@]/g,
+    remove: /[…*+~.()'"!:@]/g,
   });
 };
 
