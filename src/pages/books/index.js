@@ -50,7 +50,6 @@ export const query = graphql`
         frontmatter {
           title
           subtitle
-          slug
           description
           coverImage
         }

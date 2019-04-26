@@ -11,7 +11,7 @@ author: Phil Sturgeon
 
 Part of my day job is trying to get folks to write API documentation, so the hordes of new developers joining the company on a weekly basis are not stuck trying [guess at contracts](https://blog.apisyouwonthate.com/guessing-api-contracts-ac1b7eaebced) by poking around years old code. Convincing API developers to take the time to write specs has involved dangling a myriad of carrots.
 
-One was a continuous integration pipeline to convert their in-repo OpenAPI specs to read-only Postman Mirrors (because who wants to maintain Postman collections manually?!!), and some folks are excited to [use JSON Schema to offer client-side validation](https://blog.apisyouwonthate.com/the-many-amazing-uses-of-json-schema-client-side-validation-c78a11fbde45) (now that we’ve solved the JSON Schema <> OpenAPI issue.)
+One was a continuous integration pipeline to convert their in-repo OpenAPI specs to read-only Postman Mirrors (because who wants to maintain Postman collections manually?!!), and some folks are excited to [use JSON Schema to offer client-side validation](https://blog.apisyouwonthate.com/the-many-amazing-uses-of-json-schema-client-side-validation-c78a11fbde45) (now that we’ve solved the JSON Schema &gt;&lt; OpenAPI issue.)
 
 [**Solving OpenAPI and JSON Schema Divergence**
 _My previous article explained the divergence between OpenAPI and JSON Schema (a.k.a the subset/superset/sideset…_blog.apisyouwonthate.com](https://blog.apisyouwonthate.com/openapi-and-json-schema-divergence-part-2-52e282e06a05 "https://blog.apisyouwonthate.com/openapi-and-json-schema-divergence-part-2-52e282e06a05")[](https://blog.apisyouwonthate.com/openapi-and-json-schema-divergence-part-2-52e282e06a05)
@@ -26,10 +26,12 @@ Well that’s a fairly backwards way to think about the whole thing. I tell peop
 
 A lot of applications just check that the endpoint doesn’t entirely crap out, which is the most basic sort of unit test:
 
+```bash
 it 'should return HTTP OK (200)' do
   get "/users/#{subject.id}"
   expect(response).to have\_http\_status(:ok)
 end
+```
 
 Sure ok, that’s better than literally nothing, but we need to know what fields are there, that those fields have a specific type, and we need to make sure that doesn’t randomly change!
 
@@ -43,6 +45,7 @@ it "has basic info about user" do  expect(subject).to include_json(    id: 25,  
 
 Others will bump this off to BDD-style testing with Cucumber or similar tools, which is essentially doing the exact same thing:
 
+```
 Feature: User API
 
 Scenario: Show action
@@ -56,6 +59,7 @@ Scenario: Show action
     And the JSON response should have "updated\_at"
     And the JSON response at "updated\_at" should be a string
     .... ugh it goes on and on ...
+```
 
 At this point it is essentially contract testing, but its very laborious, and is a whitelist. If a new field shows up and we’ve not written a bunch of assertions for its type, we have no way of knowing if its correct. Clients might start using it, later it could change, and our test suite would never know.
 
@@ -65,9 +69,10 @@ Something else to consider, is that writing these assertions for each field suck
 
 Don’t Repeat Yourself, and define reusable `schemas/components/user.json` files, populated by JSON Schema:
 
+```json
 {
-  `"$schema": "http://json-schema.org/draft-06/schema#",
- ` "title": "Foo",
+  "$schema": "http://json-schema.org/draft-06/schema#",
+  "title": "Foo",
   "type": "object",
   "properties": {
     "id": {
@@ -92,18 +97,19 @@ Don’t Repeat Yourself, and define reusable `schemas/components/user.json` file
        "type": "string",
        "example": "inactive"
      },
-     "created\_at": {
-       "type": \["string", "null"\],
+     "created_at": {
+       "type": ["string", "null"],
        "format": "date-time",
        "example": "2018-04-09T15:45:44.358Z"
      },
   },
-  "required": \[
+  "required": [
     "email",
     "name",
     "uuid"
-  \]
+  ]
 }
+```
 
 _Learn more about the basic JSON Schema keywords over here:_
 
@@ -114,21 +120,25 @@ Armed with a bunch of reusable contracts, the only thing to do is check if those
 
 Put this config wherever you handle your RSpec setup (or check out their [alternative approaches](https://github.com/thoughtbot/json_matchers#usage)):
 
-require "json\_matchers/rspec"
+```ruby
+require "json_matchers/rspec"
 
-JsonMatchers.schema\_root = "docs/components/schemas"
+JsonMatchers.schema_root = "docs/components/schemas"
+```
 
 Then it’s simply a case of adding new tests for that context, or adding the expect line to your existing tests:
 
+```ruby
 it 'should return HTTP OK (200)' do
   get "/users/#{subject.id}"
-  expect(response).to have\_http\_status(:ok)
+  expect(response).to have_http_status(:ok)
 end
 
 it 'should conform to user schema' do
   get "/users/#{subject.id}"
-  expect(response).to match\_json\_schema('user')
+  expect(response).to match_json_schema('user')
 end
+```
 
 That’s it as far as contract testing goes. Run your tests, tweak the responses and JSON Schema, try and get it to fail. Remove a required field and it’ll moan. Typecast an int to a string and it’ll get sad.
 
@@ -138,25 +148,28 @@ If you need help creating these JSON Schema files, there’s [a few hacks to spe
 
 Often early stage OpenAPI documentation is a lot of paths and maybe some properties, but folks often leave the schemas “until later” (never).
 
+```
 responses:
     200:
       description: OK
+```
 
 With the schema missing you lose all benefit of API specifications: you have no example values, attribute tables, enums for status fields, types, etc. Luckily the new JSON Schema fill exactly that gap!
 
+```
   responses:
     200:
       description: OK **content:
         application/json:
           schema:
             $ref: ./components/schemas/user.json**
+```
 
 _You’ll need to watch out for the_ [_divergence issue_](https://blog.apisyouwonthate.com/openapi-and-json-schema-divergence-part-1-1daf6678d86e)_, or use Speccy to convert this JSON Schema & OpenAPI combo to “pure OpenAPI” in some build/CI step, but this works juuuust fine._
 
 Then it’s just a case of [turning that OpenAPI into beautiful documentation](https://blog.apisyouwonthate.com/turning-contracts-into-beautiful-documentation-deac7013af18).
 
-[**Turning Contracts into Beautiful Documentation**
-_Continuing on the topic of contracts — metadata that describes your data — it makes sense to see what easy early wins…_blog.apisyouwonthate.com](https://blog.apisyouwonthate.com/turning-contracts-into-beautiful-documentation-deac7013af18 "https://blog.apisyouwonthate.com/turning-contracts-into-beautiful-documentation-deac7013af18")[](https://blog.apisyouwonthate.com/turning-contracts-into-beautiful-documentation-deac7013af18)
+[**Turning Contracts into Beautiful Documentation** _Continuing on the topic of contracts — metadata that describes your data — it makes sense to see what easy early wins…_ (blog.apisyouwonthate.com)](https://blog.apisyouwonthate.com/turning-contracts-into-beautiful-documentation-deac7013af18 "https://blog.apisyouwonthate.com/turning-contracts-into-beautiful-documentation-deac7013af18")
 
 Give it a try and let me know what you think. I really like this simple, powerful, approach to keeping code up-to-date with your API specs.
 

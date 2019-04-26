@@ -37,6 +37,7 @@ Well built APIs generally offer a copy of their contracts in a programmatically 
 
 JSON Schema is very simple; point out which fields might exist, which are required or optional, what data format they use. Other validation rules can be added on top of that basic premise, along with human-readable information. The metadata lives in `.json` files, which might look a bit like this:
 
+```json
 {
   "$id": "[http://example.com/schemas/user.json](http://example.com/schemas/user.json)",
   "type": "object",
@@ -55,7 +56,7 @@ JSON Schema is very simple; point out which fields might exist, which are requir
       "type": "string",
       "format": "email"
     },
-    "date\_of\_birth": {
+    "date_of_birth": {
       "title": "Date Of Birth",
       "type": "string",
       "description": "Date of uses birth in the one and only date standard: ISO 8601.",
@@ -63,22 +64,23 @@ JSON Schema is very simple; point out which fields might exist, which are requir
       "example": "1990–12–28"
     }
   },
-  "required": \[
-    "name"
-  \]
+  "required": ["name"]
 }
+```
 
 There is quite a lot of stuff here, but most of it should make sense to the human eye without too much guesswork. We are listing properties by name, giving them a data type, setting up `maxLength` for the name according to the example earlier, and putting human-readable descriptions in there too. Also some examples have been thrown in for giggles.
 
-The one bit that probably needs more explaining is the $schema key, which is pointing to the draft version of JSON Schema in use. Knowing which draft you are validating against is important, as a JSON Schema file written for Draft 07 cannot be validated with a Draft 06 validator, or lower. Luckily most JSON Schema tools keep up fairly well, and JSON Schema is not madly changing crap at random.
+The one bit that probably needs more explaining is the \$schema key, which is pointing to the draft version of JSON Schema in use. Knowing which draft you are validating against is important, as a JSON Schema file written for Draft 07 cannot be validated with a Draft 06 validator, or lower. Luckily most JSON Schema tools keep up fairly well, and JSON Schema is not madly changing crap at random.
 
 Anyway, back to it: An example of a valid instance for that `.json` schema file might look like this.
 
+```json
 {
- "name": "Lucrezia Nethersole",
- "email":"[l.nethersole@hotmail.com](mailto:l.nethersole@hotmail.com)",
- "date\_of\_birth": "2007–01–23"
+  "name": "Lucrezia Nethersole",
+  "email": "[l.nethersole@hotmail.com](mailto:l.nethersole@hotmail.com)",
+  "date_of_birth": "2007–01–23"
 }
+```
 
 To try playing around with this, head over to [jsonschemavalidator.net](http://jsonschemavalidator.net) and paste those in. Removing the name field triggers an error as we have `"required": ["name"]` in there.
 
@@ -94,10 +96,11 @@ Conceptually that probably makes enough sense, but how to actually programmatica
 Once a API client has the schema URL they can download the file. This involves simply making a GET request to the URL provided. Fear not about performance, these are usually stored on CDNs, like S3 with CloudFlare in front of it. They are also likely to have cache headers set, so make sure your HTTP client knows how to handle that.
 
 [**Speeding Up APIs/Apps/Smart Toasters with HTTP Response Caching**
-_Caching is a huge topic, and there’s a lot of different types of caching. No one type of cache is going to suite all…_blog.apisyouwonthate.com](https://blog.apisyouwonthate.com/speeding-up-apis-apps-smart-toasters-with-http-response-caching-a67becf829c6 "https://blog.apisyouwonthate.com/speeding-up-apis-apps-smart-toasters-with-http-response-caching-a67becf829c6")[](https://blog.apisyouwonthate.com/speeding-up-apis-apps-smart-toasters-with-http-response-caching-a67becf829c6)
+\_Caching is a huge topic, and there’s a lot of different types of caching. No one type of cache is going to suite all…\_blog.apisyouwonthate.com](https://blog.apisyouwonthate.com/speeding-up-apis-apps-smart-toasters-with-http-response-caching-a67becf829c6 'https://blog.apisyouwonthate.com/speeding-up-apis-apps-smart-toasters-with-http-response-caching-a67becf829c6')[](https://blog.apisyouwonthate.com/speeding-up-apis-apps-smart-toasters-with-http-response-caching-a67becf829c6)
 
 Triggering validation rules on a random website is one thing, but learning how to do that with code is going to be far more useful. For JavaScript a module called [ajv](https://github.com/korzio/ajv) is fairly popular, so install that with a simple `yarn add ajv@6`, then shove it in a JavaScript file. This code is available on [the new books GitHub Repo](http://apisyouwonthate/talking-to-other-peoples-apis-code).
 
+```javascript
 const Ajv = require('ajv');
 const ajv = new Ajv();
 
@@ -112,9 +115,9 @@ function validate(schema, data) {
 
 // Pretend we've submitted a form
 const input = {
- name: "Lucrezia Nethersole",
- email: "[l.nethersole@hotmail.com](mailto:l.nethersole@hotmail.com)",
- registered\_date: "2007-01-23T23:01:32Z"
+  name: "Lucrezia Nethersole",
+  email: "[l.nethersole@hotmail.com](mailto:l.nethersole@hotmail.com)",
+  registered\_date: "2007-01-23T23:01:32Z"
 }
 
 // Is the whole input valid?
@@ -123,6 +126,7 @@ console.log('valid', validate(userSchema, input)) // true
 // Ok screw up validation...
 input\['email'\] = 123
 console.log('fail', validate(userSchema, input)) // \[ { keyword: 'type', dataPath: '.email', ...
+```
 
 For the sake of keeping the example short, the actual JSON Schema has been “downloaded” from [http://example.com/schemas/user.json](http://example.com/schemas/user.json) and put into a local file. This is not quite how you would normally do things, and it will become clear why in a moment.
 
@@ -130,18 +134,21 @@ A `validation()` function is created to wrap the validation logic in a simple he
 
 Calling this script should show the first validation to succeed, and the second should fail with an array of errors.
 
+```bash
 $ node ./1-simple.js
 true
-\[ { keyword: 'type',
+[ { keyword: 'type',
  dataPath: '.email',
  schemaPath: '#/properties/email/type',
  params: { type: 'string' },
- message: 'should be string' } \]
+ message: 'should be string' } ]
+```
 
 At first this may seem like a pile of unusable gibberish, but it is actually incredibly useful. How? The `dataPath` by default uses JavaScript property access notation, so you can easily write a bit of code that figures out the input.email was the problem. That said, [JSON Pointers](https://tools.ietf.org/html/rfc6901) might be a better idea. A much larger example, again available on Github, will show how JSON Pointers can be used to create dynamic errors.
 
 Sadly a lot of this example is going to be specific to AJV, but the concepts should translate to any JSON Schema validator out there.
 
+```javascript
 const Ajv = require('ajv');
 const ajv = new Ajv({ jsonPointers: true });
 const pointer = require('json-pointer');
@@ -165,27 +172,32 @@ function buildHumanErrors(errors) {
     return property.title + ' ' + error.message;
   });
 }
+```
 
 The important things to note in this example are the `new Ajv({ jsonPointers: true });` property, which makes `dataPath` return a JSON Path instead of dot notation stuff. Then we use that pointer to look into the schema objects (using the [json-pointer](https://www.npmjs.com/package/json-pointer) npm package), and find the relevant property object. From there we now have access to the human readable title, and we can build out some human readable errors based off of the various properties returned. This code might be a little odd looking, but we support a few types of error quite nicely. Consider the following inputs.
 
-\[
+```javascript
+[
   { },
   { name: "Lucrezia Nethersole", email: "not-an-email" },
   { name: "Lucrezia Nethersole", date\_of\_birth: 'n/a' },
   { name: "Lucrezia Nethersole Has Many Many Names" }
-\].forEach(function(input) {
+].forEach(function(input) {
   console.log(
     buildHumanErrors(validate(userSchema, input))
   );
 });
+```
 
 These inputs give us a whole bunch of useful human errors back, that can be placed into our UI to explain to users that stuff is no good.
 
+```bash
 node 2-useful-errors.js
 \[ ‘Name is a required field’ \]
 \[ ‘Email should match format “email”’ \]
 \[ ‘Date Of Birth is in an invalid format, e.g: 1990–12–28’ \]
 \[ ‘Name should NOT be longer than 20 characters’ \]
+```
 
 The errors we built from the JSON Schema using the properties that exist can get really intelligent depending on how good the schema files are, and how many edge cases you cover. Putting the examples in is a really nice little touch, and makes a lot more sense to folks reading the messages than just saying the rather vague statement “it should be a date”.
 

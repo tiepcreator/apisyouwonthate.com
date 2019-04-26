@@ -21,17 +21,21 @@ We implemented a little Ruby memoization to avoid duplicate requests, but that w
 
 At this point people usually recommend adding some cache logic to the application (application caching), which [in Rails](http://guides.rubyonrails.org/caching_with_rails.html#low-level-caching) looks a bit like this:
 
+```ruby
 Rails.cache.fetch("users/#{uuid}") do
-  UserAPI.find\_user(uuid)
+  UserAPI.find_user(uuid)
 end
+```
 
 If there is nothing in the cache matching that user then it’ll run the block and fetch the thing. That’s handy and all, but how long does that cache entry last?
 
 Forever! Infinity is a long time, so we have to provide a reasonable date.
 
-Rails.cache.fetch("users/#{uuid}", expires\_in: 12.hours.from\_now) do
-  UserAPI.find\_user(uuid)
+```ruby
+Rails.cache.fetch("users/#{uuid}", expires_in: 12.hours.from_now) do
+  UserAPI.find_user(uuid)
 end
+```
 
 That’s great and all, but 12 is an arbitrary number plucked out of thin air. Client B is now making up its own rules about resources it doesn’t own…
 
@@ -57,10 +61,13 @@ When we build systems that call other systems, we often skip out this step, and 
 
 Using a single gem, I calmed Client B down substantially. Benchmarking with [siege](https://www.joedog.org/siege-home/):
 
+```
 siege -c 5 --time=5m --content-type "application/json" -H "Authorization: Token token=snip" '[https://permissions-platform-staging.wework.com/check-matrix](https://permissions-platform-staging.wework.com/check-matrix) POST { ...not relevant... }
+```
 
 All of a sudden the Permissions API (client B) went from this:
 
+```
 Transactions:            443 hits
 Response time:           3.35 secs
 Transaction rate:        1.48 trans/sec
@@ -69,9 +76,11 @@ Successful transactions: 443
 Failed transactions:     0
 Longest transaction:     5.95
 Shortest transaction:    0.80
+```
 
 … to this:
 
+```
 Transactions:            5904 hits
 Response time:           0.25 secs
 Transaction rate:        19.75 trans/sec
@@ -80,6 +89,7 @@ Successful transactions: 5904
 Failed transactions:     0
 Longest transaction:     1.75
 Shortest transaction:    0.12
+```
 
 Boom!
 
@@ -93,19 +103,22 @@ Writing all the code to do this would be a big job. Luckily, there are solutions
 
 #### Ruby
 
+```ruby
 client = Faraday.new do |builder|
-  builder.use :http\_cache, store: Rails.cache
+  builder.use :http_cache, store: Rails.cache
   ...
 end
+```
 
 [**plataformatec/faraday-http-cache**
 _faraday-http-cache - a faraday middleware that respects HTTP cache_github.com](https://github.com/plataformatec/faraday-http-cache "https://github.com/plataformatec/faraday-http-cache")[](https://github.com/plataformatec/faraday-http-cache)
 
 #### PHP
 
-use GuzzleHttp\\Client;
-use GuzzleHttp\\HandlerStack;
-use Kevinrob\\GuzzleCache\\CacheMiddleware;
+```php
+use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
+use Kevinrob\GuzzleCache\CacheMiddleware;
 
 // Create default HandlerStack
 $stack = HandlerStack::create();
@@ -114,23 +127,30 @@ $stack = HandlerStack::create();
 $stack->push(new CacheMiddleware(), 'cache');
 
 // Initialize the client with the handler option
-$client = new Client(\['handler' => $stack\]);
+$client = new Client(['handler' => $stack]);
+```
+
 
 [**Kevinrob/guzzle-cache-middleware**
 _guzzle-cache-middleware - A HTTP Cache for Guzzle 6. It's a simple Middleware to be added in the HandlerStack._github.com](https://github.com/Kevinrob/guzzle-cache-middleware "https://github.com/Kevinrob/guzzle-cache-middleware")[](https://github.com/Kevinrob/guzzle-cache-middleware)
 
-#### Python
 
+#### Python 
+
+```python
 import requests
-import requests\_cache
+import requests_cache
 
-requests\_cache.install\_cache('demo\_cache')
+requests_cache.install_cache('demo_cache')
+```
+
 
 [**requests-cache 0.4.13 : Python Package Index**
 _Persistent cache for requests library_pypi.python.org](https://pypi.python.org/pypi/requests-cache "https://pypi.python.org/pypi/requests-cache")[](https://pypi.python.org/pypi/requests-cache)
 
-#### JavaScript (Node)
+#### JavaScript (node)
 
+```JavaScript
 const http = require('http');
 const CacheableRequest = require('cacheable-request');
 
@@ -138,14 +158,16 @@ const cacheableRequest = new CacheableRequest(http.request);
 const cacheReq = cacheableRequest('http://example.com', cb);
 
 cacheReq.on('request', req => req.end());
+```
 
 [**cacheable-request**
 _Wrap native HTTP requests with RFC compliant cache support_www.npmjs.com](https://www.npmjs.com/package/cacheable-request "https://www.npmjs.com/package/cacheable-request")[](https://www.npmjs.com/package/cacheable-request)
 
 #### Go
 
+```go
 proxy := &httputil.ReverseProxy{
-    Director: func(r \*http.Request) {
+    Director: func(r *http.Request) {
     },
 }
 
@@ -154,9 +176,9 @@ handler.Shared = true
 
 log.Printf("proxy listening on http://%s", listen)
 log.Fatal(http.ListenAndServe(listen, handler))
+```
 
-[**lox/httpcache**
-_httpcache - An RFC7234 compliant golang http.Handler for caching HTTP responses_github.com](https://github.com/lox/httpcache "https://github.com/lox/httpcache")[](https://github.com/lox/httpcache)
+[**lox/httpcache** _httpcache_ - An RFC7234 compliant golang http.Handler for caching HTTP responses_github.com](https://github.com/lox/httpcache "https://github.com/lox/httpcache")[](https://github.com/lox/httpcache)
 
 #### On The Other Hand
 
@@ -182,8 +204,7 @@ The cool thing about HTTP caching is that once a server has declared its cacheab
 
 Properly explaining cache proxies is another article in itself, but the topic is outlined in the previous article [GraphQL vs REST: Caching](https://blog.apisyouwonthate.com/graphql-vs-rest-caching-2e599077dc88).
 
-[**GraphQL vs REST: Caching**
-_Outlining the approach the two API paradigms take to caching_blog.apisyouwonthate.com](https://blog.apisyouwonthate.com/graphql-vs-rest-caching-2e599077dc88 "https://blog.apisyouwonthate.com/graphql-vs-rest-caching-2e599077dc88")[](https://blog.apisyouwonthate.com/graphql-vs-rest-caching-2e599077dc88)
+[**GraphQL vs REST: Caching** _Outlining the approach the two API paradigms take to caching_ (blog.apisyouwonthate.com)](https://blog.apisyouwonthate.com/graphql-vs-rest-caching-2e599077dc88 "https://blog.apisyouwonthate.com/graphql-vs-rest-caching-2e599077dc88").
 
 Caching is a great way to avoid doing slow stuff multiple times. Of course keep working on making things not be slow in the first place, but being able to have servers define their rules and clients automatically follow those rules is a fantastic way to add some stability to your architecture.
 

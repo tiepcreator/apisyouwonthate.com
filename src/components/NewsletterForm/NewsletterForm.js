@@ -13,7 +13,7 @@ const NewsletterForm = () => {
       <Form
         inline
         method="post"
-        novalidate
+        noValidate
         target="_blank"
         action={`https://apisyouwonthate.us10.list-manage.com/subscribe/post?u=f5c5ff66d95d11dec1b88cf54&amp;id=532b212b06`}
       >

@@ -78,14 +78,17 @@ It works a little differently to many of the CLI-based tools though, as it’s a
 To make the CLI stuff a little easier, I made a shell script that would fire off a web server:
 
 #!/bin/sh
+```bash
 set -e
 
 echo "Launching Documentation on [http://localhost:8088/](http://localhost:8088/)"
 echo "Press CTRL+C to terminate server"
 ruby -run -ehttpd ./docs/ -p8088
+```
 
 Then I have a `docs/index.html` that looks like this:
 
+```html
 <!DOCTYPE html>
 <html>
   <head>
@@ -94,9 +97,7 @@ Then I have a `docs/index.html` that looks like this:
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!--
-    ReDoc doesn't change outer page styles
-    -->
+    <!-- ReDoc doesn't change outer page styles -->
     <style>
       body {
         margin: 0;
@@ -106,9 +107,10 @@ Then I have a `docs/index.html` that looks like this:
   </head>
   <body>
     <redoc spec-url='/api.yml'></redoc>
-    <script src="[https://rebilly.github.io/ReDoc/releases/latest/redoc.min.js](https://rebilly.github.io/ReDoc/releases/latest/redoc.min.js)"> </script>
+    <script src="https://rebilly.github.io/ReDoc/releases/latest/redoc.min.js"> </script>
   </body>
 </html>
+```
 
 This is just the development version so I can build out my specs as I’m adding functionality, and the actual HTML is collated for our many many APIs with a fancy Ruby called [Redocaholic](https://github.com/philsturgeon/redocaholic).
 

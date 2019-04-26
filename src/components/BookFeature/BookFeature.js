@@ -2,12 +2,15 @@ import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { Link } from 'gatsby';
 
+import slugify from '../../utils/slugify';
 import { Image } from '../Image';
 import { Button } from '../Button';
 import classes from './BookFeature.module.css';
 
 const BookFeature = ({ book }) => {
-  const bookUrl = `/books/${book.frontmatter.slug}`;
+  const { title, coverImage, description, subtitle } = book.frontmatter;
+
+  const bookUrl = `/books/${slugify(title)}`;
   return (
     <React.Fragment>
       <Row>
@@ -15,14 +18,11 @@ const BookFeature = ({ book }) => {
           {/* cover image and title shown on small views */}
           <h2>
             <Link className={classes.title} to={bookUrl}>
-              {book.frontmatter.title}
+              {title}
             </Link>
           </h2>
           <div className={classes.smallCover}>
-            <Image
-              src={book.frontmatter.coverImage}
-              className={classes.smallCover}
-            />
+            <Image src={coverImage} className={classes.smallCover} />
           </div>
         </Col>
       </Row>
@@ -32,19 +32,17 @@ const BookFeature = ({ book }) => {
           <div>
             <h2 className="d-none d-sm-none d-lg-block">
               <Link className={classes.title} to={bookUrl}>
-                {book.frontmatter.title}
+                {title}
               </Link>
             </h2>
-            <h3 className={classes.subtitle}>{book.frontmatter.subtitle}</h3>
-            <p className={classes.description}>
-              {book.frontmatter.description}
-            </p>
+            <h3 className={classes.subtitle}>{subtitle}</h3>
+            <p className={classes.description}>{description}</p>
             <Button to={bookUrl}>Find out more</Button>
           </div>
         </Col>
         <Col className="d-sm-hidden" md={1} />
         <Col md={4} className="d-none d-sm-none d-md-none d-lg-block">
-          <Image src={book.frontmatter.coverImage} />
+          <Image src={coverImage} />
         </Col>
       </Row>
     </React.Fragment>
