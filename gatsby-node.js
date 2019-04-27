@@ -72,7 +72,7 @@ const turnAuthorsIntoPages = async ({ graphql, actions }) => {
   authors.forEach(author => {
     console.log('got author', author);
     actions.createPage({
-      path: `authors/${slugify(author.frontmatter.name)}`,
+      path: `author/${slugify(author.frontmatter.name)}`,
       component: authorTemplate,
       context: {
         id: author.id,
