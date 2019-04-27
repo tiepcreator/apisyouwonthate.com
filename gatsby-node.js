@@ -11,6 +11,7 @@ const getMdxDataForType = async ({ type, graphql }) => {
           id
           frontmatter {
             title
+            name
           }
         }
       }
@@ -65,6 +66,21 @@ const turnBooksIntoPages = async ({ graphql, actions }) => {
   });
 };
 
+const turnAuthorsIntoPages = async ({ graphql, actions }) => {
+  const authorTemplate = path.resolve('./src/templates/author/AuthorPage.js');
+  const authors = await getMdxDataForType({ type: 'author', graphql });
+  authors.forEach(author => {
+    console.log('got author', author);
+    actions.createPage({
+      path: `authors/${slugify(author.frontmatter.name)}`,
+      component: authorTemplate,
+      context: {
+        id: author.id,
+      },
+    });
+  });
+};
+
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions;
   if (node.internal.type === `MarkdownRemark`) {
@@ -80,4 +96,5 @@ exports.onCreateNode = ({ node, getNode, actions }) => {
 exports.createPages = async ({ graphql, actions }) => {
   await turnBlogPostsIntoPages({ graphql, actions });
   await turnBooksIntoPages({ graphql, actions });
+  await turnAuthorsIntoPages({ graphql, actions });
 };
