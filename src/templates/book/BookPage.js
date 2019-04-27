@@ -9,6 +9,7 @@ import { Image } from '../../components';
 import Layout from '../../components/layout';
 
 import classes from './BookPage.module.css';
+import { OutboundLink } from 'gatsby-plugin-google-analytics';
 
 const BookPage = ({ data }) => {
   const book = data.mdx;
@@ -34,7 +35,15 @@ const BookPage = ({ data }) => {
                 <h1>{title}</h1>
                 <h2>{subtitle}</h2>
                 <p>{description}</p>
-                {buyLink && <Button to={buyLink}>Preorder via Leanpub</Button>}
+                {buyLink && (
+                  <OutboundLink
+                    href={buyLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Button>Preorder via Leanpub</Button>
+                  </OutboundLink>
+                )}
               </Col>
               <Col lg={1} />
               <Col>
