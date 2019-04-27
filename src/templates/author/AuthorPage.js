@@ -84,24 +84,29 @@ const BookPage = ({ data }) => {
               <Image src={photo} alt={name} />
             </Col>
           </Row>
-          <Row className={classes.workHeader}>
-            <Col>
-              <h2>Articles by {shortName || name}: </h2>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <div className={classes.postsContainer}>
-                {posts.nodes.map((post, idx) => {
-                  return (
-                    <article key={post.id} className={classes.article}>
-                      <BlogPostItem post={post} feature={idx === 0} />
-                    </article>
-                  );
-                })}
-              </div>
-            </Col>
-          </Row>
+
+          {posts && posts.nodes && posts.nodes.length > 0 && (
+            <React.Fragment>
+              <Row className={classes.workHeader}>
+                <Col>
+                  <h2>Articles by {shortName || name}: </h2>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <div className={classes.postsContainer}>
+                    {posts.nodes.map((post, idx) => {
+                      return (
+                        <article key={post.id} className={classes.article}>
+                          <BlogPostItem post={post} feature={idx === 0} />
+                        </article>
+                      );
+                    })}
+                  </div>
+                </Col>
+              </Row>
+            </React.Fragment>
+          )}
         </Container>
       </section>
     </Layout>
@@ -109,7 +114,7 @@ const BookPage = ({ data }) => {
 };
 
 export const query = graphql`
-  query($id: String!) {
+  query($id: String!, $name: String!) {
     author: mdx(id: { eq: $id }) {
       id
       code {
@@ -126,9 +131,7 @@ export const query = graphql`
       }
     }
     posts: allMdx(
-      filter: {
-        frontmatter: { type: { eq: "blog" }, author: { eq: "Phil Sturgeon" } }
-      }
+      filter: { frontmatter: { type: { eq: "blog" }, author: { eq: $name } } }
     ) {
       nodes {
         id
