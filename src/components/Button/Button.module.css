@@ -7,6 +7,7 @@
   text-transform: uppercase;
   color: var(--white);
   cursor: pointer;
+  display: inline-block;
 }
 
 .button a,
@@ -21,4 +22,8 @@ a.button {
   background-color: rgba(var(--purple_rgb), var(--alpha-dimmed));
   color: var(--white);
   text-decoration: underline;
+}
+
+.fullwidth {
+  display: block;
 }

@@ -3,8 +3,8 @@ import { Col, Row } from 'react-bootstrap';
 import { Link } from 'gatsby';
 
 import slugify from '../../utils/slugify';
-import { Image } from '../Image';
-import { Button } from '../Button';
+import { Image, Button } from '../';
+
 import classes from './BookFeature.module.css';
 
 const BookFeature = ({ book }) => {
@@ -37,7 +37,9 @@ const BookFeature = ({ book }) => {
             </h2>
             <h3 className={classes.subtitle}>{subtitle}</h3>
             <p className={classes.description}>{description}</p>
-            <Button to={bookUrl}>Find out more</Button>
+            <Link to={bookUrl}>
+              <Button>Find out more</Button>
+            </Link>
           </div>
         </Col>
         <Col className="d-sm-hidden" md={1} />

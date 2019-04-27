@@ -10,7 +10,7 @@ const Button = ({
   children,
   className = '',
   disabled = false,
-  to,
+  fullWidth = false,
   ...rest
 }) => {
   const handleClick = event => {
@@ -19,13 +19,10 @@ const Button = ({
     }
   };
 
-  const classNames = `${classes.button} ${className}`;
+  const fullWidthClass = fullWidth ? classes.fullWidth : '';
+  const classNames = `${classes.button} ${fullWidthClass} ${className}`;
 
-  return to ? (
-    <Link to={to} className={classNames} {...rest}>
-      {children}
-    </Link>
-  ) : (
+  return (
     <div onClick={handleClick} role="button" className={classNames} {...rest}>
       {children}
     </div>
