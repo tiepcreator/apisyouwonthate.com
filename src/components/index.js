@@ -1,3 +1,4 @@
+export { BlogPostItem } from './BlogPostItem';
 export { Button } from './Button';
 export { Colophon } from './Colophon';
 export { Footer } from './Footer';

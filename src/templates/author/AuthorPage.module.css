@@ -1,0 +1,35 @@
+.about {
+  padding: 5rem 0;
+}
+
+.socialLinks {
+  list-style: none;
+}
+
+.socialLinks li {
+  display: inline-flex;
+  align-content: center;
+  margin-right: 1.75rem;
+}
+
+.workHeader {
+  margin-top: 10rem;
+}
+
+.postsContainer {
+  display: grid;
+  column-count: 3;
+  column-gap: 1.5rem;
+  row-gap: 1.5rem;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.article:first-of-type {
+  grid-column: span 3;
+}
+
+@media screen and (max-width: 100px) {
+  .article {
+    grid-column: span 3;
+  }
+}
