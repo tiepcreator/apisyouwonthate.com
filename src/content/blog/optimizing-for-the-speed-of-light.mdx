@@ -2,18 +2,16 @@
 title: Optimizing for the Speed of Light
 subtitle: 'Written by Darrel Miller, on his blog Bizcoder.com'
 date: '2019-02-24T13:26:00.698Z'
-coverImage: useful-api-errors.jpg
+coverImage: speed-light.jpeg
 type: blog
 author: Phil Sturgeon
 ---
 
-_Written by Darrel Miller, on his blog_ [_Bizcoder.com_](http://www.bizcoder.com/optimizing-for-the-speed-of-light)_. This article makes a case for trying to acoid batch requests (or compound documents, included resources, etc) in situations that make interactions slower. HTTP/2 is here, and we need tos foip some of the ways we think on our head! – Phil_
+_Written by Darrel Miller, on his blog [Bizcoder.com](http://www.bizcoder.com/optimizing-for-the-speed-of-light)_. This article makes a case for trying to acoid batch requests (or compound documents, included resources, etc) in situations that make interactions slower. HTTP/2 is here, and we need tos foip some of the ways we think on our head! – Phil_
 
 It is true three women can’t make a baby in 3 months, but it also doesn’t take 27 months for them to have 3 babies!
 
 You might be wondering what on earth I am talking about but this is something I see API developers getting confused about regularly. There is **oft-repeated guidance that if an API needs to make multiple calls, it is more efficient to bundle them into a single call**. The reasoning is based on one universal truth and one piece of legacy dogma.
-
-![](https://cdn-images-1.medium.com/max/800/0*Y36wSqCB0YL8X7eb.jpg)
 
 ### Damn Physics
 

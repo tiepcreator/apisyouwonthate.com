@@ -1,0 +1,320 @@
+---
+title: "Getting started with JSON Hyper-Schema: Part 2"
+subtitle: Let's learn a bit more about JSON HyperSchema, building on the foundation in part one, with resource representations, arbitrary request bodies, HTTP headers, and HTTP methods.
+date: 2018-04-04
+coverImage: json-hyper-schema.jpeg
+type: blog
+author: Phil Sturgeon
+---
+
+_Guest post from [Aaron Hedges](https://twitter.com/Dashron)._
+
+In my last [article](https://blog.apisyouwonthate.com/getting-started-with-json-hyper-schema-184775b91f) I described how JSON Hyper-Schema can describe basic links. This included…
+
+* The basics of JSON Schema
+
+* Describing links with Link Description Objects (LDOs)
+
+* Automating URI construction with URI templates, templatePointers, templateRequired and hrefSchema
+
+* Reducing schema duplication with schema references
+
+In this article I’m going to build on that foundation with resource representations, arbitrary request bodies, HTTP headers, and HTTP methods.
+
+## Describing resource representations
+
+Interacting with a resource via it’s URI often involves a resource representation. The most common time you see a resource representation is as the response of an HTTP GET request.
+
+In JSON Hyper-Schema a resource representation is defined by two fields, targetSchema and targetMediaType. targetMediaType tells the client what format to expect such as application/json, application/hal+json, etc. targetSchema provides a validation schema for that representation.
+
+So if you used the following JSON Hyper-Schema…
+
+    {
+        "type": "object",
+        "properties": {
+            "id": { "type": "number" },
+            "name": { "type": "string" }
+        },
+        "links": [{
+            "rel": "self",
+            "href": "https://api.dashron.com/users/12345",
+            "targetMediaType": "application/json",
+            "targetSchema": { "$ref": "#"}
+        }]
+    }
+
+You would expect the following request…
+
+    GET https://api.dashron.com/users/12345
+
+To return something that looks like the following response…
+
+    {
+        "id": 12345,
+        "name": "Zena"
+    }
+
+Let’s dig into why.
+
+First, the LDO has an href of [https://api.dashron.com/users/12345](https://api.dashron.com/users/12345.). The scheme is https, so we know that URI can receive secure HTTP requests.
+
+Next, targetMediaType suggests that we will receive a representation that matches the application/json media type. Nothing fancy here, but we now know that we need to pull out our trusty JSON parser.
+
+Finally, targetSchema uses a schema reference ({“$ref”: “#”}) to point to the root document. This pattern is particularly common for LDOs with a rel of self because these LDOs describe how to access the current context.
+
+Other LDOs may reference other JSON Hyper-Schema documents or embed an entire JSON schema. The following example does not use a schema reference. It has an LDO that describes the author of the current resource, and states that the author’s representation will contain an id and name .
+
+    {
+        "type": "object",
+        "properties": {
+            "id": { "type": "number" },
+            "title": { "type": "string" }
+        },
+        "links": [{
+            "rel": "author",
+            "href": "https://api.dashron.com/users/12345",
+            "targetMediaType": "application/json",
+            "targetSchema": {
+                "id": { "type": "number" },
+                "name": { "type": "string" }
+           }
+        }]
+    }
+
+## Describing request bodies
+
+Most HTTP requests can include a request body. Two of the most common uses of request bodies are replacing an existing resource or sending arbitrary data.
+
+### Replacing resource representations
+
+Sometimes you send a request body to replace the representation of an existing resource. To explain this further, let’s bring back a previous JSON Hyper-Schema example.
+
+    {
+        "type": "object",
+        "properties": {
+            "id": { "type": "number" },
+            "name": { "type": "string" }
+        },
+        "links": [{
+            "rel": "self",
+            "href": "https://api.dashron.com/users/12345",
+            "targetMediaType": "application/json",
+            "targetSchema": { "$ref": "#"}
+        }]
+    }
+
+Earlier we described how this LDO can accept HTTP GET requests. Those GET requests will return JSON that validates against this schema. If we want to replace that representation we can make an HTTP PUT request with a new JSON instance that also validates against this schema.
+
+    PUT /users/12345
+    {
+        "id": 12345,
+        "name": "Not Zena"
+    }
+
+And that’s it. The very same schema can describe GET and PUT requests. If you would like your Hyper-Schema to be more specific about what is and is not supported, check out the HTTP Methods section below.
+
+### Sending arbitrary data
+
+What if your request body doesn’t match the target representation? You commonly see this with collection resources. For example, the following resource will return a collection of all videos owned by user 12345 .
+
+    GET https://api.dashron.com/users/12345/videos
+
+That request might return the following resource representation, which contains multiple videos
+
+    {
+        "items": [{
+            "id": 12345,
+            "title": "My first video"
+        }, {
+            "id": 23456,
+            "title": "My second video"
+        }],
+        "total": 2
+    }
+
+If you want to add a new video to that collection, you might make the following request…
+
+    POST /users/12345/videos
+    {
+        "title": "My third video"
+    }
+
+In this case, we can’t use targetSchema because the request body isn’t identical to the target representation. When the body doesn’t match the representation we should use submissionSchema and submissionMediaType.
+
+This is the main difference between the target and submission keywords. The values are both JSON schemas, but the intent differs. Use submission keywords for arbitrary request bodies, and target keywords to describe the representation that you send to, or receive from, the resource.
+
+Now let’s describe those HTTP requests with JSON Hyper-Schema.
+
+    {
+        "type": "object",
+        "properties": {
+            "items": {
+                "type": "array",
+                "item": {
+                    "id": {"type": "number"},
+                    "title": {"type": "string"}
+                }
+            }
+        },
+        "links": [{
+            "rel": "self",
+            "href": "https://api.dashron.com/users/12345/videos",
+            "submissionMediaType": "application/json",
+            "submissionSchema": {
+                "type": "object",
+                "properties": {
+                    "title": {"type": "string"}
+               }
+            }
+        }]
+    }
+
+As mentioned earlier the submissionSchema value describes the HTTP POST request body and the submissionMediaType indicates the the request body should be JSON.
+
+There’s one more type of request that I haven’t covered here; partial edits. Partial edits in HTTP are covered by the HTTP PATCH method and a specific HTTP header. Because of this I need to first explain HTTP headers, and then I’ll jump back into the HTTP PATCH method.
+
+## Describing HTTP Headers
+
+There are two different types of HTTP headers, one for HTTP requests and one for HTTP responses.
+
+### Request Headers
+
+To describe how clients can provide request headers, use headerSchema. headerSchema is a lot like submissionSchema and targetSchema, except it describes the key value pairs of a clients request headers.
+
+    {
+        "type": "object",
+        "properties": {
+            "id": {"type": "number"},
+            "name": {"type": "string"}
+        },
+        "links": [{
+            "rel": "self",
+            "href": "https://api.dashron.com/users/12345",
+            "headerSchema": {
+                "if-modified-since": {
+                    "type": "string"
+                }
+            }
+        }]
+    }
+
+This LDO can accept the following header
+
+    if-modified-since: Thu, 05 Apr 2018 20:08:44 GMT
+
+Each header value is a JSON schema, which means it supports any of the [validation keywords](http://json-schema.org/latest/json-schema-validation.html).
+
+### Response Headers
+
+For response headers, we’ve got something a little different. We’re not describing a response pattern or response schema, we’re actually going to be providing the exact response header values.
+
+    {
+        "type": "object",
+        "properties": {
+            "id": {"type": "number"},
+            "name": {"type": "string"}
+        },
+        "links": [{
+            "rel": "self",
+            "href": "https://api.dashron.com/users/12345",
+            "targetHints": {
+                "transfer-encoding": ["chunked"]
+            }
+        }]
+    }
+
+The value of targetHints should be an object, with each key being a header, and each value being an array of header values. Header values are always arrays because HTTP allows for duplicate headers (as is commonly seen with set-cookie).
+
+The example above tells you to expect the resource to return the following response header.
+
+    transfer-encoding: chunked
+
+## Describing HTTP Methods
+
+You might be wondering why I left HTTP methods for last. HTTP methods are a crucial part of a REST API, but are not first class citizens in JSON Hyper-Schema. This is because, as mentioned in the first article, JSON Hyper-Schema is protocol agnostic.
+
+To simplify the process of describing HTTP methods I have listed out each HTTP method below and the associated Hyper-Schema keywords. You can usually assume that if these fields are present you can use the associated HTTP method.
+
+### GET
+
+All an HTTP GET request needs is a URI, so you might be able to make an HTTP GET request on any LDO with an href property.
+
+### POST
+
+The POST method is best for when you want to send arbitrary data to an endpoint. In JSON Hyper-Schema, arbitrary data is described by submissionSchema. Any LDO with a submissionSchema will likely support HTTP POST requests.
+
+### DELETE
+
+The DELETE method only needs a URI, just like GET. You might be able to make an HTTP DELETE request to any LDO with an href property.
+
+If you want to be a little more careful about what LDOs support DELETE actions, check out the “Want to be more specific?” section below.
+
+### PUT
+
+The PUT method is similar to POST, except it expects the request body to replace the target resource in its entirety. targetSchema describes the target resource representation, so if you see targetSchema, it might accept a PUT.
+
+### PATCH
+
+PATCH requests are a little unique. It’s kinda like a PUT, but because you aren’t replacing the entire representation, your request body uses a special format (such as [JSON merge patch](https://tools.ietf.org/html/rfc7386)). To tell the client which formats are acceptable, use the accept-patch header in the targetHints object.
+
+    {
+        "type": "object",
+        "properties": {
+            "id": {"type": "number"},
+            "name": {"type": "string"}
+        },
+        "links": [{
+            "rel": "self",
+            "href": "https://api.dashron.com/users/12345",
+            "targetHints": {
+                "allow": ["PATCH"],
+                "accept-patch": ["application/merge-patch+json"]
+            },
+            "targetSchema": {
+                "name": {"type": "string"}
+            }
+        }]
+    }
+
+This JSON Hyper-Schema states that you can make PATCH requests with the merge-patch format, and the body can contain an id or name.
+
+Don’t worry about the allow hint just yet, I’ll explain that in more detail in the following section.
+
+### Want to be more specific?
+
+If you don’t want to rely on assumptions, you can explicitly state which HTTP methods are supported by including the [allow header](https://tools.ietf.org/html/rfc7231#section-7.4.1) in the targetHints object. The allow header tells the client exactly which HTTP methods can be used with a resource.
+
+Here’s how it looks in a JSON Hyper-Schema document
+
+    {
+        "type": "object",
+        "properties": {
+            "id": { "type": "number"},
+            "name": { "type": "string"}
+        },
+        "links": [{
+            "rel": "self",
+            "href": "https://api.dashron.com/users/12345",
+            "targetMediaType": "application/json",
+            "targetSchema": {"$ref": "#"},
+            "targetHints": {
+                "allow": ["GET", "DELETE"]
+            }
+        }]
+    }
+
+## Wrapping Up
+
+And with that last piece of the puzzle in place, you now have the details necessary to describe any basic API endpoint.
+
+* URL construction from [Part 1](https://blog.apisyouwonthate.com/getting-started-with-json-hyper-schema-184775b91f) of this article
+
+* Request and Response bodies with targetSchema and submissionSchema
+
+* Request and response headers with headerSchema and targetHints
+
+* HTTP methods via implied methods, or the allow header inside of targetHints
+
+But what about something more complex? Does JSON Hyper-Schema hold up to a real world API?
+
+Over the last couple of months I have found some edge cases that require a little more explanation. In my next [article](https://blog.apisyouwonthate.com/common-hypermedia-patterns-with-json-hyper-schema-17c78cf884ff) I share some of those examples and explain how best to describe them with JSON Hyper-Schema.

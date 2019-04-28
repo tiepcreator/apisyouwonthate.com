@@ -4,7 +4,7 @@ subtitle: >-
   This article provides a decision flow diagram for selecting the “approach” to
   use for your next API.
 date: '2018-05-21T00:00:00.000Z'
-coverImage: useful-api-errors.jpg
+coverImage: decisions.jpeg
 type: blog
 author: Phil Sturgeon
 ---
@@ -25,16 +25,13 @@ For example:
 
 As you can see a direct comparison between any of these things is difficult, but at work I needed to find a way to help people make decisions about how to build an API. We’ve covered the [technical differences between RPC, GraphQL and REST](https://blog.apisyouwonthate.com/understanding-rpc-rest-and-graphql-2f959aadebe7) before, so all that was left was to highlight _when_ one should be used over another.
 
-[**Understanding RPC, REST and GraphQL**
-_Every API is following some sort of paradigm, whether it knows it or not. Learn the differences, for when you talk to…_blog.apisyouwonthate.com](https://blog.apisyouwonthate.com/understanding-rpc-rest-and-graphql-2f959aadebe7 "https://blog.apisyouwonthate.com/understanding-rpc-rest-and-graphql-2f959aadebe7")[](https://blog.apisyouwonthate.com/understanding-rpc-rest-and-graphql-2f959aadebe7)
-
 I initially wanted to make a diagram to point folks to the appropriate paradigm, but that gets really open-ended. For example, you might want to ask if having a type-system is important for the messages, but some implementations and standards from all three mentioned paradigms use types, and some do not.
 
 Making the decision between paradigms alone was so vague it was useless, and trying to consider all implementations just sounded awful (XML-RPC, JSON-RPC, SOAP, SPARQL, FIQL, Micro, … 😴).
 
 Instead we went with gRPC, REST, and GraphQL.
 
-![A quick guide to picking an approach for your next API, in the form of a decision flow diagram.](https://cdn-images-1.medium.com/max/2560/0*JlrqgaKLKu3atK71.png)
+![](https://cdn-images-1.medium.com/max/2560/0*JlrqgaKLKu3atK71.png)
 A quick guide to picking an approach for your next API, in the form of a decision flow diagram.
 
 Wait, what is that “context boundary” thing all about?! Basically, it’s the idea that whenever a the line is crossed between any imaginary boundary, a few more layers of abstraction should be used to help with the longevity of the system. REST provides those layers of abstraction, and GraphQL provides a few too.
