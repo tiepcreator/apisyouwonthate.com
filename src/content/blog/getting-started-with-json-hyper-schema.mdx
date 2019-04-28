@@ -1,0 +1,268 @@
+---
+title: "Getting started with JSON Hyper-Schema"
+subtitle: JSON Hyper-Schema is a format for describing an API. You can automate a lot with a document that describes your API.
+date: 2017-12-22
+coverImage: json-hyper-schema.jpeg
+type: blog
+author: Phil Sturgeon
+---
+
+_Guest post from [Aaron Hedges](https://twitter.com/Dashron)._
+
+JSON Hyper-Schema is a format for describing an API. You can automate a lot with a document that describes your API.
+
+* API SDKs
+* Documentation
+* Tools such as API sandboxes or Postman collections to simplify the development process
+* Contract tests to ensure your API doesn’t change unexpectedly
+* Mock API servers to test your design before building the API
+
+OpenAPI is another API description format, but whereas OpenAPI usually remains content with server-based uses, clients can use JSON Hyper-Schema directly. A client can use this schema to build their API requests including URLs, query parameters, and the request body. When an API changes, they simply have to update the schema and all clients will adapt accordingly. The client doesn’t have to write a single line of code.
+
+In this article I’m going to show some JSON Hyper-Schema examples and walk you through what makes them tick. This information should give you a foundation to continue learning about JSON Hyper-Schema. In future articles I will expand on that foundation and help you describe your entire API.
+
+But before we can discuss JSON Hyper-Schema, you need a basic understanding of JSON schema.
+
+## **JSON Schema**
+
+JSON Schema describes JSON data. It’s like a database schema for JSON and can be used to validate a JSON instance before it’s sent to an API.
+
+Here is an example schema for a blog post
+
+```
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "number"
+        },
+        "title": {
+            "type": "string"
+        },
+        "urlSlug": {
+            "type": "string"
+        },
+        "body": {
+            "type": "string"
+        }
+    },
+    "required": ["id"]
+}
+```
+
+And here is JSON data that matches that schema
+
+```
+{
+    "id": 5,
+    "title": "JSON Hyper-Schema",
+    "urlSlug": "json-hyper-schema",
+    "body": "My long post about JSON Hyper-Schema..."
+}
+```
+
+Let’s go through each property in the schema
+
+### **type**
+
+type describes the data type such as string, object or number. You can find the whole list [here](http://json-schema.org/latest/json-schema-validation.html#rfc.section.6.1). Each type has its own set of [validation keywords](http://json-schema.org/latest/json-schema-validation.html#rfc.section.6) that make up the rest of the schema. We’ll describe two validation keywords below.
+
+### **properties**
+
+properties is validation keyword for JSON objects. This properties object defines each valid property along with an additional level of validation schema. If one of the properties is an object, you can continue to nest that representation as deep as necessary.
+
+### **required**
+
+The required property is another validation keyword specific to objects. The value of required should be an array of strings, where each string is a key in the properties object. JSON data is not valid against this schema if any of the properties in the required array are missing.
+
+So using the example above, the following JSON data is valid because the title and body are optional
+
+```
+{
+    "id": 5
+}
+```
+
+And this JSON data is not valid because id is required
+
+```
+{
+    "title": "JSON Hyper-Schema"
+}
+```
+
+Once your API consumers have a JSON schema, they can use one of the many [JSON Schema libraries](http://json-schema.org/implementations.html) to validate their JSON data.
+
+## **JSON Hyper-Schema**
+
+Now that we have a foundation of JSON Schema, let’s add the “Hyper” part. JSON Schema was built with expansion in mind, via a system called vocabularies. The spec defines this well, so here’s a quote.
+> A JSON Schema vocabulary is a set of keywords defined for a particular purpose.
+
+[JSON schema [Section] 4.3.2](https://tools.ietf.org/html/draft-handrews-json-schema-00#section-4.3.2)
+
+[JSON Schema core](http://json-schema.org/latest/json-schema-core.html\) defines the general vocabulary. In the JSON Schema example above I described part of the validation vocabulary. In the following section I will describe part of the hypermedia vocabulary, which include everything needed to describe an API request.
+
+Let’s start with an example. Here’s a JSON Hyper-Schema document for a blog post.
+
+```
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "number"
+        },
+        "title": {
+            "type": "string"
+        },
+        "urlSlug": {
+            "type": "string"
+        },
+        "post": {
+            "type": "string"
+        }
+    },
+    "required": ["id"],
+    "base": "[http://api.dashron.com/](http://api.dashron.com/)",
+    "links": [{
+        "rel": "self",
+        "href": "posts/{id}",
+        "templateRequired": ["id"]
+    }]
+}
+```
+
+This hyper-schema starts with the blog post schema from earlier and adds two new new properties. These new properties are base and links.
+
+### **base**
+
+base is similar to the HTML [<base>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base) tag. The value should be a URI, which becomes the root of any relative URI in the JSON instance. For example, a base of [http://dashron.com/api/](http://dashron.com/) would be combined with the relative URI of users and become http://dashron.com/api/users.
+
+### **links**
+
+links is an array of Link Description Objects (LDOs) as described below.
+
+## **Link Description Object (LDO)**
+
+An LDO contains all the information necessary to describe the actions available to your client. Here’s the LDO from the previous example.
+
+```
+{
+    "rel": "self",
+    "href": "posts/{id}",
+    "templateRequired": ["id"]
+}
+```
+
+You might be expecting to see things like method or requestBody for HTTP requests, but you won’t find them. JSON Hyper-Schema doesn’t limit itself to any one protocol. JSON fans can use JSON Hyper-Schema to describe a file system as easily as an HTTP API.
+
+Let’s dig into each property of the LDO above.
+
+### **rel**
+
+rel is a string that describes how the LDO relates to the JSON. The LDO in this example uses the relation self. Because this schema describes a blog post, the self relation describes how you access that blog post.
+
+There are many different predefined relations you can use to describe your LDOs. Start by checking if your relation is defined in [this list](https://www.iana.org/assignments/link-relations/link-relations.xhtml). If you can’t find what you need, JSON Hyper-Schema [recommends](https://tools.ietf.org/html/rfc8288#section-2.1.2) you use a URI as your relation. If you need your relation to be human readable, check out the [tag URI scheme](https://tools.ietf.org/html/rfc4151) for more flexibility.
+
+Before we move on it’s important to point out that no two LDOs should share a relation. The relation is the defining information of an LDO and should be unique across every LDO.
+
+### **href**
+
+href is a [URI template](https://tools.ietf.org/html/rfc6570). URI templates let you describe the structure of your URLs.
+
+```
+  "href": "posts/{id}"
+```
+
+JSON Hyper-Schema builds on top of URI templates by explaining how to populate the URI template variables.
+
+### **Populating URI templates with JSON data**
+
+In the href example earlier, JSON Hyper-Schema assumes the {id} variable lines up with the id property in your JSON schema. So our blog post has an id of 5 and our final href would be /posts/5.
+
+When all the variables in the template are populated, you check to see if the URI is a relative or absolute URI. Absolute URIs start with a URI scheme, such as http:// and should be considered complete URIs. Relative URIs do not start with a scheme, and should be resolved according to [RFC 3986](https://tools.ietf.org/html/rfc3986#section-5). In this case because our base URI ends with a / and our relative URI does not start with a /, we can simply append the relative URI onto the base, giving us https://api.dashron.com/posts/5.
+
+If your URI variables don’t line up with your JSON properties you can use templatePointers. This object allows you to map URI template variables to a part of your JSON instance. In the following example the pointer indicates that the id variable should use the urlSlug property.
+
+```
+    "href": "/posts/{id}",
+    "templatePointers": {
+        "id": "/urlSlug"
+    }
+```
+
+A template pointer is a [absolute](https://tools.ietf.org/html/rfc6901) or [relative](http://json-schema.org/latest/relative-json-pointer.html) JSON pointer. JSON Pointers allow you to refer directly to sections of a JSON document, but are out of the scope of this article. I recommend learning more when you have the time!
+
+But what if urlSlug is not in your JSON? We won’t have this problem with id because it is a required field, but urlSlug is optional. When a property is missing JSON schema assumes the value is an empty string. In the above example our fully resolved url would become [https://api.dashron.com/posts/](https://api.dashron.com/posts/), which isn’t the URL we are describing. To avoid this problem use templateRequired.
+
+```
+    "templateRequired": ["id"]
+```
+
+templateRequired is an array of strings, where each string is a mandatory URI template variable. If the JSON Hyper-Schema library can not fill the required URI template variables, the LDO is considered invalid and must be ignored by the client.
+
+### **Populating URI templates with outside input**
+
+Instead of populating the URI from the JSON you can ask for outside input such as user submitted data. To do this, add the hrefSchema property to define a validation schema for any outside variables.
+
+Using the blog post example again, let’s say we want the mobile app to prompt the user for a blog id. Your hrefSchema would look like this.
+
+```
+    "href": "/posts/{id}",
+    "hrefSchema": {
+        "id": {
+            "type": "number"
+        }
+    }
+```
+
+In this example I copied the id schema from earlier in the document. It’s hard to maintain duplicate data, so I’m going to introduce the final concept of this article. To ensure we have a single source of truth for our id schema we can use schema references.
+
+### Schema References
+
+Schema References are JSON objects that allow you to point to a schema. The schema could be this schema, an entirely different schema, or a portion of a schema. These objects will always contain a single property, $ref with a URI value.
+
+Let’s start with the simplest example, a reference to a different schema. The following schema reference points outside of our schema to another document. That document is identified by the URI https://schemas.dashron.com/users.
+
+```
+{
+  "$ref": "https://schemas.dashron.com/users"
+}
+
+Let’s assume that the current schema is identified by https://schemas.dashron.com/posts. We can reference the id property of the current schema by including a JSON pointer in the fragment portion of the URI.
+
+```
+{
+  "$ref": "https://schemas.dashron.com/posts#/properties/id"
+}
+```
+
+If you plan on referring to the current schema, you can leave out everything but the fragment portion of the URI. The above schema can be simplified to the following example.
+
+```
+{
+  "$ref": "#/properties/id"
+}
+
+And if you want to refer directly to the entire current schema, you can leave off the JSON pointer.
+
+```
+{
+  "$ref": "#"
+}
+
+This self-referencing schema reference is the most common schema reference.
+
+Now that I’ve covered schema references, let’s clean up that hrefSchema example. The example below points to the id property of the current schema instead of duplicating it.
+
+```
+    "href": "/posts/{id}",
+    "hrefSchema": {"$ref": "#/properties/id"}
+```
+
+### What’s next?
+
+With this information, you can start writing schemas for all the JSON in your API, along with their hypermedia links. In the [next article](https://blog.apisyouwonthate.com/getting-started-with-json-hyper-schema-part-2-ca9d7ffdf6f6) I cover request and response bodies.
+
+In the meanwhile try building a JSON Hyper-Schema for one of your API endpoints, and validating your JSON with one of the many [JSON Schema libraries](http://json-schema.org/implementations.html).
+
+*This is part one of a three-parter. Check out [part two](https://blog.apisyouwonthate.com/getting-started-with-json-hyper-schema-part-2-ca9d7ffdf6f6).*
