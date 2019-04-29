@@ -22,46 +22,68 @@ const Post = ({ data, pageContext }) => {
 
   return (
     <Location>
-      {({ location }) => (
-        <Layout>
-          <SEO
-            title={title}
-            ogType="article"
-            imageUrl={`${location.origin}${coverImageUrl.fixed.src}`}
-          />
-          {coverImage && (
-            <Container fluid className={classes.coverImageContainer}>
-              <Row noGutters>
+      {({ location }) => {
+        // get the base URL for this page from reach router, or fall back to
+        // netlify provided URLs if that's missing
+        // see docs for more info: https://www.netlify.com/docs/continuous-deployment/#environment-variables
+        const siteURLBase =
+          location.origin ||
+          process.env.DEPLOY_PRIME_URL ||
+          process.env.DEPLOY_URL ||
+          process.env.URL;
+        return (
+          <Layout>
+            <SEO
+              title={title}
+              ogType="article"
+              imageUrl={`${siteURLBase}${coverImageUrl.fixed.src}`}
+            />
+            {coverImage && (
+              <Container fluid className={classes.coverImageContainer}>
+                <Row noGutters>
+                  <Col>
+                    <CoverImage
+                      src={coverImage}
+                      className={classes.coverImage}
+                    />
+                  </Col>
+                </Row>
+              </Container>
+            )}
+            <Container className={classes.post}>
+              <Row>
+                <Col
+                  lg={{
+                    span: 10,
+                    offset: 1,
+                  }}
+                  xl={{
+                    span: 8,
+                    offset: 2,
+                  }}
+                >
+                  <div className={classes.metadata}>
+                    <h2 className={classes.postTitle}>
+                      {post.frontmatter.title}
+                    </h2>
+                    <AuthorDisplay
+                      name={author}
+                      date={date}
+                      readTimeInMinutes={post.timeToRead}
+                    />
+                  </div>
+                  <MDXRenderer>{post.code.body}</MDXRenderer>
+                </Col>
+              </Row>
+              <Row>
                 <Col>
-                  <CoverImage src={coverImage} className={classes.coverImage} />
+                  <Colophon />
                 </Col>
               </Row>
             </Container>
-          )}
-          <Container className={classes.post}>
-            <Row>
-              <Col lg={{ span: 10, offset: 1 }} xl={{ span: 8, offset: 2 }}>
-                <div className={classes.metadata}>
-                  <h2 className={classes.postTitle}>
-                    {post.frontmatter.title}
-                  </h2>
-                  <AuthorDisplay
-                    name={author}
-                    date={date}
-                    readTimeInMinutes={post.timeToRead}
-                  />
-                </div>
-                <MDXRenderer>{post.code.body}</MDXRenderer>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Colophon />
-              </Col>
-            </Row>
-          </Container>
-        </Layout>
-      )}
+          </Layout>
+        );
+      }}
     </Location>
   );
 };
