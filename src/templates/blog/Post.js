@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Location } from '@reach/router';
 
 import { graphql } from 'gatsby';
 import { MDXRenderer } from 'gatsby-mdx';
@@ -21,48 +20,42 @@ const Post = ({ data, pageContext }) => {
   const { coverImage, title, author, date } = post.frontmatter;
 
   return (
-    <Location>
-      {({ location }) => (
-        <Layout>
-          <SEO
-            title={title}
-            ogType="article"
-            imageUrl={`${location.origin}${coverImageUrl.fixed.src}`}
-          />
-          {coverImage && (
-            <Container fluid className={classes.coverImageContainer}>
-              <Row noGutters>
-                <Col>
-                  <CoverImage src={coverImage} className={classes.coverImage} />
-                </Col>
-              </Row>
-            </Container>
-          )}
-          <Container className={classes.post}>
-            <Row>
-              <Col lg={{ span: 10, offset: 1 }} xl={{ span: 8, offset: 2 }}>
-                <div className={classes.metadata}>
-                  <h2 className={classes.postTitle}>
-                    {post.frontmatter.title}
-                  </h2>
-                  <AuthorDisplay
-                    name={author}
-                    date={date}
-                    readTimeInMinutes={post.timeToRead}
-                  />
-                </div>
-                <MDXRenderer>{post.code.body}</MDXRenderer>
-              </Col>
-            </Row>
-            <Row>
-              <Col>
-                <Colophon />
-              </Col>
-            </Row>
-          </Container>
-        </Layout>
+    <Layout>
+      <SEO
+        title={title}
+        ogType="article"
+        imageUrl={`${window.location.origin}${coverImageUrl.fixed.src}`}
+      />
+      {coverImage && (
+        <Container fluid className={classes.coverImageContainer}>
+          <Row noGutters>
+            <Col>
+              <CoverImage src={coverImage} className={classes.coverImage} />
+            </Col>
+          </Row>
+        </Container>
       )}
-    </Location>
+      <Container className={classes.post}>
+        <Row>
+          <Col lg={{ span: 10, offset: 1 }} xl={{ span: 8, offset: 2 }}>
+            <div className={classes.metadata}>
+              <h2 className={classes.postTitle}>{post.frontmatter.title}</h2>
+              <AuthorDisplay
+                name={author}
+                date={date}
+                readTimeInMinutes={post.timeToRead}
+              />
+            </div>
+            <MDXRenderer>{post.code.body}</MDXRenderer>
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Colophon />
+          </Col>
+        </Row>
+      </Container>
+    </Layout>
   );
 };
 
