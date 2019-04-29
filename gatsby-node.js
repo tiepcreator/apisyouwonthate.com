@@ -12,6 +12,7 @@ const getMdxDataForType = async ({ type, graphql }) => {
           frontmatter {
             title
             name
+            coverImage
           }
         }
       }
@@ -44,6 +45,7 @@ const turnBlogPostsIntoPages = async ({ graphql, actions }) => {
       component: blogPostTemplate,
       // What data should be surfaced to the Component or Query on this page?
       context: {
+        coverImage: post.frontmatter.coverImage,
         id: post.id,
         prev: prevPost ? prevPost.frontmatter.slug : null,
         next: nextPost ? nextPost.frontmatter.slug : null,

@@ -20,7 +20,7 @@ const BookPage = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title={title} />
+      <SEO title={title} ogType="article" />
       <section className={classes.top}>
         <Container>
           <div className={classes.container}>
