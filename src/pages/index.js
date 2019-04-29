@@ -4,13 +4,10 @@ import { graphql } from 'gatsby';
 // boostrap stuff
 import { Col, Container, Row } from 'react-bootstrap';
 
-import { BookFeature } from '../components/BookFeature';
-import Layout from '../components/layout';
-import SEO from '../components/seo';
-import { CoverImage } from '../components/Image';
+import { CoverImage, BookFeature, Layout, SEO } from '../components';
+import { NewsletterForm } from '../components/NewsletterForm';
 
 import classes from './Home.module.css';
-import { NewsletterForm } from '../components/NewsletterForm';
 
 const IndexPage = ({ data }) => {
   const { books } = data;

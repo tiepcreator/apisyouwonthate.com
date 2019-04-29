@@ -2,11 +2,10 @@ import React from 'react';
 import { graphql } from 'gatsby';
 import { MDXRenderer } from 'gatsby-mdx';
 import { Col, Container, Row } from 'react-bootstrap';
-import { Helmet } from 'react-helmet';
 
 import { OutboundLink } from 'gatsby-plugin-google-analytics';
 
-import { BlogPostItem, Layout, Image } from '../../components';
+import { BlogPostItem, Layout, Image, SEO } from '../../components';
 import { TwitterIcon, GitHubIcon } from '../../components/icons';
 
 import classes from './AuthorPage.module.css';
@@ -27,9 +26,7 @@ const BookPage = ({ data }) => {
 
   return (
     <Layout>
-      <Helmet>
-        <title>{name}</title>
-      </Helmet>
+      <SEO title={name} />
       <section className={classes.about}>
         <Container>
           <Row>

@@ -2,14 +2,10 @@ import React from 'react';
 import { graphql } from 'gatsby';
 import { MDXRenderer } from 'gatsby-mdx';
 import { Col, Container, Row } from 'react-bootstrap';
-import { Helmet } from 'react-helmet';
-
-import { Button } from '../../components/Button';
-import { Image } from '../../components';
-import Layout from '../../components/layout';
-
-import classes from './BookPage.module.css';
 import { OutboundLink } from 'gatsby-plugin-google-analytics';
+
+import { Button, Image, Layout, SEO } from '../../components';
+import classes from './BookPage.module.css';
 
 const BookPage = ({ data }) => {
   const book = data.mdx;
@@ -24,9 +20,7 @@ const BookPage = ({ data }) => {
 
   return (
     <Layout>
-      <Helmet>
-        <title>{title}</title>
-      </Helmet>
+      <SEO title={title} ogType="article" />
       <section className={classes.top}>
         <Container>
           <div className={classes.container}>

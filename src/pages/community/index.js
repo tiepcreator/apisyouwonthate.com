@@ -1,13 +1,9 @@
 import React from 'react';
-
 import { Col, Container, Row } from 'react-bootstrap';
-
-import { Image } from '../../components/Image';
-import Layout from '../../components/layout';
-import SEO from '../../components/seo';
-
-import classes from './CommunityPage.module.css';
 import { OutboundLink } from 'gatsby-plugin-google-analytics';
+
+import { Image, Layout, SEO } from '../../components';
+import classes from './CommunityPage.module.css';
 
 const CommunityPage = () => (
   <Layout>

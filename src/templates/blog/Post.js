@@ -1,60 +1,91 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Location } from '@reach/router';
 
 import { graphql } from 'gatsby';
 import { MDXRenderer } from 'gatsby-mdx';
-import { Helmet } from 'react-helmet';
-
-// bootstrap
 import { Container, Col, Row } from 'react-bootstrap';
 
-import Layout from '../../components/layout';
-import { Colophon } from '../../components/Colophon';
-
+import {
+  AuthorDisplay,
+  Colophon,
+  CoverImage,
+  Layout,
+  SEO,
+} from '../../components';
 import classes from './Post.module.css';
-import AuthorDisplay from '../../components/AuthorDisplay/AuthorDisplay';
-import { CoverImage } from '../../components/Image';
 
 const Post = ({ data, pageContext }) => {
-  const post = data.mdx;
+  const { post, coverImageUrl } = data;
 
-  const { coverImage, title, author, date } = post.frontmatter;
+  const { coverImage, title, subtitle, author, date } = post.frontmatter;
 
   return (
-    <Layout>
-      <Helmet>
-        <title>{title}</title>
-      </Helmet>
-      {coverImage && (
-        <Container fluid className={classes.coverImageContainer}>
-          <Row noGutters>
-            <Col>
-              <CoverImage src={coverImage} className={classes.coverImage} />
-            </Col>
-          </Row>
-        </Container>
-      )}
-      <Container className={classes.post}>
-        <Row>
-          <Col lg={{ span: 10, offset: 1 }} xl={{ span: 8, offset: 2 }}>
-            <div className={classes.metadata}>
-              <h2 className={classes.postTitle}>{post.frontmatter.title}</h2>
-              <AuthorDisplay
-                name={author}
-                date={date}
-                readTimeInMinutes={post.timeToRead}
-              />
-            </div>
-            <MDXRenderer>{post.code.body}</MDXRenderer>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <Colophon />
-          </Col>
-        </Row>
-      </Container>
-    </Layout>
+    <Location>
+      {({ location }) => {
+        // get the base URL for this page from reach router, or fall back to
+        // netlify provided URLs if that's missing
+        // see docs for more info: https://www.netlify.com/docs/continuous-deployment/#environment-variables
+        const siteURLBase =
+          location.origin ||
+          process.env.DEPLOY_PRIME_URL ||
+          process.env.DEPLOY_URL ||
+          process.env.URL;
+        return (
+          <Layout>
+            <SEO
+              title={title}
+              description={subtitle}
+              ogType="article"
+              imageUrl={`${siteURLBase}${coverImageUrl.fixed.src}`}
+            />
+            {coverImage && (
+              <Container fluid className={classes.coverImageContainer}>
+                <Row noGutters>
+                  <Col>
+                    <CoverImage
+                      src={coverImage}
+                      className={classes.coverImage}
+                    />
+                  </Col>
+                </Row>
+              </Container>
+            )}
+            <Container className={classes.post}>
+              <Row>
+                <Col
+                  lg={{
+                    span: 10,
+                    offset: 1,
+                  }}
+                  xl={{
+                    span: 8,
+                    offset: 2,
+                  }}
+                >
+                  <div className={classes.metadata}>
+                    <h2 className={classes.postTitle}>
+                      {post.frontmatter.title}
+                    </h2>
+                    <AuthorDisplay
+                      name={author}
+                      date={date}
+                      readTimeInMinutes={post.timeToRead}
+                    />
+                  </div>
+                  <MDXRenderer>{post.code.body}</MDXRenderer>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Colophon />
+                </Col>
+              </Row>
+            </Container>
+          </Layout>
+        );
+      }}
+    </Location>
   );
 };
 
@@ -64,8 +95,8 @@ Post.propTypes = {
 };
 
 export const query = graphql`
-  query($id: String!) {
-    mdx(id: { eq: $id }) {
+  query($id: String!, $coverImage: String!) {
+    post: mdx(id: { eq: $id }) {
       id
       code {
         body
@@ -74,9 +105,15 @@ export const query = graphql`
       timeToRead
       frontmatter {
         title
+        subtitle
         author
         date
         coverImage
+      }
+    }
+    coverImageUrl: imageSharp(fixed: { originalName: { eq: $coverImage } }) {
+      fixed(width: 1200) {
+        src
       }
     }
   }

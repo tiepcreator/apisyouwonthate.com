@@ -1,9 +1,13 @@
+export { AuthorDisplay } from './AuthorDisplay';
 export { BlogPostItem } from './BlogPostItem';
+export { BookFeature } from './BookFeature';
 export { Button } from './Button';
 export { Colophon } from './Colophon';
+export { CoverImage } from './Image';
 export { Footer } from './Footer';
 export { Header } from './Header';
 export { Image } from './Image';
-export { default as Layout } from './layout';
+export { Layout } from './Layout';
 export { NewsletterForm } from './NewsletterForm';
+export { SEO } from './SEO';
 export { VideoFeature } from './VideoFeature';

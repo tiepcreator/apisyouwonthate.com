@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     title: `APIs You Won't Hate - A community that cares about API design and development.`,
     description: ``,
-    author: `@irreverentmike`,
+    author: `@apisyouwonthate`,
     siteUrl: `https://apisyouwonthate.com`,
   },
   plugins: [

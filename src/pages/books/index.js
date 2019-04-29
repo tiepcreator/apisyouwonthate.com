@@ -1,13 +1,8 @@
 import React from 'react';
 import { graphql } from 'gatsby';
-
-// bootstrap
 import { Container, Col, Row } from 'react-bootstrap';
 
-import Layout from '../../components/layout';
-import SEO from '../../components/seo';
-import { BookFeature } from '../../components/BookFeature';
-
+import { BookFeature, Layout, SEO } from '../../components';
 import classes from './BooksPage.module.css';
 
 const BooksPage = ({ data }) => {
