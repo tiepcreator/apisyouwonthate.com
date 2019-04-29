@@ -3,17 +3,16 @@ import PropTypes from 'prop-types';
 
 import { graphql } from 'gatsby';
 import { MDXRenderer } from 'gatsby-mdx';
-import { Helmet } from 'react-helmet';
-
-// bootstrap
 import { Container, Col, Row } from 'react-bootstrap';
 
-import Layout from '../../components/layout';
-import { Colophon } from '../../components/Colophon';
-
+import {
+  AuthorDisplay,
+  Colophon,
+  CoverImage,
+  Layout,
+  SEO,
+} from '../../components';
 import classes from './Post.module.css';
-import AuthorDisplay from '../../components/AuthorDisplay/AuthorDisplay';
-import { CoverImage } from '../../components/Image';
 
 const Post = ({ data, pageContext }) => {
   const post = data.mdx;
@@ -22,9 +21,7 @@ const Post = ({ data, pageContext }) => {
 
   return (
     <Layout>
-      <Helmet>
-        <title>{title}</title>
-      </Helmet>
+      <SEO title={title} />
       {coverImage && (
         <Container fluid className={classes.coverImageContainer}>
           <Row noGutters>

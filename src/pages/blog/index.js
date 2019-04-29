@@ -4,9 +4,7 @@ import { graphql } from 'gatsby';
 // bootstrap
 import { Container, Col, Row } from 'react-bootstrap';
 
-import Layout from '../../components/layout';
-import SEO from '../../components/seo';
-import { BlogPostItem } from '../../components/BlogPostItem';
+import { BlogPostItem, Layout, SEO } from '../../components';
 
 import classes from './BlogPage.module.css';
 

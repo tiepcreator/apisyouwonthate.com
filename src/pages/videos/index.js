@@ -4,12 +4,8 @@ import { graphql } from 'gatsby';
 // bootstrap
 import { Container, Col, Row } from 'react-bootstrap';
 
-import Layout from '../../components/layout';
-import SEO from '../../components/seo';
-import { VideoFeature } from '../../components/VideoFeature';
-
+import { Image, Layout, SEO, VideoFeature } from '../../components';
 import classes from './Videos.module.css';
-import { Image } from '../../components/Image';
 
 const VideosPage = ({ data }) => {
   const { videos } = data;
