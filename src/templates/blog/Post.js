@@ -18,7 +18,7 @@ import classes from './Post.module.css';
 const Post = ({ data, pageContext }) => {
   const { post, coverImageUrl } = data;
 
-  const { coverImage, title, author, date } = post.frontmatter;
+  const { coverImage, title, subtitle, author, date } = post.frontmatter;
 
   return (
     <Location>
@@ -35,6 +35,7 @@ const Post = ({ data, pageContext }) => {
           <Layout>
             <SEO
               title={title}
+              description={subtitle}
               ogType="article"
               imageUrl={`${siteURLBase}${coverImageUrl.fixed.src}`}
             />
@@ -104,6 +105,7 @@ export const query = graphql`
       timeToRead
       frontmatter {
         title
+        subtitle
         author
         date
         coverImage
