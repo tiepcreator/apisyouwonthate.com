@@ -37,6 +37,9 @@ class ShopifyBuyButton extends Component {
       moneyFormat: '%24%7B%7Bamount%7D%7D',
       id: productId,
       options: {
+        cart: {
+          popup: false,
+        },
         product: {
           iframe: false,
           contents: {
