@@ -12,7 +12,6 @@ const BookPage = ({ data }) => {
   const book = data.mdx;
 
   const {
-    buyLink,
     coverImage,
     description,
     leanpubLinks,
@@ -74,7 +73,6 @@ export const query = graphql`
         scope
       }
       frontmatter {
-        buyLink
         coverImage
         description
         leanpubLinks {
