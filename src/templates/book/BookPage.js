@@ -3,6 +3,7 @@ import { graphql } from 'gatsby';
 import { MDXRenderer } from 'gatsby-mdx';
 import { Col, Container, Row } from 'react-bootstrap';
 import { OutboundLink } from 'gatsby-plugin-google-analytics';
+import { map } from 'lodash';
 
 import { Button, Image, Layout, SEO } from '../../components';
 import classes from './BookPage.module.css';
@@ -14,6 +15,7 @@ const BookPage = ({ data }) => {
     buyLink,
     coverImage,
     description,
+    leanpubLinks,
     subtitle,
     title,
   } = book.frontmatter;
@@ -29,15 +31,15 @@ const BookPage = ({ data }) => {
                 <h1>{title}</h1>
                 <h2>{subtitle}</h2>
                 <p>{description}</p>
-                {buyLink && (
+                {map(leanpubLinks, ({ link, label }) => (
                   <OutboundLink
-                    href={buyLink}
+                    href={link}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <Button>Preorder via Leanpub</Button>
+                    <Button>{label}</Button>
                   </OutboundLink>
-                )}
+                ))}
               </Col>
               <Col lg={1} />
               <Col>
@@ -53,6 +55,7 @@ const BookPage = ({ data }) => {
         <Container>
           <Row>
             <Col lg={{ span: 8, offset: 1 }}>
+              <h2>About the book</h2>
               <MDXRenderer>{book.code.body}</MDXRenderer>
             </Col>
           </Row>
@@ -74,6 +77,10 @@ export const query = graphql`
         buyLink
         coverImage
         description
+        leanpubLinks {
+          link
+          label
+        }
         subtitle
         title
       }
