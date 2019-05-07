@@ -11,6 +11,7 @@ const Button = ({
   className = '',
   disabled = false,
   fullWidth = false,
+  secondary = false,
   ...rest
 }) => {
   const handleClick = event => {
@@ -20,7 +21,10 @@ const Button = ({
   };
 
   const fullWidthClass = fullWidth ? classes.fullWidth : '';
-  const classNames = `${classes.button} ${fullWidthClass} ${className}`;
+  const secondaryClass = secondary ? classes.secondary : '';
+  const classNames = `${
+    classes.button
+  } ${fullWidthClass} ${secondaryClass} ${className}`;
 
   return (
     <div onClick={handleClick} role="button" className={classNames} {...rest}>
