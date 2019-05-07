@@ -59,15 +59,6 @@ class ShopifyBuyButton extends Component {
     }
   }
 
-  handleClick = event => {
-    if (event && typeof event.preventDefault === 'function') {
-      event.preventDefault();
-    }
-
-    const checkout = this.buyButton;
-    debugger;
-  };
-
   render() {
     const { label, productId, ...rest } = this.props;
     return <div ref={this.buyButton} {...rest} />;
