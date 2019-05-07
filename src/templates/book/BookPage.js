@@ -5,7 +5,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { OutboundLink } from 'gatsby-plugin-google-analytics';
 import { map, size } from 'lodash';
 
-import { Button, Image, Layout, SEO } from '../../components';
+import { Button, Image, Layout, SEO, ShopifyBuyButton } from '../../components';
 import classes from './BookPage.module.css';
 
 const BookPage = ({ data }) => {
@@ -16,6 +16,7 @@ const BookPage = ({ data }) => {
     coverImage,
     description,
     leanpubLinks,
+    shopifyData,
     subtitle,
     title,
   } = book.frontmatter;
@@ -31,11 +32,23 @@ const BookPage = ({ data }) => {
                 <h1>{title}</h1>
                 <h2>{subtitle}</h2>
                 <p>{description}</p>
-                {map(leanpubLinks, ({ url, label }) => (
+                <div className={classes.shopifyContainer}>
+                  {map(shopifyData, ({ productId, label }) => (
+                    <div
+                      className={classes.shopifyButton}
+                      key={`shopify-button-${productId}`}
+                    >
+                      <ShopifyBuyButton label={label} productId={productId} />
+                    </div>
+                  ))}
+                </div>
+
+                {map(leanpubLinks, ({ url, label }, idx) => (
                   <OutboundLink
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    key={`leanpub-link-${idx}`}
                   >
                     <Button>{label}</Button>
                   </OutboundLink>
@@ -48,11 +61,12 @@ const BookPage = ({ data }) => {
                     </em>
                   </small>
                 )}
-                {map(amazonLinks, ({ url, label }) => (
+                {map(amazonLinks, ({ url, label }, idx) => (
                   <OutboundLink
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    key={`amazon-link-${idx}`}
                   >
                     <Button secondary>{label}</Button>
                   </OutboundLink>
@@ -100,6 +114,10 @@ export const query = graphql`
         leanpubLinks {
           url
           label
+        }
+        shopifyData {
+          label
+          productId
         }
         subtitle
         title

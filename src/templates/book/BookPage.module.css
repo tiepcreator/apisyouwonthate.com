@@ -35,3 +35,11 @@
 .container p {
   line-height: 1.75rem;
 }
+
+.shopifyButton {
+  display: inline-block;
+  margin-right: 1.5rem;
+}
+.shopifyContainer {
+  margin-bottom: 2rem;
+}
