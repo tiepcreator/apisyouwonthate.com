@@ -68,7 +68,9 @@ const BookPage = ({ data }) => {
                     rel="noopener noreferrer"
                     key={`amazon-link-${idx}`}
                   >
-                    <Button secondary>{label}</Button>
+                    <Button secondary className={classes.subtleButton}>
+                      {label}
+                    </Button>
                   </OutboundLink>
                 ))}
               </Col>

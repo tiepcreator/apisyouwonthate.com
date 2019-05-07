@@ -46,6 +46,10 @@ button {
   font-size: smaller;
 }
 
+button.shopify-buy__btn {
+  background-color: #4c844e;
+}
+
 button:hover {
   background-color: rgba(var(--purple_rgb), var(--alpha-dimmed));
   color: var(--white);
