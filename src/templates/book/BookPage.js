@@ -3,7 +3,7 @@ import { graphql } from 'gatsby';
 import { MDXRenderer } from 'gatsby-mdx';
 import { Col, Container, Row } from 'react-bootstrap';
 import { OutboundLink } from 'gatsby-plugin-google-analytics';
-import { map } from 'lodash';
+import { map, size } from 'lodash';
 
 import { Button, Image, Layout, SEO } from '../../components';
 import classes from './BookPage.module.css';
@@ -12,6 +12,7 @@ const BookPage = ({ data }) => {
   const book = data.mdx;
 
   const {
+    amazonLinks,
     coverImage,
     description,
     leanpubLinks,
@@ -30,13 +31,30 @@ const BookPage = ({ data }) => {
                 <h1>{title}</h1>
                 <h2>{subtitle}</h2>
                 <p>{description}</p>
-                {map(leanpubLinks, ({ link, label }) => (
+                {map(leanpubLinks, ({ url, label }) => (
                   <OutboundLink
-                    href={link}
+                    href={url}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     <Button>{label}</Button>
+                  </OutboundLink>
+                ))}
+                {size(amazonLinks) > 0 && (
+                  <small>
+                    <em>
+                      Also available on these sites, but a much bigger chunk
+                      goes in their pocket:
+                    </em>
+                  </small>
+                )}
+                {map(amazonLinks, ({ url, label }) => (
+                  <OutboundLink
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <Button secondary>{label}</Button>
                   </OutboundLink>
                 ))}
               </Col>
@@ -73,10 +91,14 @@ export const query = graphql`
         scope
       }
       frontmatter {
+        amazonLinks {
+          url
+          label
+        }
         coverImage
         description
         leanpubLinks {
-          link
+          url
           label
         }
         subtitle

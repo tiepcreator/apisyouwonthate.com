@@ -1,5 +1,11 @@
+.background {
+  background: var(--hateful-green);
+}
+
 .container {
-  margin: 2rem auto;
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  color: var(--white);
 }
 
 .bookSpacer {
