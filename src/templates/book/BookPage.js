@@ -52,7 +52,7 @@ const BookPage = ({ data }) => {
       <section className={classes.about}>
         <Container>
           <Row>
-            <Col>
+            <Col lg={{ span: 8, offset: 1 }}>
               <MDXRenderer>{book.code.body}</MDXRenderer>
             </Col>
           </Row>
