@@ -1,4 +1,8 @@
 [[redirects]]
+  from = "/books/*.html"
+  to = "/books/:splat"
+
+[[redirects]]
   from = "/a-happy-compromise-between-customization-and-cacheability-*"
   to = "/partials-compromise-between-customization-and-cacheability"
 
