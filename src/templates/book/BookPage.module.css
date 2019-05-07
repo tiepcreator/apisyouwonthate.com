@@ -24,3 +24,26 @@
 .about {
   padding: 6rem;
 }
+
+.container h2 {
+  font-family: var(--sans-serif-font-family);
+  font-weight: 400;
+  font-size: 20pt;
+  margin: 2rem 0;
+}
+
+.container p {
+  line-height: 1.75rem;
+}
+
+.shopifyButton {
+  display: inline-block;
+  margin-right: 1.5rem;
+}
+.shopifyContainer {
+  margin-bottom: 2rem;
+}
+
+.subtleButton {
+  background-color: #1a1a1a;
+}

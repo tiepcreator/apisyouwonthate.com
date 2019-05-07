@@ -3,17 +3,20 @@ import { graphql } from 'gatsby';
 import { MDXRenderer } from 'gatsby-mdx';
 import { Col, Container, Row } from 'react-bootstrap';
 import { OutboundLink } from 'gatsby-plugin-google-analytics';
+import { map, size } from 'lodash';
 
-import { Button, Image, Layout, SEO } from '../../components';
+import { Button, Image, Layout, SEO, ShopifyBuyButton } from '../../components';
 import classes from './BookPage.module.css';
 
 const BookPage = ({ data }) => {
   const book = data.mdx;
 
   const {
-    buyLink,
+    amazonLinks,
     coverImage,
     description,
+    leanpubLinks,
+    shopifyData,
     subtitle,
     title,
   } = book.frontmatter;
@@ -29,15 +32,47 @@ const BookPage = ({ data }) => {
                 <h1>{title}</h1>
                 <h2>{subtitle}</h2>
                 <p>{description}</p>
-                {buyLink && (
+                <div className={classes.shopifyContainer}>
+                  {map(shopifyData, ({ productId, label }) => (
+                    <div
+                      className={classes.shopifyButton}
+                      key={`shopify-button-${productId}`}
+                    >
+                      <ShopifyBuyButton label={label} productId={productId} />
+                    </div>
+                  ))}
+                </div>
+
+                {map(leanpubLinks, ({ url, label }, idx) => (
                   <OutboundLink
-                    href={buyLink}
+                    href={url}
                     target="_blank"
                     rel="noopener noreferrer"
+                    key={`leanpub-link-${idx}`}
                   >
-                    <Button>Preorder via Leanpub</Button>
+                    <Button>{label}</Button>
                   </OutboundLink>
+                ))}
+                {size(amazonLinks) > 0 && (
+                  <small>
+                    <em>
+                      Also available on these sites, but a much bigger chunk
+                      goes in their pocket:
+                    </em>
+                  </small>
                 )}
+                {map(amazonLinks, ({ url, label }, idx) => (
+                  <OutboundLink
+                    href={url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    key={`amazon-link-${idx}`}
+                  >
+                    <Button secondary className={classes.subtleButton}>
+                      {label}
+                    </Button>
+                  </OutboundLink>
+                ))}
               </Col>
               <Col lg={1} />
               <Col>
@@ -52,7 +87,8 @@ const BookPage = ({ data }) => {
       <section className={classes.about}>
         <Container>
           <Row>
-            <Col>
+            <Col lg={{ span: 8, offset: 1 }}>
+              <h2>About the book</h2>
               <MDXRenderer>{book.code.body}</MDXRenderer>
             </Col>
           </Row>
@@ -71,9 +107,20 @@ export const query = graphql`
         scope
       }
       frontmatter {
-        buyLink
+        amazonLinks {
+          url
+          label
+        }
         coverImage
         description
+        leanpubLinks {
+          url
+          label
+        }
+        shopifyData {
+          label
+          productId
+        }
         subtitle
         title
       }

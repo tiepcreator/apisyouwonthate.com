@@ -10,4 +10,5 @@ export { Image } from './Image';
 export { Layout } from './Layout';
 export { NewsletterForm } from './NewsletterForm';
 export { SEO } from './SEO';
+export { ShopifyBuyButton } from './ShopifyBuyButton';
 export { VideoFeature } from './VideoFeature';
