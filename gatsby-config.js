@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 module.exports = {
   siteMetadata: {
     title: `APIs You Won't Hate - A community that cares about API design and development.`,
