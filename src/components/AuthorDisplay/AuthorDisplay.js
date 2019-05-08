@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { graphql, useStaticQuery } from 'gatsby';
 import moment from 'moment';
 
 import Img from 'gatsby-image/withIEPolyfill';
