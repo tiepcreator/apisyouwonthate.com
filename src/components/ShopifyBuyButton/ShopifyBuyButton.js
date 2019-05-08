@@ -8,15 +8,12 @@ class ShopifyBuyButton extends Component {
     super(props);
     this.buyButton = React.createRef();
 
-    const token = '1e06188f9ab2509e9ebe7dcf1340948c';
-    const domain = 'apisyouwonthate.myshopify.com';
-
     this.shopifyClient = Client.buildClient({
-      domain,
-      appId: '6',
-      apiKey: '7c0d8ea3d286decd83b1ffe8cac166ff',
-      storefrontAccessToken: token,
+      domain: process.env.GATSBY_SHOPIFY_DOMAIN,
+      appId: process.env.GATSBY_SHOPIFY_APP_ID,
+      apiKey: process.env.GATSBY_SHOPIFY_API_KEY,
     });
+
     this.shopifyUi = ShopifyBuy.UI.init(this.shopifyClient);
 
     this.state = {
