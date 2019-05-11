@@ -3,7 +3,7 @@
 ## To run the site locally
 
 1. clone this repo
-1. `yarn install` or `npm install` to install npm dependencies
+1. `yarn install` to install npm dependencies
 1. To make shopify buy button embeds work, create a file called `.env.development` in the root of this project directory with the following values set:
 
    ```javascript
