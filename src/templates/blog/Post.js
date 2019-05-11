@@ -37,7 +37,11 @@ const Post = ({ data, pageContext }) => {
               title={title}
               description={subtitle}
               ogType="article"
-              imageUrl={`${siteURLBase}${coverImageUrl.fixed.src}`}
+              imageUrl={
+                coverImageUrl
+                  ? `${siteURLBase}${coverImageUrl.fixed.src}`
+                  : null
+              }
             />
             {coverImage && (
               <Container fluid className={classes.coverImageContainer}>
@@ -95,7 +99,7 @@ Post.propTypes = {
 };
 
 export const query = graphql`
-  query($id: String!, $coverImage: String!) {
+  query($id: String!, $coverImage: String) {
     post: mdx(id: { eq: $id }) {
       id
       code {

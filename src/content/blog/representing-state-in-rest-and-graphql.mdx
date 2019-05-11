@@ -1,8 +1,8 @@
 ---
 title: Representing State in REST and GraphQL
 subtitle: 'Learn how an API can become a state machine, with different actions appearing for resources in different states.'
-date: '2017-08-12T14:35:16.936Z'
-coverImage: useful-api-errors.jpg
+date: '2017-08-12'
+coverImage:
 type: blog
 author: Phil Sturgeon
 ---
@@ -19,26 +19,53 @@ An example!
 
 Let’s talk about invoices. Our API could be REST, RESTish or GraphQL, doesn’t matter. We have a basic object with a bunch of date fields:
 
-```
-{  "data": {    "type": "invoice",    "id": "093b941d",    "attributes": {      "published_at": "2017-06-15 12:31:01Z",      "sent_at": "2017-06-15 12:34:29Z",      "paid_at": null    }  }}
+```js
+{
+  "data": {
+    "type": "invoice",
+    "id": "093b941d",
+    "attributes": {
+      "published_at": "2017-06-15 12:31:01Z",
+      "sent_at": "2017-06-15 12:34:29Z",
+      "paid_at": null
+    }
+  }
+}
+
+
 ```
 
 We tell the clients that if there is no paid date, then it has not been paid, and the same logic applies for sent. It might look a bit like this:
 
-```
-if (model.paid_at) {  status = 'paid';
-```
-
-```
-} else if (model.sent_at) {  status = 'sent';} else if (model.published_at) {  status = 'published';} else {  status = 'draft';}
+```js
+if (model.paid_at) {
+  status = 'paid';
+} else if (model.sent_at) {
+  status = 'sent';
+} else if (model.published_at) {
+  status = 'published';
+} else {
+  status = 'draft';
+}
 ```
 
 This means we can display `Status: Sent` on our various client applications, and it's likely all the apps got that right.
 
 Soon we notice a situation where the payment is initiated, but the payment bounces. Maybe we add another field, and this whole “inspect the dates” thing starts to fall apart.
 
-```
-{  "data": {    "type": "invoice",    "id": "093b941d",    "attributes": {      "published_at": "2017-06-15 12:31:01Z",      "sent_at": "2017-06-15 12:34:29Z",      "paid_at": "2017-06-16 09:05:00Z",      "payment_received_at": null    }  }}
+```js
+{
+  "data": {
+    "type": "invoice",
+    "id": "093b941d",
+    "attributes": {
+      "published_at": "2017-06-15 12:31:01Z",
+      "sent_at": "2017-06-15 12:34:29Z",
+      "paid_at": "2017-06-16 09:05:00Z",
+      "payment_received_at": null
+    }
+  }
+}
 ```
 
 A client inferring state from those fields would consider that invoice paid. Another client would consider it to be an unpaid invoice, as there was a failed payment. If a new “published” state was added, they’d be showing as draft. Mess all over.
@@ -49,26 +76,72 @@ Changing things without versioning is sometimes known as [API evolution](https:/
 
 #### API != Database
 
-Inferring states from dates or other arbitrary fields is awful, and it _always_ goes wrong.
+Inferring states from dates or other arbitrary fields is awful, and it _always_
+goes wrong.
 
-I noticed a similar issue with Postmates Fleet saying “Waiting on verification of your profile image” on the mobile app, and the web app said “Please upload a profile image”. If I dug into the code, I’d bet they were looking for an “image verified” switch of some sort, and the web app just happened to notice a field that the mobile app didn’t.
+I noticed a similar issue with Postmates Fleet saying “Waiting on verification
+of your profile image” on the mobile app, and the web app said “Please upload a
+profile image”. If I dug into the code, I’d bet they were looking for an “image
+verified” switch of some sort, and the web app just happened to notice a field
+that the mobile app didn’t.
 
-This is one of many many many reasons why folks need to stop treating an API like it is purely SQL-over-HTTP. The data can be stored like this in the _database_, but exposing it in the contract is begging for trouble, as clients will always end up with a slightly different picture of the current state.
+This is one of many many many reasons why folks need to stop treating an API
+like it is purely SQL-over-HTTP. The data can be stored like this in the
+_database_, but exposing it in the contract is begging for trouble, as clients
+will always end up with a slightly different picture of the current state.
 
 How do you avoid this? State machines!
 
-In the world of Ruby there are loads of options, but [Statesman](https://github.com/gocardless/statesman) is super simple, and [AASM](https://github.com/aasm/aasm) is cool.
+In the world of Ruby there are loads of options, but
+[Statesman](https://github.com/gocardless/statesman) is super simple, and
+[AASM](https://github.com/aasm/aasm) is cool.
 
 Let’s look at this just in code, and ignore HTTP for a second.
 
-```
-class InvoiceStateMachine  include Statesman::Machine  state :draft, initial: true  state :published  state :sent  state :failed  state :paid  transition from: :draft,        to: :published  transition from: :published,    to: [:draft, :sent, :paid]  transition from: :sent,         to: [:failed, :paid]  transition from: :failed,       to: :paid  guard_transition(to: :sent) do |invoice|    invoice.has_contact_info?  end  before_transition(to: :sent) do |invoice, transition|    EmailService.new(invoice).send_contact_invoice    invoice.touch(:sent_at)  end  after_transition(to: :failed) do |invoice, transition|    EmailService.new(invoice).send_contact_failure    EmailService.new(invoice).send_owner_failure    invoice.touch(:failed_at)  end  after_transition(to: :paid) do |invoice, transition|    EmailService.new(invoice).send_owner_success    invoice.touch(:paid_at)  endend
+```ruby
+class InvoiceStateMachine
+  include Statesman::Machine
+
+  state :draft, initial: true
+  state :published
+  state :sent
+  state :failed
+  state :paid
+
+  transition from: :draft,        to: :published
+  transition from: :published,    to: [:draft, :sent, :paid]
+  transition from: :sent,         to: [:failed, :paid]
+  transition from: :failed,       to: :paid
+
+  guard_transition(to: :sent) do |invoice|
+    invoice.has_contact_info?
+  end
+
+  before_transition(to: :sent) do |invoice, transition|
+    EmailService.new(invoice).send_contact_invoice
+    invoice.touch(:sent_at)
+  end
+
+  after_transition(to: :failed) do |invoice, transition|
+    EmailService.new(invoice).send_contact_failure
+    EmailService.new(invoice).send_owner_failure
+    invoice.touch(:failed_at)
+  end
+
+  after_transition(to: :paid) do |invoice, transition|
+    EmailService.new(invoice).send_owner_success
+    invoice.touch(:paid_at)
+  end
+end
 ```
 
 Now we can do this:
 
 ```
-invoice.current_state # => "draft"invoice.allowed_transitions # => ["published"]invoice.can_transition_to?(:sent) # => true/falseinvoice.transition_to(:paid) # => true/false
+invoice.current_state # => "draft"
+invoice.allowed_transitions # => ["published"]
+invoice.can_transition_to?(:sent) # => true/false
+invoice.transition_to(:paid) # => true/false
 ```
 
 This gives us a lot of ability to assert a single “status”, and you know the server has everything under control. We’ve not had to spread that logic throughout persistence layer logic, controller logic, and arbitrary classes. It’s all in the state machine, and the main thing is that we no longer have to ask the clients to try and guess what’s up with the invoice.
@@ -79,9 +152,7 @@ Just like the Ruby example, we want to know the current state, and we want to kn
 
 First thing? Shove that `current_state` property in your serializer to expose a `"status": "draft"` field in the output. This'll work fine for both RESTish APIs and those built with GraphQL.
 
-How about the “what to do next” bit? Well, this is exactly what
-
-HATEOAS is!
+How about the “what to do next” bit? Well, this is exactly what HATEOAS is!
 
 #### HATEOAS I CALL ON THEE
 
@@ -89,8 +160,23 @@ HATEOAS is!
 
 At it’s most basic, starting to implement some HATEOAS in your API would look like this:
 
-```
-{  "data": {    "type": "invoice",    "id": "093b941d",    "attributes": {      "created_at": "2017-06-15 12:31:01Z",      "sent_at": "2017-06-15 12:34:29Z",      "paid_at": "2017-06-16 09:05:00Z",      "payment_received_at": null,      "status": "published"    }  },  "links": {    "pay": "https://api.acme.com/invoices/093b941d/payment_attempts"  }}
+```js
+{
+  "data": {
+    "type": "invoice",
+    "id": "093b941d",
+    "attributes": {
+      "created_at": "2017-06-15 12:31:01Z",
+      "sent_at": "2017-06-15 12:34:29Z",
+      "paid_at": "2017-06-16 09:05:00Z",
+      "payment_received_at": null,
+      "status": "published"
+    }
+  },
+  "links": {
+    "pay": "https://api.acme.com/invoices/093b941d/payment_attempts"
+  }
+}
 ```
 
 The existence of that `pay` link can be used to let the various client apps know they should show the "Pay" button. If it wasn't `published` that link wouldn't be there.
@@ -117,8 +203,10 @@ Another approach is [JSON Hyper-Schema](http://json-schema.org/latest/json-schem
 
 If hiding it behind options seems weird, you can also/either place a link in the response document:
 
-```
-{  "schema": "http://api.acme.com/schemas/invoice/093b941d"  "data": {
+```js
+{
+  "schema": "http://api.acme.com/schemas/invoice/093b941d"
+  "data": {
 ```
 
 Using metadata to let clients know what data they should send is very cool, as it offers a method for client-side validation which matches server-side validation perfectly. Now your various applications can use that JSON Schema to validate data locally before even trying the POST (saving time and reducing traffic to the server).
@@ -128,7 +216,15 @@ Using metadata to let clients know what data they should send is very cool, as i
 Instead of two requests, another approach is combining the metadata with the response document. Our example so far has been using [JSON-API](http://jsonapi.org/), so to continue using that:
 
 ```
-"links": {  "pay": {    "href": "https://api.acme.com/invoices/093b941d/payment_attempts"    "meta": {      "method": "POST",      "type": "application/json"    }  }}
+"links": {
+  "pay": {
+    "href": "https://api.acme.com/invoices/093b941d/payment_attempts"
+    "meta": {
+      "method": "POST",
+      "type": "application/json"
+    }
+  }
+}
 ```
 
 This isn’t really part of the JSON-API specification, but [it is valid](http://jsonapi.org/format/#document-links). Inventing your own standards and conventions can be a pain in the ass, so maybe don’t bother. There’s a standard for that: [Siren](https://github.com/kevinswiber/siren).
@@ -136,7 +232,41 @@ This isn’t really part of the JSON-API specification, but [it is valid](http:/
 Check out this potential JSON response.
 
 ```
-{  "class": [ "invoice" ],  "properties": {    "id": "093b941d",    "all_the_other": "fields",    "so_many": "other_fields",    "status": "published"  },  "entities": [    {      "class": [ "items", "collection" ],      "rel": [ "http://acme.com/rels/pay-invoice" ],      "href": "https://api.acme.com/invoices/093b941d/payment_attempts"    }  ],  "actions": [    {      "name": "pay-invoice",      "title": "Pay Invoice",      "method": "POST",      "href": "https://api.acme.com/invoices/093b941d/payment_attempts",      "type": "application/json",      "fields": [        { "name": "invoice_number", "type": "hidden", "value": "42" },        { "name": "amount", "type": "number" },        { "name": "stripe_token", "type": "text" }      ]    }  ],  "links": [    { "rel": [ "self" ], "href": "http://api.acme.com/invoices/093b941d" },    { "rel": [ "previous" ], "href": "http://api.acme.com/invoices/a46c437c" },    { "rel": [ "next" ], "href": "http://api.acme.com/invoices/ca0e7f36" }  ]}
+{
+  "class": [ "invoice" ],
+  "properties": {
+    "id": "093b941d",
+    "all_the_other": "fields",
+    "so_many": "other_fields",
+    "status": "published"
+  },
+  "entities": [
+    {
+      "class": [ "items", "collection" ],
+      "rel": [ "http://acme.com/rels/pay-invoice" ],
+      "href": "https://api.acme.com/invoices/093b941d/payment_attempts"
+    }
+  ],
+  "actions": [
+    {
+      "name": "pay-invoice",
+      "title": "Pay Invoice",
+      "method": "POST",
+      "href": "https://api.acme.com/invoices/093b941d/payment_attempts",
+      "type": "application/json",
+      "fields": [
+        { "name": "invoice_number", "type": "hidden", "value": "42" },
+        { "name": "amount", "type": "number" },
+        { "name": "stripe_token", "type": "text" }
+      ]
+    }
+  ],
+  "links": [
+    { "rel": [ "self" ], "href": "http://api.acme.com/invoices/093b941d" },
+    { "rel": [ "previous" ], "href": "http://api.acme.com/invoices/a46c437c" },
+    { "rel": [ "next" ], "href": "http://api.acme.com/invoices/ca0e7f36" }
+  ]
+}
 ```
 
 Perfect!
