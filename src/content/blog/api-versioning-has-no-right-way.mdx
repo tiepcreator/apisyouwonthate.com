@@ -2,17 +2,10 @@
 title: API Versioning Has No “Right Way”
 subtitle: But there are a few objectively terrible ways to handle it.
 date: 2017-09-26
-coverImage: useful-api-errors.jpg
+coverImage: versioning.jpg
 type: blog
 author: Phil Sturgeon
 ---
-
-But there are quite a few _objectively_ bad ideas.
-
-![You probably don’t want too many versions running around at the same time.](https://cdn-images-1.medium.com/max/800/1*U2oJfHThPg40pMnPHbN7Dg.png)
-You probably don’t want too many versions running around at the same time.
-
-### Introduction
 
 API versioning is a really difficult topic, and sometimes seen as a merely religious debate. It’s done differently at different companies, and different teams within different companies often vary.
 
@@ -22,7 +15,7 @@ There are so many approaches to versioning that it can be hard to talk about �
 
 At work I am tasked with recommending one approach to API versioning, because right now we have a mixture of approaches, and we’re using a few subtle variants of the worst possible approach. My recommendations and research are being converted to a guide for all of y’all.
 
-#### **Global URI Versioning**
+## Global URI Versioning
 
 Versioning the entire API.
 
@@ -36,7 +29,7 @@ Some companies avoid this by being honest about the situation, and just make ent
 
 This has the benefit of eradicating legacy as you go, but regardless of using names, version numbers, or anything else, building out multiple APIs and forcing the clients to consistently develop against new version after new version is _the_ most time consuming approach to versioning, for not just the API developers but the client developers too. Everyone has to test _everything_ on each new upgrade, and this all takes forever.
 
-#### **Resource Versioning (URI-based)**
+## Resource Versioning (URI-based)
 
 Versioning specific resources by theirselves.
 
@@ -50,7 +43,7 @@ One end-user application was producing errors like `Error: [object Object]` to a
 
 We could counter this specific issue with the use of a standard error response across all systems (shout-out to  [_RFC 7807 Problem Details for HTTP APIs_](https://tools.ietf.org/html/rfc7807)_)_, but that is just fixing one symptom of a larger problem.
 
-#### **Resource Versioning (Mime-Based)**
+## Resource Versioning (Mime-Based)
 
 This approach is very similar, but instead of versioning in the URL, versions go in the `Accept` and `Content-Type` headers.
 
@@ -66,7 +59,7 @@ If v3 is added and v2 is eventually deprecated, clients would rather suddenly st
 
 Resource versioning does help, but can still be voodoo magic to many.
 
-#### **Method-based Versioning (URI-based)**
+## Method-based Versioning (URI-based)
 
 Versioning by combination of URI and HTTP method.
 
@@ -86,7 +79,7 @@ Due to this divergence, _even if a client wanted to upgrade, they could not!_ Th
 
 This increased functionality is essentially asking all API teams to support more functionality than they should, and that is time and money that could be spent on more useful things.
 
-#### **API Evolution**
+## API Evolution
 
 API Evolution is the concept of never breaking your contracts until you absolutely absolutely have to, then when you do you manage that change with sensible warnings to clients. It is **not** about making arbitrary changes and breaking stuff.
 
@@ -107,7 +100,7 @@ We went through a few backflips to make that happen, but our clients didn’t ne
 
 The approach of evolution pushes some extra work onto the API development team, but avoids a similar amount of work being pushed onto the client teams. If one API has 5 clients, then we’re saving 5x the development, testing, etc.
 
-#### Deprecations Are Tricky
+## Deprecations Are Tricky
 
 Whether you use Global URI Versioning, or want to use Evolution, you are going to need to consider how you handle deprecations.
 
@@ -137,7 +130,7 @@ They keep things backwards compatible for a certain amount of time before destro
 
 This was done by Facebook for years, before they threw everything in and went with global versioning in the path…
 
-#### Be Honest About Building RPC APIs
+## Be Honest About Building RPC APIs
 
 Most URI-based versioning is thinly veiled RPC, that just _look_ a bit RESTish. If companies doing URI-based versioning using RPC naming conventions, the APIs would look a bit more like this:
 
@@ -152,7 +145,7 @@ If people are going to design their APIs as RPC with a RESTish facade, they shou
 
 Just be honest about it. Hide the false intention, RPC the lot, document as such, and maybe just use [gRPC](https://grpc.io/).
 
-#### Summary
+## Summary
 
 API Evolution is incredibly powerful if you put in the work to make it possible. A [commitment to contracts](https://blog.apisyouwonthate.com/guessing-api-contracts-ac1b7eaebced) will make things easier, especially with JSON Schema bringing deprecated in the future.
 
