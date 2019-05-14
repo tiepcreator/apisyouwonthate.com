@@ -145,7 +145,7 @@ links is an array of Link Description Objects (LDOs) as described below.
 
 An LDO contains all the information necessary to describe the actions available to your client. Here’s the LDO from the previous example.
 
-```
+```js
 {
     "rel": "self",
     "href": "posts/{id}",
@@ -169,7 +169,7 @@ Before we move on it’s important to point out that no two LDOs should share a 
 
 href is a [URI template](https://tools.ietf.org/html/rfc6570). URI templates let you describe the structure of your URLs.
 
-```
+```js
   "href": "posts/{id}"
 ```
 
@@ -183,7 +183,7 @@ When all the variables in the template are populated, you check to see if the UR
 
 If your URI variables don’t line up with your JSON properties you can use templatePointers. This object allows you to map URI template variables to a part of your JSON instance. In the following example the pointer indicates that the id variable should use the urlSlug property.
 
-```
+```js
     "href": "/posts/{id}",
     "templatePointers": {
         "id": "/urlSlug"
@@ -206,7 +206,7 @@ Instead of populating the URI from the JSON you can ask for outside input such a
 
 Using the blog post example again, let’s say we want the mobile app to prompt the user for a blog id. Your hrefSchema would look like this.
 
-```
+```js
     "href": "/posts/{id}",
     "hrefSchema": {
         "id": {
@@ -223,14 +223,14 @@ Schema References are JSON objects that allow you to point to a schema. The sche
 
 Let’s start with the simplest example, a reference to a different schema. The following schema reference points outside of our schema to another document. That document is identified by the URI https://schemas.dashron.com/users.
 
-```
+```js
 {
   "$ref": "https://schemas.dashron.com/users"
 }
 
 Let’s assume that the current schema is identified by https://schemas.dashron.com/posts. We can reference the id property of the current schema by including a JSON pointer in the fragment portion of the URI.
 
-```
+```js
 {
   "$ref": "https://schemas.dashron.com/posts#/properties/id"
 }
@@ -238,23 +238,25 @@ Let’s assume that the current schema is identified by https://schemas.dashron.
 
 If you plan on referring to the current schema, you can leave out everything but the fragment portion of the URI. The above schema can be simplified to the following example.
 
-```
+```js
 {
   "$ref": "#/properties/id"
 }
+```
 
 And if you want to refer directly to the entire current schema, you can leave off the JSON pointer.
 
-```
+```js
 {
   "$ref": "#"
 }
+```
 
 This self-referencing schema reference is the most common schema reference.
 
 Now that I’ve covered schema references, let’s clean up that hrefSchema example. The example below points to the id property of the current schema instead of duplicating it.
 
-```
+```js
     "href": "/posts/{id}",
     "hrefSchema": {"$ref": "#/properties/id"}
 ```
@@ -265,4 +267,4 @@ With this information, you can start writing schemas for all the JSON in your AP
 
 In the meanwhile try building a JSON Hyper-Schema for one of your API endpoints, and validating your JSON with one of the many [JSON Schema libraries](http://json-schema.org/implementations.html).
 
-*This is part one of a three-parter. Check out [part two](https://blog.apisyouwonthate.com/getting-started-with-json-hyper-schema-part-2-ca9d7ffdf6f6).*
+*This is part one of a three-parter. Check out [part two](/blog/getting-started-with-json-hyper-schema-part-2).*
