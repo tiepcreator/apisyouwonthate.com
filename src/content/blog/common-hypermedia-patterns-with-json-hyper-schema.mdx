@@ -1,0 +1,379 @@
+---
+title: Common Hypermedia Patterns with JSON Hyper-Schema
+subtitle: But there are a few objectively terrible ways to handle it.
+date: 2018-07-28
+coverImage: json-hyper-schema.jpeg
+type: blog
+author: Phil Sturgeon
+---
+
+In the last two JSON-Hyper Schema articles (Getting Started — Part One and Part Two), we covered the basics:
+
+* Basic Links
+* Request and response bodies
+* Request and response headers
+* HTTP methods
+
+But while working with JSON Hyper-Schema I have discovered a couple of common API patterns that could use a little more explanation.
+
+In this article I’m going to show you common hypermedia patterns and how to describe them with JSON Hyper-Schema.
+
+## **Hypermedia for Collections**
+
+When you are handling a collection of items, such as a list of users, there are two forms of hypermedia you want to think about: the hypermedia associated with the collection and the hypermedia associated with each item in that collection.
+
+### Collection Representation Hypermedia
+
+Let’s start with hypermedia associated with the collection representation. Here’s an example of the representation returned from GET /users
+
+```js
+{
+    "data": [{
+        "name": "User 1",
+        "id": 5
+    }, {
+        "name": "User 2",
+        "id": 20
+    }],
+    "pagination": {
+        "next_cursor": "afe412aew3813jwa"
+    }
+}
+```
+
+This example includes pagination metadata. Pagination limits the items on the current “page” of data, and gives you a way to request the next page. This resource handles pagination via cursors, which you use with the following url
+
+/users?cursor={next_cursor}
+
+Instead of exposing cursors and instructing your client how to build that url, I highly recommend you automate the process. Automating the URL generation with JSON Hyper-Schema requires use of the links keyword:
+
+```js
+{
+    "type": "object",
+    "properties": {
+        "data": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "maxItems": 10
+        },
+        "pagination": {
+            "type": "object",
+            "properties": {
+                "next_page_cursor": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "links": [ {
+        "rel": "next",
+        "href": "/users{?cursor}",
+        "templateRequired": ["cursor"],
+        "templatePointers": {
+            "cursor": "/pagination/next_page_cursor"
+        },
+        "targetSchema": {"$ref": "#"}
+    } ]
+}
+```
+
+Here, our next Link Description Object (or LDO, as described in a [previous article](https://blog.apisyouwonthate.com/getting-started-with-json-hyper-schema-184775b91f)) has an optional query parameter called cursor (as defined in the URI template href). The templatePointers object states that the cursor parameter should come from the next_page_cursor value in your JSON instance. This gives your client all the necessary to automate constructing the “next page” url.
+
+### Collection Item Hypermedia
+
+The other type of collection hypermedia is the hypermedia associated with each item. Each item will have it’s own links, the most common of which is described by the rel item. This relation states that the link describes a single item in the collection. The hyper-schema to describe this relation would look like this…
+
+```js
+{
+    "type": "object",
+    "properties": {
+        "data": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "number"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                },
+                "links": [{
+                    "rel": "item",
+                    "href": "/users/{user_id}",
+                    "templateRequired": ["user_id"],
+                    "templatePointers": {
+                        "user_id": "/data/items/id"
+                    },
+                    "targetSchema": {
+                        "/properties/data/items"
+                    }
+                }]
+            },
+        },
+        "maxItems": 10
+    },
+    "pagination": {
+        "type": "object",
+        "properties": {
+            "next_page_cursor": {
+                "type": "string"
+            }
+        }
+    }
+}
+```
+
+Notice the links keyword nested deeper in the schema. The links keyword can be
+included at any depth of the JSON Hyper-Schema document.
+
+This is powerful because it directly associates links with portions of your
+schema. If the subschema associated with the links is not valid (such as a
+missing next_page_cursor property on the pagination object) the LDO is also
+invalid and can be ignored. There are a lot of creative ways to associate LDOs
+with schema fields, but that’s well out of the scope of this article. Leave a
+comment if you discover any cool real world examples!
+
+## Describing conditional LDOs
+
+One of the best parts of hypermedia is how easily and intuitively it can define
+the capabilities of a client. In JSON Hyper-Schema, we have two options for
+describing whether or not a hypermedia link is applicable to your client.
+
+We just described one option, an invalid subschema invalidates all associated
+links. But what about a more complicated example. Let’s say you can only look at
+a users blog posts (GET /users/{user_id}/posts) if that user made them public.
+
+Here’s an example API response for a user with private blog posts.
+
+```js
+{
+    "id": 234,
+    "post_availability": "private"
+}
+```
+
+Here is another with public blog posts.
+
+```js
+{
+    "id": 345,
+    "post_availability": "public"
+}
+````
+
+To tell your client that access to `GET /users/234/posts` is only available for
+public collections we will use one of the more powerful features of JSON Schema,
+if statements. An if statement comes in 3 parts: if, then and else. And here’s
+an example of how you would use an if statement to control access to a users
+blog posts.
+
+```js
+{
+    "type": "object",
+    "properties": {
+        "id": {
+            "type": "number"
+        },
+        "post_availability": {
+            "type": "enum",
+            "values": ["public", "private"],
+            "if": {
+                "const": "public"
+            },
+            "then": {
+                "links": [{
+                    "rel": "posts",
+                    "href": "/users/{user_id}/posts",
+                    "templatePointers": {
+                        "user_id": "/id"
+                    }
+                }]
+            }
+        }
+    }
+}
+```
+
+### Let’s break it down.
+
+The value of the if block is a schema. If the schema is valid, the contents of
+then will be used along with the rest of the schema. When the if schema is
+invalid the then schema will be ignored and the else schema will be used
+instead.
+
+So in the earlier example, if post_availability is public the client will use
+the links. If post_availability is anything else the links are ignored (and
+nothing else happens, because we do not have an else statement).
+
+## Building on top of existing hypermedia
+
+What if your API already uses a hypermedia format such as
+[JSON:API](http://jsonapi.org/),
+[HAL](http://stateless.co/hal_specification.html) or
+[Siren](https://github.com/kevinswiber/siren)? Well, you can easily reference
+your hypermedia from JSON Hyper-Schema!
+
+Here’s a very basic JSON:API document.
+
+```js
+{
+    "links": {
+        "self": "/users/14",
+    },
+    "data": {
+        "type": "user",
+        "id": 14,
+        "attributes": {
+            "name": "Aaron"
+        }
+    }
+}
+```
+
+JSON:API has a very specific way of organizing your data. Top level fields are all reserved and you define the object properties within /data/attributes. /data/type and /data/id are used to describe the specific resource you are accessing, and /links holds the connections between this data and other resources.
+
+Now our goal is to reuse the exact hypermedia data included in the JSON:API link for your hyper-schema links.
+
+In the previous examples you combined a URI template with JSON pointers to tell a client how to construct a URL. In this case we pull the entire URL from the JSON instance, as demonstrated in the self LDO of the example below.
+
+```js
+{
+    "type": "object",
+    "properties": {
+        "links": {
+            "type": "object",
+            "properties": {
+                "self": {
+                    "type": "string"
+                }
+            }
+        },
+        "data": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "const": "user"
+                },
+                "id": {
+                    "type": "number"
+                },
+                "attributes": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }.
+    "links": [{
+        "rel": "self",
+        "href": "{+user_href}",
+        "templateRequired": ['user_href'],
+        "templatePointers": {
+            "user_href": "/links/self"
+        }
+    }]
+}
+```
+
+But let’s take this a step further and expand this common use case with the full power of JSON Hyper-Schema’s LDOs.
+
+Usually, services let you change your name. In JSON:API, you would change your name like this:
+
+```http
+PATCH /users/14
+Content-Type: application/vnd.api+json
+
+{
+    "data": {
+        "type": "user",
+        "id": 14,
+        "attributes": {
+            "name": "My New Name"
+        }
+    }
+}
+````
+
+JSON:API doesn’t support describing JSON payloads, it only describes the links between resources. If we make some minor tweaks to the earlier LDO we can augment the JSON:API data with JSON Hyper-Schema to fully describe the capabilities of this user endpoint
+
+```js
+{
+    "type": "object",
+    "properties": {
+        "links": {
+            "type": "object",
+            "properties": {
+                "self": {
+                    "type": "string"
+                }
+            }
+        },
+        "data": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "const": "user"
+                },
+                "id": {
+                    "type": "number"
+                },
+                "attributes": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }.
+    "links": [{
+        "rel": "self",
+        "href": "{+user_href}",
+        "templateRequired": ['user_href'],
+        "templatePointers": {
+            "user_href": "/links/self"
+        },
+        "targetHints": {
+            "allow": ["PATCH"],
+            "accept-patch": ["application/vnd.api+json"]
+        },
+        "targetSchema": { "$ref": "#/properties/data" }
+    }]
+}
+```
+
+I’m very excited to see what people create with this pattern. Many hypermedia
+formats included links, but stopped there. With JSON Hyper-Schema we can
+describe the request and response bodies of any hypermedia link, in any
+hypermedia format.
+
+### That covers it!
+
+Now it’s time to find or build a JSON Hyper-Schema library. You can find most of
+the existing libraries
+[here](http://json-schema.org/implementations.html#hyper-schema).
+
+If you’d like to learn more about the concept of hypermedia, check out this
+article on [representing
+state](https://blog.apisyouwonthate.com/representing-state-in-rest-and-graphql-9194b291d127).
+
+If you have any questions or comments, leave a reply. It just might lead to
+another article!
