@@ -34,12 +34,12 @@ budgeting app to read your account balance, but you probably don’t want it to 
 able to empty your checking account. Additionally, the first time services
 communicate they must go over a public network where anybody can be listening.
 
-In order to protect credentials sent between services and what the service is
-allowed to do with those credentials, some initial trust needs to be
-bootstrapped and protected ahead of time. This is done by combining two
-different components to ensure that the recipient of a temporary authorization
-code is, in fact, the one it is intended for. If you have heard of two-factor
-authentication(2FA), it is like that but for web services.
+In order to protect the credentials, and limit the capabilities of those
+credential, some initial trust needs to be bootstrapped and protected ahead of
+time. This is done by combining two different components to ensure that the
+recipient of a temporary authorization code is, in fact, the one it is intended
+for. If you have heard of two-factor authentication (2FA), it is like that but
+for web services.
 
 There are a couple of methods that use this combination of factors to provide
 some extra confidence the service getting access is the right one. We’ll take a
@@ -73,7 +73,7 @@ _Cryptographic Pixie Dust_
 With the rise and popularity of mobile and Single Page Applications (SPA) a new
 flow had to be invented for public clients. These clients cannot properly
 protect a client secret since they run in an environment not controlled by the
-application owner, either a mobile device or javascript in the browser. To
+application owner, either a mobile device or Javascript in the browser. To
 compensate for the lack of confidentiality the flow extends the authorization
 code flow using cryptography to generate a code verifier and a code challenge
 for every authorization code exchange.  During the request to get an
