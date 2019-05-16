@@ -35,8 +35,12 @@ amazonLinks: [
 ]
 ---
 
-Frontend engineers work magic. They deal with all sorts of awful browser stuff, and have to deal with all sorts of ginormously complex problems. Most of those problems seem to be browser compatibility and Webpack, but there's a lot of documentation around how most of these things work. One area where frontend engineers are often left entirely in the dark? Interacting with APIs.
+API development is increasingly common for server-side developers thanks to the rise of front-end JavaScript frameworks, iPhone applications, and API-centric architectures. It might seem like grabbing stuff from a data source and shoving it out as JSON would be easy, but surviving changes in business logic, database schema updates, new features, or deprecated endpoints can be a nightmare.
 
-Following the success of [Build APIs You Won’t Hate](/books/build-apis-you-wont-hate), this book will take a non-academic, easy-to-read approach to some pretty complex topics around HTTP interactions, versioning, client-caching, state management, differences between how you interact with RPC, REST and GraphQL, using JSON Schema for local validation, and all sorts of other awesome stuff that nobody ever bothered to mention.
+After finding many of the existing resources for API development to be lacking, Phil learned a lot of things the hard way through years of trial and error. This book aims to condense that experience, taking examples and explanations further than the trivial apples and pears nonsense tutorials often provide.
 
-This book is aimed at frontend engineers (web, mobile, whatever) and backend engineers that find themselves talking to other APIs a lot, which is probably most of us these days.
+Phil worked primarily as an API developer for the last three years. One horror was managing an API built in FuelPHP by a freelancer at the million dollar startup he joined. It was utilizing a then deprecated ORM which had been hacked to death by the previous developer, so took the time to delete that mess and build the next version in Laravel, leveraging it's simple routing, database migrations, schema, seeding, etc. When the following major version of the API was built no rewrite was required, and both managed to live side-by-side on the same "API" servers.
+
+By passing on some best practices and general good advice you can hit the ground running with API development, combined with some horror stories and how they were overcome/avoided/averted. This book will discuss the theory of designing and building APIs in any language or framework, with this theory applied in PHP-based examples.
+
+Some of the more advanced topics covered here are endpoint testing, embedding data objects in a consistent and scalable manner, paginating responses (including embedded objects) and hypermedia "HATEOAS" controls.
