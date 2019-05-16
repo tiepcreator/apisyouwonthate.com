@@ -13,114 +13,122 @@ author: Grant Callaghan
 Logging in to a web service used to mean sending a username and password and
 getting a cookie in return. This cookie is then sent with every request so that
 the server knows who is making the request. However, when it became more common
-for services to interact with each other on a users behalf, other forms of
-authorization systems where born. One such system is OAuth, which uses
+for services to interact with each other on a user's behalf, other forms of
+authorization systems evolved. One such system is OAuth, which uses
 token-based authentication instead of cookies.
 
-OAuth is an Authorization Framework that allows 3 different parties to
-interact with some level of trust. This way only one service needs to know
+OAuth is an __Authorization__ framework that allows three different parties to
+interact with a minimum level of trust. This way only one service needs to know
 your username and password. The service that doesn’t store this information
-can ask the service that does for who the user is and what they are allowed
-to do. In general, this provides a better user experience. A user can
-maintain their profile and password information in a single place and have
-that referenced automatically when they connect to other services. No more
-typing in email addresses to every site and updating it in multiple places if
-it changes. This is how “login with facebook” or “login with Google” buttons
-work.
+can ask the service that does to verify who the user is and what they are allowed
+to do. In general, this provides a better, more secure, user experience.
+A user can maintain their profile and password information in a single place
+and have that referenced automatically when they connect to other services. No
+more typing in email addresses to every site and updating it in multiple places
+if it changes. This is how __Login with Facebook__ or __Login with Google__
+buttons work.
 
 Unfortunately, there are a couple of inherent security risks with this approach.
 One service is not as trustworthy as another. You might want to allow that
-budgeting app to read your account balance, but you probably don’t want it to be
-able to empty your checking account. Additionally, the first time services
+budgeting app to read your account balance, but you probably don’t want it to
+empty your checking account. Additionally, the first time services
 communicate they must go over a public network where anybody can be listening.
 
-In order to protect the credentials, and limit the capabilities of those
-credential, some initial trust needs to be bootstrapped and protected ahead of
-time. This is done by combining two different components to ensure that the
-recipient of a temporary authorization code is, in fact, the one it is intended
-for. If you have heard of two-factor authentication (2FA), it is like that but
+In order to protect the credentials and limit what those credentials can do
+some initial trust needs to be bootstrapped ahead of time. This
+is done by combining two different components to ensure that the
+recipient of a temporary public credential is, in fact, the one it is intended
+for. If you have heard of two-factor authentication __(2FA)__, it's like that but
 for web services.
 
 There are a couple of methods that use this combination of factors to provide
 some extra confidence the service getting access is the right one. We’ll take a
-look at two of those; Authorization Code Flow and Proof of Key Code Exchange.
-
+look at two of those; __Authorization Code Flow__ and
+__Proof of Key Code Exchange__.
 
 ## Authorization Code Flow
 
 _Protection by Proxy_
 
-Authorization code flow is the classic way to do this when a client that has a
-server component. This server component protects an OAuth client secret and
-proxies the token request from the Client to the Authorization Server. In this
+__Authorization code__ flow is the classic way to do this when a client that has a
+server component. This server component protects an OAuth __client secret__ and
+proxies the token request from the client to the __Authorization Server__. In this
 flow, a user is redirected from the service hosting the protected resources to
-an Authorization Server. The Authorization server’s job is to authenticate the
+an __Authorization Server__. The __Authorization Server’s__ job is to authenticate the
 user and approve access. After successfully authenticating, usually with a
 username and password, the user is redirected back to the service with some
-extra URL parameters including an authorization code.
+extra URL parameters including an __authorization code__.
 
-The authorization code is a temporary code needed to retrieve the access token
-for permission to interact with the relying service's resources. The relying
-service then exchanges the authorization code combined with their client id and
-client secret for an access token and optionally a refresh token. The relying
-service then returns these to the user's client, usually a browser or mobile
-application. The client then includes this token to tell the resource server who
+The __authorization code__ is a temporary code needed to retrieve the __access token__
+for permission to interact with the __relying service's__ resources. The __relying
+service__ then exchanges the __authorization code__ combined with their __client id__ and
+__client secret__ for an __access token__ and optionally a __refresh token__. The __relying
+service__ then returns these to the user's client, usually a browser or mobile
+application. The client then uses this token to tell the __resource server__ who
 the request is for and what permissions they have.
+
+![Authorization Code Flow](../../images/posts/auth-code-flow.png)
 
 ## Proof of Key Code Exchange (PKCE)
 _Cryptographic Pixie Dust_
 
-With the rise and popularity of mobile and Single Page Applications (SPA) a new
-flow had to be invented for public clients. These clients cannot properly
-protect a client secret since they run in an environment not controlled by the
-application owner, either a mobile device or Javascript in the browser. To
-compensate for the lack of confidentiality the flow extends the authorization
-code flow using cryptography to generate a code verifier and a code challenge
-for every authorization code exchange.  During the request to get an
-authorization code the relying service includes the code challenge. Then when
-the relying service receives the authorization code it exchanges that in
-addition to the code verifier. The authorization server then uses the verifier
-to verify the original code challenge.
+With the rise and popularity of mobile apps and Single Page Applications (SPA) a new
+flow had to evolve to accomodate public clients. These clients cannot properly
+protect a __client secret__ since they run in an environment not controlled by the
+application owner. These are often either a mobile device or JavaScript in the browser. To
+compensate for the lack of confidentiality the flow extends the __authorization
+code__ flow using cryptography to generate a __code verifier__ and a __code challenge__
+for every __authorization code__ exchange.  During the request to get an
+__authorization code__ the __relying service__ includes the __code challenge__. Then when
+the __relying service__ receives the __authorization code__ it exchanges that in
+addition to the __code verifier__. The __authorization server__ then uses the __verifier__
+to confirm the original __code challenge__.
+
+![PKCE Flow](../../images/posts/pkce-flow.png)
+
 
 ## What not exchange the password for a token?
 
-Exchanging the password for a token is called the Resource Owner Credential
-Flow. This flow is not recommended unless there is a HIGH level of trust between
-the Authorization Server and the client. When the client is Javascript or a
+Exchanging the password for a token is called the __Resource Owner Credential
+Flow__. This flow is not recommended unless there is a HIGH level of trust between
+the __Authorization Server__ and the client. When the client is JavaScript or a
 mobile app the trust just isn’t there. The previous flows allow the for
 interaction outside of the initial client for exchanging the password with the
-Authorization server. For example, on a mobile device, the application might
+__Authorization Server__. For example, on a mobile device, the application might
 open a browser to begin the exchange and finish at an app-specific URL to
 complete it. This way the mobile application never has to handle the username
 and password directly.
 
 ## What does this buy us?
 
-In both Authorization Code and PKCE flows 2 factors must be exchanged for valid
-credentials. The authorization code, as presented as part of a redirect URL for
+In both __Authorization Code__ and __PKCE__ flows, two factors must be exchanged for valid
+credentials. The __authorization code__, as presented as part of a redirect URL for
 consumption, along with some additional information posted in the body of the
-access token request. These 2 channels of communication mitigate a variety of
+__access token__ request. These two channels of communication mitigate a variety of
 attacks and misconfigurations where bearer tokens or authorization can be
 intercepted in flight.
 
-However, with PKCE there is one more consideration to take into account and that
-is where the Authorization server redirects after authentication. The client
-tells the authorization server where it wants to receive the code in the URL. If
+However, with __PKCE__ there is one more consideration to take into account and that
+is where the __Authorization Server__ redirects after authentication. The client
+tells the __Authorization Server__ where it wants to receive the code in the URL. If
 this is not an exact match, it means there is an opening for a malicious client
-to trick the Authorization Server to send the code somewhere else. That same
-client can also generate the temporary secret code.  While PKCE moves the
+to trick the __Authorization Server__ to send the code somewhere else. That same
+client can also generate the temporary secret code.  While __PKCE__ moves the
 goalposts in terms of difficulty, it still relies on this redirect as an anchor
-of trust. While having a fully qualified redirect URL is a best practice,
-Authorization Code flow mitigates an open redirect misconfiguration due to the
+of trust.
+
+While having a fully qualified redirect URL is a best practice,
+__Authorization Code__ flow mitigates an open redirect misconfiguration due to the
 fact that the server still holds a predetermined secret. Because the secret used
-in PKCE is generated at runtime, a malicious actor capitalizing on an open
+in __PKCE__ is generated at runtime, a malicious actor capitalizing on an open
 redirect can still follow to the protocol to get valid credentials. On mobile
 clients, this is an app-specific URL such as
 `app-foo://auth_code_handler#code=XXX`. For SPA’s this would be something like
 `https://app.foo.com#code=XXX`.
 
-While PKCE was originally intended for mobile applications the OAuth Best
-Practices Working Group has recently started to recommend it for SPA’s as well.
+While __PKCE__ was originally intended for mobile applications the [OAuth Best
+Practices Working Group](https://tools.ietf.org/html/draft-ietf-oauth-security-topics-11#section-2.1.1)
+has recently started to recommend it for SPA’s as well.
 
-To add a PKCE flow to your application take a look at https://appauth.io/ for
+To add a __PKCE__ flow to your application take a look at https://appauth.io/ for
 supported libraries and implementations.
