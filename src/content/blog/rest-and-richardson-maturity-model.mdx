@@ -169,8 +169,8 @@ request, but if a POST or DELETE is made to that same resource, it knows it shou
 get out of the way.
 
 Client-side logic like automatic retries are now possible. A retry can help when an
-API is taking a long time to respond, a client application might bail on the request
-and try again. With a GET there are barely any downsides here, because it is an idempotent
+API is taking a long time to respond, a client application might [bail on the request
+and try again](/blog/taking-a-timeout-from-poor-performance). With a GET there are barely any downsides here, because it is an idempotent
 request that should not have any destructive actions. You could GET a thing 3479 times and
 you would just have that data.
 
@@ -219,7 +219,7 @@ for more of a general overview.
 
 Most APIs that call themselves REST stop short of the last layer, which mean they
 are what many people all RESTish, or just a HTTP API. That's not to be snotty,
-it's because Hypermedia Controls make it a REST API, its a lot of the point.
+it's because Hypermedia Controls make it a REST API, it is a huge chunk of the point.
 
 Sometimes its a lack of education on the topic, where people just literally have no idea
 what HATEOAS is about. Fair enough! Other times folks think they understand it,
@@ -228,18 +228,15 @@ get the same amount of data. That usually shows they're thinking about transport
 and not transfer, and these days with HTTP/2 even if you were needing to make "more calls"
 the performance impact is negligible.
 
-Anyway, APIs don’t always need HATEOAS, or any of these levels. They’re extra
-layers of abstraction which help you interact less with other developers on the
-phone or via email.
+Anyway, APIs don’t always need HATEOAS, nor do they _need_ any of this.
 
-Baking it all into the message can add extra data which you might not want to
-keep sending around. For example, full-stack developers often think REST is a
-waste of time because they are just trying to query the database and get that
-information to the presentation layer. They do not need to bake cache controls
-into the message itself because they can just set the caching in the client
-application which is probably open in another window on their machine. They know
-when to use retries or not, because they know their application codes off by
-heart, so who cares about leaning on HTTP semantics for that.
+For example, full-stack developers often think REST is a waste of time because
+they are just trying to query the database and get that information to the
+presentation layer. They do not need to bake cache controls into the message
+itself because they can just set the caching in the client application which is
+probably open in another window on their machine. They know when to use retries
+or not, because they wrote their application codes and know what they mean, so
+who cares about leaning on HTTP semantics for that.
 
 Those people have absolutely nothing in common with developers trying to provide
 consistent functionality to a wide variety of client teams who might be on
