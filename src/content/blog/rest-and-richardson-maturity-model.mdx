@@ -26,7 +26,7 @@ This is achieved in a few ways, mostly by leaning on the existing semantics of
 whatever protocol the REST API exists in, and usually that is HTTP. Building a
 REST API in HTTP usually means deferring to existing HTTP semantics to achieve
 the concepts REST sets out to achieve instead of inventing your own conventions.
-Instead of having to know how Rachel built caching in their API, I should be
+Instead of having to know how Rachel built caching in her API, I should be
 able to just enable a [generic caching
 middleware](/blog/speeding-up-apisappssmart-toasters-with-http-response-caching)
 and have that work.
@@ -84,13 +84,13 @@ API specifications (metadata to describe your data model) are [available to all
 API developers](/blog/commit-to-api-contracts) regardless of their paradigm or
 implementation of choice, so that should be taken out of consideration. REST
 folks use JSON Schema, gRPC people use Protobuf, and GraphQL users have GraphQL
-Types. Some folks might be working with POX/POJO uf the decision makers in
-charge of the API development team are committed to ignoring modern best
-practices, but it is nothing to do with paradigm.
+Types. Some folks might be working with POXs/POJOs from the decision makers in
+charge of the API development team, who are committed to ignoring modern best
+practices, but it has nothing to do with paradigm.
 
 ## Updated Richardson Maturity Model
 
-So with the "holier than though" concern out the way, let's take a look at my attempt to update
+So with the "holier than thou" concern out the way, let's take a look at my attempt to update
 the Richardson Maturity Model. I'm keeping the name because I am not changing anything
 conceptually from the original talk.
 
@@ -111,12 +111,12 @@ is using a single HTTP method. Very few generic HTTP conventions will work for
 something that is just the most basic RPC.
 
 If the RPC is following a specific standard then tools built for that standard
-will work, but generic HTTP conventions do not apply.
+will work, but generic HTTP conventions won't apply.
 
 ### 1: Resources
 
 Two common confusions here, firstly this is not about having `/bikes` and
-`/bikes/abc123` in that standard collections and plurals and resources CRUD
+`/bikes/abc123`, the standard of plural resource collections is a CRUD
 pattern we are often used to. I have fallen for this in the past.
 
 Resources are technically the same thing as endpoints, but there is an
@@ -164,7 +164,7 @@ a dumb tunnel.
 ## 2: HTTP Methods
 
 Methods add a lot of important semantics to the type of thing happening in the
-request. IF caching is used, the caching component will know it can cache a GET
+request. If caching is used, the caching component will know it can cache a GET
 request, but if a POST or DELETE is made to that same resource, it knows it should
 get out of the way.
 
@@ -188,7 +188,7 @@ and `updateFullThing` and invent other conventions around idemompotency...
 
 If you are a fan of gRPC you will be thinking that a lot of this stuff sounds possible,
 and you're right! The gRPC "HTTP Bridge" adds these two layers of abstraction, to make
-it a bit more HTTPish. It's not a REST bridge as some people all it, because it's missing
+it a bit more HTTPish. It's not a REST bridge as some people call it, because it's missing
 this next layer...
 
 ## 3: Hypermedia Controls
@@ -202,7 +202,7 @@ Think about an invoice saying it is payable, and telling a client how to pay it,
 what data is required, and offering the means to validate that data client side before you
 even send a HTTP request to the server... transfer > transportation, helped us out again!
 
-The most basic level is shoving links into the response body (thanks Resources!)
+The most basic level of HATEOAS is shoving links into the response body (thanks Resources!)
 but then the client has to do a lot of detective work to figure out what they
 can do next. In the past folks would just shrug and say "you have a URL and a
 link relation, that's a good start", but these days there are quite a few
