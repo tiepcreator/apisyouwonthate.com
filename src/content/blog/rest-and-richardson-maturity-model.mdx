@@ -84,13 +84,13 @@ API specifications (metadata to describe your data model) are [available to all
 API developers](/blog/commit-to-api-contracts) regardless of their paradigm or
 implementation of choice, so that should be taken out of consideration. REST
 folks use JSON Schema, gRPC people use Protobuf, and GraphQL users have GraphQL
-Types. Some folks might be working with POX/POJO uf the decision makers in
+Types. Some folks might be working with POX/POJO if the decision makers in
 charge of the API development team are committed to ignoring modern best
 practices, but it is nothing to do with paradigm.
 
 ## Updated Richardson Maturity Model
 
-So with the "holier than though" concern out the way, let's take a look at my attempt to update
+So with the holier-than-thou concern out the way, let's take a look at my attempt to update
 the Richardson Maturity Model. I'm keeping the name because I am not changing anything
 conceptually from the original talk.
 
@@ -158,7 +158,7 @@ REST talks about.
 >
 > -- [IETF RFC 7234](https://tools.ietf.org/html/rfc7234)
 
-This is a huge benefit of leverage HTTP properly, using it as a transfer layer and not
+This is a huge benefit of leveraging HTTP properly, using it as a transfer layer and not
 a dumb tunnel.
 
 ## 2: HTTP Methods
@@ -184,11 +184,11 @@ the "from" would probably not match.
 People see POST vs PUT vs PATCH and get upset about having to [learn the
 difference](/blog/put-vs-patch-vs-json-patch), but again these semantics are
 baked into HTTP tooling instead of everyone being forced to `updatePartialThing`
-and `updateFullThing` and invent other conventions around idemompotency...
+and `updateFullThing` and invent other conventions around idempotency...
 
 If you are a fan of gRPC you will be thinking that a lot of this stuff sounds possible,
 and you're right! The gRPC "HTTP Bridge" adds these two layers of abstraction, to make
-it a bit more HTTPish. It's not a REST bridge as some people all it, because it's missing
+it a bit more HTTPish. It's not a REST bridge as some people call it, because it's missing
 this next layer...
 
 ## 3: Hypermedia Controls
@@ -200,11 +200,11 @@ but it can also offer “next available actions” in self describing ways.
 
 Think about an invoice saying it is payable, instead of you needing to figure out if it can be paid based
 on the lack of a `paid_date`, or maybe there is a `status: pending`, but maybe a new status gets added
-and pending doesnt mean you can pay it anymore... Client applications break, or need to be versioned, both
+and pending doesn't mean you can pay it anymore... Client applications break, or need to be versioned, both
 of which wastes developer time and company money.
 
-Having a link show up called "pay" if the invoice is  payable means the client
-application knows when to pay, and so long as a good hypermedia format os is
+Having a link show up called "pay" if the invoice is payable means the client
+application knows when to pay, and so long as a good hypermedia format is
 used the client application will know _how_ to pay, as the controls can mention
 what data is required, offering the means to [validate that data client
 side](https://blog.apisyouwonthate.com/the-many-amazing-uses-of-json-schema-client-side-validation-c78a11fbde45)
@@ -248,7 +248,7 @@ Most APIs that call themselves REST stop short of the last layer, which mean the
 are what many people all RESTish, or just a HTTP API. That's not to be snotty,
 it's because Hypermedia Controls make it a REST API, it is a huge chunk of the point.
 
-Sometimes its a lack of education on the topic, where people just literally have no idea
+Sometimes it's a lack of education on the topic, where people just literally have no idea
 what HATEOAS is about. Fair enough! Other times folks think they understand it,
 and think that HATEOAS is about forcing you to make loads of HTTP requests to
 get the same amount of data. That usually shows they're thinking about transportation
