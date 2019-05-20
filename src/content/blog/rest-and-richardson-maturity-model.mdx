@@ -160,6 +160,8 @@ REST talks about.
 >
 > -- [IETF RFC 7234](https://tools.ietf.org/html/rfc7234)
 
+Having unique URIs for things also means [HTTP/2 Server Push](https://www.smashingmagazine.com/2017/04/guide-http2-server-push/) can work as expected.
+
 This is a huge benefit of leveraging HTTP properly, using it as a transfer layer and not
 a dumb tunnel.
 
@@ -266,12 +268,17 @@ answer was "Yes! Absolutely, if you add Hypermedia Controls to a RPC API along w
 these other things then you have literally made it a REST API!" REST is a collection
 of ideas, and you can use those ideas anywhere you like.
 
-A few prominent GraphQL people have been trying to figure a way to get Hypermedia Controls
-into GraphQL for a while. If they figure it out, GraphQL would not be following this
-diagram exactly, but we can call "query" and "mutation" close enough to HTTP Methods to give
-them a pass, and the only thing missing is resources (URIs). Missing URIs is a larger problem
-for GraphQL because it pretty much destroys their chance of using HTTP/2 Server Push, meaning
-they're stuck using Apollo Subscriptions and other non-standard @defer type things for that...
+Prominent GraphQL developers have been trying to figure [a way to get Hypermedia
+Controls into
+GraphQL](https://medium.com/@__xuorig__/graphql-mutation-design-hypermedia-graphql-api-faf03f3a898a)
+for a while. If they can solve it GraphQL would not be following this diagram
+exactly, but we can call `query` and `mutation` close enough to HTTP Methods as
+they share the semantics of idempotent-or-not, and the only thing missing is
+resources (URIs). Missing URIs is a larger problem for GraphQL because it pretty
+much destroys their chance of using HTTP/2 Server Push, meaning they're left
+turning to vendor specific solutions like [Apollo
+Subscriptions](https://www.apollographql.com/docs/graphql-subscriptions/) and
+other non-standard @defer type things for that...
 
 ## Summary
 
@@ -293,7 +300,7 @@ of network and client tooling like caching middlewares, monitoring services,
 inspection proxies, and you don't want to restrict what tools they're able to
 work with because that could lose you business.
 
-Then there are all the scenarios in between.
+Then there are all the other perfectly valid scenarios in between.
 
 Not all cars need to be bullet proof, not all conversations need a translator,
 not all underwear needs to be edible, and not all APIs need to be REST. 👍
