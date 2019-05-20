@@ -3,36 +3,72 @@ title: What is API Rate Limiting All About?
 subtitle: >-
   Learn what rate limiting is all about, and how you can train your HTTP client code to handle being limited.
 date: '2018-05-16T13:35:34.848Z'
-coverImage: rate-limiting.jpeg
+coverImage: speed-camera.jpg
 type: blog
 author: Phil Sturgeon
 ---
 
-Something API clients (applications talking to APIs) are not often aware of, but run into often, is rate limiting; the API telling you to calm down a bit, and slow down how many requests are being made in a certain timeframe. The most basic rate limiting strategy is often “clients can only send X requests per second.”
+Something API clients (applications talking to APIs) are not often aware of, but
+run into often, is rate limiting; the API telling you to calm down a bit, and
+slow down how many requests are being made in a certain timeframe. The most
+basic rate limiting strategy is often "clients can only send X requests per
+second.”
 
-Many APIs implement rate limiting to ensure relative stability when unexpected things happen. If for some reason one client causes a spike in traffic, the API has to continue running smoothly for other users instead of crashing. A misbehaving (or malicious script) could be hogging resources, or the API systems could be struggling and they need to cut down the rate limit for “lower priority” traffic. Sometimes it is just because the company providing the API has grown beyond their wildest dreams, and want to charge money for increasing the rate limit for high capacity users.
+Many APIs implement rate limiting to ensure relative stability when unexpected
+things happen. If for some reason one client causes a spike in traffic, the API
+has to continue running smoothly for other users instead of crashing. A
+misbehaving (or malicious script) could be hogging resources, or the API systems
+could be struggling and they need to cut down the rate limit for "lower
+priority” traffic. Sometimes it is just because the company providing the API
+has grown beyond their wildest dreams, and want to charge money for increasing
+the rate limit for high capacity users.
 
-Often the rate limit will be associated to an “API key” or “access token”, and our friends over at [Nordic APIs](https://nordicapis.com/) very nicely explain some other rate limiting strategies:
+Often the rate limit will be associated to an "API key” or "access token”, and
+our friends over at [Nordic APIs](https://nordicapis.com/) very nicely explain
+some other rate limiting strategies:
 
-> Server rate limits are a good choice as well. By setting rates on specific servers, developers can make sure that common use servers, such as those used to log in, can handle a lot more requests than specialized or seldom used servers, such as data conversion devices.
+> Server rate limits are a good choice as well. By setting rates on specific
+servers, developers can make sure that common use servers, such as those used to
+log in, can handle a lot more requests than specialized or seldom used servers,
+such as data conversion devices.
 
-> Finally, the API developer can implement regional data limits, which limit calls by region. This is especially useful when implementing behavior-based limiting; for instance, a developer would expect the number of requests during midnight in North America to be lower than the baseline daytime rate, and any behavior contrary to this without a good reason would suggest questionable activity. By limiting the region for a period of time, this can be prevented. — [Nordic APIs](https://nordicapis.com/stemming-the-flood-how-to-rate-limit-an-api/)
+> Finally, the API developer can implement regional data limits, which limit
+calls by region. This is especially useful when implementing behavior-based
+limiting; for instance, a developer would expect the number of requests during
+midnight in North America to be lower than the baseline daytime rate, and any
+behavior contrary to this without a good reason would suggest questionable
+activity. By limiting the region for a period of time, this can be
+prevented. — [Nordic
+APIs](https://nordicapis.com/stemming-the-flood-how-to-rate-limit-an-api/)
 
 All fair reasons, but for the client it can be a little pesky.
 
 #### Throttling Your API Calls
 
-There are a lot of ways to go about throttling your API calls, and it very much depends on where the calls are being made from.
+There are a lot of ways to go about throttling your API calls, and it very much
+depends on where the calls are being made from.
 
-One of the hardest things to limit are API calls to a third party being made directly to the client. For example, if your iOS/web/etc clients are making Google Map API calls directly from the application, there is very little you can do to throttle that. You’re just gonna have to pay for the appropriate usage tier for how many users you have.
+One of the hardest things to limit are API calls to a third party being made
+directly to the client. For example, if your iOS/web/etc clients are making
+Google Map API calls directly from the application, there is very little you can
+do to throttle that. You’re just gonna have to pay for the appropriate usage
+tier for how many users you have.
 
-Other setups can be a little easier. If the rate limited API is being spoken to via some sort of backend process, and you control how many of those processes there are, you can limit often that function is called in the backend code. For example, if you are hitting an API that allows only 20 requests per second, you could have 1 process that allows 20 requests per second to pass through.
+Other setups can be a little easier. If the rate limited API is being spoken to
+via some sort of backend process, and you control how many of those processes
+there are, you can limit often that function is called in the backend code. For
+example, if you are hitting an API that allows only 20 requests per second, you
+could have 1 process that allows 20 requests per second to pass through.
 
-If this process is handling things synchronously that might not quite work out, and you might need to have something like 4 processes handling 5 requests per second each, but you get the idea.
+If this process is handling things synchronously that might not quite work out,
+and you might need to have something like 4 processes handling 5 requests per
+second each, but you get the idea.
 
-If this process was being implemented in NodeJS, you could use [Bottleneck](https://www.npmjs.com/package/bottleneck).
+If this process was being implemented in NodeJS, you could use
+[Bottleneck](https://www.npmjs.com/package/bottleneck).
 
-const Bottleneck = require(“bottleneck”);
+```js
+const Bottleneck = require("bottleneck”);
 
 // Never more than 5 requests running at a time.
 // Wait at least 1000ms between each request.
@@ -46,35 +82,47 @@ const fetchPokemon = id => {
 };
 
 limiter.schedule(fetchPokemon, id).then(result => {
- /\* … \*/
-})
+ /* ... */
+});
+````
 
-Ruby users who are already using tools like Sidekiq can add plugins like [Sidekiq::Throttled](https://github.com/sensortower/sidekiq-throttled), or pay for [Sidekiq Enterprise](https://github.com/mperham/sidekiq/wiki/Ent-Rate-Limiting), to get rate limiting functionality. Worth every penny in my books.
+Ruby users who are already using tools like Sidekiq can add plugins like
+[Sidekiq::Throttled](https://github.com/sensortower/sidekiq-throttled), or pay
+for [Sidekiq
+Enterprise](https://github.com/mperham/sidekiq/wiki/Ent-Rate-Limiting), to get
+rate limiting functionality. Worth every penny in my books.
 
-Every language will have some sort of throttling, job queue limiting, etc. tooling, but you will need to go a step further. Doing your best to avoid hitting rate limits is a good start, but nothing is perfect, and the API might lower its limits for some reason.
+Every language will have some sort of throttling, job queue limiting, etc.
+tooling, but you will need to go a step further. Doing your best to avoid
+hitting rate limits is a good start, but nothing is perfect, and the API might
+lower its limits for some reason.
 
 #### Am I Being Rate Limited?
 
-The appropriate HTTP status code for rate limiting has been argued over about as much as tabs vs spaces, but there is a clear winner now; RFC 6585 defines it as 429, so APIs should be using 429.
+The appropriate HTTP status code for rate limiting has been argued over about as
+much as tabs vs spaces, but there is a clear winner now; RFC 6585 defines it as
+429, so APIs should be using 429.
 
-![[http.cat](https://http.cat/) is an amazing resource](https://cdn-images-1.medium.com/max/800/1*esMflK7UItD8mWn4UbGedg.jpeg)
-[http.cat](https://http.cat/) is an amazing resource
+![](https://cdn-images-1.medium.com/max/800/1*esMflK7UItD8mWn4UbGedg.jpeg)
+_[http.cat](https://http.cat/) is an amazing resource._
 
-Twitter’s API existed for a few years before this standard, and they chose “420 — Enhance Your Calm”. They’ve dropped this and moved over to 429, but some others copied them at the time, and might not have updated since. You cannot rule out bumping into a copycat API, still using that outdated unofficial status.
+Twitter’s API existed for a few years before this standard, and they chose "420 — Enhance Your Calm”. They’ve dropped this and moved over to 429, but some others copied them at the time, and might not have updated since. You cannot rule out bumping into a copycat API, still using that outdated unofficial status.
 
-![[http.cat](https://http.cat/) shows us how a cat can enhance their calm](https://cdn-images-1.medium.com/max/800/1*FQyjo2WDsNPOV5vWaYQaTg.jpeg)
-[http.cat](https://http.cat/) shows us how a cat can enhance their calm
+![](https://cdn-images-1.medium.com/max/800/1*FQyjo2WDsNPOV5vWaYQaTg.jpeg)
+_[http.cat](https://http.cat/) shows us how a cat can enhance their calm._
 
-Google also got a little “creative” with their status code utilization. For a long time were using 403 for their rate limiting, but I have no idea if they are still doing that. GitHub v3 (a RESTful API that was replaced with a GraphQL, but is still floating around) is still using 403:
+Google also got a little "creative” with their status code utilization. For a long time were using 403 for their rate limiting, but I have no idea if they are still doing that. GitHub v3 (a RESTful API that was replaced with a GraphQL, but is still floating around) is still using 403:
 
+```http
 HTTP/1.1 403 Forbidden
 X-RateLimit-Limit: 60
 X-RateLimit-Remaining: 0
 X-RateLimit-Reset: 1377013266
 {
   "message": "API rate limit exceeded for xxx.xxx.xxx.xxx. (But here’s the good news: Authenticated requests get a higher rate limit. Check out the documentation for more details.)",
-  "documentation\_url": "https://developer.github.com/v3/#rate-limiting"
+  "documentation_url": "https://developer.github.com/v3/#rate-limiting"
 }
+```
 
 Getting a 429 (or a 420) is a clear indication that a rate limit has been hit, and a 403 combined with an error code, or maybe some HTTP headers can also be a thing to check for. Either way, when you’re sure it’s a rate limit error, you can move onto the next step: figuring out how long to wait before trying again.
 
@@ -83,11 +131,13 @@ Getting a 429 (or a 420) is a clear indication that a rate limit has been hit, a
 Github here are using some proprietary headers, all beginning with `X-RateLimit-`. These are not at all standard (you can tell by the X-), and could be very different from whatever API you are working with. 
 Successful requests with Github here will show how many requests are remaining, so maybe keep an eye on those and try to avoid making requests if the remaining amount on the last response was 0.
 
-curl -i [https://api.github.com/users/octocat](https://api.github.com/users/octocat)
+``` bash
+$ curl -i https://api.github.com/users/octocat
 HTTP/1.1 200 OK
 X-RateLimit-Limit: 60
 X-RateLimit-Remaining: 56
 X-RateLimit-Reset: 1372700873
+````
 
 You can use a shared key (maybe in Redis or similar) to track that, and have it expire on the reset provided in UTC time in X-RateLimit-Reset.
 
@@ -97,27 +147,51 @@ According to the RFCs for HTTP/1.1 (the obsoleted and irrelevant RFC 2616, and t
 
 So, instead of potentially infinite proprietary alternatives, you should start to see something like this:
 
+```http
 HTTP/1.1 429 Too Many Requests
 Retry-After: 3600
 Content-Type: application/json
 
 {
- “message”: “API rate limit exceeded for xxx.xxx.xxx.xxx.”,
- “documentation\_url”: “https://developer.example.com/#rate-limiting"
+ "message”: "API rate limit exceeded for xxx.xxx.xxx.xxx.”,
+ "documentation_url”: "https://developer.example.com/#rate-limiting"
 }
+```
 
 An alternative value for `Retry-After` is an HTTP date:
 
+```http
 Retry-After: Wed, 21 Oct 2015 07:28:00 GMT
+```
 
-Same idea, it just tells the client to wait until then before bothering the API further. By checking for these errors, you can catch then retry (or re-queue) requests that have failed, or if thats not an option try sleeping for a bit to calm workers down.
+Same idea, it just tells the client to wait until then before bothering the API
+further. By checking for these errors, you can catch then retry (or re-queue)
+requests that have failed, or if thats not an option try sleeping for a bit to
+calm workers down.
 
-**_Warning:_** _Make sure your sleep does not block your background processes from processing other jobs. This can happen in languages where sleep sleeps the whole process, and that process is running multiple types job on the same thread. Don’t back up your whole system with an overzealous sleep!_
+**_Warning:_** _Make sure your sleep does not block your background processes
+from processing other jobs. This can happen in languages where sleep sleeps the
+whole process, and that process is running multiple types job on the same
+thread. Don’t back up your whole system with an overzealous sleep!_
 
-Faraday, a ruby gem I work with often, is [now aware of](https://github.com/lostisland/faraday/pull/773) `[Retry-After](https://github.com/lostisland/faraday/pull/773)`. It uses the value to help calculate the interval between retry requests. This can be useful for anyone considering implementing rate limiting detection code, even if you aren’t a Ruby fan.
+Faraday, a Ruby gem I work with often, is [now aware
+of `Retry-After`](https://github.com/lostisland/faraday/pull/773). It uses the
+value to help calculate the interval between retry requests. This can be useful
+for anyone considering implementing rate limiting detection code, even if you
+aren’t a Ruby fan.
 
-To learn _how_ to implement rate limiting, Google it! [Nginx can help you](https://www.nginx.com/blog/rate-limiting-nginx/), API Management gateways like [Kong](https://getkong.org/plugins/rate-limiting/) and [Tyk](https://tyk.io/docs/control-limit-traffic/rate-limiting/) do a great job, or you can try to implement it at the application level for aaaaallllll of your APIs, which is a bit of a pain in the butt. Some frameworks like [Laravel (PHP)](https://laravel.com/) support [basic rate limiting out of the box](https://laravel-news.com/laravel-5-6-dynamic-rate-limiting), which is pretty darn cool.
+To learn _how_ to implement rate limiting, Google it! [Nginx can help
+you](https://www.nginx.com/blog/rate-limiting-nginx/), API Management gateways
+like [Kong](https://getkong.org/plugins/rate-limiting/) and
+[Tyk](https://tyk.io/docs/control-limit-traffic/rate-limiting/) do a great job,
+or you can try to implement it at the application level for aaaaallllll of your
+APIs, which is a bit of a pain in the butt. Some frameworks like [Laravel
+(PHP)](https://laravel.com/) support [basic rate limiting out of the
+box](https://laravel-news.com/laravel-5-6-dynamic-rate-limiting), which is
+pretty darn cool.
 
-_This is another excerpt from the book_ [_Surviving Other People’s Web APIs_](https://leanpub.com/surviving-other-peoples-web-apis)_, which is still being written._ [_Preorder it from LeanPub_](https://leanpub.com/surviving-other-peoples-web-apis) _now to support its development, and to keep these articles coming!_
-
-![](https://cdn-images-1.medium.com/max/800/1*F6RdutVwjCeeGtr4jPyIKA.jpeg)
+_This is another excerpt from the book [Surviving Other People’s Web
+APIs](https://leanpub.com/surviving-other-peoples-web-apis), which is still
+being written. [Preorder it from
+LeanPub](https://leanpub.com/surviving-other-peoples-web-apis) now to support
+its development, and to keep these articles coming!_
