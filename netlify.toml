@@ -40,7 +40,7 @@
 
 [[redirects]]
   from = "/api-evolution-for-rest-http-apis-*"
-  to = "/blog/api-evolution-for-rest-http-apis"
+  to = "/blog/api-evolution-for-resthttp-apis"
 
 [[redirects]]
   from = "/common-hypermedia-patterns-with-json-hyper-schema-*"
