@@ -76,7 +76,7 @@
 
 [[redirects]]
   from = "/health-checks-for-rest-grpc-apis-kubernetes-and-beyond-*"
-  to = "/blog/health-checks-for-restgrpc-apis-kubernetes-and-beyond"
+  to = "/blog/health-checks-for-rest-grpc-apis-kubernetes-and-beyond"
 
 [[redirects]]
   from = "/json-api-openapi-and-json-schema-working-in-harmony-*"
