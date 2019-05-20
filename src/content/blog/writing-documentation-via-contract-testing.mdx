@@ -48,7 +48,7 @@ which is the most basic sort of unit test:
 ```bash
 it 'should return HTTP OK (200)' do
   get "/users/#{subject.id}"
-  expect(response).to have\_http\_status(:ok)
+  expect(response).to have_http_status(:ok)
 end
 ```
 
@@ -176,7 +176,8 @@ With the schema missing you lose all benefit of API specifications: you have no 
 ```
   responses:
     200:
-      description: OK **content:
+      description: OK
+      content:
         application/json:
           schema:
             $ref: ./components/schemas/user.json**
