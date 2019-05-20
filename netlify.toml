@@ -72,7 +72,7 @@
 
 [[redirects]]
   from = "/guessing-api-contracts-*"
-  to = "/blog/guessing-api-contracts"
+  to = "/blog/commit-to-api-contracts"
 
 [[redirects]]
   from = "/health-checks-for-rest-grpc-apis-kubernetes-and-beyond-*"
