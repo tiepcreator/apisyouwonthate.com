@@ -3,6 +3,14 @@
   to = "/books/:splat"
 
 [[redirects]]
+  from = "/rest-and-hypermedia-in-2019-76cb3421e745"
+  to = "/blog/rest-and-hypermedia-in-2019"
+
+[[redirects]]
+  from = "/resolving-overloaded-terms-for-api-specifications-descriptions-contracts-c31a6d44d269"
+  to = "/blog/resolving-overloaded-terms-for-api-specifications-descriptions-contract"
+
+[[redirects]]
   from = "/a-happy-compromise-between-customization-and-cacheability-*"
   to = "/blog/partials-compromise-between-customization-and-cacheability"
 
