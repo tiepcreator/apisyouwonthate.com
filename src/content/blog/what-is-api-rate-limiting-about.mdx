@@ -12,18 +12,18 @@ Something API clients (applications talking to APIs) are not often aware of, but
 run into often, is rate limiting; the API telling you to calm down a bit, and
 slow down how many requests are being made in a certain timeframe. The most
 basic rate limiting strategy is often "clients can only send X requests per
-second.”
+second."
 
 Many APIs implement rate limiting to ensure relative stability when unexpected
 things happen. If for some reason one client causes a spike in traffic, the API
 has to continue running smoothly for other users instead of crashing. A
 misbehaving (or malicious script) could be hogging resources, or the API systems
 could be struggling and they need to cut down the rate limit for "lower
-priority” traffic. Sometimes it is just because the company providing the API
+priority" traffic. Sometimes it is just because the company providing the API
 has grown beyond their wildest dreams, and want to charge money for increasing
 the rate limit for high capacity users.
 
-Often the rate limit will be associated to an "API key” or "access token”, and
+Often the rate limit will be associated to an "API key" or "access token", and
 our friends over at [Nordic APIs](https://nordicapis.com/) very nicely explain
 some other rate limiting strategies:
 
@@ -68,7 +68,7 @@ If this process was being implemented in NodeJS, you could use
 [Bottleneck](https://www.npmjs.com/package/bottleneck).
 
 ```js
-const Bottleneck = require("bottleneck”);
+const Bottleneck = require("bottleneck");
 
 // Never more than 5 requests running at a time.
 // Wait at least 1000ms between each request.
@@ -106,12 +106,12 @@ much as tabs vs spaces, but there is a clear winner now; RFC 6585 defines it as
 ![](https://cdn-images-1.medium.com/max/800/1*esMflK7UItD8mWn4UbGedg.jpeg)
 _[http.cat](https://http.cat/) is an amazing resource._
 
-Twitter’s API existed for a few years before this standard, and they chose "420 — Enhance Your Calm”. They’ve dropped this and moved over to 429, but some others copied them at the time, and might not have updated since. You cannot rule out bumping into a copycat API, still using that outdated unofficial status.
+Twitter’s API existed for a few years before this standard, and they chose "420 — Enhance Your Calm". They’ve dropped this and moved over to 429, but some others copied them at the time, and might not have updated since. You cannot rule out bumping into a copycat API, still using that outdated unofficial status.
 
 ![](https://cdn-images-1.medium.com/max/800/1*FQyjo2WDsNPOV5vWaYQaTg.jpeg)
 _[http.cat](https://http.cat/) shows us how a cat can enhance their calm._
 
-Google also got a little "creative” with their status code utilization. For a long time were using 403 for their rate limiting, but I have no idea if they are still doing that. GitHub v3 (a RESTful API that was replaced with a GraphQL, but is still floating around) is still using 403:
+Google also got a little "creative" with their status code utilization. For a long time were using 403 for their rate limiting, but I have no idea if they are still doing that. GitHub v3 (a RESTful API that was replaced with a GraphQL, but is still floating around) is still using 403:
 
 ```http
 HTTP/1.1 403 Forbidden
@@ -153,8 +153,8 @@ Retry-After: 3600
 Content-Type: application/json
 
 {
- "message”: "API rate limit exceeded for xxx.xxx.xxx.xxx.”,
- "documentation_url”: "https://developer.example.com/#rate-limiting"
+ "message": "API rate limit exceeded for xxx.xxx.xxx.xxx.",
+ "documentation_url": "https://developer.example.com/#rate-limiting"
 }
 ```
 
