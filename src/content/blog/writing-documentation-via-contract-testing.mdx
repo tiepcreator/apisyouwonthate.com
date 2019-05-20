@@ -1,5 +1,5 @@
 ---
-title: Tricking Colleagues into Writing Documentation via Contract Testing
+title: Writing Documentation via Contract Testing
 subtitle: >-
   Part of my day job is trying to get folks to write API documentation, so the
   hordes of new developers joining the company on a weekly basis…
@@ -48,7 +48,7 @@ which is the most basic sort of unit test:
 ```bash
 it 'should return HTTP OK (200)' do
   get "/users/#{subject.id}"
-  expect(response).to have\_http\_status(:ok)
+  expect(response).to have_http_status(:ok)
 end
 ```
 
@@ -67,15 +67,15 @@ Feature: User API
 
 Scenario: Show action
     When I visit "/users/1"
-    Then the JSON response at "first\_name" should be "Steve"
-    And the JSON response at "last\_name" should be "Richert"
+    Then the JSON response at "first_name" should be "Steve"
+    And the JSON response at "last_name" should be "Richert"
     And the JSON response should have "username"
     And the JSON response at "username" should be a string
-    And the JSON response should have "created\_at"
-    And the JSON response at "created\_at" should be a string
-    And the JSON response should have "updated\_at"
-    And the JSON response at "updated\_at" should be a string
-    .... ugh it goes on and on ...
+    And the JSON response should have "created_at"
+    And the JSON response at "created_at" should be a string
+    And the JSON response should have "updated_at"
+    And the JSON response at "updated_at" should be a string
+    ... ugh it goes on and on ...
 ```
 
 At this point it is essentially contract testing, but its very laborious, and is a whitelist. If a new field shows up and we’ve not written a bunch of assertions for its type, we have no way of knowing if its correct. Clients might start using it, later it could change, and our test suite would never know.
@@ -104,7 +104,7 @@ Don’t Repeat Yourself, and define reusable `schemas/components/user.json` file
      },
      "email": {
        "type": "string",
-       "example": "[accountassignment8603592146@example.com](mailto:accountassignment8603592146@example.com)"
+       "example": "john@example.com"
      },
      "name": {
        "type": "string",
@@ -176,7 +176,8 @@ With the schema missing you lose all benefit of API specifications: you have no 
 ```
   responses:
     200:
-      description: OK **content:
+      description: OK
+      content:
         application/json:
           schema:
             $ref: ./components/schemas/user.json**

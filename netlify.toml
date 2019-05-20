@@ -3,6 +3,22 @@
   to = "/books/:splat"
 
 [[redirects]]
+  from = "/rest-and-hypermedia-in-2019-76cb3421e745"
+  to = "/blog/rest-and-hypermedia-in-2019"
+
+[[redirects]]
+  from = "/resolving-overloaded-terms-for-api-specifications-descriptions-contracts-c31a6d44d269"
+  to = "/blog/resolving-overloaded-terms-for-api-specifications-descriptions-contract"
+
+[[redirects]]
+  from = "/organizing-your-asyncapi-documents-4bedc1b3eb05"
+  to = "/blog/organizing-your-asyncapi-documents"
+
+[[redirects]]
+  from = "/caching-is-hard-draw-me-a-picture-updated-cdb354cbf3d0"
+  to = "/blog/caching-is-hard-draw-me-a-picture"
+
+[[redirects]]
   from = "/a-happy-compromise-between-customization-and-cacheability-*"
   to = "/blog/partials-compromise-between-customization-and-cacheability"
 
@@ -11,12 +27,20 @@
   to = "/blog/creating-good-api-errors-in-rest-graphql-and-grpc"
 
 [[redirects]]
+  from = "/taking-a-timeout-from-poor-performance-473965255009"
+  to = "/blog/taking-a-timeout-from-poor-performance"
+
+[[redirects]]
+  from = "/weworks-api-specification-workflow-defec45cc037"
+  to = "/blog/weworks-api-specification-workflow"
+
+[[redirects]]
   from = "/api-versioning-has-no-right-way-*"
   to = "/blog/api-versioning-has-no-right-way"
 
 [[redirects]]
   from = "/api-evolution-for-rest-http-apis-*"
-  to = "/blog/api-evolution-for-rest-http-apis"
+  to = "/blog/api-evolution-for-resthttp-apis"
 
 [[redirects]]
   from = "/common-hypermedia-patterns-with-json-hyper-schema-*"
@@ -56,7 +80,7 @@
 
 [[redirects]]
   from = "/json-api-openapi-and-json-schema-working-in-harmony-*"
-  to = "/blog/json-api-openapi-and-json-schema"
+  to = "/blog/json-api-openapi-and-json-schema-working-in-harmony"
 
 [[redirects]]
   from = "/keeping-documentation-honest-*"
@@ -88,7 +112,7 @@
 
 [[redirects]]
   from = "/picking-the-right-api-paradigm-*"
-  to = "/blog/picking-api-paradigm"
+  to = "/blog/picking-the-right-api-paradigm"
 
 [[redirects]]
   from = "/put-vs-patch-vs-json-patch-*"
@@ -105,6 +129,10 @@
 [[redirects]]
   from = "/speeding-up-apis-apps-smart-toasters-with-http-response-caching-*"
   to = "/blog/http-client-response-caching"
+
+[[redirects]]
+  from = "/surviving-deprecations-to-resources-and-properties-on-other-apis-9711e7def610"
+  to = "/blog/surviving-deprecations-to-resources-and-properties-on-other-apis"
 
 [[redirects]]
   from = "/*json-schema-client-side-validation*"
@@ -124,7 +152,7 @@
 
 [[redirects]]
   from = "/what-is-api-rate-limiting-all-about-*"
-  to = "/blog/what-is-api-rate-limiting-about"
+  to = "/blog/what-is-api-rate-limiting-all-about"
 
 [[redirects]]
   from = "/why-do-people-dislike-json-*"

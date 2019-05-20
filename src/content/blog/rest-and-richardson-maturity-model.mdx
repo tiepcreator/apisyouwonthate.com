@@ -4,7 +4,7 @@ subtitle: >-
   A modern day look at the Richardson Maturity model, and insight into how the various layers of
   abstraction REST provides can help API Developers working in HTTP for various scenarios.
 date: '2019-05-17'
-coverImage: rmm-mine.png
+coverImage: earth.jpg
 type: blog
 author: Phil Sturgeon
 ---
@@ -52,7 +52,7 @@ Going back to the comment "REST is a bunch of layers of abstraction on top of
 RPC", let's look at a diagram I'm sure most of you are familiar with: the
 Richardson Maturity Model.
 
-![](../../images/posts/rest-hypermedia/rmm.png)
+![](../../images/posts/rmm.png)
 
 This is a visualization created by Martin Fowler in his article introducing [the
 Richardson Maturity
@@ -96,7 +96,9 @@ conceptually from the original talk.
 
 Each layer briefly mentions some of the functionality it enabled.
 
-![](../../images/posts/rest-hypermedia/rmm-updated.png)
+<a href="/img/rmm-updated.png">
+  <img src="/img/rmm-updated.png" style="width:100%" />
+</a>
 
 ### 0: RPC
 
@@ -157,6 +159,8 @@ REST talks about.
 > it can be freshened by validation or if the origin is unavailable.
 >
 > -- [IETF RFC 7234](https://tools.ietf.org/html/rfc7234)
+
+Having unique URIs for things also means [HTTP/2 Server Push](https://www.smashingmagazine.com/2017/04/guide-http2-server-push/) can work as expected.
 
 This is a huge benefit of leveraging HTTP properly, using it as a transfer layer and not
 a dumb tunnel.
@@ -224,6 +228,17 @@ that.
 We've talked in a lot more depth about [representing state in APIs](/blog/representing-state-in-rest-and-graphql)
 for more of a general overview.
 
+Most APIs that call themselves REST stop short of the last layer, which mean they
+are what many people all RESTish, or just a HTTP API. That's not to be snotty,
+it's because Hypermedia Controls make it a REST API, it is a huge chunk of the point.
+
+Sometimes it's a lack of education on the topic, where people just literally have no idea
+what HATEOAS is about. Fair enough! Other times folks think they understand it,
+and think that HATEOAS is about forcing you to make loads of HTTP requests to
+get the same amount of data. That usually shows they're thinking about transportation
+and not transfer, and these days with HTTP/2 even if you were needing to make "more calls"
+the performance impact is negligible.
+
 ## Next
 
 Once you get to the REST part of the diagram that doesn't mean your API is
@@ -242,20 +257,32 @@ can make [API
 evolution](https://blog.apisyouwonthate.com/api-evolution-for-rest-http-apis-b4296519e564)
 a whole lot easier.
 
+## Hypermedia and gRPC or GraphQL
+
+When talking about Hypermedia Controls, people have said things like "That's not
+just something REST can do, gRPC could do that if you used the HTTP Bridge and
+added links!"
+
+Comically they were saying this in a shouty, red faced, gRPC-defending way, and my
+answer was "Yes! Absolutely, if you add Hypermedia Controls to a RPC API along with all
+these other things then you have literally made it a REST API!" REST is a collection
+of ideas, and you can use those ideas anywhere you like.
+
+Prominent GraphQL developers have been trying to figure [a way to get Hypermedia
+Controls into
+GraphQL](https://medium.com/@__xuorig__/graphql-mutation-design-hypermedia-graphql-api-faf03f3a898a)
+for a while. If they can solve it GraphQL would not be following this diagram
+exactly, but we can call `query` and `mutation` close enough to HTTP Methods as
+they share the semantics of idempotent-or-not, and the only thing missing is
+resources (URIs). Missing URIs is a larger problem for GraphQL because it pretty
+much destroys their chance of using HTTP/2 Server Push, meaning they're left
+turning to vendor specific solutions like [Apollo
+Subscriptions](https://www.apollographql.com/docs/graphql-subscriptions/) and
+other non-standard @defer type things for that...
+
 ## Summary
 
-Most APIs that call themselves REST stop short of the last layer, which mean they
-are what many people all RESTish, or just a HTTP API. That's not to be snotty,
-it's because Hypermedia Controls make it a REST API, it is a huge chunk of the point.
-
-Sometimes it's a lack of education on the topic, where people just literally have no idea
-what HATEOAS is about. Fair enough! Other times folks think they understand it,
-and think that HATEOAS is about forcing you to make loads of HTTP requests to
-get the same amount of data. That usually shows they're thinking about transportation
-and not transfer, and these days with HTTP/2 even if you were needing to make "more calls"
-the performance impact is negligible.
-
-Anyway, APIs don’t always need HATEOAS, nor do they _need_ any of this.
+Anyway, APIs don’t always need Hypermedia Controls, nor do they _need_ any of this.
 
 For example, full-stack developers often think REST is a waste of time because
 they are just trying to query the database and get that information to the
@@ -273,7 +300,7 @@ of network and client tooling like caching middlewares, monitoring services,
 inspection proxies, and you don't want to restrict what tools they're able to
 work with because that could lose you business.
 
-Then there are all the scenarios in between.
+Then there are all the other perfectly valid scenarios in between.
 
 Not all cars need to be bullet proof, not all conversations need a translator,
 not all underwear needs to be edible, and not all APIs need to be REST. 👍
