@@ -223,16 +223,22 @@ Oh no! Some errors happened. Sorry!
 These errors are not the best format because we just dumped them out for demo
 purposes, but this can be tidied up with a simple helper.
 
-If you are already doing validation in the controller then this will be a lot nicer, and if
-you are doing validation in your model you can delete a whole bunch of noise. If you did not have
-validation before, then using this approach means you don't need to start writing it. Win win win!
+If you are already doing validation in the controller then this will be a lot
+nicer, and if you are doing validation in your model you can delete a whole
+bunch of noise. If you did not have validation before, then using this approach
+means you don't need to start writing it. Win win win!
+
+ALso, whilst this works in any language, Ruby folks using Rack (therefore anyone using
+Rails too) can use [committee](https://github.com/interagent/committee), a fantastic middleware
+for making this a bit easier.
 
 JSON Schema is pretty good at handling request body validation, but having to
 put this in every controller can be a bit annoying. OpenAPI can help us out here.
 
-###
+### OpenAPI Middleware Example
 
-OpenAPI can be a bit easier to implement here, due to it covering the service model too, not just the data model.
+OpenAPI can be a bit easier to implement here, due to it covering the service
+model too, not just the data model.
 
 ``` yaml
 openapi: "3.0.0"
@@ -265,43 +271,40 @@ which OpenAPI file to use, then job done.
 Sticking with Node/Express for the examples, let's take a look at using OpenAPI and registering a middleware:
 
 ```js
-const fs = require("fs");
-const express = require("express");
-const { OpenApiValidator } = require("express-openapi-validate");
-const jsYaml = require("js-yaml");
+const express = require('express');
+const swaggerValidator = require('express-ajv-swagger-validation');
 
-const app = express();
-app.use(express.json());
+const port = 3000;
 
-const openApiDocument = jsYaml.safeLoad(
-  fs.readFileSync("openapi.yaml", "utf-8")
-);
-const validator = new OpenApiValidator(openApiDocument);
+swaggerValidator.init('./openapi.yaml').then(function () {
+  const app = express();
+  app.use(express.json());
 
-app.post("/echo", validator.validate("post", "/echo"), (req, res, next) => {
-  res.json({ output: req.body.input });
-});
-
-app.use((err, req, res, next) => {
-  const statusCode = err.statusCode || 500;
-  res.status(statusCode).json({
-    error: {
-      name: err.name,
-      message: err.message,
-      data: err.data,
-    },
+  app.get('/pets', swaggerValidator.validate, function (req, res, next) {
+      return res.json({ result: 'OK' });
   });
-});
+  app.post('/pets', swaggerValidator.validate, function (req, res, next) {
+      return res.json({ result: 'OK' });
+  });
+  app.get('/pets/:petId', swaggerValidator.validate, function (req, res, next) {
+      return res.json({ result: 'OK' });
+  });
 
-const server = app.listen(3000, () => console.log("Listening on", server.address());
+  app.use(function (err, req, res) {
+      if (err instanceof swaggerValidator.InputValidationError) {
+          return res.status(400).json({ more_info: JSON.stringify(err.errors) });
+      }
+  });
+
+  const server = app.listen(serverPort, function () {});
+});
 ```
 
-
-
-Once this middleware is registered with the framework, your controller code
-won't even bother getting invoked if the request coming in is invalid. The
-framework middleware is able to look at the request, compare it to the API
-specs, and reject it with an error format (hopefully something like [RFC
+Tadaaa! You don't have to put the validation checks in all the routes, because
+the middleware can handle that for you, and your route/controller code won't
+even bother getting invoked if the request coming in is invalid. The framework
+middleware is able to look at the request, compare it to the API descriptions, and
+reject it with an error format (hopefully something like [RFC
 7807](https://tools.ietf.org/html/rfc7807)) before your code even needs to wake
 up.
 
@@ -310,7 +313,8 @@ There are a decent number of options out there, but there should be more:
 For OpenAPI v3.0:
 
 - **PHP:** [openapi-psr7-validator](https://github.com/lezhnev74/openapi-psr7-validator)
-- **Node.js:** [express-openapi-validate](https://github.com/Hilzu/express-openapi-validate)
+- **Node.js:** [express-swagger-ajv-validator](https://github.com/Zooz/express-ajv-swagger-validation) / [express-openapi-validate](https://github.com/Hilzu/express-openapi-validate)
+- **Ruby/Rails:** [committee](https://github.com/interagent/committee)
 - **Perl:** [Mojolicious::Plugin::OpenAPI](https://metacpan.org/pod/Mojolicious::Plugin::OpenAPI)
 
 For OpenAPI v2.0:
@@ -332,14 +336,6 @@ The Rails tool swagger_shield is great. It wins maximum "Wont Hate Points" for u
   ]
 }
 ```
-
-They have good gif game too.
-
-<img src="https://i0.wp.com/gifrific.com/wp-content/uploads/2017/11/you-shall-not-pass-gandalf-lotr.gif" alt="You Shall Not Pass!" data-canonical-src="" style="max-width:100%;"/>
-
-Sadly it's only for OpenAPI v2.0.
-
-Ecosystem: _AWAY!_
 
 ## Testing Benefits
 
@@ -367,3 +363,43 @@ Using description docs for validations only covers requests, so [use the API
 description document to power contract
 testing](/blog/tricking-colleagues-into-writing-documentation-via-contract-testing)
 to make sure responses are good too.
+
+## Future of Server-Side Validation
+
+This is a very old concept which has recently picked up steam as more developers
+catch onto the API Design-first workflow.
+
+One of the benefits of writing HTTP APIs is that you usually are not locked into
+a single implementation, and do not have to try and force the "one size fits all"
+tooling that comes with it. Sadly that means some of the tools for some of the
+languages aren't as excellent as others, but as we are a community of open-source
+developers we can fix that.
+
+I've heard developers say "this is not performant" but there is no reason to
+believe that. A specific tool might not be written the most efficient way, but
+that can be fixed with PRs. So long as the tool is not parsing the entire document
+on the fly, and on startup constructs some sort of artifacts in memory, this could
+easily be more performant than running whatever behemoth of a "validation library"
+you've loaded up to do all this manually.
+
+Another approach is to skip out on doing it in the server-side, and move it up a
+level: to the API Gateway. We'll be writing more about that soon, but most API
+gateways are starting to get smarter about how they accept API descriptions as input,
+and how they use that input.
+
+One example is [Express Gateway](https://www.express-gateway.io/), who [added
+JSON Schema
+Validation](https://www.express-gateway.io/docs/policies/customization/conditions/#json-schema),
+a project maintained by my friend and [Stoplight.io](https://stoplight.io/) colleague
+[Vincenzo Chianese](https://twitter.com/D3DVincent).
+
+## Summary
+
+The days of treating descriptions like some annoying thing you have to do later to get
+docs are long behind us. API descriptions now come first, are used for [contract
+testing](/blog/tricking-colleagues-into-writing-documentation-via-contract-testing),
+getting feedback on implementation, and a whole [bunch of other
+stuff](https://www.toptal.com/api-developers/5-new-things-rest-specification).
+
+Use this as another carrot to convince your laggard teammates or boss that this
+is the way to go.
