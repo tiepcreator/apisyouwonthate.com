@@ -57,7 +57,13 @@ Sure ok, that’s better than literally nothing, but we need to know what fields
 Some folks will add some specific checks to their unit tests, maybe something like [include_json](https://relishapp.com/waterlink/rspec-json-expectations/docs/json-expectations/include-json-matcher):
 
 ```
-it "has basic info about user" do  expect(subject).to include_json(    id: 25,    email: "john.smith@example.com",    name: "John"  )end
+it "has basic info about user" do
+  expect(subject).to include_json(
+    id: 25,
+    email: "john.smith@example.com",
+    name: "John"
+  )
+end
 ```
 
 Others will bump this off to BDD-style testing with Cucumber or similar tools, which is essentially doing the exact same thing:
@@ -180,7 +186,7 @@ With the schema missing you lose all benefit of API specifications: you have no 
       content:
         application/json:
           schema:
-            $ref: ./components/schemas/user.json**
+            $ref: ./components/schemas/user.json
 ```
 
 _You’ll need to watch out for the_ [_divergence
@@ -194,6 +200,7 @@ documentation](https://blog.apisyouwonthate.com/turning-contracts-into-beautiful
 Give it a try and let me know what you think. I really like this simple,
 powerful, approach to keeping code up-to-date with your API specs.
 
-_Comment with your various language/framework implementations for solving this.
-Some of my friends have made PHP+PHPunit wrappers, and theres some Node stuff
-floating around, but I don’t have the links at time of writing._
+_Tell us about your API description-based testing and what languages and
+frameworks you're using on
+[@apisyouwonthate](https://twitter.com/apisyouwonthate) or [our
+Slack](https://slack.apisyouwonthate.com/)._

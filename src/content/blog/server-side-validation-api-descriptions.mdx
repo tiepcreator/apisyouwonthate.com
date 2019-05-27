@@ -371,6 +371,13 @@ no need for extra logic to ensure your requests are correctly described (or
 documented). You can just do your usual integration testing on requests,
 and you are all set.
 
+``` ruby
+it 'should conform to user schema' do
+  get "/users/#{subject.id}"
+  expect(response).to match_json_schema('user')
+end
+```
+
 Your test suite handling bog standard unit and integration tests are now proving
 your documented requests are correct, and if somebody changes how requests work
 without updating the description docs, they've been caught in the act and their
@@ -380,7 +387,7 @@ commit a breaking change...! 🧐
 
 Using description docs for validations only covers requests, so [use the API
 description document to power contract
-testing](/blog/tricking-colleagues-into-writing-documentation-via-contract-testing)
+testing](/blog/writing-documentation-via-contract-testing)
 to make sure responses are good too.
 
 ## Future of Server-Side Validation
