@@ -189,8 +189,8 @@ With the schema missing you lose all benefit of API specifications: you have no 
             $ref: ./components/schemas/user.json
 ```
 
-_You’ll need to watch out for the_ [_divergence
-issue_](https://blog.apisyouwonthate.com/openapi-and-json-schema-divergence-part-1-1daf6678d86e)_,
+_You’ll need to watch out for the [divergence
+issue](https://blog.apisyouwonthate.com/openapi-and-json-schema-divergence-part-1-1daf6678d86e)_,
 or use Speccy to convert this JSON Schema & OpenAPI combo to “pure OpenAPI” in
 some build/CI step, but this works juuuust fine._
 
@@ -199,6 +199,10 @@ documentation](https://blog.apisyouwonthate.com/turning-contracts-into-beautiful
 
 Give it a try and let me know what you think. I really like this simple,
 powerful, approach to keeping code up-to-date with your API specs.
+
+**JSON Schema**
+
+- Node/Jest: [jest-json-schema](https://github.com/americanexpress/jest-json-schema) (by American Express 😲)
 
 _Tell us about your API description-based testing and what languages and
 frameworks you're using on
