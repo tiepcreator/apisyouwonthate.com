@@ -52,9 +52,24 @@ Nothing broke for existing use cases, and new functionality was added seamlessly
 
 > _We have too many old properties kicking around, we need to get rid of them._
 
-Deprecations can be communicated in a few ways for API’s. For those using OpenAPI v3, you can mark it as `deprecated: true` in the documentation. That's not ideal, of course, as OpenAPI is usually human-readable documentation, sat out of band on a developer portal somewhere. Rarely are OpenAPI schemas shoved into the response like JSON Schema is, so programmatically clients have no real way to access this.
+Deprecations can be communicated in a few ways for API’s. For those using
+OpenAPI v3, you can mark it as `deprecated: true` in the documentation. That's
+not ideal, of course, as OpenAPI is usually human-readable documentation, sat
+out of band on a developer portal somewhere. Rarely are OpenAPI schemas shoved
+into the response like JSON Schema is, so programmatically clients have no real
+way to access this.
 
-JSON Schema is considering [adding a deprecated keyword](https://github.com/json-schema-org/json-schema-spec/issues/74), and oops I think I’m in charge of making that happen. I’ll get back to doing that after this blog post. The idea here would be to pair the schema with a smart SDK (client code) which detects which properties are being used. If the schema marks the `foo` field as deprecated, and the client code then calls `$response->foo`, the SDK can raise a deprecation warning. This is achieved by inspecting the schema file at runtime if you offer your schemas in the `Link` header, or at compile time if you're distributing schema files with the SDK.
+JSON Schema is <s>considering</s> [adding a deprecated
+keyword](https://github.com/json-schema-org/json-schema-spec/issues/74), <s>and
+oops I think I’m in charge of making that happen. I’ll get back to doing that
+after this blog post.</s> as part of draft 08, which matches the OpenAPI keyword.
+
+The idea here would be to pair the schema with a smart SDK
+(client code) which detects which properties are being used. If the schema marks
+the `foo` field as deprecated, and the client code then calls `$response->foo`,
+the SDK can raise a deprecation warning. This is achieved by inspecting the
+schema file at runtime if you offer your schemas in the `Link` header, or at
+compile time if you're distributing schema files with the SDK.
 
 ![](https://cdn-images-1.medium.com/max/800/0*a8K4yuKO0c_lG2p-.gif)
 
