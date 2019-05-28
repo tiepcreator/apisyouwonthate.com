@@ -52,9 +52,24 @@ Nothing broke for existing use cases, and new functionality was added seamlessly
 
 > _We have too many old properties kicking around, we need to get rid of them._
 
-Deprecations can be communicated in a few ways for API’s. For those using OpenAPI v3, you can mark it as `deprecated: true` in the documentation. That's not ideal, of course, as OpenAPI is usually human-readable documentation, sat out of band on a developer portal somewhere. Rarely are OpenAPI schemas shoved into the response like JSON Schema is, so programmatically clients have no real way to access this.
+Deprecations can be communicated in a few ways for API’s. For those using
+OpenAPI v3, you can mark it as `deprecated: true` in the documentation. That's
+not ideal, of course, as OpenAPI is usually human-readable documentation, sat
+out of band on a developer portal somewhere. Rarely are OpenAPI schemas shoved
+into the response like JSON Schema is, so programmatically clients have no real
+way to access this.
 
-JSON Schema is considering [adding a deprecated keyword](https://github.com/json-schema-org/json-schema-spec/issues/74), and oops I think I’m in charge of making that happen. I’ll get back to doing that after this blog post. The idea here would be to pair the schema with a smart SDK (client code) which detects which properties are being used. If the schema marks the `foo` field as deprecated, and the client code then calls `$response->foo`, the SDK can raise a deprecation warning. This is achieved by inspecting the schema file at runtime if you offer your schemas in the `Link` header, or at compile time if you're distributing schema files with the SDK.
+JSON Schema is <s>considering</s> [adding a deprecated
+keyword](https://github.com/json-schema-org/json-schema-spec/issues/74), <s>and
+oops I think I’m in charge of making that happen. I’ll get back to doing that
+after this blog post.</s> as part of draft 08, which matches the OpenAPI keyword.
+
+The idea here would be to pair the schema with a smart SDK
+(client code) which detects which properties are being used. If the schema marks
+the `foo` field as deprecated, and the client code then calls `$response->foo`,
+the SDK can raise a deprecation warning. This is achieved by inspecting the
+schema file at runtime if you offer your schemas in the `Link` header, or at
+compile time if you're distributing schema files with the SDK.
 
 ![](https://cdn-images-1.medium.com/max/800/0*a8K4yuKO0c_lG2p-.gif)
 
@@ -82,19 +97,34 @@ All it takes is a little ingenuity, and API evolution isn’t so scary.
 
 > _We have all these old endpoints hanging around, can we get rid of these slightly more intelligently than just sending some emails?_
 
-Yes! API Endpoints can be marked with a `Sunset` header to signal deprecation (and eventual removal) of an endpoint.
+Yes! API Endpoints can be marked with a `Sunset` header to signal deprecation
+(and eventual removal) of an endpoint.
 
-The [Sunset header](https://tools.ietf.org/html/draft-wilde-sunset-header-03) is an in-development HTTP response header that is aiming to standardize how URLs are marked for deprecation. tl;dr it looks a bit like this:
+The [Sunset header](https://tools.ietf.org/html/rfc8594) is a HTTP response
+header that is aiming to standardize how URLs are marked for deprecation. tl;dr
+it looks a bit like this:
 
 ```
 Sunset: Sat, 31 Dec 2018 23:59:59 GMT
 ```
 
-The date is a [HTTP date](https://tools.ietf.org/html/rfc7231#section-7.1.1.1), and can be combined with a `Link: <http://foo.com/something> rel="sunset"` which can be anything that might help a developer know what is going on. Maybe link to your API documentation for the new resource, the OpenAPI/JSON Schema definitions, or even a blog post explaining the change.
+The date is a [HTTP date](https://tools.ietf.org/html/rfc7231#section-7.1.1.1),
+and can be combined with a `Link: <http://foo.com/something> rel="sunset"` which
+can be anything that might help a developer know what is going on. Maybe link to
+your API documentation for the new resource, the OpenAPI/JSON Schema
+definitions, or even a blog post explaining the change.
 
-Ruby on Rails has [rails-sunset](https://github.com/wework/rails-sunset/), and hopefully other frameworks will start adding this functionality. Open-source API Gateway system [Tyk](https://tyk.io/) is [adding support to an upcoming version](https://github.com/TykTechnologies/tyk/issues/1626).
+Ruby on Rails has [rails-sunset](https://github.com/wework/rails-sunset/), and
+hopefully other frameworks will start adding this functionality. Open-source API
+Gateway system [Tyk](https://tyk.io/) is [adding support to an upcoming
+version](https://github.com/TykTechnologies/tyk/issues/1626).
 
-Clients then add a middleware to their HTTP calls, checking for Sunset headers. We do this with [faraday-sunset](https://github.com/wework/faraday-sunset) (Ruby), [Hunter Skrasek](https://twitter.com/HSkrasek/) made [guzzle-sunset](https://github.com/hskrasek/guzzle-sunset) (PHP), and anyone can write a thing that looks for a header and logs it to whatever logging thing they’re using.
+Clients then add a middleware to their HTTP calls, checking for Sunset headers.
+We do this with [faraday-sunset](https://github.com/wework/faraday-sunset)
+(Ruby), [Hunter Skrasek](https://twitter.com/HSkrasek/) made
+[guzzle-sunset](https://github.com/hskrasek/guzzle-sunset) (PHP), and anyone can
+write a thing that looks for a header and logs it to whatever logging thing
+they’re using.
 
 > _We need to change some validation rules, but the clients have rules baked in. How do we let them know change is coming?_
 
