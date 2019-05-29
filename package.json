@@ -24,7 +24,7 @@
     "gatsby-remark-images": "^3.0.13",
     "gatsby-remark-prismjs": "^3.2.9",
     "gatsby-source-filesystem": "^2.0.37",
-    "gatsby-source-shopify": "^2.0.32",
+    "gatsby-source-shopify": "^2.0.33",
     "gatsby-transformer-remark": "^2.3.12",
     "gatsby-transformer-sharp": "^2.1.19",
     "moment": "^2.24.0",
