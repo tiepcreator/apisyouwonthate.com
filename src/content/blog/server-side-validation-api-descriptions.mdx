@@ -1,7 +1,7 @@
 ---
 title: Server-Side Validation with API Descriptions
 subtitle: >-
-  Why waste a bunch of time duplicating validation rules your application code
+  Why waste a bunch of time duplicating validation rules in your application code
   and API description documents, then waste even more time trying to make sure
   these two disparate sources match up? Save a bunch of time and avoid mismatch
   bugs by using your API description as production code, so you have one source
@@ -13,8 +13,8 @@ author: Phil Sturgeon
 ---
 
 Validation can mean a lot of things, but in API land it generally means figuring
-out if the data being set to the API is any good or not. Validation can happen
-in a lot of different places, it can happen on the server, and it can happen in
+out if the data being sent to the API is any good or not. Validation can happen
+in a lot of different places - it can happen on the server, and it can happen in
 the client. Traditionally client-side and server-side validation have both
 played a role, covering different use-cases.
 
@@ -23,7 +23,7 @@ do things like highlighting the input box that failed, with red outlines, toolti
 that the email address doesn't look valid, explaining that the "Amount to pay off your credit card"
 should be higher than 0, etc. These days browsers take care of a lot of the visual feedback so
 often client-side validation is not doing quite as much as it used to, but it is still required
-for "either field A or B should be set, but not both, and if B is set, we C should be too." sorts
+for "either field A or B should be set, but not both, and if B is set, then C should be too." sorts
 of thing.
 
 ![](../../images/posts/client-validation/strava-name-required.png)
@@ -49,7 +49,7 @@ Server-side validation is usually doing the most mundane of tasks.
 - Is this property required
 - Is this property an email address
 - Is this property a credit card number
-- Is this property required if other property is present
+- Is this property required if another property is present
 
 Some frameworks shove this logic in the controller, which is a pain when you
 need to validate the same payload in two different use cases. Others shove it in
@@ -163,7 +163,7 @@ and will have contents like this:
     "date_of_birth": {
       "title": "Date Of Birth",
       "type": "string",
-      "description": "Date of uses birth in the one and only date standard: ISO 8601.",
+      "description": "Date of users birth in the one and only date standard: ISO 8601.",
       "format": "date",
       "example": "1990–12–28"
     }
@@ -271,7 +271,7 @@ paths:
                 $ref: '#/components/schemas/Pet'
 ```
 
-Seeing as OpenAPI will say "this schema should be used for this combination or HTTP Method and Path" you do not
+Seeing as OpenAPI will say "this schema should be used for this combination of HTTP Method and Path" you do not
 need to provide the glue. Instead, many languages offer tools that let you just register a middleware, tell that middleware
 which OpenAPI file to use, then job done.
 
