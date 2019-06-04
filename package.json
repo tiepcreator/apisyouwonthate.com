@@ -23,7 +23,7 @@
     "gatsby-remark-embed-video": "^1.7.1",
     "gatsby-remark-images": "^3.0.14",
     "gatsby-remark-prismjs": "^3.2.9",
-    "gatsby-source-filesystem": "^2.0.37",
+    "gatsby-source-filesystem": "^2.0.38",
     "gatsby-source-shopify": "^2.0.33",
     "gatsby-transformer-remark": "^2.3.12",
     "gatsby-transformer-sharp": "^2.1.21",
