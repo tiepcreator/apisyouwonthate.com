@@ -135,7 +135,7 @@
   to = "/blog/surviving-deprecations-to-resources-and-properties-on-other-apis"
 
 [[redirects]]
-  from = "/*json-schema-client-side-validation*"
+  from = "/the-many-amazing-uses-of-json-schema-client-side-validation-*"
   to = "/blog/the-many-amazing-uses-of-json-schema-client-side-validation"
 
 [[redirects]]
