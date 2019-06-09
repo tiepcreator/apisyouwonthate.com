@@ -53,6 +53,18 @@ module.exports = {
               linkImagesToOriginal: false,
             },
           },
+          {
+            resolve: `@raae/gatsby-remark-oembed`,
+            options: {
+              providers: {
+                include: ['Twitter'],
+                settings: {
+                  // Ex. Show all Twitter embeds with the dark theme
+                  // Twitter: { theme: 'dark' },
+                },
+              },
+            },
+          },
         ],
       },
     },
