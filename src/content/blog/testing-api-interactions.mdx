@@ -127,11 +127,9 @@ speeding up a slow but reliable test suite, or have a broken production
 with an untrustworthy test suite.
 
 As integration tests hit more code, some folks think hitting the
-external APIs is just going to happen, but not the case\! There is a
-tactic called "record and replay", and it is available in pretty much
-every programming language in one form or another.
+external APIs is just going to happen, but not the case!
 
-One approach for more realistic HTTP interactions in integration tests
+One approach to avoid hitting the wire, yet still having realistic interactions,
 is to use something like [WebMock](https://github.com/bblimke/webmock)
 for Ruby, [Nock](https://github.com/nock/nock) for JavaScript, or the
 baked in [httptest](https://golang.org/pkg/net/http/httptest/) in Go.
@@ -142,10 +140,9 @@ mock a HTTP server. They are also very different from API specification based
 mocking tools like [Prism](http://github.com/stoplightio/prism/), which is a
 whole other article.
 
-Web mocking tools and can be configured to respond in certain ways
-depending on what URL, HTTP method, or body params are sent to it,
-depending on how complex things want to get. Most of the time this is
-used for simple stuff.
+Web mocking tools can be configured to respond in certain ways depending on what
+URL, HTTP method, or body params are sent to it, depending on how complex things
+want to get. Most of the time this is used for simple stuff.
 
 Here’s an example taken from the CLI-tool
 [Spectral](https://github.com/stoplightio/spectral).
@@ -187,9 +184,11 @@ HTTP requests…​
 
 ## Record & Replay in Integration Tests
 
-Record & Replay has been around for years, and I did not discover it
-until I started using Ruby, using a tool called
-[VCR](http://relishapp.com/vcr/vcr) ("Video Cassette Recorder").
+There is a tactic called "record and replay", and it is available in pretty much
+every programming language in one form or another. Record & Replay has been
+around for years, but I did not discover it until I started using Ruby. They
+have a great tool called [VCR](http://relishapp.com/vcr/vcr) ("Video Cassette
+Recorder").
 
 *For younger developers a VCR is like Blueray but terrible quality and
 the data is printed on a chunk of plastic you shove in a box under your
