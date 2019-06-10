@@ -100,11 +100,11 @@
 
 [[redirects]]
   from = "/openapi-and-json-schema-divergence-part-1-*"
-  to = "/blog/openapi-json-schema-divergence"
+  to = "/blog/openapi-and-json-schema-divergence-part-1"
 
 [[redirects]]
   from = "/openapi-and-json-schema-divergence-part-2-*"
-  to = "/blog/solving-openapi-json-schema-divergence"
+  to = "/blog/solving-openapi-and-json-schema-divergence"
 
 [[redirects]]
   from = "/optimizing-for-the-speed-of-light-*"
