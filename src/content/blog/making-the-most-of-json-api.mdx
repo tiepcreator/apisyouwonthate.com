@@ -1,112 +1,166 @@
 ---
-title: Making the Most of JSON-API
+title: "Making the Most of JSON:API"
 subtitle: >-
-  If you absolutely positively have to use JSON-API for your API, here’s how to
+  If you absolutely positively have to use JSON:API for your API, here's how to
   make it not terrible.
-date: '2017-10-30T20:46:35.304Z'
+date: 2017-10-30
 coverImage:
 
 type: blog
 author: Phil Sturgeon
 ---
 
-With [JSON-API](http://jsonapi.org/) (and any other compound document-based advice) starting to feel a little outdated in 2017 [thanks to HTTP/2](https://blog.apisyouwonthate.com/lets-stop-building-apis-around-a-network-hack-9a68f7e83dd2), it’s tough to continue recommending it to people.
+With [JSON:API](http://jsonapi.org/), HAL, and other compound document formats
+[becoming less necessary thanks to
+HTTP/2](/blog/lets-stop-building-apis-around-a-network-hack), using these
+formats is no longer a given.
 
-That said, there are plenty of reasons for people to still be using JSON-API for the near future:
+That said, there are plenty of reasons for some teams to continue using JSON:API for the near future:
 
-1. Existing APIs with an underlying codebase tightly coupled to JSON-API, that cannot serialize multiple formats
-2. Teams that are all very used to JSON-API and are on tight deadlines to deliver a working solution
+1. Existing APIs with an underlying codebase tightly coupled to JSON:API, that cannot serialize multiple formats
+2. Teams that are all very used to JSON:API and are on tight deadlines to deliver a working solution
 3. APIs that are consumed in the browser, especially those which need support for mobile browsers, or operating systems older than Windows 10, or OS X 10.11 ([source](http://caniuse.com/#feat=http2))
 
-Let’s look at a few of the problems I’ve hit using JSON-API in production for two years.
+Let's look at a few of the problems I've hit using JSON:API in production for two years.
 
-#### Scope for Compound Documents
+## Scope for Compound Documents
 
-At a carpooling company, with trips which could contain many riders. We exposed `/trips?include=riders` and everything was great, until the web and iOS clients let us know months later they’d been filtering on the client side to map only active riders.
+At a carpooling company, with trips which could contain many riders. We exposed
+`/trips?include=riders` and everything was great, until the web and iOS clients
+let us know months later they'd been filtering on the client side to map only
+active riders.
 
-Client-side filtering is a concern as it overworks the application server and database server. It also forces clients to wait on unnecessary data to transferred over the network, and makes the browser use more juice than it needs to.
+Client-side filtering is a concern as it overworks the application server and
+database server. It also forces clients to wait on unnecessary data to
+transferred over the network, and makes the browser use more juice than it needs
+to.
 
-Some developers thought it was obvious to restrict the “riders” relationship to only “active riders”, and pushed code to make that happen. It turns out that broke the Android client, which actually had a Previous Riders screen and was expecting the “riders” relationship to have all statuses not just active.
+Some developers thought it was obvious to restrict the "riders” relationship to
+only "active riders”, and pushed code to make that happen. It turns out that
+broke the Android client, which actually had a Previous Riders screen and was
+expecting the "riders” relationship to have all statuses not just active.
 
-My suggestion was to deprecate the `riders` include, and create `active_riders` and `inactive_riders` includes, a trend which we continued throughout the life of that API.
+My suggestion was to deprecate the `riders` include, and create `active_riders`
+and `inactive_riders` includes, a trend which we continued throughout the life
+of that API.
 
-Avoiding default scopes is important, as the “default” for one application might be different to another. Don’t try to assume what default scopes should be for ever client, just make it very clear what relationships have scope by putting it in the name.
+Avoiding default scopes is important, as the "default” for one application might
+be different to another. Don't try to assume what default scopes should be for
+ever client, just make it very clear what relationships have scope by putting it
+in the name.
 
+``` js
 "relationships": {
-  "active\_riders": {
-    "data": \[
+  "active_riders": {
+    "data": [
       { "type": "people", "id": "1" }
-    \]
+    ]
   },
-  "inactive\_riders": {
-    "data": \[
+  "inactive_riders": {
+    "data": [
       { "type": "people", "id": "2" },
       { "type": "people", "id": "3" },
       { "type": "people", "id": "4" }
-    \]
+    ]
   },
-  "pending\_riders": {
-    "data": \[
+  "pending_riders": {
+    "data": [
       { "type": "people", "id": "10" }
-    \]
+    ]
   }
 }
+```
 
-This avoids the trouble of expectation not matching reality, avoids accidental changes to reality, and makes it very clear what you’re getting.
+This avoids the trouble of expectation not matching reality, avoids accidental
+changes to reality, and makes it very clear what you're getting.
 
-So long as you’re careful to handle this code on the backend, and you’re able to fetch your data in a way that isn’t now three times slower. If you’re querying a database for example, you need to avoid temptation to make three separate extra queries:
+So long as you're careful to handle this code on the backend, and you're able to
+fetch your data in a way that isn't now three times slower. If you're querying a
+database for example, you need to avoid temptation to make three separate extra
+queries:
 
-1.  `... WHERE status = active`
-2.  `... WHERE status = inactive`
-3.  `... WHERE status = pending`
+1. `... WHERE status = active`
+2. `... WHERE status = inactive`
+3. `... WHERE status = pending`
 
-If you can avoid doing that, performance should not suffer too badly from multiple relationships. Basically you need to fetch everything then split it yourself, which… is what we were trying to avoid all the clients doing. At least adding [HTTP headers will help clients hopefully cache that result](https://blog.apisyouwonthate.com/speeding-up-apis-apps-smart-toasters-with-http-response-caching-a67becf829c6).
+If you can avoid doing that, performance should not suffer too badly from
+multiple relationships. Basically you need to fetch everything then split it
+yourself, which… is what we were trying to avoid all the clients doing. At least
+adding [HTTP headers will help clients hopefully cache that
+result](https://blog.apisyouwonthate.com/speeding-up-apis-apps-smart-toasters-with-http-response-caching-a67becf829c6).
 
 Some people try solve this in another way: filtering relationships.
 
-#### Filtering Relationships
+## Filtering Relationships
 
-If by default the whole relationship is everything, most SQL-minded API developers will then think: I need a `WHERE` clause. JSON-API doesn’t really provide anything for this, but does suggest using a query string parameter called `?filter=`.
+If by default the whole relationship is everything, most SQL-minded API
+developers will then think: I need a `WHERE` clause. JSON:API doesn't really
+provide anything for this, but does suggest using a query string parameter
+called `?filter=`.
 
 The spec is [extremely vague about filtering](http://jsonapi.org/format/#fetching-filtering):
 
 > The `filter` query parameter is reserved for filtering data. Servers and clients **SHOULD** use this key for filtering operations.
+>
+> **Note:** JSON:API is agnostic about the strategies supported by a server. The `filter` query parameter can be used as the basis for any number of filtering strategies.
 
-> **Note:** JSON API is agnostic about the strategies supported by a server. The `filter` query parameter can be used as the basis for any number of filtering strategies.
+That's all the spec says, but various conventions exist. The most popular
+suggest is `filter[riders][status]=active`, which takes the relationship as the
+first array key, then the resource field as the next key, before finally taking
+the value.
 
-That’s all the spec says, but various conventions exist. The most popular suggest is `filter[riders][status]=active`, which takes the relationship as the first array key, then the resource field as the next key, before finally taking the value.
+Filtering like this is not so bad when it's a tightly controlled whitelist of
+possible fields, but many folks implementing JSON:API get a bit carried away and
+allow anyone to filter by anything. This is rather common with SQL-minded
+developers, but an API should not be treated like an SQL database, especially if
+you're handing out API keys to developers who could perform query-like requests
+that you don't know about.
 
-Filtering like this is not so bad when it’s a tightly controlled whitelist of possible fields, but many folks implementing JSON-API get a bit carried away and allow anyone to filter by anything. This is rather common with SQL-minded developers, but an API should not be treated like an SQL database, especially if you’re handing out API keys to developers who could perform query-like requests that you don’t know about.
+Allowing people to filter by any field on any relationship on a API collection
+that's pulling from a database would lead to slow queries. It's impossible to
+know which indexes to add ahead of time. The first rule of API development is
+"Clients will surprise you." Trying to index everything is [damaging to
+performance](https://redmondmag.com/articles/2014/07/16/too-many-sql-server-indexes.aspx)
+in a bunch of ways.
 
-Allowing people to filter by any field on any relationship on a API collection that’s pulling from a database would lead to slow queries. It’s impossible to know which indexes to add ahead of time. The first rule of API development is “Clients will surprise you.” Trying to index everything is [damaging to performance](https://redmondmag.com/articles/2014/07/16/too-many-sql-server-indexes.aspx) in a bunch of ways.
+Restricting the ways in which clients can filter is a good idea, and optimize
+the ways in which they do. As clients request further filters, weigh it up, and
+maybe add it if you think it's a good idea.
 
-Restricting the ways in which clients can filter is a good idea, and optimize the ways in which they do. As clients request further filters, weigh it up, and maybe add it if you think it’s a good idea.
+It's a little tough to code and document these nested filter options, but you'll
+need to figure it out, or suffer from awful performance.
 
-It’s a little tough to code and document these nested filter options, but you’ll need to figure it out, or suffer from awful performance.
+## Limitations on Relationships
 
-#### Limitations on Relationships
+Another tricky choice, is figuring out how many items you put into a
+relationship. Do you put 10? 100? Literally all of them?
 
-Another tricky choice, is figuring out how many items you put into a relationship. Do you put 10? 100? Literally all of them?
+At first you'll say "Oh there wont ever be more than X”, and again, that's
+almost certainly going to change since that initial assumption. The carpooling
+company said "Oh there's never going to be more than 5 riders, because a car
+wont fit more than 5!"
 
-At first you’ll say “Oh there wont ever be more than X”, and again, that’s almost certainly going to change since that initial assumption. The carpooling company said “Oh there’s never going to be more than 5 riders, because a car wont fit more than 5!”
+Then we added vans with 20 riders, and im sure at some point there would have
+been actual buses with 100. After a few months there could be several hundreds
+of riders with various status, and that's getting to be some chunky JSON.
 
-Then we added vans with 20 riders, and im sure at some point there would have been actual buses with 100. After a few months there could be several hundreds of riders with various status, and that’s getting to be some chunky JSON.
+JSON:API offers fantastic advice in the [Pagination
+section](http://jsonapi.org/format/#fetching-pagination):
 
-JSON-API offers fantastic advice in the [Pagination section](http://jsonapi.org/format/#fetching-pagination):
-
-> A server **MAY** provide links to traverse a paginated data set (“pagination links”).
-
+> A server **MAY** provide links to traverse a paginated data set ("pagination links”).
+>
 > Pagination links **MUST** appear in the links object that corresponds to a collection. To paginate the primary data, supply pagination links in the top-level `links` object. To paginate an included collection returned in a [compound document](http://jsonapi.org/format/#document-compound-documents), supply pagination links in the corresponding links object.
 
 Basically they recommend shoving some `"next"` links in there.
 
+``` ruby
 "relationships": {
-  "active\_riders": {
+  "active_riders": {
     "links": {
-      "related": "https://api.example.com/riders?trip\_id=23124"
-      "next": "https://api.example.com/riders?trip\_id=23124&cursor=learn-about-cursors-in-the-book"
+      "related": "https://api.example.com/riders?trip_id=23124"
+      "next": "https://api.example.com/riders?trip_id=23124&cursor=learn-about-cursors-in-the-book"
     }
-    "data": \[
+    "data": [
       { "type": "people", "id": "11" },
       { "type": "people", "id": "2819" },
       { "type": "people", "id": "3223" },
@@ -117,31 +171,60 @@ Basically they recommend shoving some `"next"` links in there.
       { "type": "people", "id": "1123" },
       { "type": "people", "id": "1563" },
       { "type": "people", "id": "1357" }
-    \]
+    ]
   }
 }
+```
 
-Ooo, links. Otherwise known as HATEOAS! Hypermedia as the Engine of Application State which in its most simple form often is “Hey you can go and get more stuff over here if you want it.”
+Ooo, links. Otherwise known as HATEOAS! Hypermedia as the Engine of Application
+State which in its most simple form often is "Hey you can go and get more stuff
+over here if you want it."
 
-[**Episode 03: Why Hypermedia | API Busters**
-_Brett Florio and Luke Stokes from FoxyCart join Grace and Phil to chat hypermedia. Not pie in the sky "maybe talk", but…_apibusters.com](http://apibusters.com/003-why-hypermedia "http://apibusters.com/003-why-hypermedia")[](http://apibusters.com/003-why-hypermedia)
+Putting in just a few items for the relationship (say… 10!), then having a URL
+for clients to fetch more stuff if they want it is awesome. They can go grab
+that either when the end user wants it, or preemptively.
 
-Putting in just a few items for the relationship (say… 10!), then having a URL for clients to fetch more stuff if they want it is awesome. They can go grab that either when the end user wants it, or preemptively.
+This is a lovely combination of two approaches. On one side its exactly the sort
+of thing the REST is asking you to do, whilst still providing a bit of an
+optimization for HTTP/1.1-stuck clients scared to make multiple requests.
 
-This is a lovely combination of two approaches. On one side its exactly the sort of thing the REST is asking you to do, whilst still providing a bit of an optimization for HTTP/1.1-stuck clients scared to make multiple requests.
+You do of course need to make sure you have that `/riders?trip_id=23124`
+endpoint, and you'll probably need to make sure you have all the same query
+string filter options as you do with `filter[riders][status]`.
 
-You do of course need to make sure you have that `/riders?trip_id=23124` endpoint, and you’ll probably need to make sure you have all the same query string filter options as you do with `filter[riders][status]`.
+By the time you have all these things done twice, you start to wonder if it
+would be better to have just the one way of doing things… and that's where I'm
+at these days.
 
-By the time you have all these things done twice, you start to wonder if it would be better to have just the one way of doing things… and that’s where I’m at these days.
+I advice against using includes, and if you do use them you need to really
+restrict how and where you use them, and also put `links` in for all of your
+relationships, pagination, related actions, and anywhere else that makes sense.
 
-I advice against using includes, and if you do use them you need to really restrict how and where you use them, and also put `links` in for all of your relationships, pagination, related actions, and anywhere else that makes sense.
+## Summary
 
-#### Summary
+For those really set on using JSON:API, watch out for these troubles I've bumped
+into, and check out other articles by [other smart
+folks](https://jeremiahlee.com/blog/2017/10/10/pragmatic-design-with-json:api/)
+who are getting into it.
 
-For those really set on using JSON-API, watch out for these troubles I’ve bumped into, and check out other articles by [other smart folks](https://jeremiahlee.com/blog/2017/10/10/pragmatic-design-with-json-api/) who are getting into it.
+Avoid building a slow SQL-over-HTTP API, that appears to works for a few months,
+and fails horribly once your database tables are a little better stocked than
+your test data. Sure it'll fulfill any query that anyone could possibly want,
+but it'll do it poorly. 😅
 
-Avoid building a slow SQL-over-HTTP API, that appears to works for a few months, and fails horribly once your database tables are a little better stocked than your test data. Sure it’ll fulfill any query that anyone could possibly want, but it’ll do it poorly. 😅
+One cool thing about using JSON:API for now, is that you can offer includes
+_and_ links. Then you can slowly move over to a more hypermedia based approach
+as HTTP/2 usage becomes more prolific; deprecating and removing includes as
+clients upgrade to just making web requests to nice, HTTP-level cacheable
+collections, with top level query strings and no messy compound document stuff
+getting in the way.
 
-One cool thing about using JSON-API for now, is that you can offer includes _and_ links. Then you can slowly move over to a more hypermedia based approach as HTTP/2 usage becomes more prolific; deprecating and removing includes as clients upgrade to just making web requests to nice, HTTP-level cacheable collections, with top level query strings and no messy compound document stuff getting in the way.
-
-_Personally I want to_ [_ditch JSON-API_](https://blog.apisyouwonthate.com/lets-stop-building-apis-around-a-network-hack-9a68f7e83dd2) _and pass most of the work off to HTTP/2,_ [_RFC 7807_](https://tools.ietf.org/html/rfc7807)_,_ [_RFC 7386_](https://tools.ietf.org/html/rfc7386)_,_ [_JSON HyperSchema_](https://twitter.com/philsturgeon/status/923209204567101440)_, and maybe knock up a baaaasic little micro-standard that just covers items, collections, and a handful of little bits of metadata like pagination, sorting, filters, etc., but that’s a topic for another day._
+Personally I want to [ditch compound
+documents](/blog/lets-stop-building-apis-around-a-network-hack),
+pass most of the work off to HTTP/2, [RFC
+7807](https://tools.ietf.org/html/rfc7807), [RFC
+7386](https://tools.ietf.org/html/rfc7386), [JSON
+HyperSchema](https://twitter.com/philsturgeon/status/923209204567101440), and
+maybe knock up a baaaasic little micro-standard that just covers items,
+collections, and a handful of little bits of metadata like pagination, sorting,
+filters, etc., but that's a topic for another day.
