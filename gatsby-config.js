@@ -17,6 +17,13 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
+    // source podcast episodes from anchor.fm
+    {
+      resolve: 'gatsby-source-anchor',
+      options: {
+        rss: 'https://anchor.fm/s/2a4c840/podcast/rss',
+      },
+    },
     // source mdx for content
     {
       resolve: 'gatsby-source-filesystem',

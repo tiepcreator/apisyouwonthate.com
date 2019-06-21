@@ -24,6 +24,9 @@ const Header = ({ siteTitle }) => (
               <Link to="/blog" className={classes.link}>
                 Blog
               </Link>
+              <Link to="/podcast" className={classes.link}>
+                Podcast
+              </Link>
               <Link to="/videos" className={classes.link}>
                 Videos
               </Link>

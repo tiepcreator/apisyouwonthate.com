@@ -1,0 +1,52 @@
+.container {
+  margin-top: 3rem;
+}
+
+.episodeContainer {
+  padding: 0 0 5rem 0;
+  display: flex;
+  flex-direction: row;
+}
+
+.imageContainer {
+  height: 150px;
+  width: 150px;
+  margin-right: 2rem;
+}
+
+.date {
+  color: var(--gray);
+}
+
+.duration {
+  color: var(--purple);
+  margin-left: 10px;
+}
+
+.meta {
+  display: inline-block;
+  width: 100%;
+  padding-bottom: 0.5rem;
+}
+
+.titleLink {
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+a .episode {
+  display: inline-block;
+  font-family: var(--serif-font-family);
+  font-weight: bold;
+  background-color: rgba(var(--black_rgb), var(--alpha-dimmed));
+  color: white;
+  height: 1.75rem;
+  padding: 0.15rem 0.5rem;
+  margin-right: 1rem;
+}
