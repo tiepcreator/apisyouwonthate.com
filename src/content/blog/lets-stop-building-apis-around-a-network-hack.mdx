@@ -1,125 +1,214 @@
 ---
-title: Let’s Stop Building APIs Around a Network Hack
+title: Let's Stop Building APIs Around a Network Hack
 subtitle: >-
-  JSON-API has been one of the most popular standards for API development for a
-  while now. It was conceived in 2013, battled through some…
+  JSON:API has been one of the most popular standards for API development for a
+  while now. It was conceived in 2013, battled through some...
 date: '2017-10-21T00:36:27.622Z'
 coverImage:
 type: blog
 author: Phil Sturgeon
 ---
 
-[JSON-API](http://jsonapi.org/) has been one of the most popular standards for API development for a while now. It was conceived in 2013, battled through some rather different RC versions (changing drastically as it went), finally stabilizing with v1.0 back in mid-2015.
+[JSON:API](http://jsonapi.org/) has been one of the most popular standards for
+API development for a while now. It was conceived in 2013, battled through some
+rather different RC versions (changing drastically as it went), finally
+stabilizing with v1.0 back in mid-2015.
 
-My interest in JSON-API has changed substantially over the years. Initially I avoided it like the plague, later I recommending it, and now I generally suggest folks skip it if at all possible.
+My interest in JSON:API has changed substantially over the years. Initially I
+avoided it like the plague, later I recommending it, and now I generally suggest
+folks skip it if at all possible.
 
-Besides trying to standardize how you represent items, collections, meta data and errors (an excellent goal!), it sets out to solve a lot of problems such as [Compound Documents](http://jsonapi.org/format/#document-compound-documents).
+Besides trying to standardize how you represent items, collections, meta data
+and errors (an excellent goal!), it sets out to solve a lot of problems such as
+[Compound Documents](http://jsonapi.org/format/#document-compound-documents).
 
-The concept of a “compound document” — in the API world at least — is the art of squashing related data into the main requested resources. This is done to reduce the number of HTTP calls a client has to make.
+The concept of a "compound document" — in the API world at least — is the art of
+squashing related data into the main requested resources. This is done to reduce
+the number of HTTP calls a client has to make.
 
-Clients have for a long time been very unhappy making multiple HTTP/1.1 calls, especially over mobile networks. That concern has had a noticeable impact on how we design APIs. Multiple calls is considered a point of bad design, to the point where fetching a user will include the companies they work for, and that includes the locations a company might have, and that includes something else…
+Clients have for a long time been very unhappy making multiple HTTP/1.1 calls,
+especially over mobile networks. That concern has had a noticeable impact on how
+we design APIs. Multiple calls is considered a point of bad design, to the point
+where fetching a user will include the companies they work for, and that
+includes the locations a company might have, and that includes something else...
 
-That was a bit of a mess, so conventions and standards were invented to make those includes optional, and JSON-API was one of the main contenders.
+That was a bit of a mess, so conventions and standards were invented to make
+those includes optional, and JSON:API was one of the main contenders.
 
-Somewhere in 2013 I also released a tool called [Fractal](http://fractal.thephpleague.com/), which was based off of code I’d been running in production since early 2013. The goal there (other than serialization) was the same thing, to facilitate embedding and nesting includes optionally.
+Somewhere in 2013 I also released a tool called
+[Fractal](http://fractal.thephpleague.com/), which was based off of code I'd
+been running in production since early 2013. The goal there (other than
+serialization) was the same thing, to facilitate embedding and nesting includes
+optionally.
 
-In 2013 this all made sense. Multiple calls were bad, so we had to reduce those, without assuming too much and making our requests slower than they should be. This continued to be valid for a long time, even in 2015 when JSON-API was finalized.
+In 2013 this all made sense. Multiple calls were bad, so we had to reduce those,
+without assuming too much and making our requests slower than they should be.
+This continued to be valid for a long time, even in 2015 when JSON:API was
+finalized.
 
-Guess what else was released in May 2015? RFC 7540, otherwise known as [HTTP/2](https://tools.ietf.org/html/rfc7540). In retrospect this seems highly poetic, as HTTP/2 kinda makes the compound document aspect of JSON-API a little bit pointless, and compound documents to me go hand in hand with what JSON-API is as a standard.
+Guess what else was released in May 2015? RFC 7540, otherwise known as
+[HTTP/2](https://tools.ietf.org/html/rfc7540). In retrospect this seems highly
+poetic, as HTTP/2 kinda makes the compound document aspect of JSON:API a little
+bit pointless, and compound documents to me go hand in hand with what JSON:API
+is as a standard.
 
-Not to just pick on JSON-API, it also makes Fractal’s nesting/embedding feel silly, like it should be ripped out in a future version.
+Not to just pick on JSON:API, the same can be said about HAL, OData, and it also
+makes Fractal's nesting/embedding feel silly, like it should be ripped out in a
+future version.
 
-#### What’s the Difference?
+## What's the Difference?
 
-There are plenty of resources out there explaining the differences between HTTP/1.1 and HTTP/2, so I’ll let them cover it.
+There are plenty of resources out there explaining the differences between
+HTTP/1.1 and HTTP/2, so I'll [let them cover it](https://http2.github.io/faq/#what-are-the-key-differences-to-http1x).
 
-[**HTTP/2 Frequently Asked Questions**
-_These are Frequently Asked Questions about HTTP/2._http2.github.io](https://http2.github.io/faq/#what-are-the-key-differences-to-http1x "https://http2.github.io/faq/#what-are-the-key-differences-to-http1x")[](https://http2.github.io/faq/#what-are-the-key-differences-to-http1x)
+The main point here is that HTTP/1.0 forces you to handle DNS, HTTP handshakes,
+SSL negotiation, etc., on every single call, and if your homepage wants 10
+things from the API then it's doing all of that junk 10 times... HTTP/1.1 actually
+solved this with Connection: keep-alive, but not many people seem to use that. When
+we enabled it at WeWork it sped up HTTP interactions by around ~10%, which was nice.
 
-The main point here is that HTTP/1.1 forces you to handle DNS, HTTP handshakes, SSL negotiation, etc., on every single call, and if your homepage wants 10 things from the API then it’s doing all of that junk 10 times…
+HTTP/2 not only maintains a single connection per domain for reuse, but these calls
+can be handled asynchronously. You could requests all the A's, then the callback for that async
+request asks for some B's as and when the A's respond. And C and D.
 
-HTTP/2 does all of that once, then you just make those calls back and forth. You can make those calls asynchronously, and fetch more data for those items as the responses come back. You requests all the A’s, then the callback for that async request asks for some B’s as and when the A’s respond. And C and D.
+If you can use [Server
+Push](https://http2.github.io/faq/#whats-the-benefit-of-server-push) then you
+don't have to wait for the A's to respond before you can request the B's. The
+server will just start sending you the B's!
 
-If you can use [Server Push](https://http2.github.io/faq/#whats-the-benefit-of-server-push) then you don’t have to wait for the A’s to respond before you can request the B’s. The server will just start sending you the B’s!
+Seriously, [HTTP/2 calling is fast](https://gist.github.com/philsturgeon/ea4c3966731c8e2e92e70b11fe10d1bc).
 
-Seriously, [this shit is fast](https://gist.github.com/philsturgeon/ea4c3966731c8e2e92e70b11fe10d1bc).
+## Bla Bla Compound Documents. What else?
 
-#### Bla Bla Compound Documents. What else?
+To me JSON:API has always mainly been about reducing the size of a payload
+response via network hacks like compound documents, but there is another
+strategy used. [Sparse
+Fieldsets](http://jsonapi.org/format/#fetching-sparse-fieldsets) — an idea
+fairly fundamental to GraphQL also — lets clients specify the fields they're
+interested in, so the API can send only those fields.
 
-To me JSON-API has always mainly been about reducing the size of a payload response via network hacks like compoound documents, but there is another strategy used. [Sparse Fieldsets](http://jsonapi.org/format/#fetching-sparse-fieldsets) — an idea fairly fundamental to GraphQL also — lets clients specify the fields they’re interested in, so the API can send only those fields.
+> GET /articles?fields[articles]=title,body
 
-GET /articles?fields\[articles\]=title,body
+Whilst sparse fieldsets can save a few kbs, there are plenty of other ways of
+trimming down the size of the response.
 
-Whilst sparse fieldsets can save a few kbs, there are plenty of other ways of trimming down the size of the response.
+The entire mindset of "more handshakes = bad" has forced us to shove fields into
+the same resource to avoid making new resources, or sub-resources. Now that we
+don't need to be scared of it, we can stop using hacks like [the partials
+rade-off](/blog/partials-happy-compromise-between-customization-and-cacheability)
+I recently proposed, and move towards having more resources that are a bit more
+targeted in scope.
 
-The entire mindset of “more handshakes = bad” has forced us to shove fields into the same resource to avoid making new resources, or sub-resources. Now that we don’t need to be scared of it, we can stop using hacks like [the partials rade-off](https://blog.apisyouwonthate.com/a-happy-compromise-between-customization-and-cacheability-e48dc083ed10) I recently proposed, and move towards having more resources that are a bit more targeted in scope.
+Invoices don't need payment status, or an array of order items, so we don't need
+to worry about trimming down the response at the field level, they can just be
+their own related resources, discoverable with hypermedia controls.
 
-Invoices don’t need payment status, or an array of order items, so we don’t need to worry about trimming down the response at the field level, they can just be their own related resources, discoverable with hypermedia controls.
+If splitting up resources sounds like a big change and you want to just squash
+that actual response, HTTP/2 has your back there too. Headers are compressed
+with HPACK, which is similar to GZIP but a little better, and its something
+[Cloudflare are pretty excited
+about.](https://blog.cloudflare.com/hpack-the-silent-killer-feature-of-http-2/)
 
-If splitting up resources sounds like a big change and you want to just squash that actual response, HTTP/2 has your back there too. Headers are compressed with HPACK, which is similar to GZIP but a little better, and its something [Cloudflare are pretty excited about.](https://blog.cloudflare.com/hpack-the-silent-killer-feature-of-http-2/)
+That's not to mention that the whole protocol is binary instead of plain-text,
+which gets you another nice boost. If you're still sad about JSON being slow,
+you can use content-negotiation to add BSON or Protobuff to your REST API, which
+is a large part of whats getting people so excited about gRPC.
 
-That’s not to mention that the whole protocol is binary instead of plain-text, which gets you another nice boost. If you’re still sad about JSON being slow, you can use content-negotiation to add BSON or Protobuff to your REST API, which is a large part of whats getting people so excited about gRPC.
+In general, once again, the potential speed benefit of skipping a bit of that
+JSON coming back using sparse fieldsets, seems to be lost in the idea of making
+your API be less variable, having more targeted resources, which are drastically
+more cacheable at the network level.
 
-In general, once again, the potential speed benefit of skipping a bit of that JSON coming back using sparse fieldsets, seems to be lost in the idea of making your API be less variable, having more targeted resources, which are drastically more cacheable at the network level.
+## HTTP/2 Support in the Real World
 
-#### HTTP/2 Support in the Real World
+[NGINX already supports HTTP/2](https://www.nginx.com/blog/nginx-1-9-5/). Some
+programming languages like [Go have built-in HTTP/2
+support](https://http2.golang.org/), so you can enjoy the full benefits of
+HTTP/2 like Server Push. [NodeJS too](https://nodejs.org/api/http2.html).
 
-[NGINX already supports HTTP/2](https://www.nginx.com/blog/nginx-1-9-5/). Some programming languages like [Go have built-in HTTP/2 support](https://http2.golang.org/), so you can enjoy the full benefits of HTTP/2 like Server Push. [NodeJS too](https://nodejs.org/api/http2.html).
+Everyone else can at least leverage
+[multiplexing](https://http2.github.io/faq/#why-is-http2-multiplexed) by
+slapping Cloudflare, Fastly, etc., in front of their HTTP/1.1 setup.
 
-Everyone else can at least leverage [multiplexing](https://http2.github.io/faq/#why-is-http2-multiplexed) by slapping Cloudflare, Fastly, etc., in front of their HTTP/1.1 setup.
+### But the Browsers...
 
-### But the Browsers…
+<s>Currently not 100% of browsers support HTTP/2 in it's entirety, but the
+situation is pretty good.</s> [Modern browsers support
+HTTP/2](http://caniuse.com/#feat=http2), and these browsers are used by 88% of
+users.
 
-Currently not 100% of browsers support HTTP/2 in it’s entirety, but the situation is pretty good.
+If your API is predominantly web-based, and older browser support is important,
+or you have _no idea_ which browsers are going to be hitting it, then maybe you
+need to continue worrying about network hacks like compound documentation.
 
-![[caniuse.com](http://caniuse.com/#feat=http2) shows support for HTTP/2. Green is good, snot is partial, red is nope.](https://cdn-images-1.medium.com/max/800/1*76stN3E_Nxb8fRq3BqTxJw.png)
-[caniuse.com](http://caniuse.com/#feat=http2) shows support for HTTP/2. Green is good, snot is partial, red is nope.
+## The New World of API Design
 
-If your API is predominantly web-based, and older browser support is important, or you have _no idea_ which browsers are going to be hitting it, then maybe you need to continue worrying about network hacks like compound documentation.
+Combining HTTP/2 with targeted, network cached endpoints (via Fastly, Varnish,
+Squid, etc), makes Hypermedia Controls (HATEOAS) seem waaaaaaaay less silly.
 
-#### The New World of API Design
+> I'm not waiting for a response before I see what actions I can take next,
+> that's slow! **— Fictional Narrative Device**
 
-Combining HTTP/2 with targeted, network cached endpoints (via Fastly, Varnish, Squid, etc), makes Hypermedia Controls (HATEOAS) seem waaaaaaaay less silly.
+No longer! HTTP clients [net-http2](https://github.com/ostinelli/net-http2) in
+Ruby make asyncing up your calls nice and easy, so you can run actions in
+callbacks as soon as the responses come in.
 
-> I’m not waiting for a response before I see what actions I can take next, that’s slow!** — Fictional Narrative Device**
+Hypermedia in general seems a lot more viable when you're not terrified of the
+transportation layer being slow.
 
-No longer! HTTP clients [net-http2](https://github.com/ostinelli/net-http2) in Ruby make asyncing up your calls nice and easy, so you can run actions in callbacks as soon as the responses come in.
+It also means you're not going to be scared of making a sub resource. At work
+right now we have `GET /users` and they want to shove `"locations"` in there
+(every WeWork location that a user has access to).
 
-Hypermedia in general seems a lot more viable when you’re not terrified of the transportation layer being slow.
+That would be how you'd want to do it in 2014, but in 2017 that should be `GET
+/users/123/locations` or `GET /locations?user_uuid=123`, or _who cares._ It just
+doesn't need to be jammed up in there, slowing everyone down, just _in case_
+somebody needs it.
 
-It also means you’re not going to be scared of making a sub resource. At work right now we have `GET /users` and they want to shove `"locations”` in there (every WeWork location that a user has access to).
+Includes, [partials](/blog/partials-happy-compromise-between-customization-and-cacheability),
+etc., can all graduate to being actual brand new requests, instead of being some
+weird network hack because we were scared of handshake time.
 
-That would be how you’d want to do it in 2014, but in 2017 that should be `GET /users/123/locations` or `GET /locations?user_uuid=123`, or _who cares._ It just doesn’t need to be jammed up in there, slowing everyone down, just _in case_ somebody needs it.
+## But Adding This to REST Sounds Hard!
 
-Includes, [partials](https://blog.apisyouwonthate.com/a-happy-compromise-between-customization-and-cacheability-e48dc083ed10), etc., can all graduate to being actual brand new requests, instead of being some weird network hack because we were scared of handshake time.
+Folks often say "Why would I want to waste time making a REST API do this when I
+could just use X."
 
-#### But Adding This to REST Sounds Hard!
+In the same way that JSON:API feels a little silly to me now, it makes GraphQL
+feel substantially less useful... Anything designed around this network hack no
+longer feels as useful as it once was.
 
-Folks often say “Why would I want to waste time making a REST API do this when I could just use X.”
+Well, GraphQL is the king of all glorified network hacks, and gRPC is literally
+just HTTP/2 + Protobuff, I'm left realizing these little niche API setups are
+not quite as useful as their marketing sites are making out.
 
-In the same way that JSON-API feels a little silly to me now, it makes GraphQL feel substantially less useful… Anything designed around this network hack no longer feels as useful as it once was.
+If you already have a REST(ish) API, you can just start using HTTP/2 right now
+and get half the benefits of gRPC, and no longer care about many of the
+benefits of GraphQL (which are [mostly available for HTTP APIs anyway](https://blog.apisyouwonthate.com/you-might-not-need-graphql-9f875d7585b5)).
 
-Well, GraphQL is the king of all glorified network hacks, and gRPC is literally just HTTP/2 + Protobuff, I’m left realizing these little niche API setups are not quite as useful as their marketing sites are making out.
+Maybe you can remove the "ish" from your RESTish APIs by focusing more on your
+API as a state machine now that you're not quite as scared of making more HTTP
+calls.
 
-If you already have a REST(ish) API, you can just start using HTTP/2 right now and get half the benefits of gRPC, and no longer care about many of the “benefits” of GraphQL.
+## Summary
 
-[**You Might Not Need GraphQL**
-_Do you like the look of GraphQL, but have an existing REST/RPC API that you don’t want to ditch? GraphQL definitely has…_blog.apisyouwonthate.com](https://blog.apisyouwonthate.com/you-might-not-need-graphql-9f875d7585b5 "https://blog.apisyouwonthate.com/you-might-not-need-graphql-9f875d7585b5")[](https://blog.apisyouwonthate.com/you-might-not-need-graphql-9f875d7585b5)
+These previous solution were far from perfect, and I'm going to write about
+real-world issues I've struggled through with compound documents in the next
+article
+([done!](/blog/making-the-most-of-json-api))
+I don't think anyone should rush out and change everything right now, but
+recognize the changing environment around the web.
 
-Maybe you can remove the (ish) from your REST(ish) now that you’re not quite as scared of making more HTTP calls.
+As the web evolves the standards evolve to meet changing requirements, and as
+they evolve we no longer need as many hacks to get the job done. Frontend
+[developers aren't make CSS image sprites
+anymore](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Images/Implementing_image_sprites_in_CSS),
+and JS/CSS combination is going away too.
 
-[**Episode 03: Why Hypermedia | API Busters**
-_Brett Florio and Luke Stokes from FoxyCart join Grace and Phil to chat hypermedia. Not pie in the sky "maybe talk", but…_apibusters.com](http://apibusters.com/003-why-hypermedia "http://apibusters.com/003-why-hypermedia")[](http://apibusters.com/003-why-hypermedia)
+HTTP/2 is a representation of what developers needed, and now we can use HTTP in
+its entirety, without needing so many network hacks to make it performant enough
+to get the job done.
 
-#### Summary
-
-These previous solution were far from perfect, and I’m going to write about real-world issues I’ve struggled through with compound documents in the next article ([done!](https://blog.apisyouwonthate.com/making-the-most-of-json-api-7fb51f4407aa)) I don’t think anyone should rush out and change everything right now, but recognize the changing environment around the web.
-
-As the web evolves the standards evolve to meet changing requirements, and as they evolve we no longer need as many hacks to get the job done. Frontend [developers aren’t make CSS image sprites anymore](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Images/Implementing_image_sprites_in_CSS), and JS/CSS combination is going away too.
-
-![“Implementing image sprites in CSS” **Source:** [developer.mozilla.org](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Images/Implementing_image_sprites_in_CSS)](https://cdn-images-1.medium.com/max/800/1*6JQWMKWR8GQklbSVbfVwUw.png)
-“Implementing image sprites in CSS” **Source:** [developer.mozilla.org](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Images/Implementing_image_sprites_in_CSS)
-
-HTTP/2 is a representation of what developers needed, and now we can use HTTP in its entirety, without needing so many network hacks to make it performant enough to get the job done.
-
-_Btw if you’re wondering what standard/specification I would recommend instead of JSON-API, I’m wondering the same thing. It’s between_ [_Siren_](https://github.com/kevinswiber/siren) _and just naked-JSON +_ [_HTTP Problems RFC_](https://tools.ietf.org/html/rfc7807) _+ JSON Schema. Picking one format to rule them all is impossible, but Siren certainly looks excellent._
+Using JSON:API/HAL/OData is a fine way to go about building HTTP/1.1-based APIs,
+and it's better than inventing your own approach to compound documents, but do
+you really need to building HTTP/1.1-based APIs, or is it just inertia?
