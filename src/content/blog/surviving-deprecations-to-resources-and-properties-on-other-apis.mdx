@@ -115,11 +115,14 @@ those in the next global version. It is not a regular occurrence in evolution as
 they too would just wait until the creation of a new resource for the concept,
 but it can happen if a property absolutely has to go away. JSON is the main
 content type in use these days, which does not have a type system built in.
-There is no way to mark a JSON field as deprecated in just JSON, and no
-standards exist to help, even JSON Schema still has this on the todo list.
+There is no way to mark a JSON field as deprecated in just JSON, <s>and no
+standards exist to help, even JSON Schema still has this on the todo
+list</s> but I [added a deprecated keyword to JSON
+Schema](https://github.com/json-schema-org/json-schema-spec/issues/74) as part
+of draft 08.
 
 Again SDKs can mark things as deprecated over time, especially those built with
-OpenAPI v3.0.0 or later. OpenAPI added the deprecated: true keyword, so SDKs can
+OpenAPI v3.0 or later. OpenAPI added the `deprecated: true` keyword, so SDKs can
 now look for this and fire off deprecation warnings for clients using that
 property in their code. Keeping up to date is important, so make sure something
 like [Dependabot](https://https://dependabot.com/) is implemented to keep tabs
