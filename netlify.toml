@@ -1,4 +1,8 @@
 [[redirects]]
+  from = "/podcast/rss"
+  to = "https://anchor.fm/s/90abd70/podcast/rss"
+
+[[redirects]]
   from = "/books/*.html"
   to = "/books/:splat"
 
