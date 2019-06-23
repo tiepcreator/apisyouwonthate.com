@@ -10,22 +10,6 @@ const CommunityPage = () => (
     <SEO title="Books" keywords={['apis', 'api', 'rest', 'rpc', 'graphql']} />
     <div className={classes.container}>
       <Container>
-        <Row>
-          <Col>
-            <h1>Patreon</h1>
-            <p>{"We'd love it if you supported us on Patreon."}</p>
-            <OutboundLink
-              href="https://www.patreon.com/bePatron?u=4477635"
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              <Image
-                src="patreon-button.png"
-                className={classes.patreonButton}
-              />
-            </OutboundLink>
-          </Col>
-        </Row>
         <div className={classes.slack}>
           <Row>
             <Col>

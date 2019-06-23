@@ -7,7 +7,6 @@ import { OutboundLink } from 'gatsby-plugin-google-analytics';
 import classes from './Footer.module.css';
 
 import { GitHubIcon, TwitterIcon, RssIcon } from '../icons';
-import PatreonIcon from '../icons/PatreonIcon';
 
 const Footer = () => (
   <footer className={classes.footer}>
@@ -57,16 +56,6 @@ const Footer = () => (
               </OutboundLink>
             </li>
             <li>
-              <PatreonIcon />{' '}
-              <OutboundLink
-                href="https://www.patreon.com/apisyouwonthate"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Patreon
-              </OutboundLink>
-            </li>
-            <li>
               <RssIcon />{' '}
               <OutboundLink
                 href="/rss.xml"
@@ -74,6 +63,16 @@ const Footer = () => (
                 rel="noopener noreferrer"
               >
                 Blog RSS
+              </OutboundLink>
+            </li>
+            <li>
+              <RssIcon />{' '}
+              <OutboundLink
+                href="/podcast/rss"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Podcast RSS
               </OutboundLink>
             </li>
           </ul>
@@ -92,7 +91,8 @@ const Footer = () => (
             </li>
             <li>
               {`Built with`}
-              &nbsp;<OutboundLink
+              &nbsp;
+              <OutboundLink
                 href="https://www.gatsbyjs.org"
                 target="_blank"
                 rel="noreferrer noopener"
