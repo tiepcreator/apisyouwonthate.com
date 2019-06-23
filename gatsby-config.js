@@ -21,7 +21,7 @@ module.exports = {
     {
       resolve: 'gatsby-source-anchor',
       options: {
-        rss: 'https://anchor.fm/s/2a4c840/podcast/rss',
+        rss: 'https://apisyouwonthate.com/podcast/rss',
       },
     },
     // source mdx for content
