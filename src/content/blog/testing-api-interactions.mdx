@@ -172,6 +172,9 @@ Then other tests can confirm what Spectral will do if it tries to load
 an unsupported file type, the response contains a 404 status code, or
 any other number of edge cases.
 
+- **PHP:** [Guzzler](https://guzzler.dev/)
+- **Java:** [Wiremock](http://wiremock.org/docs/stubbing/)
+
 Web mocking is great for when you want to control the response, but once
 again you should only mock things you own. Using this approach for the
 Google Maps API example would only be confirming that the Geocoder works
@@ -180,7 +183,7 @@ things change in the API there is no programmatic way to know about it.
 
 Even if the change is noticed, updating these mock setups can be time
 consuming. What we really want is something like Jest Snapshots, but for
-HTTP requests…​
+HTTP request...
 
 ## Record & Replay in Integration Tests
 
