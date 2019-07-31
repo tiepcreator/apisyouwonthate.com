@@ -1180,10 +1180,10 @@
   resolved "https://registry.yarnpkg.com/@restart/hooks/-/hooks-0.3.1.tgz#bcc0ee82500bb2ac5849c3c3384d520a196cb7a0"
   integrity sha512-kjGGlli8iTe5TFDw6qHZJ5QK1naITMveIO+o8yQJJqwX8VIkiQzLddK98Lduga2krJMzWlNqDR/4isGLiyBlUA==
 
-"@shopify/buy-button-js@^0.11.1":
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/@shopify/buy-button-js/-/buy-button-js-0.11.1.tgz#43d3df90fdd94d64a523d04ddceb3fd16b79ac18"
-  integrity sha512-nyaut1Ket4YAXiNXuImySfyfmsUCFGZqyDsDzvjPwrn2WxFMACxd/9EspzSAQqNpq7lVXeOier5HhzypF3w8hA==
+"@shopify/buy-button-js@^0.11.4":
+  version "0.11.4"
+  resolved "https://registry.yarnpkg.com/@shopify/buy-button-js/-/buy-button-js-0.11.4.tgz#fb20b6e3a99a29dd7e6364baad2ec5f251842dd7"
+  integrity sha512-5PqSBaj8I42zSwA+2v7Q1Jw1aWRr9niRVdGJCyrnN9Cyl5EO6yp7/Z9cV7DwoUP9D04nBpntbZrtqUDcAPiFTw==
   dependencies:
     babel-runtime "6.11.6"
     browserify "13.1.0"
