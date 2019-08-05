@@ -5527,36 +5527,10 @@ gatsby-link@^2.2.4:
     "@types/reach__router" "^1.0.0"
     prop-types "^15.6.1"
 
-gatsby-mdx@^0.6.3:
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/gatsby-mdx/-/gatsby-mdx-0.6.3.tgz#bbb65c457877daee998d91e10d737762ce3ce5ef"
-  integrity sha512-jrSXGul8KRqTcwHdZHYl2HmRMjbgfnb0WlFEUt2r/kzeF46BvkHA0PqnWnCrTL3HBzLbY/3mX/KFbaFxlr/nYA==
-  dependencies:
-    "@babel/core" "^7.4.3"
-    "@babel/plugin-proposal-object-rest-spread" "^7.4.3"
-    "@babel/preset-env" "^7.4.3"
-    "@babel/preset-react" "^7.0.0"
-    core-js "2"
-    dataloader "^1.4.0"
-    debug "^4.0.1"
-    escape-string-regexp "^1.0.5"
-    fs-extra "^7.0.0"
-    gray-matter "^4.0.1"
-    loader-utils "^1.2.3"
-    lodash "^4.17.10"
-    mdast-util-to-string "^1.0.4"
-    mdast-util-toc "^3.0.0"
-    mime "^2.3.1"
-    pretty-bytes "^5.1.0"
-    remark "^10.0.0"
-    remark-retext "^3.1.2"
-    retext-english "^3.0.2"
-    slash "^2.0.0"
-    static-site-generator-webpack-plugin "^3.4.2"
-    underscore.string "^3.3.4"
-    unist-util-map "^1.0.4"
-    unist-util-remove "^1.0.1"
-    unist-util-visit "^1.4.0"
+gatsby-mdx@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/gatsby-mdx/-/gatsby-mdx-1.0.0.tgz#c4bfabca103078b44b56f8077dce390af203b43a"
+  integrity sha512-GIB6EqtQKIEMYnNoh9+009WBn/QrwD+PH3caqaB6HqiIiAUh6ytsgS2NvJJiIwJ0Vu4g9ZSIk/ywgWNKQEGNog==
 
 gatsby-node-helpers@^0.3.0:
   version "0.3.0"
