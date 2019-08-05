@@ -43,10 +43,7 @@ export const query = graphql`
     allMdx(filter: { frontmatter: { type: { eq: "blog" } } }) {
       nodes {
         id
-        code {
-          body
-          scope
-        }
+        body
         frontmatter {
           coverImage
           date

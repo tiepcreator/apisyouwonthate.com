@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { MDXRenderer } from 'gatsby-mdx';
+import { MDXRenderer } from 'gatsby-plugin-mdx';
 
 import classes from './VideoFeature.module.css';
 
@@ -15,7 +15,7 @@ const VideoFeature = ({ video }) => {
       </Row>
       <Row>
         <Col lg={{ span: 8, offset: 2 }}>
-          <MDXRenderer>{video.code.body}</MDXRenderer>
+          <MDXRenderer>{video.body}</MDXRenderer>
         </Col>
       </Row>
     </div>
