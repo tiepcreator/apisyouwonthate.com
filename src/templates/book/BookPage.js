@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql } from 'gatsby';
-import { MDXRenderer } from 'gatsby-mdx';
+import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { Col, Container, Row } from 'react-bootstrap';
 import { OutboundLink } from 'gatsby-plugin-google-analytics';
 import { map, size } from 'lodash';
@@ -89,7 +89,7 @@ const BookPage = ({ data }) => {
           <Row>
             <Col lg={{ span: 8, offset: 1 }}>
               <h2>About the book</h2>
-              <MDXRenderer>{book.code.body}</MDXRenderer>
+              <MDXRenderer>{book.body}</MDXRenderer>
             </Col>
           </Row>
         </Container>
@@ -102,10 +102,7 @@ export const query = graphql`
   query($id: String!) {
     mdx(id: { eq: $id }) {
       id
-      code {
-        body
-        scope
-      }
+      body
       frontmatter {
         amazonLinks {
           url

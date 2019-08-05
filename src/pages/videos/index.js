@@ -58,10 +58,7 @@ export const query = graphql`
     videos: allMdx(filter: { frontmatter: { type: { eq: "video" } } }) {
       nodes {
         id
-        code {
-          body
-          scope
-        }
+        body
         frontmatter {
           title
         }

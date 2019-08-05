@@ -32,9 +32,9 @@ module.exports = {
         name: 'content',
       },
     },
-    // parse markdown with gatsby-mdx
+    // parse markdown with gatsby-plugin-mdx
     {
-      resolve: 'gatsby-mdx',
+      resolve: 'gatsby-plugin-mdx',
       options: {
         root: __dirname,
         gatsbyRemarkPlugins: [

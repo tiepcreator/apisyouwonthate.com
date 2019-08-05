@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Location } from '@reach/router';
 
 import { graphql } from 'gatsby';
-import { MDXRenderer } from 'gatsby-mdx';
+import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { Container, Col, Row } from 'react-bootstrap';
 
 import {
@@ -80,7 +80,7 @@ const Post = ({ data, pageContext }) => {
                       readTimeInMinutes={post.timeToRead}
                     />
                   </div>
-                  <MDXRenderer>{post.code.body}</MDXRenderer>
+                  <MDXRenderer>{post.body}</MDXRenderer>
                 </Col>
               </Row>
               <Row>
@@ -105,10 +105,7 @@ export const query = graphql`
   query($id: String!, $coverImage: String) {
     post: mdx(id: { eq: $id }) {
       id
-      code {
-        body
-        scope
-      }
+      body
       timeToRead
       frontmatter {
         title

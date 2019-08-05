@@ -1,6 +1,6 @@
 import React from 'react';
 import { graphql } from 'gatsby';
-import { MDXRenderer } from 'gatsby-mdx';
+import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { Col, Container, Row } from 'react-bootstrap';
 
 import { OutboundLink } from 'gatsby-plugin-google-analytics';
@@ -75,7 +75,7 @@ const BookPage = ({ data }) => {
           </Row>
           <Row>
             <Col lg={8}>
-              <MDXRenderer>{author.code.body}</MDXRenderer>
+              <MDXRenderer>{author.body}</MDXRenderer>
             </Col>
             <Col>
               <Image src={photo} alt={name} />
@@ -114,10 +114,7 @@ export const query = graphql`
   query($id: String!, $name: String!) {
     author: mdx(id: { eq: $id }) {
       id
-      code {
-        body
-        scope
-      }
+      body
       frontmatter {
         github
         instagram
@@ -132,10 +129,7 @@ export const query = graphql`
     ) {
       nodes {
         id
-        code {
-          body
-          scope
-        }
+        body
         frontmatter {
           coverImage
           date
