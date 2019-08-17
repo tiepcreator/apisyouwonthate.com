@@ -2,13 +2,6 @@
   background-color: var(--hateful-green);
 }
 
-/* get rid of container gutters on smaller viewports */
-@media (max-width: 998px) {
-  .container {
-    max-width: 100%;
-  }
-}
-
 .header {
   /* max-width: var(--site-width); */
   margin: 0 auto;

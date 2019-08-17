@@ -3,6 +3,14 @@
   padding: 0;
 }
 
+.coverImage {
+  max-height: 60vh;
+}
+
+.coverImage * img {
+  object-position: top center !important;
+}
+
 .post {
   margin-top: 3rem;
   font-family: var(--post-serif-font-family);
