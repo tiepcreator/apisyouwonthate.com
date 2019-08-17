@@ -119,7 +119,7 @@ const IndexPage = ({ data }) => {
             </p>
           </div>
         </Col>
-        <Col md className="d-lg-block d-xs-none d-sm-none d-md-none">
+        <Col lg className="d-lg-block d-xs-none d-sm-none d-md-none">
           <CoverImage
             src="about-phil.jpg"
             alt="Phil speaking at a conference"
