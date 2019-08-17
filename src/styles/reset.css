@@ -130,7 +130,7 @@ table {
 
 /* get rid of container gutters on smaller viewports */
 @media (max-width: 998px) {
-  .container {
-    max-width: 100% !important;
+  div.container {
+    max-width: 100%;
   }
 }
