@@ -68,6 +68,12 @@ const IndexPage = ({ data }) => {
       </div>
 
       <Row noGutters className="align-items-stretch">
+        <Col xs={12} className="d-block d-sm-block d-md-block d-lg-none">
+          <CoverImage
+            src="about-phil.jpg"
+            alt="Phil speaking at a conference"
+          />
+        </Col>
         <Col>
           <div className={classes.aboutTeam}>
             <h2>About Phil Sturgeon</h2>
@@ -113,7 +119,7 @@ const IndexPage = ({ data }) => {
             </p>
           </div>
         </Col>
-        <Col>
+        <Col lg className="d-lg-block d-xs-none d-sm-none d-md-none">
           <CoverImage
             src="about-phil.jpg"
             alt="Phil speaking at a conference"

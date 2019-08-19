@@ -1,22 +1,4 @@
 .container {
-  margin-top: 4rem;
+  margin-top: 2rem;
   margin-bottom: 4rem;
-}
-
-.postsContainer {
-  display: grid;
-  column-count: 3;
-  column-gap: 1.5rem;
-  row-gap: 1.5rem;
-  grid-template-columns: 1fr 1fr 1fr;
-}
-
-.article:first-of-type {
-  grid-column: span 3;
-}
-
-@media screen and (max-width: 100px) {
-  .article {
-    grid-column: span 3;
-  }
 }

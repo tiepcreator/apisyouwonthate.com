@@ -19,17 +19,9 @@ const BlogPage = ({ data }) => {
       <SEO title="Blog" />
       <Container className={classes.container}>
         <Row>
-          <Col>
-            <div className={classes.postsContainer}>
-              {posts.map((post, idx) => {
-                return (
-                  <article key={post.id} className={classes.article}>
-                    <BlogPostItem post={post} feature={idx === 0} />
-                  </article>
-                );
-              })}
-            </div>
-          </Col>
+          {posts.map((post, idx) => (
+            <BlogPostItem key={post.id} post={post} feature={idx === 0} />
+          ))}
         </Row>
       </Container>
     </Layout>
@@ -44,6 +36,7 @@ export const query = graphql`
       nodes {
         id
         body
+        excerpt
         frontmatter {
           coverImage
           date

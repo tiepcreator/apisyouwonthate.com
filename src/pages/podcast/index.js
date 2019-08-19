@@ -19,7 +19,7 @@ const PodcastPage = ({ data }) => {
           </Col>
         </Row>
         {podcasts.nodes.map(podcast => (
-          <Row>
+          <Row key={podcast.id}>
             <Col>
               <div className={classes.episodeContainer}>
                 <OutboundLink
