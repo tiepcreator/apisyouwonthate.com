@@ -10,14 +10,14 @@ import classes from './Header.module.css';
 
 const Header = ({ siteTitle }) => (
   <div className={classes.background}>
-    <Container>
+    <Container className={classes.container}>
       <Row>
         <Col>
-          <header>
+          <header className={classes.header}>
             <h1 className={classes.title}>
               <Link to="/">{`APIs You Won't Hate`}</Link>
             </h1>
-            <nav>
+            <nav className={classes.navbar}>
               <Link to="/books" className={classes.link}>
                 Books
               </Link>
