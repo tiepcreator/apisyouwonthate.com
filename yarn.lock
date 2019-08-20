@@ -5749,10 +5749,10 @@ gatsby-source-filesystem@^2.1.8, gatsby-source-filesystem@^2.1.9:
     valid-url "^1.0.9"
     xstate "^3.1.0"
 
-gatsby-source-shopify@^2.2.2:
-  version "2.2.2"
-  resolved "https://registry.yarnpkg.com/gatsby-source-shopify/-/gatsby-source-shopify-2.2.2.tgz#16a54d25d140c60af7198e7ca6815b84e0de65ab"
-  integrity sha512-NRH4Cw3ja/6o+I5Eb59LzlEE1iU+3bzdSumHlzFIPABOM/XWoWIqm/ko2hikXjZJt9m94yuKHXVPN++leZCecg==
+gatsby-source-shopify@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/gatsby-source-shopify/-/gatsby-source-shopify-3.0.0.tgz#34b35bc3adaa1fc6079917a22bd9ece13995c245"
+  integrity sha512-fDbM+pcFYX1NW9D9a6RH8cd+JJEq1/8NPNUDS+2MewSkCZ1aHuDCNLPye7bjH8u+njBOIaimV45d5zvbTcypCg==
   dependencies:
     babel-preset-gatsby-package "^0.2.2"
     chalk "^2.4.1"
