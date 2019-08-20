@@ -27,16 +27,13 @@
   font-size: 5vh;
   line-height: 1.2em;
   letter-spacing: 0.05rem;
+  cursor: pointer;
 }
 
 .title a {
   font-weight: 700;
   text-decoration: none;
   color: var(--white);
-}
-
-.title:hover a {
-  border-bottom: 1px solid;
 }
 
 .link {
