@@ -15,7 +15,13 @@ const Header = ({ siteTitle }) => (
         <Col>
           <header className={classes.header}>
             <h1 className={classes.title}>
-              <Link to="/">{`APIs You Won't Hate`}</Link>
+              <Link to="/">
+                <img
+                  className={`img-responsive ${classes.headerImage}`}
+                  src="img/apis-you-wont-hate-wide.png"
+                  alt="APIs You Won'T Hate"
+                />
+              </Link>
             </h1>
             <nav className={classes.navbar}>
               <Link to="/books" className={classes.link}>

@@ -8,6 +8,11 @@
   padding: 1rem 0 1rem 0;
 }
 
+.headerImage {
+  max-height: 100px;
+  max-width: 90vw;
+}
+
 .navbar {
   max-width: 100vw;
   display: flex;
