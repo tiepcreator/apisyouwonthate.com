@@ -1175,10 +1175,10 @@
   resolved "https://registry.yarnpkg.com/@restart/context/-/context-2.1.4.tgz#a99d87c299a34c28bd85bb489cb07bfd23149c02"
   integrity sha512-INJYZQJP7g+IoDUh/475NlGiTeMfwTXUEr3tmRneckHIxNolGOW9CTq83S8cxq0CgJwwcMzMJFchxvlwe7Rk8Q==
 
-"@restart/hooks@^0.3.0":
-  version "0.3.1"
-  resolved "https://registry.yarnpkg.com/@restart/hooks/-/hooks-0.3.1.tgz#bcc0ee82500bb2ac5849c3c3384d520a196cb7a0"
-  integrity sha512-kjGGlli8iTe5TFDw6qHZJ5QK1naITMveIO+o8yQJJqwX8VIkiQzLddK98Lduga2krJMzWlNqDR/4isGLiyBlUA==
+"@restart/hooks@^0.3.11":
+  version "0.3.12"
+  resolved "https://registry.yarnpkg.com/@restart/hooks/-/hooks-0.3.12.tgz#c68e6b4048d80ab51f6694cb6921bd091318f80f"
+  integrity sha512-nltMFo5JkYcnntf0Cs3Kq7jskrKeGcftAKOqbEEa74sxlx0bfO3RjBly2aiRb7hnsYJCB8/99l+acQcl2lnq1w==
 
 "@shopify/buy-button-js@^0.12.1":
   version "0.12.1"
@@ -10708,14 +10708,14 @@ rc@^1.0.1, rc@^1.1.6, rc@^1.2.7:
     strip-json-comments "~2.0.1"
 
 react-bootstrap@^1.0.0-beta.10:
-  version "1.0.0-beta.10"
-  resolved "https://registry.yarnpkg.com/react-bootstrap/-/react-bootstrap-1.0.0-beta.10.tgz#369785084a8f5524b9a37c8d9c7c84a94e387a76"
-  integrity sha512-hSvUrVbm+2uEpsGLVbAKJe/HOBT8ou+AX8Oo3VHlXSbG/9dHonwNP/wXu1NcsJ+TemMk7UnzdX2J8BN5MDnIxA==
+  version "1.0.0-beta.12"
+  resolved "https://registry.yarnpkg.com/react-bootstrap/-/react-bootstrap-1.0.0-beta.12.tgz#49fb83e288b1b5fa86e4c51e145630ec8b8598bb"
+  integrity sha512-qBEAthAzqM+OTS2h5ZCfV5/yZUadQcMlaep4iPyPqsu92JzdcznhSDjw6b+asiepsyQgiS33t8OPeLLRiIDh9Q==
   dependencies:
     "@babel/runtime" "^7.4.2"
     "@react-bootstrap/react-popper" "1.2.1"
     "@restart/context" "^2.1.4"
-    "@restart/hooks" "^0.3.0"
+    "@restart/hooks" "^0.3.11"
     classnames "^2.2.6"
     dom-helpers "^3.4.0"
     invariant "^2.2.4"
