@@ -15,7 +15,9 @@ Obviously seeing as GraphQL was built by Facebook, makers of the RESTish [Graph 
 
 Facebook has experimented with various different approaches to sharing all their data between apps; remember [FQL](https://blog.runscope.com/posts/you-might-not-need-graphql#)? Executing SQL-like syntax over a GET endpoint was a bit odd.
 
-GET /fql?q=SELECT%2Buid2%2BFROM%2Bfriend%2BWHERE%2Buid1%3Dme()&access\_token=...
+```
+GET /fql?q=SELECT%2Buid2%2BFROM%2Bfriend%2BWHERE%2Buid1%3Dme()&access_token=...
+```
 
 Facebook got a bit fed up with having a one-endpoint-based approach to get data and this other totally different thing, as they both require different code. As such, GraphQL was created as a middle-ground between endpoint-based APIs and FQL, the latter being an approach most teams would never consider — or want.
 
@@ -23,7 +25,7 @@ That said, Facebook (and others like [GitHub](https://www.youtube.com/watch?v=hT
 
 Whilst the use-cases for the sort of API you’d build in GraphQL are quite different from those you’d build with REST ([more on this](https://philsturgeon.uk/api/2017/01/24/graphql-vs-rest-overview/)) or RPC, that does not stop some folks jumping on the hot new thing. If you can withhold the urge to jump on the shiny new thing but are interested in some of the functionality GraphQL has to offer, you can brush up your endpoint-based APIs with these excellent existing concepts.
 
-**Note**: This article uses the term [REST](https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm) as defined in Roy Fielding’s dissertation, RESTish to mean it’s somewhere on the [Richardson Maturity Model](https://www.martinfowler.com/articles/richardsonMaturityModel.html) but didn’t make it to the top, and endpoint-based APIs to mean any REST/RESTish/RPC/etc. API that uses endpoints instead of POSTing to a single /graphql endpoint.
+**Note**: This article uses the term [REST](https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm) as defined in Roy Fielding’s dissertation, RESTish to mean it’s somewhere on the [Richardson Maturity Model](https://apisyouwonthate.com/blog/rest-and-hypermedia-in-2019) but didn’t make it to the top, and endpoint-based APIs to mean any REST/RESTish/RPC/etc. API that uses endpoints instead of POSTing to a single `/graphql` endpoint.
 
 ### Sparse Fieldsets / Partials
 
@@ -33,15 +35,21 @@ REST certainly does not talk about this out of the box, because REST does not co
 
 A common standard for REST APIs to implement is [JSON-API](http://jsonapi.org/), which talks about [sparse fieldsets](http://jsonapi.org/format/#fetching-sparse-fieldsets). The basic idea is that you can specify the fields in the request:
 
-GET /articles?fields\[articles\]=title,body
+```
+GET /articles?fields[articles]=title,body
+```
 
 In the past YouTube had some [really whacky partial syntax](https://developers.google.com/youtube/2.0/developers_guide_protocol_partial) for this sort of thing:
 
+```
 GET /feeds/api/users/default/uploads?fields=entry(title,gd:comments,yt:statistics)
+```
 
 Facebook also has this in their Graph API:
 
+```
 GET /frankcarter?fields=id,name,picture
+```
 
 Read more on [building your own implementation of this](http://yaoganglian.com/2013/07/01/partial-response/) if you’re interested, but I would stick to using existing solutions like [ActiveModel::Serializer](https://github.com/rails-api/active_model_serializers/blob/master/docs/jsonapi/schema.md) (Rails), [tobscure/json-api](https://github.com/tobscure/json-api#sparse-fieldsets) (PHP), etc. which handle standard implementations for you.
 
@@ -51,7 +59,8 @@ Folks talking about GraphQL get really excited about the concept of Types. JSON 
 
 Some weakly typed languages might send a numeric string when they really meant to send an integer. A numeric JSON response field could look like an integer one minute, but then a wild decimal place appears.
 
-> _GraphQL APIs are organized in terms of types and fields, not endpoints. Access the full capabilities of your data from a single endpoint. GraphQL uses types to ensure Apps only ask for what’s possible and provide clear and helpful errors. — Source:_ [_graphql.org_](http://graphql.org/)
+> GraphQL APIs are organized in terms of types and fields, not endpoints. Access the full capabilities of your data from a single endpoint. GraphQL uses types to ensure Apps only ask for what’s possible and provide clear and helpful errors. 
+> **Source:** [graphql.org](http://graphql.org/)
 
 Many endpoint-based API developers solve this with [HTTP documentation](https://philsturgeon.uk/api/2015/10/08/http-documentation-with-api-blueprint/) using tools like [MSON](https://apiblueprint.org/documentation/mson/tutorial.html) to describe their data, but another approach is to use [JSON Schema](http://json-schema.org/).
 
@@ -59,6 +68,7 @@ JSON Schema is very cool and lets you **describe your JSON** using a **JSON meta
 
 Taken from [JSON Schema examples](http://json-schema.org/examples.html):
 
+```
 {
   "title": "Person",
   "type": "object",
@@ -75,11 +85,12 @@ Taken from [JSON Schema examples](http://json-schema.org/examples.html):
       "minimum": 0
     }
   },
-  "required": \[
+  "required": [
     "firstName",
     "lastName"
-  \]
+  ]
 }
+```
 
 Comically, all of these concepts (type systems, schemas, metadata in general, etc.) is exactly what most people hated about SOAP. Instead of just the payload, you had to mess about with a WSDL, and that lead folks to enjoy REST. Well, in REST, using something like JSON Schema, you have the choice of using them, as do your clients.
 
@@ -95,7 +106,7 @@ Some folks will start the same, with `/v1/foos` and `/v1/bars`, but then only cr
 
 That whole mess of nonsense can be avoided by not versioning your API. As daft as this might initially sound, if you can **avoid changing a contract**, that means **less work for clients**. The server can handle converting data from one format to another, or a new representation can eventually be created to replace the old representation. Replacing representations and fields carefully over time as things change is called [evolution](https://www.mnot.net/blog/2012/12/04/api-evolution) .
 
-At a previous company offering crowdsourced carpooling, we switched from `/matches` to `/riders`, and internally those two representations shared a lot of code. "Matches" was deprecated, and clients started using the new "riders" concept. Over a few months, the internals changed to a much cleaner solution for riders. We eventually dropped the matches endpoint/serializers/logic entirely, without the riders contract changing. That helped us move fast on the code, but keep our contracts relevant for our clients until they didn't need them anymore.
+At a previous company offering crowd-sourced carpooling, we switched from `/matches` to `/riders`, and internally those two representations shared a lot of code. "Matches" was deprecated, and clients started using the new "riders" concept. Over a few months, the internals changed to a much cleaner solution for riders. We eventually dropped the matches endpoint/serializers/logic entirely, without the riders contract changing. That helped us move fast on the code, but keep our contracts relevant for our clients until they didn't need them anymore.
 
 That is not always possible in a rapid-application environment where things change drastically all the time. Startups love their “agile philosophies”, pivots, etc., which can throw evolution out the window. As somebody who has worked for those companies, we would simply make a new API (copy, paste, tweak) and throw the old one out once a new iPhone app was launched and usage dropped below acceptable levels. There was no interest in “keeping the service alive for decades”, which is a core tenant of REST, but that’s ok, we were RESTish.
 
@@ -111,11 +122,15 @@ GraphQL is primarily a query language, but if you’d like an endpoint-based API
 
 [OData](http://www.odata.org/) has a strong slogan: the best way to REST. That’s a big claim, but OData provides a lot of stuff that people seem to like about GraphQL. Not only does it offer [machine-readable metadata](https://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html) similar to JSON Schema, and a powerful explorer similar to [GraphiQL](https://pragmatiqa.com/xodata/) , but it [provides a syntax](http://www.odata.org/getting-started/basic-tutorial/) and tooling to allow you to use a query language:
 
+```
 GET /Airports?$filter=contains(Location/Address, 'San Francisco')
+```
 
 Or even:
 
+```
 GET serviceRoot/People?$filter=Emails/any(s:endswith(s, 'contoso.com'))
+```
 
 OData has some other boring grown-up benefits, like allowing your endpoint-based API to be the source of truth for Salesforce, utilizing External Objects. Basically, instead of making janky sync logic between your applications and theirs, a custom object can be created to let the data live only in the one OData API, but still look like it’s sitting in Salesforce. Guess what I’m working on at the moment.
 
@@ -125,7 +140,9 @@ JSON-API suggests an ability to [include related data](http://jsonapi.org/format
 
 These includes are very similar to the nested field queries possible in GraphQL. When using JSON-API not only can you fetch related resource representations, but you can trim those related representations down using sparse fieldsets too:
 
-GET /articles?include=author&fields\[articles\]=title,body&fields\[people\]=name
+```
+GET /articles?include=author&fields[articles]=title,body&fields[people]=name
+```
 
 That will get you a list of articles with only the title and body fields, then the authors will be included with only their name.
 
@@ -133,8 +150,9 @@ Endpoint-based APIs offering compound documents handle it in a myriad of ways, b
 
 Excuse the large JSON blob, but it’s important to understand the concept:
 
+```js
 {
-  "data": \[
+  "data": [
     {
       "type": "articles",
       "id": "1",
@@ -142,12 +160,12 @@ Excuse the large JSON blob, but it’s important to understand the concept:
         "title": "JSON API paints my bikeshed!"
       },
       "links": {
-        "self": "[http://example.com/articles/1](http://example.com/articles/1)"
+        "self": "http://example.com/articles/1"
       },
       "relationships": {
         "author": {
           "links": {
-            "self": "[http://example.com/articles/1/relationships/author](http://example.com/articles/1/relationships/author)",
+            "self": "http://example.com/articles/1/relationships/author",
             "related": "[http://example.com/articles/1/author](http://example.com/articles/1/author)"
           },
           "data": {
@@ -157,10 +175,10 @@ Excuse the large JSON blob, but it’s important to understand the concept:
         },
         "comments": {
           "links": {
-            "self": "[http://example.com/articles/1/relationships/comments](http://example.com/articles/1/relationships/comments)",
-            "related": "[http://example.com/articles/1/comments](http://example.com/articles/1/comments)"
+            "self": "http://example.com/articles/1/relationships/comments",
+            "related": "http://example.com/articles/1/comments"
           },
-          "data": \[
+          "data": [
             {
               "type": "comments",
               "id": "5"
@@ -169,12 +187,12 @@ Excuse the large JSON blob, but it’s important to understand the concept:
               "type": "comments",
               "id": "12"
             }
-          \]
+          ]
         }
       }
     }
-  \],
-  "included": \[
+  ],
+  "included": [
     {
       "type": "people",
       "id": "9",
@@ -184,7 +202,7 @@ Excuse the large JSON blob, but it’s important to understand the concept:
         "twitter": "dgeb"
       },
       "links": {
-        "self": "[http://example.com/people/9](http://example.com/people/9)"
+        "self": "http://example.com/people/9"
       }
     },
     {
@@ -202,7 +220,7 @@ Excuse the large JSON blob, but it’s important to understand the concept:
         }
       },
       "links": {
-        "self": "[http://example.com/comments/5](http://example.com/comments/5)"
+        "self": "http://example.com/comments/5"
       }
     },
     {
@@ -220,11 +238,12 @@ Excuse the large JSON blob, but it’s important to understand the concept:
         }
       },
       "links": {
-        "self": "[http://example.com/comments/12](http://example.com/comments/12)"
+        "self": "http://example.com/comments/12"
       }
     }
-  \]
+  ]
 }
+```
 
 That article “1” has two relationship types, `author` and `comment`. These relationships might have one name, and the actual resource type could be another, so author is the relationship name but people is the data type. Cool.
 
@@ -232,8 +251,11 @@ So, if they have `"data": { "type": "people", "id": "9" }` and `{ "type": "comme
 
 These included items are all just shoved into a single array, with no hierarchy or concept of how they relate to the article. Anyone who calls this API will not just be able to call the data:
 
-```
-response = client.get('/articles?include=author,comments') article = response.body comments = article.comments author = article.author
+```python
+response = client.get('/articles?include=author,comments') 
+article = response.body 
+comments = article.comments 
+author = article.author
 ```
 
 Instead, there needs to be some logic that pulled out all the comments and all the authors, then in a loop you could stitch them back together. Writing this is awful, but of course loads of people have built generic abstraction layers in various languages to allow you not to have to.
@@ -249,7 +271,3 @@ Knowing about these tools and concepts can help people push back against an over
 That said, I do of course think **having all of these concepts implemented and documented in one single “package” like GraphQL is super handy**. GraphQL removes the arguing or confusion about what is “the most RESTful way to do something”, as it has a spec and example implementations.
 
 A lot of APIs that are merely RESTish could certainly be GraphQL, but an actual REST API with HATEOAS would not make sense trying to jam itself into the GraphQL paradigm. State Transfer and Query Languages are different things, but as I’ve shown, you can blur the lines a little if you’re interested.
-
-Everything is going to be 200 OK®
-
-_Originally published at_ [_blog.runscope.com_](https://blog.runscope.com/posts/you-might-not-need-graphql)_._

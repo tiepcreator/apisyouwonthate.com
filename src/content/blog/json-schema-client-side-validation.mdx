@@ -102,10 +102,10 @@ metadata lives in `.json` files, which might look a bit like this:
 
 ```json
 {
-  "$id": "[http://example.com/schemas/user.json](http://example.com/schemas/user.json)",
+  "$id": "http://example.com/schemas/user.json",
   "type": "object",
   "definitions": {},
-  "$schema": "[http://json-schema.org/draft-07/schema#](http://json-schema.org/draft-07/schema#)",
+  "$schema": "http://json-schema.org/draft-07/schema#",
   "properties": {
     "name": {
       "title": "Name",
@@ -169,8 +169,8 @@ incorrect format.
 
 Conceptually that probably makes enough sense, but how to actually
 programmatically get this done? The JSON Schema `.json` files are usually made
-available somewhere in a HTTP Link header with a rel of “describedby”. `Link:
-<http://example.com/schemas/user.json#>; rel=”describedby”`. This might look a
+available somewhere in a HTTP Link header with a rel of "describedby". `Link:
+<http://example.com/schemas/user.json#>; rel="describedby"`. This might look a
 bit off to those not used to Link headers, but this is how a lot of links are
 handled these days. The one difficulty here is parsing the value, which can be
 done with some extremely awful regex, or with a
@@ -222,8 +222,8 @@ console.log('fail', validate(userSchema, input)) // [ { keyword: 'type', dataPat
 ```
 
 For the sake of keeping the example short, the actual JSON Schema has been
-“downloaded” from
-[http://example.com/schemas/user.json](http://example.com/schemas/user.json) and
+"downloaded" from
+`http://example.com/schemas/user.json` and
 put into a local file. This is not quite how you would normally do things, and
 it will become clear why in a moment.
 
@@ -311,7 +311,7 @@ placed into our UI to explain to users that stuff is no good.
 ```bash
 $ node 2-useful-errors.js
 [ 'Name is a required field' ]
-[ 'Email should match format “email”' ]
+[ 'Email should match format "email"' ]
 [ 'Date Of Birth is in an invalid format, e.g: 1990–12–28' ]
 [ 'Name should NOT be longer than 20 characters' ]
 ```
@@ -320,7 +320,7 @@ The errors we built from the JSON Schema using the properties that exist can get
 really intelligent depending on how good the schema files are, and how many edge
 cases you cover. Putting the examples in is a really nice little touch, and
 makes a lot more sense to folks reading the messages than just saying the rather
-vague statement “it should be a date”.
+vague statement "it should be a date".
 
 If you were to instead find a way to tie these back to the DOM, you could update
 your forms with visual updates as discussed earlier: making invalid boxes red,
@@ -345,7 +345,7 @@ That is a fluffy simplicity which has a few real-world caveats to explain…
 Consider schema can be found on the HTTP response like this:
 
 ```http
-Link: <http://example.com/schemas/user.json#>; rel=”describedby”
+Link: <http://example.com/schemas/user.json#>; rel="describedby"
 ```
 
 This URL is not versioned, which suggests that it might change. This is…
@@ -355,9 +355,9 @@ then your application could suffer from validation hell for the duration of that
 expiry.
 
 If the cache is only set to something short like 5 minutes, and the change is
-only a minor one, that honestly might not be too bad. The whole “multiple
+only a minor one, that honestly might not be too bad. The whole "multiple
 devices being used to try to make profile changes and getting clobbered by a
-`maxLength` change” scenario we have been discussing actually is not ideal when
+`maxLength` change" scenario we have been discussing actually is not ideal when
 you need developers to rush in and fix it, but not so bad if it'll fix itself
 after a few minutes.
 
@@ -365,14 +365,14 @@ Some APIs version their schema files, and as such new versions should be
 published as a new URL.
 
 ```http
-Link: <http://example.com/schemas/v1.0.0/user.json#>; rel=”describedby”
+Link: <http://example.com/schemas/v1.0.0/user.json#>; rel="describedby"
 ```
 
 When a minor change is released like the `maxLength` one, API developers may
 well release another version.
 
 ```http
-Link: <http://example.com/schemas/v1.0.1/user.json#>; rel=”describedby”
+Link: <http://example.com/schemas/v1.0.1/user.json#>; rel="describedby"
 ````
 
 So long as URLs are not hardcoded in your application, and the URL is being read
