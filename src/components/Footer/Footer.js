@@ -40,7 +40,7 @@ const Footer = () => (
               <OutboundLink
                 href="https://github.com/apisyouwonthate"
                 target="_blank"
-                rel="noreferrer noopener me"
+                rel="noreferrer noopener"
               >
                 GitHub
               </OutboundLink>
