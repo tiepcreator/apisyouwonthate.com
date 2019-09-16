@@ -18,8 +18,8 @@ const Header = ({ siteTitle }) => (
               <Link to="/">
                 <img
                   className={`img-responsive ${classes.headerImage}`}
-                  src="img/apis-you-wont-hate-wide.png"
-                  alt="APIs You Won'T Hate"
+                  src="/img/apis-you-wont-hate-wide.png"
+                  alt="APIs You Won't Hate"
                 />
               </Link>
             </h1>
