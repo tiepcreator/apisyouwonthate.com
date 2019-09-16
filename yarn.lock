@@ -5832,11 +5832,11 @@ gatsby-plugin-netlify@^2.1.3:
     webpack-assets-manifest "^3.1.1"
 
 gatsby-plugin-offline@^3.0.4:
-  version "3.0.4"
-  resolved "https://registry.yarnpkg.com/gatsby-plugin-offline/-/gatsby-plugin-offline-3.0.4.tgz#c7e3ab939fa07fbd613ebcccb88b21254bc23dab"
-  integrity sha512-P0LK+I67/5D2oKJIQ0oxd/WJM+Ue8dfXuNl2q+fgemx+/tclowxN9rWJhTvw0ijTc662ANz9lEsjBL7kUZpznw==
+  version "3.0.7"
+  resolved "https://registry.yarnpkg.com/gatsby-plugin-offline/-/gatsby-plugin-offline-3.0.7.tgz#c55515688f7199823dd8a11b14352c7eb2605b3a"
+  integrity sha512-ju1yf4/LvtxaKkeshz9u8z5hjwTqUM51d3mc+T59CfJgCu9nlX75LlwTXR/7Emkas814EdsvBqOelQiFMcYFRg==
   dependencies:
-    "@babel/runtime" "^7.5.5"
+    "@babel/runtime" "^7.6.0"
     cheerio "^1.0.0-rc.3"
     glob "^7.1.4"
     idb-keyval "^3.2.0"
