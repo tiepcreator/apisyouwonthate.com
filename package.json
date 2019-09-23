@@ -19,7 +19,7 @@
     "gatsby-plugin-sharp": "^2.2.12",
     "gatsby-plugin-sitemap": "^2.2.5",
     "gatsby-plugin-web-font-loader": "^1.0.4",
-    "gatsby-remark-embed-video": "^1.7.1",
+    "gatsby-remark-embed-video": "^2.0.0",
     "gatsby-remark-images": "^3.1.10",
     "gatsby-remark-prismjs": "^3.3.5",
     "gatsby-source-anchor": "^0.5.1",
