@@ -1,0 +1,13 @@
+.hidden {
+  visibility: hidden;
+  height: 0;
+  width: 0;
+}
+
+.form {
+  margin-bottom: 2rem;
+}
+
+.container {
+  margin-top: 2rem;
+}
