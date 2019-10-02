@@ -1259,9 +1259,9 @@
   integrity sha512-nltMFo5JkYcnntf0Cs3Kq7jskrKeGcftAKOqbEEa74sxlx0bfO3RjBly2aiRb7hnsYJCB8/99l+acQcl2lnq1w==
 
 "@shopify/buy-button-js@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@shopify/buy-button-js/-/buy-button-js-1.0.0.tgz#919cb2d3fd4b6b27508be10e3f4785100c0d1a48"
-  integrity sha512-Qtcw2KDv0cTYJiM9oNi2vs8JsfPS9woYb0MMplgzt8Hp2mtAdch5rrMYHDFY6st3ltjkWvOfORw4Nqi0YGHTbg==
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@shopify/buy-button-js/-/buy-button-js-1.0.2.tgz#8be15da7fc3fdcbee1fe652a3fe5f04c32a4d195"
+  integrity sha512-Q84wodjXBrd/WXVt3lb6b8oEB/+JYzaHp75GD/dvuRNT7mu86JTvJ/sbNS06PFb46sC9GNaqbp4d4PpnpNV2jA==
   dependencies:
     "@babel/runtime" "7.5.5"
     browserify "16.3.0"
