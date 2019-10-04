@@ -9,30 +9,76 @@ type: blog
 author: Phil Sturgeon
 ---
 
-The last year has involved a lot of teaching engineers how to use OpenAPI, with the day job growing from a startup to a sizeable corporation. Our engineering department has exploded, with new engineers starting every day. On one hand OpenAPI has been embraced as our approach to designing and documenting APIs, but on the other hand very few engineers have had any experience with it. As such, getting them up to speed with how to efficiently write descriptive, readable, and concise OpenAPI definitions has been a sizeable challenge.
+_**Update (2019-10-04):** When I left Speccy I left it with a few colleagues, who
+have continued to keep Speccy maintained. No major work has been done on it in ages,
+so if you like the idea of Speccy but want more power, use [Spectral](https://stoplight.io/spectral/) by Stoplight. It
+has a bunch of developers adding amazing features on the regular, and is used to power
+[Stoplight Studio](https://stoplight.io/studio/)._
 
-To meet that challenge, [Speccy](http://speccy.io/) was created, with a huge amount of help from [oas-kit](https://github.com/Mermade/oas-kit/) author [Mike Ralphson](https://github.com/MikeRalphson). It has many functions as an OpenAPI local development workflow assistant, but it primarily exists as a linter. As a linter, it can provide opinions, advice, and suggestions more than just “is this valid or not”. The advice moves into “You should add descriptions to your parameters so people know what they’re for” and “Add contact info so other folks know who to talk to when they need help”.
+The last year has involved a lot of teaching engineers how to use OpenAPI, with
+the day job growing from a startup to a sizeable corporation. Our engineering
+department has exploded, with new engineers starting every day. On one hand
+OpenAPI has been embraced as our approach to designing and documenting APIs, but
+on the other hand very few engineers have had any experience with it. As such,
+getting them up to speed with how to efficiently write descriptive, readable,
+and concise OpenAPI definitions has been a sizeable challenge.
 
-There are a whole bunch of rules for Speccy already, and they’re split across “default” and “strict” meaning you don’t need to use all of them. You can provide arguments via `--skip="contact-properties,license-url"` if any specific rules are rubbing you up the wrong way.
+To meet that challenge, [Speccy](http://speccy.io/) was created, with a huge
+amount of help from [oas-kit](https://github.com/Mermade/oas-kit/) author [Mike
+Ralphson](https://github.com/MikeRalphson). It has many functions as an OpenAPI
+local development workflow assistant, but it primarily exists as a linter. As a
+linter, it can provide opinions, advice, and suggestions more than just “is this
+valid or not”. The advice moves into “You should add descriptions to your
+parameters so people know what they’re for” and “Add contact info so other folks
+know who to talk to when they need help”.
+
+There are a whole bunch of rules for Speccy already, and they’re split across
+“default” and “strict” meaning you don’t need to use all of them. You can
+provide arguments via `--skip="contact-properties,license-url"` if any specific
+rules are rubbing you up the wrong way.
 
 What Speccy really needs, is a lot more rules.
 
 Here are some I thought up at work recently:
 
-*   No need to provide both example and default, when they contain the same value
-*   No need to provide `enum: [true, false]` for a `type: boolean`
+- No need to provide both example and default, when they contain the same
+value 
+- No need to provide `enum: [true, false]` for a `type: boolean`
 
-I want to introduce a more file-level set of validaiton rules too, maybe under `speccy doctor openapi.yaml` to keep it away from the more object-level linter:
+I want to introduce a more file-level set of validation rules too, maybe under
+`speccy doctor openapi.yaml` to keep it away from the more object-level linter:
 
-*   This file is 12824 lines long and does not contain a single [$ref](https://swagger.io/docs/specification/using-ref/)
-*   No [links](https://swagger.io/specification/#linkObject) are used anywhere in this file, how will people know that a response is somehow connected to another response?
 
-Kin Lane wrote about the future of Speccy a while back, in [_An OpenAPI-Driven, API Governance Rules Engine_](https://apievangelist.com/2018/03/05/an-openapi-rules-engine/)_._
+- This file is 12824 lines long and does not contain a single
+[$ref](https://swagger.io/docs/specification/using-ref/) 
+- No
+[links](https://swagger.io/specification/#linkObject) are used anywhere in this
+file, how will people know that a response is somehow connected to another
+response?
 
-> My only feedback right now, is that we need lots of people using it, and helping contribute rules. Oh, and wrap it in an API, and make it available as an easy to use, and deploy containerized microservice. Then lets get to work on the Github Gist-driven marketplace of rules, where I can publish the rules I develop across the projects I’m working on, and of the clients I consult with. Let’s get to work making sure there are a wealth of rules, broken down into different categories for API providers to choose from. Then let’s get API tooling and service providers to begin baking a Speccy rules engine into their solutions, and allow for the import and management of open source rules.
+Kin Lane wrote about the future of Speccy a while back, in [_An OpenAPI-Driven,
+API Governance Rules
+Engine_](https://apievangelist.com/2018/03/05/an-openapi-rules-engine/).
+
+> My only feedback right now, is that we need lots of people using it, and
+helping contribute rules. Oh, and wrap it in an API, and make it available as an
+easy to use, and deploy containerized microservice. Then lets get to work on the
+Github Gist-driven marketplace of rules, where I can publish the rules I develop
+across the projects I’m working on, and of the clients I consult with. Let’s get
+to work making sure there are a wealth of rules, broken down into different
+categories for API providers to choose from. Then let’s get API tooling and
+service providers to begin baking a Speccy rules engine into their solutions,
+and allow for the import and management of open source rules.
 
 ![](https://cdn-images-1.medium.com/max/600/1*ghPDCekwdC7NySJIHijPvQ.jpeg)
 
-All of that is on the to-do list. An API will exist soon, and was one of the multiple products of a recent hackathon. I’ll get it cleaned up and out on speccy.io at some point. As far as a rules marketplace goes, that’s a while off. For now, how about you folks get in the comments, [Twitter](https://twitter.com/apisyouwonthate/), or [Slack,](http://slack.apisyouwonthate.com) with suggestions for rules that you’d like to see.
+All of that is on the to-do list. An API will exist soon, and was one of the
+multiple products of a recent hackathon. I’ll get it cleaned up and out on
+speccy.io at some point. As far as a rules marketplace goes, that’s a while off.
+For now, how about you folks get in the comments,
+[Twitter](https://twitter.com/apisyouwonthate/), or
+[Slack,](http://slack.apisyouwonthate.com) with suggestions for rules that you’d
+like to see.
 
-[Pull requests](https://github.com/wework/speccy/tree/master/rules) are also very welcome!
+[Pull requests](https://github.com/wework/speccy/tree/master/rules) are also
+very welcome!
