@@ -99,7 +99,18 @@ const Footer = () => (
               >
                 Gatsby
               </OutboundLink>
-              {' 🎉'}
+            </li>
+            <li>
+              <OutboundLink
+                href="https://www.netlify.com"
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                <img
+                  alt="Deploys by netlify"
+                  src="https://www.netlify.com/img/global/badges/netlify-light.svg"
+                />
+              </OutboundLink>
             </li>
           </ul>
         </Col>
