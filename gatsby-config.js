@@ -1,5 +1,4 @@
 const slugify = require('./src/utils/slugify');
-const { size } = require('lodash');
 
 module.exports = {
   siteMetadata: {
