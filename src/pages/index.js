@@ -109,7 +109,7 @@ const IndexPage = ({ data }) => {
               standards for API design and architecture, and work on open-source
               tooling for OpenAPI, JSON Schema, and HTTP. WeWork has 50+ APIs,
               and here I have had a chance to learn a lot about keeping
-              distributed applications performant. Tmeouts, retries, circuit
+              distributed applications performant. Timeouts, retries, circuit
               breakers, keep alive settings, and HTTP caching specificially.
             </p>
             <p>
