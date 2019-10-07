@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { graphql, Link } from 'gatsby';
 import { Button, Container, Col, Form, Row } from 'react-bootstrap';
+import Helmet from 'react-helmet';
 
 import { Layout } from '../../components';
 import classes from './AMA.module.css';
@@ -34,6 +35,7 @@ const AMAPage = () => {
 
   return (
     <Layout>
+      <Helmet title="Ask us a question!" />
       <Container className={classes.container}>
         {submitted ? (
           <>

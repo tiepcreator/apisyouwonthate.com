@@ -16,3 +16,7 @@
    Values from this file will be injected into the react runtime following [these rules](https://www.gatsbyjs.org/docs/environment-variables/) whenever you start the project with `gatsby develop` (or `yarn start` / `npm run start`, which just runs `gatsby develop`). (**Note**: any additional environment variables _must_ start with `GATSBY_`)
 
 1. `yarn start` will run the local dev environment 👍
+
+## Code of Conduct
+
+Our aim is to build a constructive, inclusive, and positive community. Please give our our [Code of Conduct](./CODE_OF_CONDUCT.md) a read through before contributing.
