@@ -25,7 +25,7 @@ const BlogPostItem = ({ post, feature = false }) => {
             />
           </Col>
           <Col>
-            <main x>
+            <main>
               <h2 className={classes.title}>{title}</h2>
               <p className={classes.subtitle}>{subtitle}</p>
               <AuthorDisplay name={author} date={date} />
