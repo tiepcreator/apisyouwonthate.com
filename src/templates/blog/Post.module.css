@@ -18,6 +18,10 @@
   font-weight: light;
 }
 
+.post * img {
+  max-width: 100%;
+}
+
 .post ul,
 .post ol {
   margin: 2.5rem 0 2.5rem 2rem;
