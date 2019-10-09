@@ -8,14 +8,12 @@ import classes from './Conduct.module.css';
 
 const ConductPage = () => (
   <Layout>
-    <Helmet title="Contributor Covenant Code of Conduct" />
+    <Helmet title="Code of Conduct" />
 
     <Container className={classes.container}>
       <Row>
         <Col>
-          <h1 id="contributor-covenant-code-of-conduct">
-            Contributor Covenant Code of Conduct
-          </h1>
+          <h1 id="contributor-covenant-code-of-conduct">Code of Conduct</h1>
         </Col>
       </Row>
       <br />
