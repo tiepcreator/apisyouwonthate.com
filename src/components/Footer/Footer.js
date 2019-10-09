@@ -31,6 +31,9 @@ const Footer = () => (
               <Link to="/community">Community</Link>
             </li>
             <li>
+              <Link to="/authors">Authors</Link>
+            </li>
+            <li>
               <Link to="/conduct">Code of Conduct</Link>
             </li>
           </ul>

@@ -1,0 +1,84 @@
+.authorName {
+  font-weight: normal;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #222;
+}
+
+.bio {
+  font-size: 1.1rem;
+}
+
+.header {
+  display: grid;
+}
+
+.header:hover span {
+  text-decoration: underline;
+}
+
+.headshotContainer {
+  background-color: #aaa;
+  grid-row: 1/1;
+  grid-column: 1/1;
+}
+
+.hire {
+  grid-row: 2/2;
+  grid-column: 1/1;
+  width: 100%;
+}
+
+.authorNameContainer {
+  grid-row: 1/1;
+  grid-column: 1/1;
+  z-index: 1;
+  max-width: 66%;
+  align-self: flex-end;
+  margin-bottom: 5%;
+}
+
+.authorNameContainer:hover {
+  text-decoration: none;
+  border: none;
+}
+
+.authorNameContainer h2 {
+  margin: 0;
+  padding: 0;
+  margin-left: 0.5rem;
+}
+.authorNameContainer span {
+  font-size: 2rem;
+  line-height: 1.9em;
+  color: #fff;
+  background-color: var(--dark-green);
+
+  box-shadow: var(--dark-green) 0.25em 0 0 0, var(--dark-green) -0.25em 0 0 0;
+  padding: 0.25em 0;
+}
+
+.socialLinks {
+  font-size: small;
+  color: #222;
+}
+
+.socialLinks a {
+  font-family: 'Roboto Mono', 'Courier New', Courier, monospace;
+  margin: 10px 0;
+  display: flex;
+  align-items: center;
+  color: #777;
+}
+
+.icon {
+  margin-right: 0.25rem;
+  height: 1em;
+}
+
+.socialLinks li a:hover {
+  text-decoration: none;
+}
+
+.socialLinks li a svg {
+  margin-right: 0.25rem;
+}

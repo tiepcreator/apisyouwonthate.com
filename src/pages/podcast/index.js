@@ -4,7 +4,7 @@ import { OutboundLink } from 'gatsby-plugin-google-analytics';
 import { Container, Col, Row } from 'react-bootstrap';
 import moment from 'moment';
 
-import { Layout } from '../../components';
+import { Layout, SEO } from '../../components';
 import classes from './Podcast.module.css';
 
 const PodcastPage = ({ data }) => {
@@ -12,6 +12,7 @@ const PodcastPage = ({ data }) => {
 
   return (
     <Layout>
+      <SEO title="Podcast" />
       <Container className={classes.container}>
         <Row>
           <Col>
