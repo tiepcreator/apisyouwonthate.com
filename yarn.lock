@@ -698,7 +698,7 @@
     core-js "^2.6.5"
     regenerator-runtime "^0.13.2"
 
-"@babel/preset-env@^7.6.2", "@babel/preset-env@^7.6.3":
+"@babel/preset-env@^7.6.3":
   version "7.6.3"
   resolved "https://registry.yarnpkg.com/@babel/preset-env/-/preset-env-7.6.3.tgz#9e1bf05a2e2d687036d24c40e4639dc46cef2271"
   integrity sha512-CWQkn7EVnwzlOdR5NOm2+pfgSNEZmvGjOhlCHBDq0J8/EStr+G+FvPEiz9B56dR6MoiUFjXhfE4hjLoAKKJtIQ==
@@ -762,7 +762,7 @@
     "@babel/helper-plugin-utils" "^7.0.0"
     "@babel/plugin-transform-flow-strip-types" "^7.0.0"
 
-"@babel/preset-react@^7.0.0", "@babel/preset-react@^7.6.3":
+"@babel/preset-react@^7.6.3":
   version "7.6.3"
   resolved "https://registry.yarnpkg.com/@babel/preset-react/-/preset-react-7.6.3.tgz#d5242c828322520205ae4eda5d4f4f618964e2f6"
   integrity sha512-07yQhmkZmRAfwREYIQgW0HEwMY9GBJVuPY4Q12UC72AbfaawuupVWa8zQs2tlL+yun45Nv/1KreII/0PLfEsgA==
@@ -2189,18 +2189,18 @@ babel-preset-fbjs@^3.1.2:
     "@babel/plugin-transform-template-literals" "^7.0.0"
     babel-plugin-syntax-trailing-function-commas "^7.0.0-beta.0"
 
-babel-preset-gatsby-package@^0.2.7:
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/babel-preset-gatsby-package/-/babel-preset-gatsby-package-0.2.7.tgz#7d3566698e179bafe92f244138ee7cb857b7f7b3"
-  integrity sha512-2o6TlATcoHnN8f0satFvL1qCZb8xiELSJ9b012H/ddA2JrICQ472sdBJjigFr5cPN1DqLEI2pYH82V5h75l56A==
+babel-preset-gatsby-package@^0.2.8:
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/babel-preset-gatsby-package/-/babel-preset-gatsby-package-0.2.8.tgz#54f7efa9200e9d64f6f63ba18f3882b0d6695ca1"
+  integrity sha512-NJXljV32JJL++hSmREGybt1Lg0w1XGpbnfN1fpfLLyHE0TpBYyNgN3/o34IDWEkLQpCa+7DYtddlvX8eUgMjKg==
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.5.5"
     "@babel/plugin-proposal-optional-chaining" "^7.6.0"
     "@babel/plugin-syntax-dynamic-import" "^7.2.0"
     "@babel/plugin-transform-runtime" "^7.6.2"
-    "@babel/preset-env" "^7.6.2"
+    "@babel/preset-env" "^7.6.3"
     "@babel/preset-flow" "^7.0.0"
-    "@babel/preset-react" "^7.0.0"
+    "@babel/preset-react" "^7.6.3"
     babel-plugin-dynamic-import-node "^1.2.0"
     core-js "^2.6.9"
 
@@ -5969,18 +5969,18 @@ gatsby-source-anchor@^0.5.1:
   dependencies:
     rss-parser "^3.5.3"
 
-gatsby-source-filesystem@^2.1.29, gatsby-source-filesystem@^2.1.8:
-  version "2.1.29"
-  resolved "https://registry.yarnpkg.com/gatsby-source-filesystem/-/gatsby-source-filesystem-2.1.29.tgz#ca4dd77c850152b1a57d91b6535930b67b35fe73"
-  integrity sha512-MRJ3jkGhxJDztXzw0oeh4hizLzs5hGIc/Jq5gwUi5NcrKCR5HDbOFvVVE8irfkoNh7TuvHf6sjWFzDgzlUADgw==
+gatsby-source-filesystem@^2.1.31, gatsby-source-filesystem@^2.1.8:
+  version "2.1.31"
+  resolved "https://registry.yarnpkg.com/gatsby-source-filesystem/-/gatsby-source-filesystem-2.1.31.tgz#60bd38c8d190a34d18268d143a4c946f333a021b"
+  integrity sha512-+P/2jKYKH3UWDgvvO2XpYy9izjXGAsvekomykf8usJpGMu+mLMEMmmM0CPEGMCMxo1HB74xEMjYxtw9KCtUaEw==
   dependencies:
-    "@babel/runtime" "^7.6.2"
+    "@babel/runtime" "^7.6.3"
     better-queue "^3.8.10"
     bluebird "^3.7.0"
     chokidar "3.2.1"
     file-type "^12.3.0"
     fs-extra "^8.1.0"
-    gatsby-core-utils "^1.0.12"
+    gatsby-core-utils "^1.0.13"
     got "^7.1.0"
     md5-file "^3.2.3"
     mime "^2.4.4"
@@ -5991,14 +5991,14 @@ gatsby-source-filesystem@^2.1.29, gatsby-source-filesystem@^2.1.8:
     xstate "^4.6.7"
 
 gatsby-source-shopify@^3.0.0:
-  version "3.0.20"
-  resolved "https://registry.yarnpkg.com/gatsby-source-shopify/-/gatsby-source-shopify-3.0.20.tgz#decddb475bdd90d0b2a12b3182257a852369036c"
-  integrity sha512-bPhJcWd7IpodQQ6CITvZRGAagNRzR3vIGhH6Iy1+hvBQxXhK7UI3j6RP6wTnteOrALdKDH6npg2wSkOas35p3g==
+  version "3.0.22"
+  resolved "https://registry.yarnpkg.com/gatsby-source-shopify/-/gatsby-source-shopify-3.0.22.tgz#041a67fca2d5478032910c51f48fb09778ccf777"
+  integrity sha512-nOLwTm8rmlh1naZj8j3SNh761R5tmwHpbvdac8cwZr85grhwi4c0atFBPL0Pt/+I/dKrSYfGld0P9iEj8zxG/g==
   dependencies:
-    babel-preset-gatsby-package "^0.2.7"
+    babel-preset-gatsby-package "^0.2.8"
     chalk "^2.4.2"
     gatsby-node-helpers "^0.3.0"
-    gatsby-source-filesystem "^2.1.29"
+    gatsby-source-filesystem "^2.1.31"
     graphql-request "^1.8.2"
     lodash "^4.17.15"
     p-iteration "^1.1.8"
