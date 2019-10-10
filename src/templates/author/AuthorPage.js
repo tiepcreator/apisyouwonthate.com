@@ -3,24 +3,14 @@ import { graphql } from 'gatsby';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { Col, Container, Row } from 'react-bootstrap';
 
-import { OutboundLink } from 'gatsby-plugin-google-analytics';
-
-import { BlogPostItem, Layout, Image, SEO } from '../../components';
-import { TwitterIcon, GitHubIcon } from '../../components/icons';
+import { AuthorSummary, BlogPostItem, Layout, SEO } from '../../components';
 
 import classes from './AuthorPage.module.css';
 
 const BookPage = ({ data }) => {
   const { author, posts } = data;
 
-  const {
-    github,
-    instagram,
-    name,
-    photo,
-    shortName,
-    twitter,
-  } = author.frontmatter;
+  const { name, shortName } = author.frontmatter;
 
   debugger;
 
@@ -30,55 +20,9 @@ const BookPage = ({ data }) => {
       <section className={classes.about}>
         <Container>
           <Row>
+            <AuthorSummary author={author} />
             <Col>
-              <h1>{name}</h1>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <ul className={classes.socialLinks}>
-                {instagram && (
-                  <li>
-                    <OutboundLink
-                      href={`https://instagram.com/${instagram}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {instagram}
-                    </OutboundLink>
-                  </li>
-                )}
-                {twitter && (
-                  <li>
-                    <OutboundLink
-                      href={`https://twitter.com/${twitter}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <TwitterIcon /> {twitter}
-                    </OutboundLink>
-                  </li>
-                )}
-                {github && (
-                  <li>
-                    <OutboundLink
-                      href={`https://github.com/${github}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      <GitHubIcon /> {github}
-                    </OutboundLink>
-                  </li>
-                )}
-              </ul>
-            </Col>
-          </Row>
-          <Row>
-            <Col lg={8}>
               <MDXRenderer>{author.body}</MDXRenderer>
-            </Col>
-            <Col>
-              <Image src={photo} alt={name} />
             </Col>
           </Row>
 
@@ -86,21 +30,19 @@ const BookPage = ({ data }) => {
             <React.Fragment>
               <Row className={classes.workHeader}>
                 <Col>
-                  <h2>Articles by {shortName || name}: </h2>
+                  <h2>Articles by {shortName || name} </h2>
                 </Col>
               </Row>
               <Row>
-                <Col>
-                  <div className={classes.postsContainer}>
-                    {posts.nodes.map((post, idx) => {
-                      return (
-                        <article key={post.id} className={classes.article}>
-                          <BlogPostItem post={post} feature={idx === 0} />
-                        </article>
-                      );
-                    })}
-                  </div>
-                </Col>
+                {posts.nodes.map((post, idx) => {
+                  return (
+                    <BlogPostItem
+                      key={post.id}
+                      post={post}
+                      feature={idx === 0}
+                    />
+                  );
+                })}
               </Row>
             </React.Fragment>
           )}
@@ -116,6 +58,7 @@ export const query = graphql`
       id
       body
       frontmatter {
+        consultingUrl
         github
         instagram
         name

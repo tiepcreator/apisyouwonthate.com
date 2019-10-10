@@ -90,7 +90,7 @@ const IndexPage = ({ data }) => {
               >
                 Ride
               </a>
-              , I was given me the chance to work with amazing developers,
+              , I was given the chance to work with amazing developers,
               including several Rails API contributors. We built an event-driven
               architecture with several REST APIs and a few RPC ones, and it was
               here I learned the benefits of REST being a state machine over

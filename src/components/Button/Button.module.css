@@ -1,13 +1,13 @@
 .button {
   box-shadow: none;
   border: none;
-  border-radius: 4px;
   padding: 1rem 2rem;
   background-color: var(--purple);
   text-transform: uppercase;
   color: var(--white);
   cursor: pointer;
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
 }
 
 .button a,
@@ -24,8 +24,10 @@ a.button {
   text-decoration: underline;
 }
 
-.fullwidth {
+.fullWidth {
   display: block;
+  width: 100%;
+  text-align: center;
 }
 
 .secondary {

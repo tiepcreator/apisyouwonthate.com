@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'gatsby';
 
 import moment from 'moment';
-
 import Img from 'gatsby-image/withIEPolyfill';
 
+import slugify from '../../utils/slugify';
 import classes from './AuthorDisplay.module.css';
 
 const AuthorDisplay = ({ authorImage, name, date, readTimeInMinutes }) => {
@@ -20,13 +21,19 @@ const AuthorDisplay = ({ authorImage, name, date, readTimeInMinutes }) => {
     </span>
   );
 
+  const authorUrl = `/author/${slugify(name)}`;
+
   return (
     <div className={classes.container}>
       {authorImage && (
-        <Img fluid={authorImage} className={classes.authorImage} />
+        <Link to={authorUrl}>
+          <Img fluid={authorImage} className={classes.authorImage} />
+        </Link>
       )}
       <div className={classes.metadataContainer}>
-        <span className={classes.authorName}>{name}</span>
+        <Link to={authorUrl} className={classes.authorName}>
+          {name}
+        </Link>
         <div>
           {dateDisplay}
           {date && readTimeDisplay && ` · `}
