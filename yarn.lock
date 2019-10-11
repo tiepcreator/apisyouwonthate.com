@@ -1239,7 +1239,7 @@
   resolved "https://registry.yarnpkg.com/@restart/hooks/-/hooks-0.3.14.tgz#1e0f045aadf0b06229b58eeba91351d90fb9452a"
   integrity sha512-k57+iyGr6o1XHeWWsGe5aMHKYcw7fukL6mCE+ZrPjtt1gXei5wCUxj71yQYfFbNjg0z5xxX8Els/UmyJiEn4nw==
 
-"@shopify/buy-button-js@^1.0.0":
+"@shopify/buy-button-js@^1.0.4":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@shopify/buy-button-js/-/buy-button-js-1.0.4.tgz#ed8ef6933722629ce5a8e82d4aa16a263b8f2c93"
   integrity sha512-cIJiS1zU+GDbX1ewBXkabGWoHZgDSaPy8J/YBU2Pr3G/+DW3kJ8ZFuAK8ziqf76VWgnKxWboIbRDWBFz23O5ZA==
