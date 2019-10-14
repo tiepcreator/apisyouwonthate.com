@@ -2189,10 +2189,10 @@ babel-preset-fbjs@^3.1.2:
     "@babel/plugin-transform-template-literals" "^7.0.0"
     babel-plugin-syntax-trailing-function-commas "^7.0.0-beta.0"
 
-babel-preset-gatsby-package@^0.2.8:
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/babel-preset-gatsby-package/-/babel-preset-gatsby-package-0.2.8.tgz#54f7efa9200e9d64f6f63ba18f3882b0d6695ca1"
-  integrity sha512-NJXljV32JJL++hSmREGybt1Lg0w1XGpbnfN1fpfLLyHE0TpBYyNgN3/o34IDWEkLQpCa+7DYtddlvX8eUgMjKg==
+babel-preset-gatsby-package@^0.2.9:
+  version "0.2.9"
+  resolved "https://registry.yarnpkg.com/babel-preset-gatsby-package/-/babel-preset-gatsby-package-0.2.9.tgz#b713bfd02255afc616b80d23cab800f4fa0fd2b2"
+  integrity sha512-pnSv9rnZwhLvtI0EyWgcZHMFN1f9FU5TnpdBEK0lh4XA/Kkqo3ANZuDH99Tn/4JAVoy9RwW/nS6fOaj12qcelw==
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.5.5"
     "@babel/plugin-proposal-optional-chaining" "^7.6.0"
@@ -2202,7 +2202,7 @@ babel-preset-gatsby-package@^0.2.8:
     "@babel/preset-flow" "^7.0.0"
     "@babel/preset-react" "^7.6.3"
     babel-plugin-dynamic-import-node "^1.2.0"
-    core-js "^2.6.9"
+    core-js "^2.6.10"
 
 babel-preset-gatsby@^0.2.19:
   version "0.2.19"
@@ -3577,6 +3577,11 @@ core-js@^1.0.0:
   version "1.2.7"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-1.2.7.tgz#652294c14651db28fa93bd2d5ff2983a4f08c636"
   integrity sha1-ZSKUwUZR2yj6k70tX/KYOk8IxjY=
+
+core-js@^2.6.10:
+  version "2.6.10"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.10.tgz#8a5b8391f8cc7013da703411ce5b585706300d7f"
+  integrity sha512-I39t74+4t+zau64EN1fE5v2W31Adtc/REhzWN+gWRRXg6WH5qAsZm62DHpQ1+Yhe4047T55jvzz7MUqF/dBBlA==
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -5981,10 +5986,10 @@ gatsby-source-anchor@^0.5.1:
   dependencies:
     rss-parser "^3.5.3"
 
-gatsby-source-filesystem@^2.1.32:
-  version "2.1.32"
-  resolved "https://registry.yarnpkg.com/gatsby-source-filesystem/-/gatsby-source-filesystem-2.1.32.tgz#640c57f2f7bf842be4f901ea595c7c668ba58105"
-  integrity sha512-ZZObsQYGQrwkrEPWuYCj2r52lP1GNS/nq0hp1ikJiMWVYfq4IuFXMSMxX8nL4p3TmSsUfhRkwBWgpjEw57UHXA==
+gatsby-source-filesystem@^2.1.32, gatsby-source-filesystem@^2.1.33:
+  version "2.1.33"
+  resolved "https://registry.yarnpkg.com/gatsby-source-filesystem/-/gatsby-source-filesystem-2.1.33.tgz#6a6e4a075be7af5db603acb695b9eabdc885985e"
+  integrity sha512-QhhHM8lalThJs5OsNgL6ILxIA36rRYsC+9ynUSEBku88+qBajycURxPjg+gn4NfWYfGAUXigxQzomQagHOLvlQ==
   dependencies:
     "@babel/runtime" "^7.6.3"
     better-queue "^3.8.10"
@@ -5992,7 +5997,7 @@ gatsby-source-filesystem@^2.1.32:
     chokidar "3.2.1"
     file-type "^12.3.0"
     fs-extra "^8.1.0"
-    gatsby-core-utils "^1.0.14"
+    gatsby-core-utils "^1.0.15"
     got "^7.1.0"
     md5-file "^3.2.3"
     mime "^2.4.4"
@@ -6002,15 +6007,15 @@ gatsby-source-filesystem@^2.1.32:
     valid-url "^1.0.9"
     xstate "^4.6.7"
 
-gatsby-source-shopify@^3.0.23:
-  version "3.0.23"
-  resolved "https://registry.yarnpkg.com/gatsby-source-shopify/-/gatsby-source-shopify-3.0.23.tgz#af8ecafcc09ab6961eae902f7b6f738db5c88a08"
-  integrity sha512-qA3QVecgesT9/RGr78jJG/2fGPrA6HlqzvAUYP+Wz2L33JKsHtuc0Rp72bfSGA9EvtOU9WPXCquuvwPH89Xiug==
+gatsby-source-shopify@^3.0.24:
+  version "3.0.24"
+  resolved "https://registry.yarnpkg.com/gatsby-source-shopify/-/gatsby-source-shopify-3.0.24.tgz#90f4aea5ce91183004c78def93fd8fb0c8f25bee"
+  integrity sha512-RLVLUwbw/YgqxPAnRFWw7nMEGghwt7rxRof2d3Iejhb8bkakL5cO9Ami0d6pn1XmoQcjhKCwPszHdGxotBccJQ==
   dependencies:
-    babel-preset-gatsby-package "^0.2.8"
+    babel-preset-gatsby-package "^0.2.9"
     chalk "^2.4.2"
     gatsby-node-helpers "^0.3.0"
-    gatsby-source-filesystem "^2.1.32"
+    gatsby-source-filesystem "^2.1.33"
     graphql-request "^1.8.2"
     lodash "^4.17.15"
     p-iteration "^1.1.8"
