@@ -21,7 +21,7 @@
     "gatsby-plugin-web-font-loader": "^1.0.4",
     "gatsby-remark-embed-video": "^2.0.0",
     "gatsby-remark-images": "^3.1.26",
-    "gatsby-remark-prismjs": "^3.3.18",
+    "gatsby-remark-prismjs": "^3.3.19",
     "gatsby-source-anchor": "^0.5.1",
     "gatsby-source-filesystem": "^2.1.8",
     "gatsby-source-shopify": "^3.0.23",
