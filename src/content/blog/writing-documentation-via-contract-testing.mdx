@@ -40,7 +40,7 @@ and they just so happen to render as documentation too. Once you’ve confirmed
 your code conforms to the contract, you know your documentation is correct, so
 it’s pretty much been done for free.
 
-#### What is Contract Testing
+## What is Contract Testing
 
 A lot of applications just check that the endpoint doesn’t entirely crap out,
 which is the most basic sort of unit test:
@@ -88,7 +88,7 @@ At this point it is essentially contract testing, but its very laborious, and is
 
 Something else to consider, is that writing these assertions for each field sucks. You want your unit tests to confirm the shape of the response under all sorts of scenarios, but you do not want to copy these lines over and over again. This leads to folks shoving some assertions into the first unit test, then just crossing their fingers that other scenarios output the correct shape. 🤷‍♂️
 
-#### JSON Schema for “DRY” Contract Testing
+## JSON Schema for “DRY” Contract Testing
 
 Don’t Repeat Yourself, and define reusable `schemas/components/user.json` files, populated by JSON Schema:
 
@@ -171,7 +171,7 @@ If you need help creating these JSON Schema files, there’s [a few hacks to spe
 
 Often early stage OpenAPI documentation is a lot of paths and maybe some properties, but folks often leave the schemas “until later” (never).
 
-```
+``` yaml
 responses:
     200:
       description: OK
@@ -179,7 +179,7 @@ responses:
 
 With the schema missing you lose all benefit of API specifications: you have no example values, attribute tables, enums for status fields, types, etc. Luckily the new JSON Schema fill exactly that gap!
 
-```
+``` yaml
   responses:
     200:
       description: OK
