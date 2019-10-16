@@ -44,6 +44,7 @@ module.exports = {
               maxWidth: 500,
               quality: 100,
               linkImagesToOriginal: false,
+              disableBgImageOnAlpha: true,
             },
           },
           // code formatting in mdx files
