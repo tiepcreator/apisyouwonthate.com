@@ -1,0 +1,36 @@
+---
+title: Webhooks, Callbacks and OpenAPI, Oh My!
+subtitle: What's the difference between a callback and a webhook, and which does OpenAPI support? Read on to find out the current status and upcoming changes for asynchronous and two-way APIs.
+date: '2019-10-21'
+coverImage: 
+type: blog
+author: Lorna Mitchell
+---
+
+[OpenAPI](https://www.openapis.org/) is thoroughly mainstream now with most modern API providers produce a description of their API for both internal and external use. There are a few features that are still widespread traction, and the `callbacks` feature is one of those. It's a feature with wide appeal that hasn't seen much support from tooling yet - but that is starting to change.
+
+With more tools implementing the `callbacks` keyword, a wider selection of API providers are looking to adopt OpenAPI. One common roadblock is for APIs that are truly two-way - they include incoming HTTP requests that aren't callbacks but instead result of an external event. Luckily there's already support for this at proposal stage so these APIs should be able to put OpenAPI adoption on their roadmaps! Let's take a look at the two features and the use cases they serve.
+
+## Existing Feature: Callbacks for Async Responses
+
+The [`callbacks`](http://spec.openapis.org/oas/v3.0.2#operation-object) field can be added to any path object, at the same level as `parameters`, `responses`, etc. Here, you can describe any number of HTTP requests that may arrive in response to an earlier HTTP request. This is super useful if an API response will include something slow or expensive or simply not time-critical! Examples could include:
+
+* Reporting APIs where the user can make an API request to generate a report and include a URL to send the report data to once it has been generated.
+* Status updates for a request that won't complete instantly (such as a payment transaction or message delivery receipt).
+
+If your API has features like this, then the OpenAPI `callbacks` feature enables you to describe them along with the rest of your API.
+
+## Proposed Feature: Webhooks for Event-Driven HTTP
+
+The proposed `webhooks` field is a top-level element (warning: naming is very much under discussion and is probably the most important part thing to get right in this proposal!) that behaves exactly like a `callbacks` element within a path entry does. This is very cool because it means that most tools that support `callbacks` will be able to support `webhooks` without a lot of work from the maintainers. The main difference is that instead of being the result of an earlier HTTP call, these incoming requests are the result of an event happening elsewhere. This makes it ideal for APIs that offer features like:
+
+* Notifications of events, my favourite example is the GitHub push event.
+* Delivery of data that would otherwise be obtained by polling, such as warehouse stock level updates after a purchase - or even a lorryload of stock delivery!
+
+Increasingly our machines talk to one another in ways that are more sophisticated that the overnight batch import. Being able to describe HTTP requests in either direction will be a huge boost for OpenAPI. With the implementation agreed (although still at proposal stage), APIs and tools can move together to adopt this feature.
+
+## Callbacks, Webhooks ... or Both?
+
+There are a few situations where `callbacks` is a valid way to specify an incoming HTTP request but `webhooks` may be preferable. For example, an API that allows subscribing to events under a configuration-related endpoint: it may make more logical sense (for outputs such as documentation) to put the description of the event-driven HTTP requests independently under `webhooks` than nested under an admin endpoint.
+
+If you want to know more about the `webhooks` feature, then you can find the [proposal in the OAS repo](https://github.com/OAI/OpenAPI-Specification/blob/master/proposals/002_Webhooks.md) and general discussion (all voices welcome, even if you only drop by to share a +1) is [on the github issue](https://github.com/OAI/OpenAPI-Specification/issues/1968). OpenAPI is an open standard and it benefits from community participation so do please all share your thoughts!
