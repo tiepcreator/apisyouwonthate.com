@@ -57,7 +57,7 @@ advanced functionality, it was time to think about how to offer the full suite
 of functionality API specifications can provide. Here is the workflow we
 created.
 
-![]()
+![](../../images/posts/wework-workflow/workfow.jpeg)
 
 _The legend there shows which parts we have implemented at WeWork, and which
 parts are still in progress._
@@ -202,13 +202,13 @@ service-name:
 Simple bit of ruby glues YAML and the shell together:
 
 ```ruby
-apis = YAML.load(File.open(‘./data/apis.yml’))
+apis = YAML.load(File.open('./data/apis.yml'))
 
 task :clone do
   apis.each do |nickname, api|
     sh "rm -rf ./tmp/#{nickname} 2>&1"
     # Shallow clone and only get the branch we want
-    sh "git clone #{api[‘repo’]} ./tmp/#{nickname} -b #{api[‘branch’] || ‘master’} — single-branch — depth=1 2>&1"
+    sh "git clone #{api['repo']} ./tmp/#{nickname} -b #{api['branch'] || 'master'} — single-branch — depth=1 2>&1"
   end
 end
 ```
@@ -266,7 +266,7 @@ We’re focusing on other bits for now and will loop back in another month to fi
 
 These are hand written, in every application, by different developers. The connection classes vary across applications, and they vary within the same application (one connection class will work differently to another in the same application). They often miss common error cases, ignore concepts like "Retry-After", do not help with validation errors, force clients to figure out appropriate timeouts, etc. It means we’re all using the very bare minimums of HTTP and ignoring the most useful features.
 
-![Pie chart showing only 12% of customers had a client library for any given API or service in their language (and we were all using ruby)](../../images/wework-workflow/sdk.png)
+![Pie chart showing only 12% of customers had a client library for any given API or service in their language (and we were all using ruby)](../../images/posts/wework-workflow/sdk.png)
 
 A handful of teams have written a module/library to act as an SDK, but these take a lot of effort, are manually built and tested, and usually only available in one language (usually Ruby).
 
@@ -302,7 +302,7 @@ will start to notice deprecation warnings showing up in their logs (and since
 faraday-sunset v0.2.0 things can also get reported to
 [Rollbar](http://rollbar.com/)).
 
-Over time we can programatically add other things like [HTTP
+Over time we can programmatically add other things like [HTTP
 caching](https://blog.apisyouwonthate.com/speeding-up-apis-apps-smart-toasters-with-http-response-caching-a67becf829c6)
 and [circuit
 breakers](https://blog.runscope.com/posts/phil-sturgeon-taking-a-timeout-from-poor-performance)
@@ -362,4 +362,4 @@ open-source, so you too can have mocks, docs, SDKs and Postman mirroring, all
 spawned from your own Git repos with very little work. We figure we’ve spent a
 lot of time working all this out, no reason why you should too.~ I took all this
 experience to [Stoplight](https://stoplight.io/) and we've solved "DocOps" for
-you, so don't waste your time duct-taping all this crap together.
+you, so don't waste your time duct-taping all this nonsense together.

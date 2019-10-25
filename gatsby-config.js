@@ -56,7 +56,7 @@ module.exports = {
               aliases: {},
               showLineNumbers: false,
               noInlineHighlight: false,
-              maxWidth: 600,
+              maxWidth: 500,
               linkImagesToOriginal: false,
             },
           },
