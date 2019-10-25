@@ -9,9 +9,11 @@ author: Lorna Mitchell
 
 [OpenAPI](https://www.openapis.org/) is thoroughly mainstream now with most
 modern API providers producing a description of their API for both internal and
-external use. There are a few features that are still widespread traction, and
-the `callbacks` feature is one of those. It's a feature with wide appeal that
-hasn't seen much support from tooling yet - but that is starting to change.
+external use. There are a few features that are still without widespread
+traction, and the
+[`callbacks`](http://spec.openapis.org/oas/v3.0.2#operation-object)` feature is
+one of those. It's a feature with wide appeal that hasn't seen much support from
+tooling yet - but that is starting to change.
 
 With more tools implementing the `callbacks` keyword, a wider selection of API
 providers are looking to adopt OpenAPI. One common roadblock is for APIs that
@@ -23,12 +25,11 @@ serve.
 
 ## Existing Feature: Callbacks for Async Responses
 
-The [`callbacks`](http://spec.openapis.org/oas/v3.0.2#operation-object) field
-can be added to any path object, at the same level as `parameters`, `responses`,
-etc. Here, you can describe any number of HTTP requests that may arrive in
-response to an earlier HTTP request. This is super useful if an API response
-will include something slow or expensive or simply not time-critical! Examples
-could include:
+The `callbacks` field can be added to any path object, at the same level as
+`parameters`, `responses`, etc. Here, you can describe any number of HTTP
+requests that may arrive in response to an earlier HTTP request. This is super
+useful if an API response will include something slow or expensive or simply not
+time-critical! Examples could include:
 
 * Reporting APIs where the user can make an API request to generate a report and
 include a URL to send the report data to once it has been generated. 
