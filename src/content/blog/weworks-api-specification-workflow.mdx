@@ -11,19 +11,19 @@ A year ago we started trying to figure out the best way to not just document HTT
 
 The initial goals were:
 
-*   One source of truth where developers need to update stuff
-*   API Design / Prototyping — Design first, code later when you’ve agreed on contracts
-*   Beautiful documentation for humans
-*   Specifications and Documentation should be kept in sync
-*   Validate payloads before you send them on the client side
-*   RSpec/PHPUnit/etc. assertions providing contract testing API responses in existing test suites
-*   SDK Generators with customisable templates
+* One source of truth where developers need to update stuff
+* API Design / Prototyping — Design first, code later when you’ve agreed on contracts
+* Beautiful documentation for humans
+* Specifications and Documentation should be kept in sync
+* Validate payloads before you send them on the client side
+* RSpec/PHPUnit/etc. assertions providing contract testing API responses in existing test suites
+* SDK Generators with customisable templates
 
 The first low hanging fruit was to get some [human readable
 documentation](https://blog.apisyouwonthate.com/turning-contracts-into-beautiful-documentation-deac7013af18).
 We had _nothing_ for 99% of our APIs, and engineers were being forced to [guess
 at
-contracts](https://blog.apisyouwonthate.com/guessing-api-contracts-ac1b7eaebced).
+contracts](/blog/commit-to-api-contracts).
 
 We had two of our APIs documented with API Blueprint, but nobody was
 particularly interested in writing documentation. We decided we’d need a few
@@ -31,13 +31,13 @@ more carrots to dangle in order to get folks writing specs, and to do that we’
 need a API specification language that could do more. We evaluated
 [RAML](https://raml.org/) and [OpenAPI](https://www.openapis.org/) as
 alternatives, and in the end [OpenAPI was
-chosen](https://philsturgeon.uk/api/2017/07/20/my-vision-for-a-perfect-world-in-api-specification/).
+chosen](https://phil.tech/api/2017/07/20/my-vision-for-a-perfect-world-in-api-specification/).
 
 Switching OpenAPI v2.0 (hereby referred to as OASv2) to power our internal
 documentation portal got us from 2 documented APIs to 6 documented APIs, but a
 few people were hitting troubles due to hitting limitations in the language.
 Luckily [OASv3 solved the problems we were
-facing](https://philsturgeon.uk/api/2018/03/01/api-specification-workflow-matures/).
+facing](https://phil.tech/api/2018/03/01/api-specification-workflow-matures/).
 Tools like [ReDoc](https://github.com/Rebilly/ReDoc) supported v2.0 and v3.0
 (using swagger2openapi internally), so we could easily produce documentation
 written in either version.
@@ -46,22 +46,21 @@ There was still some confusion about how [JSON Schema](http://json-schema.org/)
 and OpenAPI fit together. JSON Schema is incredibly powerful, and is the basis
 for how OpenAPI handles the schema portion of its specifications, but [the two
 have some subtle
-discrepancies.](https://blog.apisyouwonthate.com/openapi-and-json-schema-divergence-part-1-1daf6678d86e)
+discrepancies.](/blog/openapi-and-json-schema-divergence-part-1)
 We knew we wanted to leverage JSON Schema, but we also had to make it fit with
 OpenAPI, so we built tooling to [convert from JSON Schema-proper, to
 OpenAPI-flavoured JSON
-Schema](https://blog.apisyouwonthate.com/openapi-and-json-schema-divergence-part-2-52e282e06a05).
+Schema](/blog/solving-openapi-and-json-schema-divergence).
 
 With documentation nailed, and folks starting to ask questions about more
 advanced functionality, it was time to think about how to offer the full suite
 of functionality API specifications can provide. Here is the workflow we
 created.
 
-![The legend there shows which parts we have implemented at WeWork, and which
-parts are still in
-progress.](https://cdn-images-1.medium.com/max/800/1*Ob-NtQkz5E12whHurNIjYA.jpeg)
-The legend there shows which parts we have implemented at WeWork, and which
-parts are still in progress.
+![]()
+
+_The legend there shows which parts we have implemented at WeWork, and which
+parts are still in progress._
 
 Most of our APIs already exist, and we’re trying to get them caught up with the
 benefits of API specifications. There are a lot of benefits to writing your
@@ -107,7 +106,7 @@ tools and write the glue ourselves.
 One company is working on a GUI editor for Windows, OS X and Linux, which just
 works with local files. This will be amazing for anyone’s workflow because you
 can use Git, Hg, Bazaar, FTP Sync… whatever you want. This is sadly not yet
-available, so the “Write OpenAPI” step remains “In Progress”.
+available, so the "Write OpenAPI" step remains "In Progress".
 
 For now at WeWork we recommend folks use their IDE/editor of choice, which
 hopefully has a plugin available. If their editor of choice does not have a
@@ -118,7 +117,7 @@ are both fantastic. If not, they can rely entirely on our CLI linter to get
 feedback on the validity of their files.
 
 **Lint:** There are plenty of OASv3 CLI validators around which anyone can use
-to confirm OpenAPI files are written correctly, but “correct” is not quite
+to confirm OpenAPI files are written correctly, but "correct" is not quite
 enough when you have a landslide of developers coming into OpenAPI for
 potentially the first time, writing specs for tricky APIs. We wrote up a huge
 Style Guide on a wiki which nobody was really looking at, and would change, so
@@ -128,7 +127,7 @@ To improve the quality of our API specs (like reminding people to use Tags, and
 add descriptions to parameters so humans know what they’re for),
 [Speccy](https://speccy.io/) was created. Now recommendations can be made
 programatically, by [adding new rules to the existing rules
-files](https://blog.apisyouwonthate.com/govern-your-apis-with-speccy-6a507dd68f56).
+files](/blog/govern-your-apis-with-speccy).
 
 _**Update (2019-10-04):** When I left Speccy I left it with a few colleagues, who
 have continued to keep Speccy maintained. No major work has been done on it in ages,
@@ -158,22 +157,22 @@ version: 2
 jobs:
  # other jobs
 
-speccy:
- docker:
- - image: 'circleci/node:8'
- steps:
- - checkout
- - run: 'npx speccy lint ./api/openapi.yml --rules=strict'
+  speccy:
+    docker:
+    - image: 'circleci/node:8'
+    steps:
+    - checkout
+    - run: 'npx speccy lint ./api/openapi.yml --rules=strict'
 
 workflows:
- version: 2
- commit:
- jobs:
- - speccy:
- context: org-global
- requires:
- - build
-````
+  version: 2
+  commit:
+    jobs:
+    - speccy:
+    context: org-global
+    requires:
+    - build
+  ````
 
 This will fail the job not only when somebody creates something like an OpenAPI syntax error, but also when they do something Speccy doesn’t like, like adding a parameter without a description. As soon as Speccy is enabled, the quality of specs can only go up.
 
@@ -181,7 +180,7 @@ This will fail the job not only when somebody creates something like an OpenAPI 
 
 I’ve referred to this as [Tricking Colleagues into Writing Documentation via Contract Testing](https://blog.apisyouwonthate.com/tricking-colleagues-into-writing-documentation-via-contract-testing-206308b47e05), because developers often hate writing docs. Many developers want contract testing, so getting them to write contract tests can actually create documentation at the same time…
 
-Write contract tests, and get awesome documentation that you know is up-to-date “for free”.
+Write contract tests, and get awesome documentation that you know is up-to-date "for free".
 
 JSON Schema is used here because many many more languages have JSON Schema validators, than have OpenAPI validators. JSON Schema can also cover more dynamic cases thanks to `if`/`then`/`else` keywords.
 
@@ -191,30 +190,34 @@ The teams experimenting with gRPC are making one central repository and everyone
 
 **Clone All Repos:** This started off as a really simple Rakefile (Ruby-flavoured make) which looks through a `data/apis.yml` file which lists repositories, and adds metadata about that API.
 
+```yaml
 service-name:
- name: Service Name
- description: Short blurb about the thing
- repo: “git@github.com:wework/service-name.git”
- spec\_dir: api/
- entry\_file: openapi.yml
+  name: Service Name
+  description: Short blurb about the thing
+  repo: "git@github.com:wework/service-name.git"
+  spec_dir: api/
+  entry_file: openapi.yml
+```
 
 Simple bit of ruby glues YAML and the shell together:
 
+```ruby
 apis = YAML.load(File.open(‘./data/apis.yml’))
 
 task :clone do
- apis.each do |nickname, api|
- sh “rm -rf ./tmp/#{nickname} 2>&1”
- # Shallow clone and only get the branch we want
- sh “git clone #{api\[‘repo’\]} ./tmp/#{nickname} -b #{api\[‘branch’\] || ‘master’} — single-branch — depth=1 2>&1”
- end
+  apis.each do |nickname, api|
+    sh "rm -rf ./tmp/#{nickname} 2>&1"
+    # Shallow clone and only get the branch we want
+    sh "git clone #{api[‘repo’]} ./tmp/#{nickname} -b #{api[‘branch’] || ‘master’} — single-branch — depth=1 2>&1"
+  end
 end
+```
 
 Done! So long as the user running this has SSH access to all the Git repos we’re talking to, we’ll have a `./tmp/` directory full of cloned repos.
 
 The next step is where things get extra interesting!
 
-**Normalizing and Resolving Specs:** Whilst we strongly recommend OASv3 be used as an input, reality had other ideas. Some teams are still on OpenAPI v2.0, and one or two folks are on an older “Postman First” workflow. Whilst that’s been deprecated (more on that later), we wanted their APIs to at least have some level of inclusion in our workflow.
+**Normalizing and Resolving Specs:** Whilst we strongly recommend OASv3 be used as an input, reality had other ideas. Some teams are still on OpenAPI v2.0, and one or two folks are on an older "Postman First" workflow. Whilst that’s been deprecated (more on that later), we wanted their APIs to at least have some level of inclusion in our workflow.
 
 We pass OpenAPI v2.0 through swagger2openapi, and if the `data/apis.yml` indicates the input file is `format: postman`, we chuck it through the [Apimatic Transformer](https://apimatic.io/transformer) API and have them convert it OASv3.
 
@@ -222,44 +225,48 @@ Even the OASv3 specifications need a little work done. Most contain `$ref`, and 
 
 Speccy’s `resolve` command solves these problems:
 
+```
 $ speccy resolve api/openapi.yml --json-schema
+```
 
 This turns multiple files into one megafile, and downgrades JSON Schema-proper to OpenAPI-flavoured JSON Schema in the process. Now the aggregator service has one format to work with, and it’s all in one file, so we don’t have to worry about how good the OpenAPI tooling is that’s being used for the task at hand.
 
 **API Server:** Our API Aggregator has a web API (meta!) and exposes a lot of this information for other aspects of the workflow.
 
-\[
- {
- "name": "Service Name",
- "slug": "service-name",
- "contact": {
- "team": "Some Team",
- "email": "some-team@example.com"
- },
- "openapi\_url": "http://localhost:3000/specs/service-name/openapi",
- "postman\_url": "http://localhost:3000/specs/service-name/postman-collection",
- "mock\_server\_url": "http://localhost:3000/mocks/service-name/"
- },
- {
- ...
- }
-\]
+```json
+[
+  {
+    "name": "Service Name",
+    "slug": "service-name",
+    "contact": {
+      "team": "Some Team",
+      "email": "some-team@example.com"
+    },
+    "openapi_url": "http://localhost:3000/specs/service-name/openapi",
+    "postman_url": "http://localhost:3000/specs/service-name/postman-collection",
+    "mock_server_url": "http://localhost:3000/mocks/service-name/"
+  },
+  {
+    ...
+  }
+]
+```
 
 The root of our API server contains links to all the other useful stuff it has to offer, so it can be navigated around without documentation (HATEOAS!). Needing documentation to find the documentation would just be… oww.
 
-**Mock Server:** There are two different types of “mock server”. What you usually see when talking about “mocks” is a HTTP server running static endpoints, which will respond with the same sort of example you see in your documentation when you send it a request that matches the path and method. There will usually be no validation, no way to trigger errors, no way to get dynamic values back, etc.
+**Mock Server:** There are two different types of "mock server". What you usually see when talking about "mocks" is a HTTP server running static endpoints, which will respond with the same sort of example you see in your documentation when you send it a request that matches the path and method. There will usually be no validation, no way to trigger errors, no way to get dynamic values back, etc.
 
-Then there’s a sandbox, which is often a fairly realstic API instance which may well even have a database in the background, that saves values you send it, can trigger errors if your payload is invalid, and various other configurable things. These are really powerful, but we’re ignoring them for now as they’re quite advanced, and a lot of them require user interfaces, user sign in, which is another walled garden to think about paying for and integrating with.
+Then there’s a sandbox, which is often a fairly realistic API instance which may well even have a database in the background, that saves values you send it, can trigger errors if your payload is invalid, and various other configurable things. These are really powerful, but we’re ignoring them for now as they’re quite advanced, and a lot of them require user interfaces, user sign in, which is another walled garden to think about paying for and integrating with.
 
-Sticking to traditional “mocking”, we’re still deciding between [Prism](https://github.com/stoplightio/prism) and [APISprout](https://github.com/danielgtaylor/apisprout). Prism has been around for a long time and is very powerful, but it’s stuck waiting for one of its [Go dependencies to get OAIv3 support](https://github.com/go-openapi/spec/issues/21). APISprout is very new and looks very promising, but we’ve had a few issues getting it to work.
+Sticking to traditional "mocking", we’re still deciding between [Prism](https://github.com/stoplightio/prism) and [APISprout](https://github.com/danielgtaylor/apisprout). Prism has been around for a long time and is very powerful, but it’s stuck waiting for one of its [Go dependencies to get OAIv3 support](https://github.com/go-openapi/spec/issues/21). APISprout is very new and looks very promising, but we’ve had a few issues getting it to work.
 
 We’re focusing on other bits for now and will loop back in another month to finish up the mock server.
 
-**SDK Generator:** Currently it’s very common for every application contacting another API/service to build a “Connection” class. This class will usually be a HTTP wrapper, and it’s essentially an SDK which the caller builds.
+**SDK Generator:** Currently it’s very common for every application contacting another API/service to build a "Connection" class. This class will usually be a HTTP wrapper, and it’s essentially an SDK which the caller builds.
 
-These are hand written, in every application, by different developers. The connection classes vary across applications, and they vary within the same application (one connection class will work differently to another in the same application). They often miss common error cases, ignore concepts like “Retry-After”, do not help with validation errors, force clients to figure out appropriate timeouts, etc. It means we’re all using the very bare minimums of HTTP and ignoring the most useful features.
+These are hand written, in every application, by different developers. The connection classes vary across applications, and they vary within the same application (one connection class will work differently to another in the same application). They often miss common error cases, ignore concepts like "Retry-After", do not help with validation errors, force clients to figure out appropriate timeouts, etc. It means we’re all using the very bare minimums of HTTP and ignoring the most useful features.
 
-![](https://cdn-images-1.medium.com/max/800/0*omoNPJ3Wv2t7qg2X)
+![Pie chart showing only 12% of customers had a client library for any given API or service in their language (and we were all using ruby)](../../images/wework-workflow/sdk.png)
 
 A handful of teams have written a module/library to act as an SDK, but these take a lot of effort, are manually built and tested, and usually only available in one language (usually Ruby).
 
@@ -267,41 +274,92 @@ Due to the very low-level nature of working with the HTTP APIs, integrating anot
 
 Using [OpenAPI Generator](https://github.com/OpenAPITools/openapi-generator) (and our own custom templates) we’ve just finished a proof of concept gem, which is going into production as I write.
 
+```ruby
 sdk = We::Sdk.new
-user = sdk.apis.locations.get\_building('abc-uuid')
-puts user.data # { pegasus: 123, name: Adam Neumann, ... }
+user = sdk.apis.locations.get_building('abc-uuid')
+puts user.data # { pegasus: 123, name: "Adam Neumann", ... }
 
-user = sdk.apis.memberships.get\_user\_memberships(user\_uuid: 123, status\_scope: 'active')
-puts user.data # \[ ... \]
+user = sdk.apis.memberships.get_user_memberships(user_uuid: 123, status_scope: 'active')
+puts user.data # [ ... ]
+```
 
 The `.data` property is an abstraction on `.body` which could contain a string of [JSON:API](http://jsonapi.org/) data or our own propietary data format.
 
+```ruby
 def data
- if headers\['content-type'\] =~ /^application\\/vnd.api\\+json/
- check\_json\_api\_response
- else
- check\_we\_response
- end
+  if headers['content-type'] =~ /^application\/vnd.api+json/
+    check_json_api_response
+  else
+    check_we_response
+  end
 end
+```
 
-Seeing as we’ve only recently made the JSON:API recommendation, it’s really handy that we can roll out code which dynamically supports both. It’s also baked in [faraday-sunset](https://github.com/wework/faraday-sunset), so more teams will start to notice deprecation warnings showing up in their logs (and since faraday-sunset v0.2.0 things can also get reported to [Rollbar](http://rollbar.com/)).
+Seeing as we’ve only recently made the JSON:API recommendation, it’s really
+handy that we can roll out code which dynamically supports both. It’s also baked
+in [faraday-sunset](https://github.com/wework/faraday-sunset), so more teams
+will start to notice deprecation warnings showing up in their logs (and since
+faraday-sunset v0.2.0 things can also get reported to
+[Rollbar](http://rollbar.com/)).
 
-Over time we can programatically add other things like [HTTP caching](https://blog.apisyouwonthate.com/speeding-up-apis-apps-smart-toasters-with-http-response-caching-a67becf829c6) and [circuit breakers](https://blog.runscope.com/posts/phil-sturgeon-taking-a-timeout-from-poor-performance) and enable them one API at a time if we so want, and thanks to [Dependabot](https://dependabot.com/) we can have reasonable expectations of updates happening within a decent timeframe. We also have an async interface being added later which will allow for HTTP/1.1 (and later HTTP/2) calls to be executed in a batch. We’ll see what parts of this we can open-source too of course.
+Over time we can programatically add other things like [HTTP
+caching](https://blog.apisyouwonthate.com/speeding-up-apis-apps-smart-toasters-with-http-response-caching-a67becf829c6)
+and [circuit
+breakers](https://blog.runscope.com/posts/phil-sturgeon-taking-a-timeout-from-poor-performance)
+and enable them one API at a time if we so want, and thanks to
+[Dependabot](https://dependabot.com/) we can have reasonable expectations of
+updates happening within a decent timeframe. We also have an async interface
+being added later which will allow for HTTP/1.1 (and later HTTP/2) calls to be
+executed in a batch. We’ll see what parts of this we can open-source too of
+course.
 
-**Postman Mirroring:** We used to have teams that would use Postman for documentation, but Postman documentation is very limited. It’s basically a bookmark collection in HTML hosted on their website, and it doesn’t mention anything about the actual body of the request/response unless you specifically copy and paste some JSON into their GUI. These examples may be entirely inaccurate and stagnate quickly.
+**Postman Mirroring:** We used to have teams that would use Postman for
+documentation, but Postman documentation is very limited. It’s basically a
+bookmark collection in HTML hosted on their website, and it doesn’t mention
+anything about the actual body of the request/response unless you specifically
+copy and paste some JSON into their GUI. These examples may be entirely
+inaccurate and stagnate quickly.
 
-Postman is an amazing HTTP client, and having shared collections is very useful, so we still use it! We convert our normalized OASv3 files to shared Postman Collections via Apimatic Transformer. Once it’s given us a Postman Collection v2, we upload that file to the [Postman API](https://docs.api.getpostman.com/), and within seconds everyones Postman GUI will have updated to contain any new endpoints, improved examples, etc.
+Postman is an amazing HTTP client, and having shared collections is very useful,
+so we still use it! We convert our normalized OASv3 files to shared Postman
+Collections via Apimatic Transformer. Once it’s given us a Postman Collection
+v2, we upload that file to the [Postman API](https://docs.api.getpostman.com/),
+and within seconds everyone's Postman GUI will have updated to contain any new
+endpoints, improved examples, etc.
 
-Our documentation hub initially had to do all the normalization and resolution itself, but thanks to the API Aggregator it now just has a single Rakefile which looks at the API Server, and passes each `openapi_url` through [ReDoc](https://github.com/Rebilly/ReDoc). The static HTML is put in the `public/` folder along with all our other technical documentation, and job done.
+Our documentation hub initially had to do all the normalization and resolution
+itself, but thanks to the API Aggregator it now just has a single Rakefile which
+looks at the API Server, and passes each `openapi_url` through
+[ReDoc](https://github.com/Rebilly/ReDoc). The static HTML is put in the
+`public/` folder along with all our other technical documentation, and job done.
 
-We have a fantastic cross-API testing suite, which is similar in functionality to [Stoplight: Scenarios](https://stoplight.io/platform/scenarios/). API’s don’t exist in isolation, clients talk to them and APIs talk to other APIs, so you need a test suite that exists outside of the one APIs repo.
+We have a fantastic cross-API testing suite, which is similar in functionality
+to [Stoplight: Scenarios](https://stoplight.io/platform/scenarios/). API’s don’t
+exist in isolation, clients talk to them and APIs talk to other APIs, so you
+need a test suite that exists outside of the one APIs repo.
 
-This end-to-end test suite runs periodicially and on build, leveraging docker compose to spin up and dependencies it requires. Built using RSpec and Faraday, it’s easy for us to add middlewares into these interactions. One middleware we cooked up in a hackathon is faraday-openapi (we’ll open-source this as soon as we’ve got it more fleshed out!), and it basically just looks at the provided OpenAPI spec, checks the request and response that comes through it, then raises an exception on failure.
+This end-to-end test suite runs periodically and on build, leveraging docker
+compose to spin up and dependencies it requires. Built using RSpec and Faraday,
+it’s easy for us to add middlewares into these interactions. One middleware we
+cooked up in a hackathon is faraday-openapi (we’ll open-source this as soon as
+we’ve got it more fleshed out!), and it basically just looks at the provided
+OpenAPI spec, checks the request and response that comes through it, then raises
+an exception on failure.
 
-You’d probably never want to enable this in production, but in a test suite this is fantastic! Now instead of relying on each and every team to enable contract testing (to confirm that both their code is doing what the specs say, and their specs are correct to the code), we can enable this automatically for any API in the E2E suite.
+You’d probably never want to enable this in production, but in a test suite this
+is fantastic! Now instead of relying on each and every team to enable contract
+testing (to confirm that both their code is doing what the specs say, and their
+specs are correct to the code), we can enable this automatically for any API in
+the E2E suite.
 
-OpenAPI and JSON Schema are fantastic tools and the tooling is only getting stronger. Every week it feels like a new tool pops up that makes me improve another section of the workflow, and we’ve not even got into server generation yet. [Meetup](https://www.meetup.com/) have done some really amazing work in this space and we’re looking to take what they’ve done and further it over time.
+OpenAPI and JSON Schema are fantastic tools and the tooling is only getting
+stronger. Every week it feels like a new tool pops up that makes me improve
+another section of the workflow, and we’ve not even got into server generation
+yet.
 
-The API Aggregator is being wrapped up in Docker to make it something we can open-source, so you too can have mocks, docs, SDKs and Postman mirroring, all spawned from your own Git repos with very little work. We figure we’ve spent a lot of time working all this out, no reason why you should too.
-
-[WeWork is hiring](https://www.wework.com/careers) all over the world and we have a lot of our tech people in SF, NYC and Tel-Aviv. If you would like to specifically work on the team which handles this sort of thing ☝️ (we call it Engineering Architecture!) reach out to me, [Phil Sturgeon](mailto:phil.sturgeon@wework.com), and we’ll talk about it!
+~The API Aggregator is being wrapped up in Docker to make it something we can
+open-source, so you too can have mocks, docs, SDKs and Postman mirroring, all
+spawned from your own Git repos with very little work. We figure we’ve spent a
+lot of time working all this out, no reason why you should too.~ I took all this
+experience to [Stoplight](https://stoplight.io/) and we've solved "DocOps" for
+you, so don't waste your time duct-taping all this crap together.
