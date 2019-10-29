@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql } from 'gatsby';
 
 // bootstrap
-import { Container, Col, Row } from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
 
 import { BlogPostItem, Layout, SEO } from '../../components';
 
