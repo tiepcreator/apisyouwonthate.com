@@ -17,7 +17,7 @@
 }
 
 .imageContainer {
-  max-height: 15rem;
+  height: 15rem;
   margin-bottom: 1rem;
   border: 1px solid #ccc;
 }
