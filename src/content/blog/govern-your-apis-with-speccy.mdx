@@ -9,11 +9,14 @@ type: blog
 author: Phil Sturgeon
 ---
 
-_**Update (2019-10-04):** When I left Speccy I left it with a few colleagues, who
-have continued to keep Speccy maintained. No major work has been done on it in ages,
-so if you like the idea of Speccy but want more power, use [Spectral](https://stoplight.io/spectral/) by Stoplight. It
-has a bunch of developers adding amazing features on the regular, and is used to power
-[Stoplight Studio](https://stoplight.io/studio/)._
+_**Update (2019-10-04):** When I left WeWork I left Speccy with a few
+colleagues, who have thankfully done a lot of maintainance work. If you like the
+idea of Speccy but want more power, use
+[Spectral](https://stoplight.io/spectral/) by Stoplight. It has a bunch of
+developers and community contributors regularly adding amazing features, and
+does everything Speccy used to do and loads more. See how you can use this, and
+other tools, to make [automated enforceable style
+guides](/blog/automated-style-guides-for-any-api)!_
 
 The last year has involved a lot of teaching engineers how to use OpenAPI, with
 the day job growing from a startup to a sizeable corporation. Our engineering
@@ -27,13 +30,13 @@ To meet that challenge, [Speccy](http://speccy.io/) was created, with a huge
 amount of help from [oas-kit](https://github.com/Mermade/oas-kit/) author [Mike
 Ralphson](https://github.com/MikeRalphson). It has many functions as an OpenAPI
 local development workflow assistant, but it primarily exists as a linter. As a
-linter, it can provide opinions, advice, and suggestions more than just “is this
-valid or not”. The advice moves into “You should add descriptions to your
-parameters so people know what they’re for” and “Add contact info so other folks
-know who to talk to when they need help”.
+linter, it can provide opinions, advice, and suggestions more than just "is this
+valid or not". The advice moves into "You should add descriptions to your
+parameters so people know what they’re for" and "Add contact info so other folks
+know who to talk to when they need help".
 
 There are a whole bunch of rules for Speccy already, and they’re split across
-“default” and “strict” meaning you don’t need to use all of them. You can
+"default" and "strict" meaning you don’t need to use all of them. You can
 provide arguments via `--skip="contact-properties,license-url"` if any specific
 rules are rubbing you up the wrong way.
 
@@ -79,6 +82,3 @@ For now, how about you folks get in the comments,
 [Twitter](https://twitter.com/apisyouwonthate/), or
 [Slack,](http://slack.apisyouwonthate.com) with suggestions for rules that you’d
 like to see.
-
-[Pull requests](https://github.com/wework/speccy/tree/master/rules) are also
-very welcome!
