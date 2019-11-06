@@ -18,22 +18,54 @@ best practices, shout about things which are technically allowed but likely to
 cause trouble, and shape the API of code as it's being written (snake_case that
 method!) This is always done for code, and is becoming increasingly popular for API descriptions.
 
-JavaScript users have [eslint](https://eslint.org/), PHP users have [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer), and Ruby has [rubocop](https://www.rubocop.org/). These linters don't just check that the user is writing valid syntax. They check against existing sets of rules, sometimes written by a company, like the almost defacto-standard [eslint-airbnb](https://www.npmjs.com/package/eslint-config-airbnb). Sometimes the rules are made by standards bodies like PSR-12 by the [PHP-FIG](https://github.com/squizlabs/PHP_CodeSniffer/tree/master/src/Standards/PSR12), and the tools create a ruleset to match, like the [PSR-2 ruleset for CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/PSR12/ruleset.xml). 
+JavaScript users have [eslint](https://eslint.org/), PHP users have [PHP Code
+Sniffer](https://github.com/squizlabs/PHP_CodeSniffer), and Ruby has
+[rubocop](https://www.rubocop.org/). These linters don't just check that the
+user is writing valid syntax. They check against existing sets of rules,
+sometimes written by a company, like the almost defacto-standard
+[eslint-airbnb](https://www.npmjs.com/package/eslint-config-airbnb). Sometimes
+the rules are made by standards bodies like PSR-12 by the
+[PHP-FIG](https://github.com/squizlabs/PHP_CodeSniffer/tree/master/src/Standards/PSR12),
+and the tools create a ruleset to match, like the [PSR-2 ruleset for
+CodeSniffer](https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/PSR12/ruleset.xml).
 
-Today I even had to use [awesome-lint](https://github.com/sindresorhus/awesome-lint) in order to make sure [awesome-earth](https://github.com/philsturgeon/awesome-earth) was conforming to their rules, which were built using the [Remark](https://github.com/remarkjs/remark-lint) Markdown linter.
 
-When it comes to API descriptions, most companies of a certain size end up with a "Style Guide", "Style Book", "Design Guide", etc. These are often on a Google Doc, wiki, or some other sort of docs/content management system. I've seen loads of these, and written plenty. Many companies [even publish them](http://apistylebook.com/design/guidelines/).
+Today I even had to use
+[awesome-lint](https://github.com/sindresorhus/awesome-lint) in order to make
+sure [awesome-earth](https://github.com/philsturgeon/awesome-earth) was
+conforming to their rules, which were built using the
+[Remark](https://github.com/remarkjs/remark-lint) Markdown linter.
+
+When it comes to API descriptions, most companies of a certain size end up with
+a "Style Guide", "Style Book", "Design Guide", etc. These are often on a Google
+Doc, wiki, or some other sort of docs/content management system. I've seen loads
+of these, and written plenty. Many companies [even publish
+them](http://apistylebook.com/design/guidelines/).
 
 ## Text-based Style Guides are a Time Suck
 
-The trouble with these text-based documents is that they are large, terse, unexciting documents, which developers rarely read. If developers _do_ read them cover to cover, _and_ remember everything in there, that knowledge becomes partially out of date when new rules are added because they won't know about them until they re-read everything cover to cover again. 
+The trouble with these text-based documents is that they are large, terse,
+unexciting documents, which developers rarely read. If developers _do_ read them
+cover to cover, _and_ remember everything in there, that knowledge becomes
+partially out of date when new rules are added because they won't know about
+them until they re-read everything cover to cover again. 
 
-At _[API the Docs](https://apithedocs.org/amsterdam2019)_ I saw a talk from _Kelsey Lambert_ at Salesforce, and their style guide is an example OpenAPI description document which they ask people to check now and then when they are working on something to get ideas of the sorts of things they should use. Salesforce... The giant company with 238479347 APIs who maintain 40 major versions per API, their style guide enforcement approach is eyeballing and memory. Agh I feel for you folks! I have been here and it was bad.
+At _[API the Docs](https://apithedocs.org/amsterdam2019)_ I saw a talk from
+_Kelsey Lambert_ at Salesforce, and their style guide is an example OpenAPI
+description document which they ask people to check now and then when they are
+working on something to get ideas of the sorts of things they should use.
+Salesforce... The giant company with 238479347 APIs who maintain 40 major
+versions per API, their style guide enforcement approach is eyeballing and
+memory. Agh I feel for you folks! I have been here and it was bad.
 
-No developers can be blamed for any of this mess. API developers are busy, and the folks writing style guides are just trying to figure it out as they go along. This mess is an industry problem, but thankfully tools have popped up which can enforce these same style guide concepts through automation.
+No developers can be blamed for any of this mess. API developers are busy, and
+the folks writing style guides are just trying to figure it out as they go
+along. This mess is an industry problem, but thankfully tools have popped up
+which can enforce these same style guide concepts through automation.
 
 - [api-linter](https://github.com/googleapis/api-linter) by Google
-- [graphql-doctor](https://github.com/cap-collectif/graphql-doctor) by [Cap Collectif](https://cap-collectif.com/) (and GitHub)
+- [graphql-doctor](https://github.com/cap-collectif/graphql-doctor) by [Cap Collectif](https://cap-collectif.com/)
+- [graphql-schema-linter](https://github.com/cjoudrey/graphql-schema-linter) by [Christian Joudrey](https://twitter.com/cjoudrey)
 - [Spectral](https://stoplight.io/open-source/spectral/) by [Stoplight](https://stoplight.io/)
 
 Each one of these projects sets out to do relatively similar things, but for different types of API.
@@ -145,27 +177,42 @@ Guide](https://github.com/openapi-contrib/style-guide). Let's make the best
 default ruleset we can, and see how far we can go before we start shouting at
 each other.
 
-Spectral also has a [GitHub Action](https://github.com/stoplightio/spectral-action) and a [GitHub Bot](https://github.com/stoplightio/spectral-bot) which we are working on improving. Commenting on ranges and suggestions please! 😎
+Spectral also has a [GitHub
+Action](https://github.com/stoplightio/spectral-action) and a [GitHub
+Bot](https://github.com/stoplightio/spectral-bot) which we are working on
+improving. Commenting on ranges and suggestions coming soon! 😎
 
-For another fantastic bot, let's take a look at GraphQL Doctor.
-
-## GraphQL Doctor
+## GraphQL Doctor & Schema Linter
 
 GraphQL has it's own [built-in type system](https://graphql.org/learn/schema/),
 which has some of the same sort of keywords as OpenAPI / JSON Schema based
 stuff. 
 
-GraphQL Doctor sets out to do a similar job to Spectral, but for now it's mostly
-focused around detecting breaking changes. Like any type system, there is a fine
+GraphQL makes some design decisions easier, like how you handle relationships.
+No need to pick between nesting/embedding related resources, inlining everything
+with a compound documents, or using hyperlinks to link to related data, GraphQL
+decides that for you. Still, there is a lot of inconsistency that can occur
+outside of the default decisions GraphQL makes. GraphQL people do not escape the
+need to lint, but luckily a great linter exists: [GraphQL Schema
+Linter](https://github.com/cjoudrey/graphql-schema-linter).
+
+![](../../images/posts/automating-style-guides/graphql-schema-linter.png)
+
+[Custom rules](https://github.com/cjoudrey/graphql-schema-linter#customizing-rules)
+can be written for this one too, so you can automate your style guide in CI. No bot 
+or GitHub Action that I can see, but they aren't too tough to knock together.
+
+One schema tool in GraphQL land with a great bot is GraphQL Doctor. It seems
+like it wants to help with a lot more linting in general, but so far it is
+focused on detecting breaking changes. Like any type system, there is a fine
 line between [careful
 evolution](/blog/surviving-deprecations-to-resources-and-properties-on-other-apis)
 and recklessly changing stuff, and GraphQL Doctor will spot the latter.
 
 ![A preview of graphql doctor bot, commenting on a github pull request showing the line where a failure happens](../../images/posts/automating-style-guides/graphql-doctor.jpg)
 
-I hope the team get a chance to work on more general rules for enforcing a style
-guide, as I'd love for GraphQL folks to get in on the same action the
-HTTP-in-general crowd currently has access to. 
+It would be nice to see the two tools merge, or maybe the GraphQL Doctor bot can
+bake in support for GraphQL Schema Linter, but for now it's a two-stop shop. 
 
 ## Google's "API Linter" 
 
@@ -216,10 +263,47 @@ They also decided to persuade teams upgrade from proto2 to proto3.
 
 ![](../../images/posts/automating-style-guides/proto3.png)
 
+## Rule Ideas
+
+You can automate pretty much anything with this stuff, and I've been thinking a lot 
+of rules that go beyond the common use cases of enforcing naming or pluralization.
+
+### Security
+
+- Ban HTTP Basic entirely
+- Make sure every endpoint has some sort of security (OAuth 2, API Key, but not both)
+- Every response should support `application/vnd.api+json` (JSON:API) not just plain-old JSON
+- ID's as integers let people [crawl your API](https://phil.tech/http/2015/09/03/auto-incrementing-to-destruction/) incredibly easily, switch to UUID
+
+### Errors
+
+- Your 20X response seems to have errors in it, why do you hate your consumers
+- There are no URLs in your errors, how can anyone find out more information about what went wrong
+- Error format should be [RFC 7807](https://tools.ietf.org/html/rfc7807)
+
+### Versioning
+
+- Keep [version numbers out of the URL](https://apisyouwonthate.com/blog/api-versioning-has-no-right-way/)
+- Version numbers in headers please
+- Ban all versioning and [demand evolution](https://apisyouwonthate.com/blog/api-evolution-for-rest-http-apis/) (prepare for battle)
+
+Many of these rules are HTTP API specific but you get the idea. Over time I'll
+be working on some of these and adding them to OpenAPI Contrib's [Style
+Guide](https://github.com/openapi-contrib/style-guide), and if you'd like to 
+contribute I'll be happy to guide you through the process over on GitHub.
+
 ## Summary
 
-If you've heard the term API Governance, this is pretty much what most people are talking about. Currently a lot of the people trying to do governance are eyeballing API descriptions on every single PR, and training people to memorize all the quality rules they've come up with. 
+If you've heard the term API Governance, this is pretty much what most people
+are talking about. Currently a lot of the people trying to do governance are
+eyeballing API descriptions on every single PR, and training people to memorize
+all the quality rules they've come up with. 
 
-Manual API training is a thankless, inefficient, never-ending task, and it can be replaced (or drastically streamlined) with a linter baked into an editor, git hook, CI pipeline, GitHub Action, or a bot.
+Manual API training is a thankless, inefficient, never-ending task, and it can
+be replaced (or drastically streamlined) with a linter baked into an editor, git
+hook, CI pipeline, GitHub Action, or a bot.
 
-Don't waste customers time forcing them to try and figure out your inconsistencies. Don't waste all API developers time learning to memorizing style guides. Don't waste the API governance teams time reviewing APIs manually. Don't waste everyone's time fixing inconsistencies in production later. 
+Don't waste customers time forcing them to try and figure out your
+inconsistencies. Don't waste all API developers time learning to memorizing
+style guides. Don't waste the API governance teams time reviewing APIs manually.
+Don't waste everyone's time fixing inconsistencies in production later. 
