@@ -154,10 +154,6 @@ workflow](/blog/api-design-first-vs-code-first), then you notice this early on
 when you've just got some YAML, and your API gets built right in the first
 place.
 
-_If you're using [Stoplight Studio](https://stoplight.io/studio/) then it's
-baked right into the editor, so people designing APIs just do it all correctly,
-straight away!_
-
 Seeing as Spectral is a CLI/JS tool, enforcing this style guide can be done
 in all sorts of ways. 
 
@@ -165,17 +161,19 @@ in all sorts of ways.
 - in a JS test suite
 - on [continuous integration](https://stoplight.io/p/docs/gh/stoplightio/spectral/docs/guides/workflows.md#continuous-integration) to fail builds with errors
 
-Stoplight folks plan to make an [AWS
-Gateway](https://github.com/stoplightio/spectral/issues/475) ruleset to help
-folks navigate the tricky requirements of the AWS Gateway, and I personally like
-the idea of taking the style guides from
+If you're using [Stoplight Studio](https://stoplight.io/studio/) then it's baked
+right into the editor, so people designing APIs just do it all correctly
+straight away. No need to alt tab away to the CLI or wait until a PR is made.
+
+![](../../images/posts/automating-style-guides/studio-spectral.png)
+
+I am trying to find time to take a style guides from
 [Heroku](http://apistylebook.com/design/guidelines/heroku-http-api-design-guide)
 or [PayPal](http://apistylebook.com/design/guidelines/paypal-api-style-guide)
-and turning them into a ruleset. At the very least, I can take some inspiration
-for a new ruleset im putting together: The [OpenAPI Contrib Style
-Guide](https://github.com/openapi-contrib/style-guide). Let's make the best
-default ruleset we can, and see how far we can go before we start shouting at
-each other.
+and turn them into a huge example ruleset. At the very least, I can take some
+inspiration for a new ruleset im putting together: The [OpenAPI Contrib > Style
+Guide](https://github.com/openapi-contrib/style-guide). This should be an interesting 
+community effort.
 
 Spectral also has a [GitHub
 Action](https://github.com/stoplightio/spectral-action) and a [GitHub
