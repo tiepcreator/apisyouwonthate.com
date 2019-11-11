@@ -24,7 +24,7 @@
     "gatsby-remark-prismjs": "^3.3.22",
     "gatsby-source-anchor": "^0.5.1",
     "gatsby-source-filesystem": "^2.1.36",
-    "gatsby-source-shopify": "^3.0.26",
+    "gatsby-source-shopify": "^3.0.27",
     "gatsby-transformer-remark": "^2.6.33",
     "gatsby-transformer-sharp": "^2.3.3",
     "moment": "^2.24.0",
