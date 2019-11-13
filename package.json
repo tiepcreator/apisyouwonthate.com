@@ -16,7 +16,7 @@
     "gatsby-plugin-netlify": "^2.1.24",
     "gatsby-plugin-offline": "^3.0.20",
     "gatsby-plugin-react-helmet": "^3.1.14",
-    "gatsby-plugin-sharp": "^2.2.37",
+    "gatsby-plugin-sharp": "^2.2.38",
     "gatsby-plugin-sitemap": "^2.2.20",
     "gatsby-plugin-web-font-loader": "^1.0.4",
     "gatsby-remark-embed-video": "^2.0.1",
