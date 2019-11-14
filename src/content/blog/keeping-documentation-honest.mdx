@@ -1,34 +1,34 @@
 ---
 title: Keeping Documentation Honest
-subtitle: Don’t Let Docs and Code Get Out of Sync
+subtitle: 
+  We've been talking a lot about the importance of documentation and API descriptions, Now let’s look at how we can ensure those descriptions are actually telling the truth!
 date: 2017-11-21
-coverImage:
+coverImage: pinocchio.jpeg
 type: blog
 author: Phil Sturgeon
 ---
 
-We’ve been talking a lot about documentation and specifications recently. About how it’s important to [write down your contract](https://blog.apisyouwonthate.com/guessing-api-contracts-ac1b7eaebced) using API specifications, and how to turn specifications into [beautiful human-readable documentation](https://blog.apisyouwonthate.com/turning-contracts-into-beautiful-documentation-deac7013af18). Now let’s look at how we can ensure that documentation is actually telling the truth!
+We've been talking a lot about documentation and API descriptions recently. About how it’s important to [write down your contract](https://apisyouwonthate.com/blog/commit-to-api-contracts) using API descriptions, and how to turn these descriptions into [beautiful human-readable documentation](https://apisyouwonthate.com/blog/turning-contracts-into-beautiful-documentation). Now let’s look at how we can ensure that documentation is actually telling the truth!
 
-Specification comes in a few forms, and if you’re writing JSON Schema you can use things like [json\_matchers](https://github.com/thoughtbot/json_matchers) (Ruby/Rspec) to simplify your integration tests, and confirm your response matches a certain schema.
+API description documents come in a few forms, and if you’re writing JSON Schema you can use things like [json_matchers](https://github.com/thoughtbot/json_matchers) (Ruby/Rspec) to simplify your integration tests, and confirm your response matches a certain schema.
 
+```yaml
 context 'with a valid payload' do
   it 'has a valid contract' do
-    result = JSON.parse(subject.body)\['result'\]
-    expect(result).to match\_response\_schema('foo')
+    result = JSON.parse(subject.body)['result']
+    expect(result).to match_response_schema('foo')
   end
 end
 
 context 'with an invalid payload' do
   it 'has a valid error' do
-    result = JSON.parse(subject.body)\['result'\]
-    expect(result).to match\_response\_schema('shared/error')
+    result = JSON.parse(subject.body)['result']
+    expect(result).to match_response_schema('shared/error')
   end
 end
+```
 
 That `foo` lines up with `schemas/foo.json` and the error matches up with `schemas/shared/error.json`. This is really handy if your documentation is based entirely off of JSON Schema, or if you’re managing to walk that creepy line of [writing JSON Schema and having it generate OpenAPI](https://philsturgeon.uk/api/2017/07/20/my-vision-for-a-perfect-world-in-api-specification/) despite their discrepancies.
-
-![Don’t lie to your users, because they won’t like it.](https://cdn-images-1.medium.com/max/600/1*YlmckN-mKBhhQT-PvdiF5Q.jpeg)
-Don’t lie to your users, because they won’t like it.
 
 When your code is guaranteed to match the schema, then when you generate documentation from the schema you _know_ the documented responses are going to be honest.
 
@@ -64,72 +64,80 @@ Apivore expects your OpenAPI file to be available on URL instead of a filepath a
 
 With YAML being loaded I hit a fresh problem: `$ref` is not respected to the extent that the OpenAPI spec allows it. Another stale conflict-ridden PR exists for supporting `$ref` inside `responses`, but I want it inside `paths`.
 
+```yaml
 paths:
   /foos:
     $ref: paths/foos.yml
   /foos/{id}:
     $ref: paths/foos-id.yml
+```
 
 To avoid spending another half day on a PR, I temporarily used [swagger-cli](https://github.com/BigstickCarpet/swagger-cli) to bundle up a JSON file with no `$ref` usage:
 
+```
 swagger-cli bundle -r docs/api.yml > docs/api.json
+```
 
 This temporary solution got me far enough to notice that the API for sending query string, headers, body data, etc. is rather convoluted. I found myself building a params hash from smaller lets as the “Autiomating Empathy” article suggested:
 
-require 'rails\_helper'
+```ruby
+require 'rails_helper'
 
 RSpec.describe 'Valid OpenAPI', type: :apivore, order: :defined do
 
-  subject { Apivore::SwaggerChecker.instance\_for('docs/api.json') }
+  subject { Apivore::SwaggerChecker.instance_for('docs/api.json') }
 
-  let(:api\_key) { create(:api\_key) }
-  let(:url\_params) {{}}
-  let(:query\_string\_params) {{}}
-  let(:data\_params) {{}}
+  let(:api_key) { create(:api_key) }
+  let(:url_params) {{}}
+  let(:query_string_params) {{}}
+  let(:data_params) {{}}
 
   let(:headers) do
     {
-      'Authorization' => "Token token=#{api\_key.access\_token}",
+      'Authorization' => "Token token=#{api_key.access_token}",
       'Content-Type' => 'application/json'
     }
   end
 
   let(:params) {
-    url\_params.merge(
-      '\_headers' => headers,
-      '\_query\_string' => query\_string\_params.to\_query,
-      '\_data' => data\_params.to\_json
+    url_params.merge(
+      '_headers' => headers,
+      '_query_string' => query_string_params.to_query,
+      '_data' => data_params.to_json
     )
   }
 
   describe '/foos' do
     context 'get' do
       before { create(:foo) }
-      it { is\_expected.to validate(:get, '/foos', 200, params) }
+      it { is_expected.to validate(:get, '/foos', 200, params) }
     end
 
     context 'post' do
-      let(:data\_params) do
+      let(:data_params) do
         {
-          user\_uuid: SecureRandom.uuid,
-          account\_uuid: SecureRandom.uuid,
+          user_uuid: SecureRandom.uuid,
+          account_uuid: SecureRandom.uuid,
         }
       end
 
-      it { is\_expected.to validate(:post, '/foos', 201, params) }
+      it { is_expected.to validate(:post, '/foos', 201, params) }
     end
   end
+```
 
 This starts to seem fairly cool, and tests started passing… but I have already noticed myself copying code from my integration tests to make this work. This file is going to get huge, especially as I have the `validate_all_paths` in there.
 
-Failure/Error: expect(subject).to validate\_all\_paths
+```
+Failure/Error: expect(subject).to validate_all_paths
  post /foos is untested for response code 400
+```
 
 If I have to test all success and failure scenarios in this special type of RSpec test, I’m really wasting my time, as my integration tests are already doing that. Now I need to copy all of the business logic from all of the existing integration tests, stub things out, make sure VCR requests are happening, etc. just to make Apivore happy…
 
 I commented out that `validate_all_paths` test to make this error go away, and my tests pass, but it’s left me a bit confused about the goals of this thing.
 
-Building this special `type: :apivore` test file, repeating the URLs, copying items from my integration tests to make it work, and doing this all manually… it seems like a lot of extra work. I would prefer an RSpec helper much like json\_matcher like… openapi\_matcher which just helps me confirm the response is correct.
+Building this special `type: :apivore` test file, repeating the URLs, copying items from my integration tests to make it work, and doing this all manually… it seems like a lot of extra work. I would prefer an RSpec helper much like json_matcher like… openapi_matcher which just helps me confirm the response is correct.
 
 Setting everything up myself seems rough, as Dredd would automatically test all paths for the default response and let you know which didn’t work. I don’t need to write the test, Dredd generates that test from example values. Conveniently Dredd will not try to cover every response status, which means if you list your success first and failures after, it’ll skip those. That is fine as I’m using `expect(result).to match_response_schema('shared/error')` in the integration tests failure cases. Once again JSON Schema has saved the day.
 
@@ -137,14 +145,14 @@ Apivore seems especially useless as it turns out, [Apivore does not help with qu
 
 > Tests your rails API against its Swagger description of end-points, models, and query parameters. — [https://github.com/westfieldlabs/apivore](https://github.com/westfieldlabs/apivore)
 
-It lies…
+It lies...
 
-That means all it does is check the response, which I am already doing with [json\_matchers](https://github.com/thoughtbot/json_matchers)… so…
+That means all it does is check the response, which I am already doing with [json_matchers](https://github.com/thoughtbot/json_matchers)… so…
 
 #### Summary
 
-For me I’ll keep using [json\_matchers](https://github.com/thoughtbot/json_matchers) in integration tests to ensure the contract of each response, and use Dredd to check everything else is working. I’ll suggest my PHP coworkers use [JsonGuard](http://json-guard.thephpleague.com/) in a similar fashion, and take Apivore off the recommended tool list here at the day job for now.
+For me I’ll keep using [json_matchers](https://github.com/thoughtbot/json_matchers) in integration tests to ensure the contract of each response, and use Dredd to check everything else is working. I’ll suggest my PHP coworkers use [JsonGuard](http://json-guard.thephpleague.com/) in a similar fashion, and take Apivore off the recommended tool list here at the day job for now.
 
 I’ll be writing more about Dredd in the future, so subscribe if you want to get that!
 
-You could also buy my book [Build APIs You Won’t Hate](https://apisyouwonthate.com/books/build-apis-you-wont-hate.html)!
+You could also buy our book [Build APIs You Won’t Hate](https://apisyouwonthate.com/books/build-apis-you-wont-hate.html)!
