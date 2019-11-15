@@ -8,7 +8,7 @@
     "@shopify/buy-button-js": "^1.0.4",
     "bootstrap": "^4.3.1",
     "gatsby": "^2.17.13",
-    "gatsby-image": "^2.2.32",
+    "gatsby-image": "^2.2.33",
     "gatsby-plugin-feed": "^2.3.21",
     "gatsby-plugin-google-analytics": "^2.1.26",
     "gatsby-plugin-manifest": "^2.2.27",
