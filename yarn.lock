@@ -6212,10 +6212,10 @@ gatsby-source-anchor@^0.5.1:
   dependencies:
     rss-parser "^3.5.3"
 
-gatsby-source-filesystem@^2.1.37:
-  version "2.1.37"
-  resolved "https://registry.yarnpkg.com/gatsby-source-filesystem/-/gatsby-source-filesystem-2.1.37.tgz#2738e3031028730952e042cf45421873c2f18d58"
-  integrity sha512-RCTgRDFwHzH+WG0aFL39TB276lnaRwrSuTlulOTBGbITA6+zaIhmpjQk/gdhl3FQUz7tw3Or+xMhcqghsoAeCA==
+gatsby-source-filesystem@^2.1.37, gatsby-source-filesystem@^2.1.38:
+  version "2.1.38"
+  resolved "https://registry.yarnpkg.com/gatsby-source-filesystem/-/gatsby-source-filesystem-2.1.38.tgz#174fbef19826844c92e5679cb2e379eeb52acf80"
+  integrity sha512-GMsuE2lVvvKwngGSULYiLlwErU0og5TSDaSz8B/yqgqGw0EGaZc3vdcpk4PioEzHQSIR6usDCjubfmN0t3zRYw==
   dependencies:
     "@babel/runtime" "^7.7.2"
     better-queue "^3.8.10"
@@ -6223,7 +6223,7 @@ gatsby-source-filesystem@^2.1.37:
     chokidar "3.3.0"
     file-type "^12.4.0"
     fs-extra "^8.1.0"
-    gatsby-core-utils "^1.0.19"
+    gatsby-core-utils "^1.0.20"
     got "^7.1.0"
     md5-file "^3.2.3"
     mime "^2.4.4"
@@ -6233,15 +6233,15 @@ gatsby-source-filesystem@^2.1.37:
     valid-url "^1.0.9"
     xstate "^4.6.7"
 
-gatsby-source-shopify@^3.0.29:
-  version "3.0.29"
-  resolved "https://registry.yarnpkg.com/gatsby-source-shopify/-/gatsby-source-shopify-3.0.29.tgz#187a67316e442b2e7696dc4b8033021cfb72a033"
-  integrity sha512-uVmlq2GwCfxhpqlZByMm5CqEdgP9a/PFIChdWTMMQRqvRZG81PmMhFrnRTwWE5oi5Gg9MmEqpCTicWjtDjIK+Q==
+gatsby-source-shopify@^3.0.30:
+  version "3.0.30"
+  resolved "https://registry.yarnpkg.com/gatsby-source-shopify/-/gatsby-source-shopify-3.0.30.tgz#a275305a4989086ab7fafca23c1b785ca4fbe002"
+  integrity sha512-011b8Ox/YXgn9kTZYYCRMLX1w8d/ZvdYqjY3mDvL8TjCIdHtBLZ85l0PLYOcyV6DDTsl6Xe4BcBqnPJMWas6WQ==
   dependencies:
     babel-preset-gatsby-package "^0.2.11"
     chalk "^2.4.2"
     gatsby-node-helpers "^0.3.0"
-    gatsby-source-filesystem "^2.1.37"
+    gatsby-source-filesystem "^2.1.38"
     graphql-request "^1.8.2"
     lodash "^4.17.15"
     p-iteration "^1.1.8"
