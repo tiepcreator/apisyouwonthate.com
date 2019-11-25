@@ -1,19 +1,19 @@
 ---
-title: Ketting v5 released
+title: Easy to Follow Hypermedia Controls with Ketting
 subtitle: >-
   Ketting v5 released with support for Siren and other neat new features.
 date: '2019-11-22T12:00:00.000Z'
+coverImage: links.jpeg
 type: blog
 author: Evert Pot
 ---
 
 Hi! My name is Evert, and for a while now I've been working on a project
 called [Ketting][1], which is a generic Hypermedia/HATEOAS client for
-Javascript. I just released version 5, and thought it might be interesting
+Javascript. I just released version 5.0, and thought it might be interesting
 to share the new features that have been added since earlier this year.
 
-These are the highlights:
-
+These are the highlights.
 
 ## Support For Siren
 
@@ -46,7 +46,7 @@ In HTTP/1.1 style APIs, it was common to actually embed the responses of
 every 'item' in a collection using for example's HAL `_embedded` property or
 JSON:API's `included`.
 
-This is kind of an [anti-pattern][2], but a neccesary evil because HTTP/1.1
+This is kind of an [anti-pattern][2], but a necessary evil because HTTP/1.1
 requests have a large amount of overhead.
 
 Ketting will take all the items in `_embedded` and store the items in
@@ -106,7 +106,7 @@ Ketting now understands the 'invalidates' link relationship from
 [draft-nottingham-linked-cache-inv][7]. 
 
 A use-case for this is that a client might do a `POST` request on some
-resource, and the result of this resource causes other cached respondes
+resource, and the result of this resource causes other cached responds
 to invalidate.
 
 This is handy, because an operation on one resource can alter the state of
@@ -138,7 +138,7 @@ Our API could simply point to Github endpoints and the client was able to just
 traverse the graph and didn't have to be aware that some endpoints were served
 by Github.
 
-However, our API and Githubs each have their own authentication mechanisms.
+However, our API and Github's each have their own authentication mechanisms.
 In previous Ketting versions authentication could only be set up once globally,
 causing the same credentials to be sent everywhere.
 
@@ -216,7 +216,7 @@ application state being managed by the server.
 I hope you like the changes. My goal is to create the ultimate client for
 Hypermedia APIs, and I feel these are some good steps in that direction.
 
-If you're an existing userxs, I would be very curious to hear what's currently
+If you're an existing user, I would be very curious to hear what's currently
 painful and help adjust the future of this project.
 
 If you're a new user and interested in using it, check out the
