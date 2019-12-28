@@ -11,7 +11,10 @@ const VideosPage = ({ data }) => {
   const { videos } = data;
   return (
     <Layout>
-      <SEO title="Books" keywords={['apis', 'api', 'rest', 'rpc', 'graphql']} />
+      <SEO
+        title="Videos"
+        keywords={['apis', 'api', 'rest', 'rpc', 'graphql']}
+      />
       <header className={classes.header}>
         <Container>
           <div className={classes.headerContent}>
