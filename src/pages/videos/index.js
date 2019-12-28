@@ -17,12 +17,10 @@ const VideosPage = ({ data }) => {
           <div className={classes.headerContent}>
             <Row>
               <Col lg={7}>
-                <h1>
-                  Videos %P Can't Make It To The Big Conferences In Paris,
-                  London, Or
-                </h1>
+                <h1>Videos</h1>
                 <p>
-                  San Francisco? we get it! We've all got local bars to keep up
+                  Can't make it to the big conferences In Paris, London, or San
+                  Francisco? we get it! We've all got local bars to keep up
                   appearances at, bike races to train for, and pet turtles don't
                   feed themselves!
                 </p>
