@@ -1,6 +1,6 @@
 [[redirects]]
   from = "/podcast/rss"
-  to = "https://anchor.fm/s/90abd70/podcast/rss"
+  to = "https://feeds.transistor.fm/apis-you-wont-hate"
 
 [[redirects]]
   from = "/books/*.html"

@@ -14,11 +14,6 @@ const PodcastPage = ({ data }) => {
     <Layout>
       <SEO title="Podcast" />
       <Container className={classes.container}>
-        <Row>
-          <Col>
-            <h1>Check out the podcast</h1>
-          </Col>
-        </Row>
         {podcasts.nodes.map(podcast => (
           <Row key={podcast.id}>
             <Col>
@@ -30,7 +25,7 @@ const PodcastPage = ({ data }) => {
                 >
                   <img
                     className={classes.imageContainer}
-                    src={podcast.itunes.image}
+                    src={podcast.itunes.image.attrs.href}
                     alt="APIs You Won\'t Hate cover"
                   />
                 </OutboundLink>
@@ -42,7 +37,10 @@ const PodcastPage = ({ data }) => {
                     className={classes.titleLink}
                   >
                     <span className={classes.episode}>
-                      s{podcast.itunes.season} e{podcast.itunes.episode}{' '}
+                      {Number(podcast.itunes.episode).toLocaleString('en-US', {
+                        minimumIntegerDigits: 3,
+                        useGrouping: false,
+                      })}
                     </span>
                     <h2 className={classes.title}>{podcast.title}</h2>
                   </OutboundLink>
@@ -57,7 +55,11 @@ const PodcastPage = ({ data }) => {
                         .minutes()}
                     </span>
                   </div>
-                  <div dangerouslySetInnerHTML={{ __html: podcast.content }} />
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: podcast.content.encoded,
+                    }}
+                  />
                 </div>
               </div>
             </Col>
@@ -70,19 +72,24 @@ const PodcastPage = ({ data }) => {
 
 export const query = graphql`
   {
-    podcasts: allAnchorEpisode {
+    podcasts: allFeedPodcast {
       nodes {
         id
         title
         pubDate
         link
-        content
+        content {
+          encoded
+        }
         contentSnippet
         isoDate
         itunes {
-          image
+          image {
+            attrs {
+              href
+            }
+          }
           episode
-          season
           duration
         }
       }
