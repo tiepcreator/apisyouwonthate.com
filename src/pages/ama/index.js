@@ -130,26 +130,4 @@ const AMAPage = () => {
   );
 };
 
-export const query = graphql`
-  {
-    podcasts: allAnchorEpisode {
-      nodes {
-        id
-        title
-        pubDate
-        link
-        content
-        contentSnippet
-        isoDate
-        itunes {
-          image
-          episode
-          season
-          duration
-        }
-      }
-    }
-  }
-`;
-
 export default AMAPage;

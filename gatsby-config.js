@@ -16,11 +16,18 @@ module.exports = {
         path: `${__dirname}/src/images`,
       },
     },
-    // source podcast episodes from anchor.fm
     {
-      resolve: 'gatsby-source-anchor',
+      resolve: `gatsby-source-rss-feed`,
       options: {
-        rss: 'https://apisyouwonthate.com/podcast/rss',
+        url: `https://feeds.transistor.fm/apis-you-wont-hate`,
+        name: `Podcast`,
+        // Optional
+        // Read parser document: https://github.com/bobby-brennan/rss-parser#readme
+        parserOption: {
+          customFields: {
+            item: ['itunes:duration', 'itunes:image', 'itunes:episode'],
+          },
+        },
       },
     },
     // source mdx for content

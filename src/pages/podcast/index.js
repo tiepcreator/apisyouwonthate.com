@@ -1,5 +1,5 @@
 import React from 'react';
-import { graphql } from 'gatsby';
+import { graphql, Link } from 'gatsby';
 import { OutboundLink } from 'gatsby-plugin-google-analytics';
 import { Container, Col, Row } from 'react-bootstrap';
 import moment from 'moment';
@@ -16,9 +16,24 @@ const PodcastPage = ({ data }) => {
       <Container className={classes.container}>
         <Row>
           <Col>
-            <h1>Check out the podcast</h1>
+            <h1>Listen to the Podcast</h1>
+            <p>
+              Wherein Phil, Matt, and Mike talk about news in the world of
+              building and designing APIs, bikes, and climate awareness. Find us
+              wherever you get your podcasts.
+            </p>
+          </Col>
+          <Col xl={4}>
+            <h4>Got a question for us?</h4>
+            <p>
+              Head on over to <Link to="/ama">Submit</Link> to submit your
+              question for the show. We'll do our best to answer on an upcoming
+              episode.
+            </p>
           </Col>
         </Row>
+        <br />
+        <br />
         {podcasts.nodes.map(podcast => (
           <Row key={podcast.id}>
             <Col>
@@ -30,7 +45,7 @@ const PodcastPage = ({ data }) => {
                 >
                   <img
                     className={classes.imageContainer}
-                    src={podcast.itunes.image}
+                    src={podcast.itunes.image.attrs.href}
                     alt="APIs You Won\'t Hate cover"
                   />
                 </OutboundLink>
@@ -42,7 +57,10 @@ const PodcastPage = ({ data }) => {
                     className={classes.titleLink}
                   >
                     <span className={classes.episode}>
-                      s{podcast.itunes.season} e{podcast.itunes.episode}{' '}
+                      {Number(podcast.itunes.episode).toLocaleString('en-US', {
+                        minimumIntegerDigits: 3,
+                        useGrouping: false,
+                      })}
                     </span>
                     <h2 className={classes.title}>{podcast.title}</h2>
                   </OutboundLink>
@@ -57,7 +75,11 @@ const PodcastPage = ({ data }) => {
                         .minutes()}
                     </span>
                   </div>
-                  <div dangerouslySetInnerHTML={{ __html: podcast.content }} />
+                  <div
+                    dangerouslySetInnerHTML={{
+                      __html: podcast.content.encoded,
+                    }}
+                  />
                 </div>
               </div>
             </Col>
@@ -70,19 +92,24 @@ const PodcastPage = ({ data }) => {
 
 export const query = graphql`
   {
-    podcasts: allAnchorEpisode {
+    podcasts: allFeedPodcast {
       nodes {
         id
         title
         pubDate
         link
-        content
+        content {
+          encoded
+        }
         contentSnippet
         isoDate
         itunes {
-          image
+          image {
+            attrs {
+              href
+            }
+          }
           episode
-          season
           duration
         }
       }

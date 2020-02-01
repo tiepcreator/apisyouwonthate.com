@@ -118,6 +118,19 @@ const Footer = () => (
                 />
               </OutboundLink>
             </li>
+            <li>
+              <OutboundLink
+                href="https://www.patreon.com/bePatron?u=19197006"
+                data-patreon-widget-type="become-patron-button"
+              >
+                Become a Patron!
+              </OutboundLink>
+              {/* this script came from https://www.patreon.com/dashboard/widgets */}
+              <script
+                async
+                src="https://c6.patreon.com/becomePatronButton.bundle.js"
+              />
+            </li>
           </ul>
         </Col>
       </Row>
