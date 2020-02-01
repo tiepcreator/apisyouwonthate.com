@@ -1,5 +1,5 @@
 import React from 'react';
-import { graphql } from 'gatsby';
+import { graphql, Link } from 'gatsby';
 import { OutboundLink } from 'gatsby-plugin-google-analytics';
 import { Container, Col, Row } from 'react-bootstrap';
 import moment from 'moment';
@@ -14,6 +14,26 @@ const PodcastPage = ({ data }) => {
     <Layout>
       <SEO title="Podcast" />
       <Container className={classes.container}>
+        <Row>
+          <Col>
+            <h1>Listen to the Podcast</h1>
+            <p>
+              Wherein Phil, Matt, and Mike talk about news in the world of
+              building and designing APIs, bikes, and climate awareness. Find us
+              wherever you get your podcasts.
+            </p>
+          </Col>
+          <Col xl={4}>
+            <h4>Got a question for us?</h4>
+            <p>
+              Head on over to <Link to="/ama">Submit</Link> to submit your
+              question for the show. We'll do our best to answer on an upcoming
+              episode.
+            </p>
+          </Col>
+        </Row>
+        <br />
+        <br />
         {podcasts.nodes.map(podcast => (
           <Row key={podcast.id}>
             <Col>
