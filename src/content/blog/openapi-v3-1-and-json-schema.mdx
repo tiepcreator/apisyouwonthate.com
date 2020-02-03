@@ -1,0 +1,151 @@
+---
+title: OpenAPI v3.1 and JSON Schema 2019-09
+subtitle: >-
+  JSON Schema and OpenAPI will finally align completely in OpenAPI v3.1.
+date: '2020-02-03T00:00:00.000Z'
+coverImage: slam-dunk.jpg
+type: blog
+author: Phil Sturgeon
+---
+
+OpenAPI using an "extended subset" of JSON Schema has caused confusion in the API space since before I had even heard of OpenAPI. Thanks to a lot of hard work from a lot of people over the last 6 months, OpenAPI v3.1 will in fact solve this problem, and there was much rejoicing. 
+
+For anyone who's not read a million words on the topic from me on this topic already, I was talking about the divergence in **[2017](https://phil.tech/api/2017/07/20/my-vision-for-a-perfect-world-in-api-specification/#json-schema-divergence)**. It feels like forever ago now that I was just Googling around trying to figure out which API description format to recommend at WeWork. Somehow I got sucked right into this world, as I have sent pull requests to OpenAPI, got on the core team of JSON Schema, and work for [Stoplight](https://stoplight.io/) building tooling for them both. 🤣
+
+> In some places some have also said that converging the with JSON Schema would make sense for `type` specifically, so I'm seeing very mixed signals about JSON Schema 100% compliance. We'll have to see what happens in 3.1.
+
+Well past-Phil, you got it, OpenAPI v3.1 will indeed solve the divergence between JSON Schema and the OpenAPI Schema Object. Thank f**k.
+
+Here's the wording from the new OpenAPI specification: 
+
+> The Schema Object allows the definition of input and output data types. These types can be objects, but also primitives and arrays. This object is a superset of the [JSON Schema Draft 2019-09](http://json-schema.org/) specification.
+> 
+> For more information about the properties, see [JSON Schema Core](https://json-schema.org/draft/2019-09/json-schema-core.html) and [JSON Schema Validation](https://json-schema.org/draft/2019-09/json-schema-validation.html).
+> 
+> Unless stated otherwise, the property definitions follow the JSON Schema.
+
+Booyeah. It uses the the Core and Validation vocabularies, and there is no list of which keywords it supports, because it's *all of them*. If a keyword exists in JSON Schema Draft 2019-09 (Core or Validation), then it's good to use in OpenAPI v3.1.
+
+## `type` can now be an array
+
+Type works the same for OpenAPI and JSON Schema, which was always tripping people over the most. 
+
+**OpenAPI v3.0**
+
+```yaml
+type: string
+nullable: true
+```
+
+**OpenAPI v3.1**
+
+```yaml
+type: [string, "null"]
+```
+
+This actually used to work in some tooling for OpenAPI v3.0. [Stoplight Docs](https://stoplight.io/docs), [ReDoc](https://redocly.github.io/redoc/), and others, would all support either because so many people used to use it, then the second they tried to use different tooling it would explode. 
+
+## `type` has always been optional
+
+OpenAPI v3.1 (and v3.0.3 for that matter) added some clarifications that if type is not there, it should have always meant `any`. Some tooling would just explode, completely unable to handle a world where something doesn't have a type. 
+
+```yaml
+enum:
+- "foo"
+- 123
+- false
+```
+
+This should be evaluated as though it is literally: 
+
+```yaml
+type: [string, number, boolean, "null", array, object]
+enum:
+- "foo"
+- 123
+- false
+```
+
+## Any `format` from JSON Schema is fine
+
+JSON Schema Draft 2019-09 added a few new formats so go wild with those. There are some changes to how formats are interpreted now, and they are being relaxed from validation, to annotations which could be used for validation if configured to do so. 
+
+Basically, trying to validate that data follows the rules for what a specific validation tool things is valid for that format is... awful. Different tools disagree about what an email address is, despite there being [a standard for what a valid email address is](https://json-schema.org/draft/2019-09/json-schema-validation.html#RFC5322). 
+
+## Arbitrary Keywords
+
+Every now and then somebody would add arbitrary keywords to their JSON Schema files, and their JSON Schema-based tooling would be fine with it, then they'd try and use those in OpenAPI only to find it blows up. We fixed this too.
+
+> In addition to the JSON Schema properties defined in the vocabularies defined in the JSON Schema Core and JSON Schema Validation specifications, any properties can be used from any vocabularies, or entirely arbitrary keywords. 
+
+OpenAPI v3.0 would only allow "extensions", which were arbitrary keywords starting with `x-`. Now, no need for the `x-`, unless you like it, in which case carry on. 👍
+
+## example vs examples
+
+This has been the cause of much confusion for a long time. 
+
+JSON Schema has `examples` which is a bare array, which means you can have a string with two possible examples like this:
+
+```yaml
+type: string
+examples:
+- squirtle
+- charmander
+```
+
+Documentation tools could chose to show the first one, or both, doesn't matter they're both good choices. 
+
+OpenAPI v3.0 was a little different:
+
+```yaml
+type: string
+example: squirtle
+```
+
+JSON Schema based tooling would not know what `example` was, and OpenAPI tooling would choke when it saw `examples` because it is not a valid keyword inside the Schema Object.
+
+In OpenAPI v3.1 the Schema Object `example` keyword is deprecated, so you should start using `examples` in your API description documents. 
+
+_I will probably add a [Spectral rule](https://stoplight.io/p/docs/gh/stoplightio/spectral/docs/reference/openapi-rules.md) for that to help nudge people in the right direction._
+
+## examples are not examples 
+
+The change above does solve a discrepancy, but it does unfortunately introduce its own little bit of confusion. Hold onto your butts. 
+
+In OpenAPI v3.0 you could only have the one example, unless... you use the not-in-the-schema approach to examples which OpenAPI offers:
+
+```yaml
+parameters:
+  - in: query
+    name: limit
+    schema:
+      type: integer
+      maximum: 50
+    examples:       # Multiple examples
+      zero:         # Distinct name
+        value: 0    # Example value
+        summary: A sample limit value  # Optional description
+      max: # Distinct name
+        value: 50   # Example value
+        summary: A sample limit value  # Optional description
+```
+
+_Example from [Swagger.io talking about Examples](https://swagger.io/docs/specification/adding-examples/)._
+
+For any `parameters`, `requestBody` or `responses`, outside of the Schema Object, there is a special OpenAPI keyword called `examples`. This is not a bare array like the JSON Schema `examples`, but an object where the keys are names, and the example has to go inside the `value` key. 
+
+This confusion of two types of `examples` is going to persist, but at least this problem can be solved with documentation and tutorials, instead of being a roadblock making files be unusable in some tooling but fine in others. 😅
+
+## More to Come
+
+The work for JSON Schema alignment is pretty much done, but there are a few licks of paint until its completely sorted. These tweaks might come in over the course of the release condidate process, the first of which is supposedly going to be the end of February (this month?! 🤯)
+
+OpenAPI v3.1 has a bunch of other cool stuff coming too:
+
+- webhooks which do not have to be documented as callbacks underneath a specific operation
+- paths is optional so an API description could be webhooks only
+- maybe overlays will be a thing
+
+We'll talk about all this in future articles in the future. Until then, make sure your tooling is ready for JSON Schema 2019-09 and OpenAPI v3.1. 
+
+Many tooling vendors are hard at work on this as we speak, and if you'd like an already-done reference project to help, check out [Manatee.Json](https://github.com/gregsdennis/Manatee.Json).
