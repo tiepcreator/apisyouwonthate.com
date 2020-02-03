@@ -47,14 +47,11 @@ There is also [jsonschema.net](http://jsonschema.net), which is a really handy o
 ![Throw JSON in on the left, get a bunch of JSON Schema out on the right.](https://cdn-images-1.medium.com/max/800/1*yoc45QH20TEfiIu4k7K8BQ.png)
 Throw JSON in on the left, get a bunch of JSON Schema out on the right.
 
-_Caveat, if you are referencing these JSON Schema files in an OpenAPI v3.0 specification, make sure your JSON Schema Generator is outputting the JSON Sceham as draft4, or it will break OpenAPI._
-
-[**OpenAPI and JSON Schema Divergence: Part 1**
-_This article is going to explain OpenAPI and JSON Schema divergence, which I’ve been calling the subset/superset problem…_blog.apisyouwonthate.com](https://blog.apisyouwonthate.com/openapi-and-json-schema-divergence-part-1-1daf6678d86e "https://blog.apisyouwonthate.com/openapi-and-json-schema-divergence-part-1-1daf6678d86e")[](https://blog.apisyouwonthate.com/openapi-and-json-schema-divergence-part-1-1daf6678d86e)
+_Caveat, if you are referencing these JSON Schema files in an OpenAPI v3.0 specification, make sure your JSON Schema Generator is outputting the JSON Schema Draft 04, or it will break OpenAPI._
 
 #### Generate Specs from Code
 
-Annotation based systems aare terrifying and not something I can understand people wanting to do.
+Annotation based systems are terrifying and not something I can understand people wanting to do.
 
 That said, if you have a strictly typed language like Go, you probably have enough information in your code-base to generate some OpenAPI specs. To create a bunch of specs rather quickly, [goswagger](https://goswagger.io/generate/spec.html) can help you out.
 
