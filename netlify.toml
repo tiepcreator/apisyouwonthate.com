@@ -111,6 +111,10 @@
   to = "/blog/openapi-v31-and-json-schema-2019-09"
 
 [[redirects]]
+  from = "/blog/solving-openapi-and-json-schema-divergence"
+  to = "/blog/openapi-v31-and-json-schema-2019-09"
+
+[[redirects]]
   from = "/optimizing-for-the-speed-of-light-*"
   to = "/blog/optimizing-for-the-speed-of-light"
 
