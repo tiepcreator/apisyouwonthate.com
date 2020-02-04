@@ -66,6 +66,8 @@ enum:
 - false
 ```
 
+Nullable needed [a little clarification](https://github.com/OAI/OpenAPI-Specification/blob/master/proposals/003_Clarify-Nullable.md) to make this clear.
+
 ## Any `format` from JSON Schema is fine
 
 JSON Schema Draft 2019-09 added a few new formats so go wild with those. There are some changes to how formats are interpreted now, and they are being relaxed from validation, to annotations which could be used for validation if configured to do so. 
@@ -142,9 +144,9 @@ The work for JSON Schema alignment is pretty much done, but there are a few lick
 
 OpenAPI v3.1 has a bunch of other cool stuff coming too:
 
-- webhooks which do not have to be documented as callbacks underneath a specific operation
-- paths is optional so an API description could be webhooks only
-- maybe overlays will be a thing
+- [webhooks](https://github.com/OAI/OpenAPI-Specification/blob/master/proposals/002_Webhooks.md) which do not have to be documented as callbacks underneath a specific operation
+- `paths` is optional so an API description could be webhooks only
+- maybe [overlays](https://github.com/OAI/OpenAPI-Specification/blob/master/proposals/004_Overlays.md) will be a thing
 
 We'll talk about all this in future articles in the future. Until then, make sure your tooling is ready for JSON Schema 2019-09 and OpenAPI v3.1. 
 
