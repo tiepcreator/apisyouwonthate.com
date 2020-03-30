@@ -6,34 +6,39 @@ import { formatEpisodeNumber } from '../../utils/podcast';
 import classes from './FeaturedPodcast.module.css';
 import { TypeLabel } from '..';
 
-const FeaturedPodcast = ({ podcast }) => (
-  <Row>
-    <Col xs={12}>
-      <div className={classes.container}>
-        <div className={classes.content}>
-          <TypeLabel>Podcast</TypeLabel>
-          <h1 className={classes.title}>
-            {formatEpisodeNumber(podcast.itunes.episode)} - {podcast.title}
-          </h1>
-          <div
-            dangerouslySetInnerHTML={{
-              __html: podcast.content.encoded,
-            }}
-          />
+const FeaturedPodcast = ({ podcast }) => {
+  // we need to use a url with /e/ for embed - /s/ is the share link!
+  const podcastEmbedUrl = podcast.link.replace('/s/', '/e/');
+
+  return (
+    <Row>
+      <Col xs={12}>
+        <div className={classes.container}>
+          <div className={classes.content}>
+            <TypeLabel>Podcast</TypeLabel>
+            <h1 className={classes.title}>
+              {formatEpisodeNumber(podcast.itunes.episode)} - {podcast.title}
+            </h1>
+            <div
+              dangerouslySetInnerHTML={{
+                __html: podcast.contentSnippet,
+              }}
+            />
+          </div>
+          <iframe
+            title={`APIs You Won't Hate Podcast episode ${podcast.itunes.episode} - ${podcast.title}`}
+            src={podcastEmbedUrl}
+            width="100%"
+            height="180"
+            frameBorder="0"
+            scrolling="no"
+            seamless
+            className={classes.podcastFrame}
+          ></iframe>
         </div>
-        <iframe
-          title={`APIs You Won't Hate Podcast episode ${podcast.itunes.episode} - ${podcast.title}`}
-          src="https://share.transistor.fm/e/1ce8c95e"
-          width="100%"
-          height="180"
-          frameborder="0"
-          scrolling="no"
-          seamless="true"
-          className={classes.podcastFrame}
-        ></iframe>
-      </div>
-    </Col>
-  </Row>
-);
+      </Col>
+    </Row>
+  );
+};
 
 export default FeaturedPodcast;

@@ -21,10 +21,20 @@ import {
 import classes from './Home.module.css';
 
 const findNewest = ({ posts, podcasts }) => {
-  const [firstPost] = orderBy(posts, post => post.frontmatter.date, 'desc');
-  const [firstPod] = orderBy(podcasts, podcast => podcast.pubDate, 'desc');
+  const [firstPost] = orderBy(
+    posts,
+    post => new Date(post.frontmatter.date),
+    'desc'
+  );
 
-  if (moment(firstPod.pubDate).isBefore(firstPost.frontmatter.date)) {
+  const allpods = orderBy(
+    podcasts,
+    podcast => new Date(podcast.pubDate),
+    'desc'
+  );
+  const [firstPod] = allpods;
+
+  if (moment(firstPod.pubDate).isAfter(moment(firstPost.frontmatter.date))) {
     return {
       type: 'podcast',
       data: firstPod,

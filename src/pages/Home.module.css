@@ -42,3 +42,7 @@
 .aboutTeam a:hover {
   color: rgba(var(--white_rgb), var(--alpha-dimmed));
 }
+
+.featured {
+  padding-top: 2rem;
+}
