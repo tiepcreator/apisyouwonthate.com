@@ -169,3 +169,7 @@
 [[redirects]]
   from = "/you-might-not-need-graphql-*"
   to = "/blog/you-might-not-need-graphql"
+
+[[redirects]]
+  from = "/blog/annotations-dsls-and-guis-for-api-descriptions"
+  to = "/blog/theres-no-reason-to-write-openapi-by-hand"
