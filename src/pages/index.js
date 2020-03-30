@@ -1,21 +1,76 @@
 import React from 'react';
 import { graphql } from 'gatsby';
 
+import { orderBy } from 'lodash';
+import moment from 'moment';
+
 // boostrap stuff
 import { Col, Container, Row } from 'react-bootstrap';
 
-import { CoverImage, BookFeature, Layout, SEO } from '../components';
-import { NewsletterForm } from '../components/NewsletterForm';
+import {
+  CoverImage,
+  BookFeature,
+  FeaturedBlogPost,
+  FeaturedPodcast,
+  Layout,
+  NewsletterForm,
+  Overline,
+  SEO,
+} from '../components';
 
 import classes from './Home.module.css';
 
+const findNewest = ({ posts, podcasts }) => {
+  const [firstPost] = orderBy(posts, post => post.frontmatter.date, 'desc');
+  const [firstPod] = orderBy(podcasts, podcast => podcast.pubDate, 'desc');
+
+  if (moment(firstPod.pubDate).isBefore(firstPost.frontmatter.date)) {
+    return {
+      type: 'podcast',
+      data: firstPod,
+    };
+  } else {
+    return {
+      type: 'post',
+      data: firstPost,
+    };
+  }
+};
+
 const IndexPage = ({ data }) => {
-  const { books } = data;
+  const { books, podcasts, posts } = data;
+
+  const earliestItem = findNewest({
+    posts: posts.nodes,
+    podcasts: podcasts.nodes,
+  });
+  let featuredItem;
+
+  switch (earliestItem.type) {
+    case 'podcast':
+      featuredItem = <FeaturedPodcast podcast={earliestItem.data} />;
+      break;
+    case 'post':
+      featuredItem = <FeaturedBlogPost post={earliestItem.data} />;
+      break;
+    default:
+      break;
+  }
 
   return (
     <Layout>
       <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
 
+      <div className={classes.featured}>
+        <Container>
+          <Row>
+            <Col>
+              <Overline>Hot off the presses</Overline>
+            </Col>
+          </Row>
+          {featuredItem}
+        </Container>
+      </div>
       <div className={classes.books}>
         <Container>
           {books.nodes.map((book, i) => {
@@ -140,6 +195,46 @@ export const query = graphql`
           subtitle
           description
           coverImage
+        }
+      }
+    }
+    posts: allMdx(filter: { frontmatter: { type: { eq: "blog" } } }) {
+      nodes {
+        id
+        body
+        excerpt
+        frontmatter {
+          coverImage
+          date
+          author
+          title
+          subtitle
+        }
+      }
+    }
+    podcasts: allFeedPodcast {
+      nodes {
+        id
+        title
+        pubDate
+        link
+        content {
+          encoded
+        }
+        contentSnippet
+        enclosure {
+          url
+          length
+        }
+        isoDate
+        itunes {
+          image {
+            attrs {
+              href
+            }
+          }
+          episode
+          duration
         }
       }
     }

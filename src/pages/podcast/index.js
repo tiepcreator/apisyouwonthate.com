@@ -5,6 +5,7 @@ import { Container, Col, Row } from 'react-bootstrap';
 import moment from 'moment';
 
 import { Layout, SEO } from '../../components';
+import { formatEpisodeNumber } from '../../utils/podcast';
 import classes from './Podcast.module.css';
 
 const PodcastPage = ({ data }) => {
@@ -57,10 +58,7 @@ const PodcastPage = ({ data }) => {
                     className={classes.titleLink}
                   >
                     <span className={classes.episode}>
-                      {Number(podcast.itunes.episode).toLocaleString('en-US', {
-                        minimumIntegerDigits: 3,
-                        useGrouping: false,
-                      })}
+                      {formatEpisodeNumber(podcast.itunes.episode)}
                     </span>
                     <h2 className={classes.title}>{podcast.title}</h2>
                   </OutboundLink>

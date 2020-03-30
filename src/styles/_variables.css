@@ -22,6 +22,8 @@
   --dark-green_hex: var(--dark-green);
   --dark-green_rgb: 84, 125, 86;
 
+  --pink: #d6519a;
+
   /* alpha variables */
   --alpha-dimmed: 0.7;
   --alpha-full: 1;
