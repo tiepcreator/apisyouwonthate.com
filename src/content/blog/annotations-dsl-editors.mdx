@@ -1,20 +1,19 @@
 ---
-title: "Annotations, DSLs, and GUIs for API Descriptions"
+title: "There's No Reason to Write OpenAPI By Hand"
 subtitle: >-
-  Code-first and Design-first share a lot of the same problems and solutions,
-  but there have been huge changes in the tooling ecosystem to how annotations,
-  domain-specific languages, and editors work for things like OpenAPI and
-  GraphQL. Let's see if you change your mind on which of these solutions is
-  right for you.
+  Sometimes you see people complaining about OpenAPI (formerly Swagger), saying
+  they don't want to to write out a whole bunch of YAML/JSON by hand. Other than
+  disability, there's no reason you need to do that, and there hasn't be for
+  a long time. Whether you pick code-first or design-first, you've got some options.
 date: "2020-03-30"
 coverImage: annotations.jpg
 type: blog
 author: Phil Sturgeon
 ---
 
-Some API developers use API descriptions like [OpenAPI](https://www.openapis.org/), [JSON Schema](https://json-schema.org/), or [GraphQL Schemas](https://graphql.org/learn/schema/) to plan the interface of an API before building it, which is known as the "API design first" workflow. Others build the API then generate (or manually produce) API descriptions later, which is the "code-first" workflow. How do people actually create these schemas, and what are the pros and cons of these approaches?
+Some API developers use API descriptions to plan the interface of an API before building it, which is known as the "API design first" workflow. Others build the API then generate (or manually produce) API descriptions later, which is the "code-first" workflow. We wrote _[API Design-first vs Code-first](/blog/api-design-first-vs-code-first/)_ recently to help get you up to speed on the differences, but how do you actually create these API descriptions? 
 
-Many of these type systems involve writing out a bunch of special keywords in YAML or JSON; and neither the design first or code first crew enjoy writing thousands of lines of that by hand. For example, just to say something is a list of integers: 
+Many of these API descriptions ([OpenAPI](https://www.openapis.org/), [JSON Schema](https://json-schema.org/), or [GraphQL Schemas](https://graphql.org/learn/schema/)) involve writing out a bunch of special keywords in YAML, JSON, or another text language. Neither the design-first or code-first crew enjoy writing thousands of lines of that by hand. Why? Well, say you've got a list of integers: 
 
 ```yaml
   schema:
@@ -25,7 +24,9 @@ Many of these type systems involve writing out a bunch of special keywords in YA
        description: Pet ID
 ```
 
-A few approaches popped up to avoid folks needing to write all that out, as designing an API with 100 lines like that will get you two at least one keyboard (maybe two if it's a Macbook). Let's look at these alternatives, and see how they fit into design-first, code-first, and how they can be used to achieve the ultimate goal for API designers: one source of truth for API descriptions, mocks, documentation, and more.
+Designing an API with 100 endpoints like that will get you two at least one keyboard (maybe two if it's a Macbook). Designing a few APIs could drive you bonkers. 
+
+Let's look at some alternatives to hand-rolling your own homegrown artisanal YAML, and how these approaches fit into design-first or code-first. More importantly, let's see how they can be used to achieve the ultimate goal for API designers: one source of truth for API descriptions that power mocks, documentation, request validation, shareable design libraries, and more.
 
 ## Annotations 
 
