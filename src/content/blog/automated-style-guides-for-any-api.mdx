@@ -98,9 +98,9 @@ rules:
     type: style
     given: '$.components.schemas.*~'
     then:
-      function: pattern
+      function: casing
       functionOptions:
-        match: '^[A-Z][a-zA-Z0-9]*$'
+        type: pascal
 ```
 
 This one is a popular one. OpenAPI does not care how you capitalize your models,
@@ -118,9 +118,11 @@ rules:
     recommended: true
     given: $.paths[*]~
     then:
-      function: pattern
+      function: casing
       functionOptions:
-        match: "^(\/[a-z0-9-{}]+)+$"
+        type: kebab
+        separator: 
+          char: "/"
 ```
 
 This rule is actually looking beyond the metadata of your API descriptions, and
@@ -128,7 +130,7 @@ is looking at the actual API design itself. This is saying that the "paths"
 (endpoints) must be hyphenated, so `/recent-files` is good but `/recent_files`
 is not ok. 
 
-You can start to get really creative with this. 
+You can get really creative with regex patterns if that floats your boat. 
 
 ```yaml
 rules:
