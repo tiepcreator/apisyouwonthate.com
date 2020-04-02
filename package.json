@@ -58,7 +58,7 @@
     "lint": "eslint src",
     "prettier-check": "prettier \"src/./**/*.{js,json,css,md}\" --check",
     "prettier-fix": "prettier \"src/./**/*.{js,json,css,md}\" --write",
-    "start": "npm run develop",
+    "start": "gatsby develop",
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\""
   },

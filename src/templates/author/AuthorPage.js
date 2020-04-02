@@ -12,8 +12,6 @@ const BookPage = ({ data }) => {
 
   const { name, shortName } = author.frontmatter;
 
-  debugger;
-
   return (
     <Layout>
       <SEO title={name} />

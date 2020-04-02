@@ -1,7 +1,7 @@
 .books {
   padding: 2rem 0;
-  background-color: var(--hateful-green);
-  color: var(--white);
+  /* background-color: var(--hateful-green); */
+  /* color: var(--swhite); */
 }
 
 .bookSpacer {
@@ -41,4 +41,8 @@
 
 .aboutTeam a:hover {
   color: rgba(var(--white_rgb), var(--alpha-dimmed));
+}
+
+.featured {
+  padding-top: 2rem;
 }
