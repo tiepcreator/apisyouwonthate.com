@@ -9,10 +9,10 @@ const AuthorsPage = ({ data }) => {
   const { authors } = data;
 
   const staffAuthors = authors.nodes.filter(
-    author => !!author.frontmatter.isStaff
+    (author) => !!author.frontmatter.isStaff
   );
   const contributingAuthors = authors.nodes.filter(
-    author => !author.frontmatter.isStaff
+    (author) => !author.frontmatter.isStaff
   );
 
   return (

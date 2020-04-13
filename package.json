@@ -45,7 +45,7 @@
     "eslint-config-react-app": "^5.2.1",
     "eslint-plugin-react-hooks": "^3.0.0",
     "loader-utils": "^2.0.0",
-    "prettier": "^1.19.1"
+    "prettier": "^2.0.4"
   },
   "keywords": [
     "gatsby"

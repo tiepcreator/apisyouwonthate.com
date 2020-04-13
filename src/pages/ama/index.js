@@ -6,9 +6,9 @@ import { Helmet } from 'react-helmet';
 import { Layout } from '../../components';
 import classes from './AMA.module.css';
 
-const encode = data => {
+const encode = (data) => {
   return Object.keys(data)
-    .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
+    .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(data[key]))
     .join('&');
 };
 
@@ -16,7 +16,7 @@ const AMAPage = () => {
   const [formData, setFormData] = useState({});
   const [submitted, setSubmitted] = useState(false);
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
     e.preventDefault();
     fetch('/', {
       method: 'POST',
@@ -24,10 +24,10 @@ const AMAPage = () => {
       body: encode({ 'form-name': 'contact', ...formData }),
     })
       .then(() => setSubmitted(true))
-      .catch(error => alert(error));
+      .catch((error) => alert(error));
   };
 
-  const handleChange = e =>
+  const handleChange = (e) =>
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,

@@ -11,7 +11,7 @@ const Layout = ({ children }) => {
     <MDXProvider
       components={{
         // eslint-disable-next-line jsx-a11y/anchor-has-content
-        a: props => <a {...props} className={classes.mdxAnchor} />,
+        a: (props) => <a {...props} className={classes.mdxAnchor} />,
       }}
     >
       <Container fluid className={classes.baseGrid}>
