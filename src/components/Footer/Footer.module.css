@@ -1,7 +1,6 @@
 .footer {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-  border-top: 2px solid var(--gray);
+  border-top: 80px solid var(--gray);
+  padding: 3rem;
 }
 
 .footer a {

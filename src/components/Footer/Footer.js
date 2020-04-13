@@ -7,13 +7,14 @@ import { OutboundLink } from 'gatsby-plugin-google-analytics';
 import classes from './Footer.module.css';
 
 import { GitHubIcon, TwitterIcon, RssIcon } from '../icons';
+import { NewsletterForm } from '../NewsletterForm';
 
 const Footer = () => (
   <footer className={classes.footer}>
-    <Container>
+    <Container fluid>
       <Row>
         <Col lg={2}>
-          <div className={classes.subtitle}>Contents</div>
+          <div className={classes.subtitle}>APIs You Won't hate</div>
           <ul className={classes.linkList}>
             <li>
               <Link to="/books">Books</Link>
@@ -28,17 +29,11 @@ const Footer = () => (
               <a href="https://calendly.com/philsturgeon">Consulting</a>
             </li>
             <li>
-              <Link to="/community">Community</Link>
-            </li>
-            <li>
               <Link to="/authors">Authors</Link>
-            </li>
-            <li>
-              <Link to="/conduct">Code of Conduct</Link>
             </li>
           </ul>
         </Col>
-        <Col lg={3}>
+        <Col lg={2}>
           <div className={classes.subtitle}>Find us online</div>
           <ul className={classes.linkList}>
             <li>
@@ -83,7 +78,28 @@ const Footer = () => (
             </li>
           </ul>
         </Col>
-        <Col lg={{ span: 3, offset: 3 }}>
+        <Col lg={2}>
+          <div className={classes.subtitle}>Support Us</div>
+          <ul className={classes.linkList}>
+            <li>
+              <OutboundLink
+                href="https://www.patreon.com/bePatron?u=19197006"
+                data-patreon-widget-type="become-patron-button"
+              >
+                Become a Patron!
+              </OutboundLink>
+              {/* this script came from https://www.patreon.com/dashboard/widgets */}
+              <script
+                async
+                src="https://c6.patreon.com/becomePatronButton.bundle.js"
+              />
+            </li>
+            <li>
+              <Link to="/community">Join our Slack Community</Link>
+            </li>
+          </ul>
+        </Col>
+        <Col lg={2}>
           <div className={classes.subtitle}>
             Made with{' '}
             <span role="img" aria-label="love">
@@ -94,6 +110,9 @@ const Footer = () => (
             <li>
               © {new Date().getFullYear()}
               {` APIs You Won't Hate`}
+            </li>
+            <li>
+              <Link to="/conduct">Code of Conduct</Link>
             </li>
             <li>
               {`Built with`}
@@ -118,20 +137,11 @@ const Footer = () => (
                 />
               </OutboundLink>
             </li>
-            <li>
-              <OutboundLink
-                href="https://www.patreon.com/bePatron?u=19197006"
-                data-patreon-widget-type="become-patron-button"
-              >
-                Become a Patron!
-              </OutboundLink>
-              {/* this script came from https://www.patreon.com/dashboard/widgets */}
-              <script
-                async
-                src="https://c6.patreon.com/becomePatronButton.bundle.js"
-              />
-            </li>
           </ul>
+        </Col>
+        <Col>
+          <div className={classes.subtitle}>Subscribe to our newsletter</div>
+          <NewsletterForm />
         </Col>
       </Row>
     </Container>
