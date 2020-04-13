@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
   return (
     <MDXProvider
       components={{
-        // Or define component inline
+        // eslint-disable-next-line jsx-a11y/anchor-has-content
         a: props => <a {...props} className={classes.mdxAnchor} />,
       }}
     >

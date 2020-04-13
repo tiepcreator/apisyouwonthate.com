@@ -42,7 +42,7 @@
   "devDependencies": {
     "@mdx-js/loader": "^1.5.8",
     "@mdx-js/mdx": "^1.5.8",
-    "eslint-config-react-app": "^5.1.0",
+    "eslint-config-react-app": "^5.2.1",
     "eslint-plugin-react-hooks": "^1.6.1",
     "loader-utils": "^2.0.0",
     "prettier": "^1.19.1"
