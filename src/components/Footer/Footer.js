@@ -26,15 +26,12 @@ const Footer = () => (
               <Link to="/videos">Videos</Link>
             </li>
             <li>
-              <a href="https://calendly.com/philsturgeon">Consulting</a>
-            </li>
-            <li>
-              <Link to="/authors">Authors</Link>
+              <Link to="/podcast">Podcast</Link>
             </li>
           </ul>
         </Col>
         <Col lg={2}>
-          <div className={classes.subtitle}>Find us online</div>
+          <div className={classes.subtitle}>Community</div>
           <ul className={classes.linkList}>
             <li>
               <GitHubIcon />{' '}
@@ -57,30 +54,13 @@ const Footer = () => (
               </OutboundLink>
             </li>
             <li>
-              <RssIcon />{' '}
-              <OutboundLink
-                href="/rss.xml"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Blog RSS
-              </OutboundLink>
+              <Link to="/community">Join our Slack Community</Link>
             </li>
             <li>
-              <RssIcon />{' '}
-              <OutboundLink
-                href="/podcast/rss"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Podcast RSS
+              <OutboundLink to="https://forum.apisyouwonthate.com">
+                Forum
               </OutboundLink>
             </li>
-          </ul>
-        </Col>
-        <Col lg={2}>
-          <div className={classes.subtitle}>Support Us</div>
-          <ul className={classes.linkList}>
             <li>
               <OutboundLink
                 href="https://www.patreon.com/bePatron?u=19197006"
@@ -95,53 +75,41 @@ const Footer = () => (
               />
             </li>
             <li>
-              <Link to="/community">Join our Slack Community</Link>
+              <Link to="/conduct">Code of Conduct</Link>
             </li>
           </ul>
         </Col>
         <Col lg={2}>
-          <div className={classes.subtitle}>
-            Made with{' '}
-            <span role="img" aria-label="love">
-              ❤️
-            </span>
-          </div>
+          <div className={classes.subtitle}>More help</div>
           <ul className={classes.linkList}>
             <li>
-              © {new Date().getFullYear()}
-              {` APIs You Won't Hate`}
-            </li>
-            <li>
-              <Link to="/conduct">Code of Conduct</Link>
-            </li>
-            <li>
-              {`Built with`}
-              &nbsp;
-              <OutboundLink
-                href="https://www.gatsbyjs.org"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                Gatsby
-              </OutboundLink>
-            </li>
-            <li>
-              <OutboundLink
-                href="https://www.netlify.com"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                <img
-                  alt="Deploys by netlify"
-                  src="https://www.netlify.com/img/global/badges/netlify-light.svg"
-                />
-              </OutboundLink>
+              <a href="https://calendly.com/philsturgeon">Consulting</a>
             </li>
           </ul>
         </Col>
         <Col>
           <div className={classes.subtitle}>Subscribe to our newsletter</div>
           <NewsletterForm />
+        </Col>
+      </Row>
+      <Row className={classes.bottomRow}>
+        <Col>
+          <p>
+            <OutboundLink
+              href="https://www.netlify.com"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              <img
+                alt="Deploys by netlify"
+                src="https://www.netlify.com/img/global/badges/netlify-dark.svg"
+              />
+            </OutboundLink>
+          </p>
+          <small>
+            © {new Date().getFullYear()}
+            {` APIs You Won't Hate`}
+          </small>
         </Col>
       </Row>
     </Container>

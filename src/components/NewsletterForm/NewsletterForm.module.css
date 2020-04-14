@@ -1,10 +1,16 @@
+.newsletterFormContainer p {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  font-size: smaller;
+}
+
 .description {
   margin-top: 1rem;
 }
 
 .group {
   width: 100%;
-  margin: 1rem 0;
+  margin: 0.5rem 0;
 }
 
 .email {

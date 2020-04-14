@@ -1,15 +1,14 @@
 import React from 'react';
-import { Link } from 'gatsby';
 
 // boostrap stuff
-import { Col, Form, Row } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 
 import classes from './NewsletterForm.module.css';
 
 const NewsletterForm = () => {
   return (
-    <React.Fragment>
-      <h6>Get Pragmatic API, HTTP And REST Info Monthly!</h6>
+    <div className={classes.newsletterFormContainer}>
+      <p>Get Pragmatic API, HTTP And REST Info Monthly!</p>
       <Form
         inline
         method="post"
@@ -30,20 +29,7 @@ const NewsletterForm = () => {
           <input type="submit" value="Submit" className={classes.button} />
         </Form.Group>
       </Form>
-      <div className={classes.description}>
-        <Row>
-          <Col>
-            Not into mailing lists? Get all modern with Slack. We're the largest
-            API-centric{' '}
-            <Link className={classes.link} to="/community">
-              Slack channel
-            </Link>{' '}
-            around. Get your API, REST and HTTP questions answered by 2,000+
-            people.
-          </Col>
-        </Row>
-      </div>
-    </React.Fragment>
+    </div>
   );
 };
 
