@@ -84,6 +84,40 @@ const turnAuthorsIntoPages = async ({ graphql, actions }) => {
   });
 };
 
+const turnJobsIntoPages = async ({ graphql, actions }) => {
+  const jobTemplate = path.resolve('./src/templates/job/JobListing.js');
+  const { data } = await graphql(`
+    {
+      allMdx(filter: { frontmatter: { type: { eq: "jobs" } } }) {
+        nodes {
+          id
+          body
+          frontmatter {
+            title
+            company
+            salary
+            date
+          }
+        }
+      }
+    }
+  `);
+
+  const jobs = data.allMdx.nodes;
+
+  jobs.forEach(job => {
+    const { date, title, company } = job.frontmatter;
+    console.log(`👩🏾‍🚀 Found job ${date} - ${company}: ${title}`);
+    actions.createPage({
+      path: `jobs/${slugify(job.id)}-${slugify(title)}`,
+      component: jobTemplate,
+      context: {
+        id: job.id,
+      },
+    });
+  });
+};
+
 exports.onCreateNode = ({ node, getNode, actions }) => {
   const { createNodeField } = actions;
   if (node.internal.type === `MarkdownRemark`) {
@@ -100,4 +134,5 @@ exports.createPages = async ({ graphql, actions }) => {
   await turnBlogPostsIntoPages({ graphql, actions });
   await turnBooksIntoPages({ graphql, actions });
   await turnAuthorsIntoPages({ graphql, actions });
+  await turnJobsIntoPages({ graphql, actions });
 };
