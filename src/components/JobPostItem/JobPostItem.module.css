@@ -16,6 +16,17 @@
   text-decoration: none;
 }
 
-.company {
+.imageContainer {
+  height: 15rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+}
+
+.featureImageContainer {
+  max-height: 22rem;
+  border: 1px solid #ccc;
+}
+
+.subtitle {
   color: rgba(var(--black_rgb), var(--alpha-dimmed));
 }
