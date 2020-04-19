@@ -11,7 +11,7 @@ import classes from './JobListing.module.css';
 const JobListing = ({ data, pageContext }) => {
   const { jobListing } = data;
 
-  const { company, title, date } = jobListing.frontmatter;
+  const { company, title, date, location, url, salary, currency, remote } = jobListing.frontmatter;
   return (
     <Layout>
       <SEO
@@ -22,21 +22,25 @@ const JobListing = ({ data, pageContext }) => {
       <Container className={classes.post}>
         <Row>
           <Col>
-            <Overline>{company}</Overline>
+            <Overline>{company} | {location}</Overline>
           </Col>
         </Row>
         <Row>
           <Col>
-            <div>
+            <div className="pb-4">
               <h2>{title}</h2>
-              <small>{date}</small>
+              <small>Posted At: {date}</small>
+              <br></br>
+              <small>Salary: {salary} {currency}</small>
+              <br></br>
+              <small>Remote: {remote.charAt(0).toUpperCase() + remote.slice(1)}</small>
             </div>
-            <MDXRenderer>{jobListing.body}</MDXRenderer>
+            <MDXRenderer className="pt-4">{jobListing.body}</MDXRenderer>
           </Col>
         </Row>
         <Row>
-          <Col className="text-center">
-            <a href="#">
+          <Col className="text-left">
+            <a href={url}>
               <Button>Apply Now</Button>
             </a>
           </Col>
@@ -51,7 +55,7 @@ const JobListing = ({ data, pageContext }) => {
           </Col>
         </Row>
       </Container>
-    </Layout>
+    </Layout >
   );
 };
 
@@ -69,7 +73,12 @@ export const query = graphql`
       frontmatter {
         title
         company
-        date
+        date,
+        location,
+        url,
+        salary,
+        currency,
+        remote
       }
     }
   }
