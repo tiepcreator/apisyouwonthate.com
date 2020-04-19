@@ -1,26 +1,33 @@
 import React from 'react';
 import { Link } from 'gatsby';
 
-import { Col, Row } from 'react-bootstrap';
+import { Container, Col, Row } from 'react-bootstrap';
 
 import slugify from '../../utils/slugify';
 
 import classes from './JobPostItem.module.css';
+import { Button } from '../';
+
 
 const JobPostItem = ({ job }) => {
-    const { title, company, salary, date } = job.frontmatter;
+    const { title, company, location, paid } = job.frontmatter;
+    const jobUrl = `/jobs/${slugify(company)}-${slugify(title)}`;
+
     return (
-        <Col xs={12} sm={12} md={12} lg={12}>
-            <Link to={`/jobs/${slugify(company, title)}`} className={classes.container}>
-                <Row>
-                    <Col>
-                        <main>
-                            <h2 className={classes.title}>{title}</h2>
-                            <p className={classes.company}>{company}</p>
-                        </main>
-                    </Col>
-                </Row>
-            </Link>
+        <Col>
+            {/* cover image and title shown on large views */}
+            <div>
+                <h2 className="d-none d-sm-none d-lg-block">
+                    <Link className={classes.title} to={jobUrl}>
+                        {title}
+                    </Link>
+                </h2>
+                <h3 className={classes.company}>{company}</h3>
+                <p className={classes.location}>{location}</p>
+                <Link to={jobUrl}>
+                    <Button className={classes.button}>Find out more</Button>
+                </Link>
+            </div>
         </Col>
     );
 };

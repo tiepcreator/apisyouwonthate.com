@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql } from 'gatsby';
 
 // bootstrap
-import { Container, Row } from 'react-bootstrap';
+import { Container, Col, Row } from 'react-bootstrap';
 
 import { JobPostItem, Layout, SEO } from '../../components';
 
@@ -18,11 +18,21 @@ const JobsPage = ({ data }) => {
     <Layout>
       <SEO title="Jobs" />
       <Container className={classes.container}>
-        <Row>
-          {jobs.map((job) => (
-            <JobPostItem key={job.id} job={job} />
-          ))}
-        </Row>
+        <Col>
+          <Row className="justify-content-md-center mt-4">
+            <div className={classes.heading}>
+              <h2>API Jobs</h2>
+              <p>We put this together to help people find jobs in the API Space. Whether you want to do API Design, Implementation, Testing, Open Source work etc, this will serve as a long lasting directory of jobs in the API Space vetted by professionals.</p>
+            </div>
+          </Row>
+        </Col>
+        <Col>
+          <Row className="justify-content-md-center">
+            {jobs.map((job) => (
+              <JobPostItem key={job.id} job={job} />
+            ))}
+          </Row>
+        </Col>
       </Container>
     </Layout>
   );
@@ -41,6 +51,7 @@ export const query = graphql`
           company,
           salary,
           date,
+          location
         }
       }
     }

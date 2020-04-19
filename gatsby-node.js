@@ -108,8 +108,9 @@ const turnJobsIntoPages = async ({ graphql, actions }) => {
   jobs.forEach(job => {
     const { date, title, company } = job.frontmatter;
     console.log(`👩🏾‍🚀 Found job ${date} - ${company}: ${title}`);
+    console.log(`👩🏾‍🚀 Found job at /jobs/${slugify(company)}-${slugify(title)}`);
     actions.createPage({
-      path: `jobs/${slugify(job.id)}-${slugify(title)}`,
+      path: `/jobs/${slugify(company)}-${slugify(title)}`,
       component: jobTemplate,
       context: {
         id: job.id,
