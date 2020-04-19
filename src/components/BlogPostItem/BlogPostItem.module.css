@@ -15,7 +15,17 @@
 .container:hover {
   text-decoration: none;
 }
+.imageContainer {
+  height: 15rem;		
+  margin-bottom: 1rem;		
+  border: 1px solid #ccc;		
+}		
 
-.company {
+.featureImageContainer {		
+  max-height: 22rem;		
+  border: 1px solid #ccc;		
+}
+
+.subtitle {
   color: rgba(var(--black_rgb), var(--alpha-dimmed));
 }
