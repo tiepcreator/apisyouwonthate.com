@@ -9,7 +9,12 @@
   margin-top: 2rem;
 }
 
-.titl {
+.title-spacing {
+  max-height: 6rem;
+  min-height: 6rem;
+}
+
+.title {
   font-size: 1.5rem;
   font-family: var(--sans-serif-font-family);
   padding-top: 2rem;

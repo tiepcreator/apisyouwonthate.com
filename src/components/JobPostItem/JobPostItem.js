@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'gatsby';
 
-import { Container, Col, Row } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 
 import slugify from '../../utils/slugify';
 
@@ -17,7 +17,7 @@ const JobPostItem = ({ job }) => {
         <Col>
             {/* cover image and title shown on large views */}
             <div>
-                <h2 className="d-none d-sm-none d-lg-block">
+                <h2 className="d-none d-sm-none d-lg-block title-spacing">
                     <Link className={classes.title} to={jobUrl}>
                         {title}
                     </Link>
