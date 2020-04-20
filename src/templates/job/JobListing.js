@@ -11,7 +11,7 @@ import classes from './JobListing.module.css';
 const JobListing = ({ data, pageContext }) => {
   const { jobListing } = data;
 
-  const { company, title, date, location, url, salary, currency, remote } = jobListing.frontmatter;
+  const { company, title, date, location, url, salary, currency, remote, hq_location, employment_type } = jobListing.frontmatter;
   return (
     <Layout>
       <SEO
