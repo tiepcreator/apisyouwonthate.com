@@ -10,7 +10,7 @@ import { Button } from '../';
 
 
 const JobPostItem = ({ job }) => {
-    const { title, company, location, paid } = job.frontmatter;
+    const { title, company, hq_location, employment_type } = job.frontmatter;
     const jobUrl = `/jobs/${slugify(company)}-${slugify(title)}`;
 
     return (
@@ -23,7 +23,8 @@ const JobPostItem = ({ job }) => {
                     </Link>
                 </h2>
                 <h3 className={classes.company}>{company}</h3>
-                <p className={classes.location}>{location}</p>
+                <p className={classes.location}>{hq_location}</p>
+                <p className={classes.location}>{employment_type}</p>
                 <Link to={jobUrl}>
                     <Button className={classes.button}>Find out more</Button>
                 </Link>

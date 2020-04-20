@@ -34,6 +34,10 @@ const JobListing = ({ data, pageContext }) => {
               <small>Salary: {salary} {currency}</small>
               <br></br>
               <small>Remote: {remote.charAt(0).toUpperCase() + remote.slice(1)}</small>
+              <br></br>
+              <small>HQ Location: {hq_location.charAt(0).toUpperCase() + hq_location.slice(1)}</small>
+              <br></br>
+              <small>Employment Type: {employment_type}</small>
             </div>
             <MDXRenderer className="pt-4">{jobListing.body}</MDXRenderer>
           </Col>
