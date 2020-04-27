@@ -30,6 +30,9 @@ const Header = ({ siteTitle }) => (
               <Link to="/blog" className={classes.link}>
                 Blog
               </Link>
+              <Link to="/jobs" className={classes.link}>
+                Jobs
+              </Link>
               <Link to="/podcast" className={classes.link}>
                 Podcast
               </Link>
