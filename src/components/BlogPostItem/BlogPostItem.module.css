@@ -16,14 +16,14 @@
   text-decoration: none;
 }
 .imageContainer {
-  height: 15rem;		
-  margin-bottom: 1rem;		
-  border: 1px solid #ccc;		
-}		
+  height: 15rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+}
 
-.featureImageContainer {		
-  max-height: 22rem;		
-  border: 1px solid #ccc;		
+.featureImageContainer {
+  max-height: 22rem;
+  border: 1px solid #ccc;
 }
 
 .subtitle {

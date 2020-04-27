@@ -1,1 +1,1 @@
-export { default as JobPostItem } from './JobPostItem'; 
+export { default as JobPostItem } from './JobPostItem';

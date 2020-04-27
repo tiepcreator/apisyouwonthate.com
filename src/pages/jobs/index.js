@@ -58,7 +58,7 @@ const JobsPage = ({ data }) => {
         </Col>
         <Col>
           <Row className="justify-content-md-center">
-            {jobs.map((job) => (
+            {jobs.map(job => (
               <JobPostItem key={job.id} job={job} />
             ))}
           </Row>
