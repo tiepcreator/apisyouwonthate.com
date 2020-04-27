@@ -11,7 +11,17 @@ import classes from './JobListing.module.css';
 const JobListing = ({ data, pageContext }) => {
   const { jobListing } = data;
 
-  const { company, title, date, location, url, salary, currency, remote, hq_location, employment_type } = jobListing.frontmatter;
+  const {
+    company,
+    title,
+    date,
+    location,
+    url,
+    salary,
+    currency,
+    remote,
+    employment_type,
+  } = jobListing.frontmatter;
   return (
     <Layout>
       <SEO
@@ -22,7 +32,9 @@ const JobListing = ({ data, pageContext }) => {
       <Container className={classes.post}>
         <Row>
           <Col>
-            <Overline>{company} | {location}</Overline>
+            <Overline>
+              {company} | {location}
+            </Overline>
           </Col>
         </Row>
         <Row>
@@ -31,11 +43,17 @@ const JobListing = ({ data, pageContext }) => {
               <h2>{title}</h2>
               <small>Posted At: {date}</small>
               <br></br>
-              <small>Salary: {salary} {currency}</small>
+              <small>
+                Salary: {salary} {currency}
+              </small>
               <br></br>
-              <small>Remote: {remote.charAt(0).toUpperCase() + remote.slice(1)}</small>
+              <small>
+                Remote: {remote.charAt(0).toUpperCase() + remote.slice(1)}
+              </small>
               <br></br>
-              <small>HQ Location: {hq_location.charAt(0).toUpperCase() + hq_location.slice(1)}</small>
+              <small>
+                Location: {location.charAt(0).toUpperCase() + location.slice(1)}
+              </small>
               <br></br>
               <small>Employment Type: {employment_type}</small>
             </div>
@@ -59,7 +77,7 @@ const JobListing = ({ data, pageContext }) => {
           </Col>
         </Row>
       </Container>
-    </Layout >
+    </Layout>
   );
 };
 
@@ -77,11 +95,11 @@ export const query = graphql`
       frontmatter {
         title
         company
-        date,
-        location,
-        url,
-        salary,
-        currency,
+        date
+        location
+        url
+        salary
+        currency
         remote
       }
     }

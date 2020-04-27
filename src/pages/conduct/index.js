@@ -1,7 +1,7 @@
 import React from 'react';
 import { OutboundLink } from 'gatsby-plugin-google-analytics';
 import { Container, Col, Row } from 'react-bootstrap';
-import Helmet from 'react-helmet';
+import { Helmet } from 'react-helmet';
 
 import { Layout } from '../../components';
 import classes from './Conduct.module.css';
