@@ -11,7 +11,8 @@ import classes from './JobListing.module.css';
 const JobListing = ({ data, pageContext }) => {
   const { jobListing } = data;
 
-  const { company, title, date, location, url, salary, currency, remote, hq_location, employment_type } = jobListing.frontmatter;
+  const { company, title, date, url, salary, currency, remote, hq_location, employment_type } = jobListing.frontmatter;
+
   return (
     <Layout>
       <SEO
@@ -73,12 +74,11 @@ export const query = graphql`
     jobListing: mdx(id: { eq: $id }) {
       id
       body
-      timeToRead
       frontmatter {
         title
         company
         date,
-        location,
+        hq_location,
         url,
         salary,
         currency,

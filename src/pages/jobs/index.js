@@ -54,7 +54,7 @@ export const query = graphql`
           company,
           salary,
           date,
-          location
+          hq_location
         }
       }
     }
