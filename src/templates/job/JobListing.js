@@ -44,7 +44,7 @@ const JobListing = ({ data, pageContext }) => {
               <small>Posted At: {date}</small>
               <br></br>
               <small>
-                Salary: {salary} {currency}
+                Salary: {salary && currency ? `${salary} ${currency}` : '🤷‍♂️☹️'}
               </small>
               <br></br>
               <small>
@@ -52,7 +52,9 @@ const JobListing = ({ data, pageContext }) => {
               </small>
               <br></br>
               <small>
-                Location: {location.charAt(0).toUpperCase() + location.slice(1)}
+                Location:{' '}
+                {location &&
+                  location.charAt(0).toUpperCase() + location.slice(1)}
               </small>
               <br></br>
               <small>Employment Type: {employment_type}</small>

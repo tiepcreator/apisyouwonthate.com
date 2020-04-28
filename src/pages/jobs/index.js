@@ -73,13 +73,7 @@ export default JobsPage;
 export const query = graphql`
   {
     allMdx(
-      filter: {
-        frontmatter: {
-          type: { eq: "jobs" }
-          paid: { eq: true }
-          example: { eq: false }
-        }
-      }
+      filter: { frontmatter: { type: { eq: "jobs" }, published: { eq: true } } }
     ) {
       nodes {
         id
