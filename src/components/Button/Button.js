@@ -20,9 +20,7 @@ const Button = ({
 
   const fullWidthClass = fullWidth ? classes.fullWidth : '';
   const secondaryClass = secondary ? classes.secondary : '';
-  const classNames = `${
-    classes.button
-  } ${fullWidthClass} ${secondaryClass} ${className}`;
+  const classNames = `${classes.button} ${fullWidthClass} ${secondaryClass} ${className}`;
 
   return (
     <div onClick={handleClick} role="button" className={classNames} {...rest}>
