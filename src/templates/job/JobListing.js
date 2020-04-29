@@ -5,6 +5,8 @@ import { graphql, Link } from 'gatsby';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { Container, Col, Row } from 'react-bootstrap';
 
+import moment from 'moment';
+
 import { Button, Layout, SEO, Overline } from '../../components';
 import classes from './JobListing.module.css';
 
@@ -33,7 +35,7 @@ const JobListing = ({ data, pageContext }) => {
         <Row>
           <Col>
             <Overline>
-              {company} | {location}
+              {company} | {location} {remote === 'yes' && <span>/ Remote</span>}
             </Overline>
           </Col>
         </Row>
@@ -41,30 +43,31 @@ const JobListing = ({ data, pageContext }) => {
           <Col>
             <div className="pb-4">
               <h2>{title}</h2>
-              <small>Posted At: {date}</small>
-              <br></br>
-              <small>
-                Salary: {salary && currency ? `${salary} ${currency}` : '🤷‍♂️☹️'}
-              </small>
-              <br></br>
-              <small>
-                Remote: {remote.charAt(0).toUpperCase() + remote.slice(1)}
-              </small>
-              <br></br>
-              <small>
-                Location:{' '}
-                {location &&
-                  location.charAt(0).toUpperCase() + location.slice(1)}
-              </small>
-              <br></br>
-              <small>Employment Type: {employment_type}</small>
+              <dl>
+                <dt>Posted</dt>
+                <dd>{moment(date).format('MM-DD-YYYY')}</dd>
+
+                <dt>Salary</dt>
+                <dd>
+                  {salary && currency ? `${salary} ${currency}` : 'Unlisted'}
+                </dd>
+
+                <dt>Remote</dt>
+                <dd>{remote}</dd>
+
+                <dt>Location</dt>
+                <dd>{location}</dd>
+
+                <dt>Employment Type</dt>
+                <dd>{employment_type || 'Unlisted'}</dd>
+              </dl>
             </div>
             <MDXRenderer className="pt-4">{jobListing.body}</MDXRenderer>
           </Col>
         </Row>
         <Row>
-          <Col className="text-left">
-            <a href={url}>
+          <Col className="text-center">
+            <a href={url} target="_blank" rel="noopener noreferrer">
               <Button>Apply Now</Button>
             </a>
           </Col>
@@ -73,7 +76,7 @@ const JobListing = ({ data, pageContext }) => {
           <Col>
             <div className={classes.footer}>
               <small>
-                Back to all <Link to="/jobs">Jobs</Link>
+                <Link to="/jobs">All Jobs</Link>
               </small>
             </div>
           </Col>
