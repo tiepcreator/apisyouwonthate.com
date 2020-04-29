@@ -37,7 +37,7 @@ const getJobs = async () => {
       date: job.publication_date,
       type: 'jobs',
       url: job.url,
-      published: false,
+      published: true,
     },
     description: job.description,
   }));
@@ -47,12 +47,10 @@ const main = async () => {
   const jobs = await getJobs();
 
   jobs.forEach(job => {
-    const newJobMarkdown = `
----
+    const newJobMarkdown = `---
 ${yaml.dump(job.frontmatter)}
 ---
-${turndownService.turndown(job.description)}
-`;
+${turndownService.turndown(job.description)}`;
 
     const newFilename = `${slugify(
       job.frontmatter.title + ' ' + job.frontmatter.company,
