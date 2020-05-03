@@ -10,6 +10,7 @@ export { FeaturedPodcast } from './Podcast';
 export { Footer } from './Footer';
 export { Header } from './Header';
 export { Image } from './Image';
+export { JobPostItem } from './JobPostItem';
 export { Layout } from './Layout';
 export { NewsletterForm } from './NewsletterForm';
 export { Overline } from './Overline';
