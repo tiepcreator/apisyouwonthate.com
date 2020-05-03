@@ -13,6 +13,10 @@
   margin: auto;
 }
 
+.coverImage {
+  height: 100%;
+  width: 100%;
+}
 .about {
   padding: 5rem 0;
 }

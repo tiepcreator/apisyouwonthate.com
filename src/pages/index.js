@@ -126,6 +126,7 @@ const IndexPage = ({ data }) => {
         <Container>
           <Row>
             <Col xl={{ span: 8, offset: 2 }}>
+              <h2>Get the newsletter</h2>
               <NewsletterForm />
             </Col>
           </Row>
@@ -186,6 +187,7 @@ const IndexPage = ({ data }) => {
         </Col>
         <Col lg className="d-lg-block d-xs-none d-sm-none d-md-none">
           <CoverImage
+            className={classes.coverImage}
             src="about-phil.jpg"
             alt="Phil speaking at a conference"
           />
