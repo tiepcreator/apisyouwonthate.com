@@ -186,6 +186,7 @@ const IndexPage = ({ data }) => {
         </Col>
         <Col lg className="d-lg-block d-xs-none d-sm-none d-md-none">
           <CoverImage
+            className={classes.coverImage}
             src="about-phil.jpg"
             alt="Phil speaking at a conference"
           />
