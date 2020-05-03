@@ -106,6 +106,15 @@ module.exports = {
       },
     },
     {
+      resolve: 'gatsby-plugin-fathom',
+      options: {
+        // Unique site id
+        siteId: 'WWBBZDTB',
+        // Domain whitelist
+        whitelistHostnames: ['apisyouwonthate.com'],
+      },
+    },
+    {
       resolve: `gatsby-plugin-feed`,
       options: {
         query: `
@@ -129,7 +138,7 @@ module.exports = {
                 );
               });
 
-              return posts.map(post => {
+              return posts.map((post) => {
                 return Object.assign({}, post.frontmatter, {
                   description: post.frontmatter.subtitle,
                   date: post.frontmatter.date,

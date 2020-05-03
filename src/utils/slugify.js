@@ -4,7 +4,7 @@ const slugifyLib = require('slugify');
 // set up slugify to convert `/` to `-` instead of removing it
 slugifyLib.extend({ '/': '-' });
 
-const slugify = input => {
+const slugify = (input) => {
   return slugifyLib(input, {
     lower: true,
     replacement: '-',

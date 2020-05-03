@@ -12,7 +12,7 @@ const Button = ({
   secondary = false,
   ...rest
 }) => {
-  const handleClick = event => {
+  const handleClick = (event) => {
     if (typeof onClick === 'function' && !disabled) {
       onClick(event);
     }

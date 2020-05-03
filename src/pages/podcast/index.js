@@ -35,7 +35,7 @@ const PodcastPage = ({ data }) => {
         </Row>
         <br />
         <br />
-        {podcasts.nodes.map(podcast => (
+        {podcasts.nodes.map((podcast) => (
           <Row key={podcast.id}>
             <Col>
               <div className={classes.episodeContainer}>

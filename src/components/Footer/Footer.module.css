@@ -1,11 +1,12 @@
 .footer {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
-  border-top: 2px solid var(--gray);
+  background: var(--purple);
+  border-top: 1px solid var(--gray);
+  padding: 3rem;
+  color: var(--white);
 }
 
 .footer a {
-  color: var(--purple);
+  color: var(--white);
   text-decoration: underline;
 }
 
@@ -20,6 +21,10 @@
   align-items: center;
 }
 
+.linkList li svg {
+  color: var(--white);
+}
+
 .linkList li svg + a {
   margin-left: 0.5rem;
 }
@@ -27,7 +32,7 @@
 .subtitle {
   text-transform: uppercase;
   font-weight: bold;
-  color: var(--gray);
+  color: var(--white);
   margin-bottom: 1rem;
 }
 

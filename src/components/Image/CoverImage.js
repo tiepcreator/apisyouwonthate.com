@@ -19,7 +19,7 @@ export const CoverImage = ({ src, alt, ...rest }) => {
     }
   `);
   const image = allImageSharp.edges.find(
-    edge => edge.node.fluid.originalName === src
+    (edge) => edge.node.fluid.originalName === src
   );
   if (!image) {
     return null;

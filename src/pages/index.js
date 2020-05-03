@@ -23,13 +23,13 @@ import classes from './Home.module.css';
 const findNewest = ({ posts, podcasts }) => {
   const [firstPost] = orderBy(
     posts,
-    post => new Date(post.frontmatter.date),
+    (post) => new Date(post.frontmatter.date),
     'desc'
   );
 
   const allpods = orderBy(
     podcasts,
-    podcast => new Date(podcast.pubDate),
+    (podcast) => new Date(podcast.pubDate),
     'desc'
   );
   const [firstPod] = allpods;
