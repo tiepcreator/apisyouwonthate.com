@@ -111,7 +111,7 @@ module.exports = {
         // Unique site id
         siteId: 'WWBBZDTB',
         // Domain whitelist
-        // whitelistHostnames: ['apisyouwonthate.com'],
+        whitelistHostnames: ['apisyouwonthate.com'],
       },
     },
     {
