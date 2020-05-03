@@ -9,26 +9,23 @@ const NewsletterForm = () => {
   return (
     <div className={classes.newsletterFormContainer}>
       <p>Get Pragmatic API, HTTP And REST Info Monthly!</p>
-      <Form
-        inline
-        method="post"
-        noValidate
-        target="_blank"
-        action={`https://apisyouwonthate.us10.list-manage.com/subscribe/post?u=f5c5ff66d95d11dec1b88cf54&amp;id=532b212b06`}
-      >
-        <Form.Group
-          controlId="exampleForm.ControlInput1"
-          className={classes.group}
-        >
-          <Form.Control
-            type="email"
-            name="email"
-            placeholder="name@example.com"
-            className={classes.email}
-          />
-          <input type="submit" value="Submit" className={classes.button} />
-        </Form.Group>
-      </Form>
+
+      <iframe
+        title="Subscribe to our Newsletter"
+        class="mj-w-res-iframe"
+        frameBorder="0"
+        scrolling="no"
+        marginHeight="0"
+        marginWidth="0"
+        height="200px"
+        src="https://app.mailjet.com/widget/iframe/5dss/qTS"
+        width="100%"
+      ></iframe>
+
+      <script
+        type="text/javascript"
+        src="https://app.mailjet.com/statics/js/iframeResizer.min.js"
+      ></script>
     </div>
   );
 };
