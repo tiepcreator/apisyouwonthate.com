@@ -126,6 +126,7 @@ const IndexPage = ({ data }) => {
         <Container>
           <Row>
             <Col xl={{ span: 8, offset: 2 }}>
+              <h2>Get the newsletter</h2>
               <NewsletterForm />
             </Col>
           </Row>
