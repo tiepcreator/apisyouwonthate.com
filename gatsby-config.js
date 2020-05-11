@@ -106,15 +106,6 @@ module.exports = {
       },
     },
     {
-      resolve: 'gatsby-plugin-fathom',
-      options: {
-        // Unique site id
-        siteId: 'WWBBZDTB',
-        // Domain whitelist
-        whitelistHostnames: ['apisyouwonthate.com'],
-      },
-    },
-    {
       resolve: `gatsby-plugin-feed`,
       options: {
         query: `
