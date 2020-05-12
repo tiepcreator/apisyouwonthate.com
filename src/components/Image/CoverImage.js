@@ -24,7 +24,7 @@ export const CoverImage = ({ src, alt, ...rest }) => {
   if (!image) {
     return null;
   }
-  return <Img objectFit="cover" fluid={image.node.fluid} alt={alt} {...rest} />;
+  return <Img objectFit="scale" fluid={image.node.fluid} alt={alt} {...rest} />;
 };
 
 CoverImage.propTypes = {
