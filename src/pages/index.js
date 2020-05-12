@@ -8,6 +8,7 @@ import moment from 'moment';
 import { Col, Container, Row } from 'react-bootstrap';
 
 import {
+  CarbonAd,
   CoverImage,
   BookFeature,
   FeaturedBlogPost,
@@ -78,6 +79,7 @@ const IndexPage = ({ data }) => {
               <Overline>Hot off the presses</Overline>
             </Col>
           </Row>
+          <CarbonAd />
           {featuredItem}
         </Container>
       </div>

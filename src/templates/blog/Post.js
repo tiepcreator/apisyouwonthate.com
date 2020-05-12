@@ -8,6 +8,7 @@ import { Container, Col, Row } from 'react-bootstrap';
 
 import {
   AuthorDisplay,
+  CarbonAd,
   Colophon,
   CoverImage,
   Layout,
@@ -80,6 +81,7 @@ const Post = ({ data, pageContext }) => {
                       readTimeInMinutes={post.timeToRead}
                     />
                   </div>
+                  <CarbonAd />
                   <MDXRenderer>{post.body}</MDXRenderer>
                 </Col>
               </Row>

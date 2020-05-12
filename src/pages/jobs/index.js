@@ -14,8 +14,6 @@ const JobsPage = ({ data }) => {
     return new Date(b.frontmatter.date) - new Date(a.frontmatter.date);
   });
 
-  debugger;
-
   return (
     <Layout>
       <SEO title="Jobs" />
@@ -28,7 +26,7 @@ const JobsPage = ({ data }) => {
           </Col>
         </Row>
         <Row>
-          {jobs.map(job => (
+          {jobs.map((job) => (
             <Col xs={12} sm={3} md={4}>
               <JobPostItem key={job.id} job={job} />
             </Col>
