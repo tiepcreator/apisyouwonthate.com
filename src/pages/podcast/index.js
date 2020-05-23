@@ -1,6 +1,5 @@
 import React from 'react';
 import { graphql, Link } from 'gatsby';
-import { OutboundLink } from 'gatsby-plugin-google-analytics';
 import { Container, Col, Row } from 'react-bootstrap';
 import moment from 'moment';
 
@@ -39,7 +38,7 @@ const PodcastPage = ({ data }) => {
           <Row key={podcast.id}>
             <Col>
               <div className={classes.episodeContainer}>
-                <OutboundLink
+                <a
                   href={podcast.link}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -49,9 +48,9 @@ const PodcastPage = ({ data }) => {
                     src={podcast.itunes.image.attrs.href}
                     alt="APIs You Won\'t Hate cover"
                   />
-                </OutboundLink>
+                </a>
                 <div>
-                  <OutboundLink
+                  <a
                     href={podcast.link}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -61,7 +60,7 @@ const PodcastPage = ({ data }) => {
                       {formatEpisodeNumber(podcast.itunes.episode)}
                     </span>
                     <h2 className={classes.title}>{podcast.title}</h2>
-                  </OutboundLink>
+                  </a>
                   <div className={classes.meta}>
                     <span className={classes.date}>
                       {moment(podcast.isoDate).calendar()}

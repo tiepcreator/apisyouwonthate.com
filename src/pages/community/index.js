@@ -1,6 +1,5 @@
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
-import { OutboundLink } from 'gatsby-plugin-google-analytics';
 
 import { Image, Layout, SEO } from '../../components';
 import classes from './CommunityPage.module.css';
@@ -21,13 +20,13 @@ const CommunityPage = () => (
 
               <p>
                 Joining is as easy as going to our{' '}
-                <OutboundLink
+                <a
                   href="http://slack.apisyouwonthate.com/"
                   target="_blank"
                   rel="noreferrer noopener"
                 >
                   Slack signup form
-                </OutboundLink>
+                </a>
                 , and entering your email address.
               </p>
 
