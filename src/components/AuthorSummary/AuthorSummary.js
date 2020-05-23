@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'gatsby';
-import { OutboundLink } from 'gatsby-plugin-google-analytics';
 
 import { Col, Row } from 'react-bootstrap';
 
@@ -48,13 +47,13 @@ const AuthorSummary = ({ author }) => {
           <Col>
             <div className={classes.hire}>
               <Button fullWidth>
-                <OutboundLink
+                <a
                   href={consultingUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   Hire {shortName || 'them'}
-                </OutboundLink>
+                </a>
               </Button>
             </div>
           </Col>
@@ -64,7 +63,7 @@ const AuthorSummary = ({ author }) => {
         <Col>
           {github && (
             <div>
-              <OutboundLink
+              <a
                 href={`https://github.com/${github}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -73,12 +72,12 @@ const AuthorSummary = ({ author }) => {
                   <GitHubIcon />
                 </span>{' '}
                 {github}
-              </OutboundLink>
+              </a>
             </div>
           )}
           {twitter && (
             <div>
-              <OutboundLink
+              <a
                 href={`https://twitter.com/${twitter}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -87,7 +86,7 @@ const AuthorSummary = ({ author }) => {
                   <TwitterIcon />
                 </span>{' '}
                 {twitter}
-              </OutboundLink>
+              </a>
             </div>
           )}
         </Col>

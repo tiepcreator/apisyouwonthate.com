@@ -1,6 +1,4 @@
 import React from 'react';
-import { Link } from 'gatsby';
-
 import { Card } from 'react-bootstrap';
 
 import slugify from '../../utils/slugify';

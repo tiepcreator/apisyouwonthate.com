@@ -1,8 +1,5 @@
 import React from 'react';
 
-// boostrap stuff
-import { Form } from 'react-bootstrap';
-
 import classes from './NewsletterForm.module.css';
 
 const NewsletterForm = () => {

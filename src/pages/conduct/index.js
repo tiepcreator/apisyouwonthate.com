@@ -1,5 +1,4 @@
 import React from 'react';
-import { OutboundLink } from 'gatsby-plugin-google-analytics';
 import { Container, Col, Row } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
 
@@ -117,21 +116,21 @@ const ConductPage = () => (
 
             <p>
               This Code of Conduct is adapted from the{' '}
-              <OutboundLink
+              <a
                 href="https://www.contributor-covenant.org"
                 target="_blank"
                 rel="noreferrer noopener"
               >
                 Contributor Covenant
-              </OutboundLink>
+              </a>
               , version 1.4, available at{' '}
-              <OutboundLink
+              <a
                 href="https://www.contributor-covenant.org/version/1/4/code-of-conduct"
                 target="_blank"
                 rel="noreferrer noopener"
               >
                 https://www.contributor-covenant.org/version/1/4/code-of-conduct.html
-              </OutboundLink>
+              </a>
               .
             </p>
 
@@ -139,13 +138,13 @@ const ConductPage = () => (
               {
                 'For answers to common questions about this code of conduct, see '
               }
-              <OutboundLink
+              <a
                 href="https://www.contributor-covenant.org/faq"
                 target="_blank"
                 rel="noreferrer noopener"
               >
                 https://www.contributor-covenant.org/faq
-              </OutboundLink>
+              </a>
               .
             </p>
           </section>

@@ -97,15 +97,6 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-plugin-google-analytics`,
-      options: {
-        trackingId: 'UA-8523256-6',
-        // Puts tracking script in the head instead of the body
-        head: false,
-        cookieDomain: 'apisyouwonthate.com',
-      },
-    },
-    {
       resolve: `gatsby-plugin-feed`,
       options: {
         query: `

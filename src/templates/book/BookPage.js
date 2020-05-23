@@ -2,7 +2,6 @@ import React from 'react';
 import { graphql } from 'gatsby';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { Col, Container, Row } from 'react-bootstrap';
-import { OutboundLink } from 'gatsby-plugin-google-analytics';
 import { map, size } from 'lodash';
 
 import { Button, Image, Layout, SEO, ShopifyBuyButton } from '../../components';
@@ -44,14 +43,14 @@ const BookPage = ({ data }) => {
                 </div>
 
                 {map(leanpubLinks, ({ url, label }, idx) => (
-                  <OutboundLink
+                  <a
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
                     key={`leanpub-link-${idx}`}
                   >
                     <Button>{label}</Button>
-                  </OutboundLink>
+                  </a>
                 ))}
                 {size(amazonLinks) > 0 && (
                   <small>
@@ -62,7 +61,7 @@ const BookPage = ({ data }) => {
                   </small>
                 )}
                 {map(amazonLinks, ({ url, label }, idx) => (
-                  <OutboundLink
+                  <a
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -71,7 +70,7 @@ const BookPage = ({ data }) => {
                     <Button secondary className={classes.subtleButton}>
                       {label}
                     </Button>
-                  </OutboundLink>
+                  </a>
                 ))}
               </Col>
               <Col lg={1} />

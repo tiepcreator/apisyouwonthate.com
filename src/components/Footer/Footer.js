@@ -2,11 +2,9 @@ import React from 'react';
 import { Container, Col, Row } from 'react-bootstrap';
 import { Link } from 'gatsby';
 
-import { OutboundLink } from 'gatsby-plugin-google-analytics';
-
 import classes from './Footer.module.css';
 
-import { GitHubIcon, TwitterIcon, RssIcon } from '../icons';
+import { GitHubIcon, TwitterIcon } from '../icons';
 import { NewsletterForm } from '../NewsletterForm';
 
 const Footer = () => (
@@ -35,39 +33,37 @@ const Footer = () => (
           <ul className={classes.linkList}>
             <li>
               <GitHubIcon />{' '}
-              <OutboundLink
+              <a
                 href="https://github.com/apisyouwonthate"
                 target="_blank"
                 rel="noreferrer noopener"
               >
                 GitHub
-              </OutboundLink>
+              </a>
             </li>
             <li>
               <TwitterIcon />{' '}
-              <OutboundLink
+              <a
                 href="https://twitter.com/apisyouwonthate/"
                 target="_blank"
                 rel="noreferrer noopener me"
               >
                 @apisyouwonthate
-              </OutboundLink>
+              </a>
             </li>
             <li>
               <Link to="/community">Join our Slack Community</Link>
             </li>
             <li>
-              <OutboundLink to="https://forum.apisyouwonthate.com">
-                Forum
-              </OutboundLink>
+              <a href="https://forum.apisyouwonthate.com">Forum</a>
             </li>
             <li>
-              <OutboundLink
+              <a
                 href="https://www.patreon.com/bePatron?u=19197006"
                 data-patreon-widget-type="become-patron-button"
               >
                 Become a Patron!
-              </OutboundLink>
+              </a>
               {/* this script came from https://www.patreon.com/dashboard/widgets */}
               <script
                 async
@@ -95,7 +91,7 @@ const Footer = () => (
       <Row className={classes.bottomRow}>
         <Col>
           <p>
-            <OutboundLink
+            <a
               href="https://www.netlify.com"
               target="_blank"
               rel="noreferrer noopener"
@@ -104,7 +100,7 @@ const Footer = () => (
                 alt="Deploys by netlify"
                 src="https://www.netlify.com/img/global/badges/netlify-dark.svg"
               />
-            </OutboundLink>
+            </a>
           </p>
           <small>
             © {new Date().getFullYear()}
