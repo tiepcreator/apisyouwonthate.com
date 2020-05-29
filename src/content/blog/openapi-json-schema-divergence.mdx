@@ -1,20 +1,19 @@
 ---
 title: 'OpenAPI and JSON Schema Divergence'
 subtitle: >-
-  Update 20118–05–09: Hey hackernews, maybe read part two where we solved all
-  the problems outlined here (one short term, one long term)...
+  This article is going to explain OpenAPI and JSON Schema divergence, which I’ve
+  been calling the subset/superset/sideset problem. It’ll finish up explaining how
+we’re going to solve it.
 date: '2018-03-30T00:00:00.000Z'
 coverImage: openapi-divergence.png
 type: blog
 author: Phil Sturgeon
 ---
 
-_**Update 2020-02-02:** JSON Schema Draft 2019-09 has been published for a
-while, and after much deliberation we got the folks at OpenAPI to merge
-[#1977](https://github.com/OAI/OpenAPI-Specification/pull/1977) for v3.1. Latest
-estimate for v3.1.0-RC1 is end of February, so tooling vendors should get to
-work on upgrading support for JSON Schema 2019-09 and the other OpenAPI v3.1
-changes._
+> **Update 2020-02-03:** [OpenAPI v3.1 will be using JSON Schema Draft
+2019-09](https://apisyouwonthate.com/blog/openapi-v31-and-json-schema-2019-09),
+so tooling vendors should get to work on upgrading support for JSON Schema
+2019-09 and the other OpenAPI v3.1 changes.
 
 This article is going to explain OpenAPI and JSON Schema divergence, which I’ve
 been calling the subset/superset/sideset problem. It’ll finish up explaining how
@@ -58,7 +57,7 @@ their support to draft v4 and making the list of discrepancies shorter. Despite
 OpenAPI v3 closing the gap, the issue of JSON Schema divergence has not been
 resolved fully, and with newer drafts of JSON Schema coming out, the divergence
 is actually getting worse over time. Currently OpenAPI is still on draft 5, and
-JSON Schema is on draft 8.
+JSON Schema is on draft 7.
 
 ![](../../images/posts/openapi-json-schema-divergence/json-schema-oas-differences.png)
 _A list of caveats to the JSON Schema support in OpenAPI v3.0._
@@ -69,7 +68,7 @@ might be a v3.1 out solving the situation, but that has not come to pass. Now I
 find myself suggesting folks find some way to convert one to the other, or try
 to write JSON Schema that _is_ compatible with OpenAPI.
 
-![](../../images/posts/openapi-json-schema-divergence/openapi-divergence.png)
+![](../../images/posts/openapi-divergence.png)
 _Carefully writing JSON Schema for your data model kiiiinda works_
 
 The latter can be done, but eventually you’ll get bit by something. At work
