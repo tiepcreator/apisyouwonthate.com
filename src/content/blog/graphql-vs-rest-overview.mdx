@@ -10,12 +10,12 @@ author: Phil Sturgeon
 
 A few months back I wrote [a comparison between RPC and REST](https://www.smashingmagazine.com/2016/09/understanding-rest-and-rpc-for-http-apis/) for Smashing Magazine, and now I want to talk about the differences between REST and GraphQL: the new kid on the block.
 
-[GraphQL](http://graphql.org/) is incorrectly considered by some to be a “replacement” to [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). GraphQL is a newer concept, being released by Facebook publicly in 2015, whereas REST was a [dissertation](https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm) published by Roy Fielding in 2000, popularized by companies like Twitter (quite inaccurately) in 2006.
+[GraphQL](http://graphql.org/) is incorrectly considered by some to be a "replacement" to [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). GraphQL is a newer concept, being released by Facebook publicly in 2015, whereas REST was a [dissertation](https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm) published by Roy Fielding in 2000, popularized by companies like Twitter (quite inaccurately) in 2006.
 
 This article aims to cover a few notable differences, and make the following points:
 
 1.  REST and GraphQL are totally different
-2.  GraphQL isn’t a magic bullet, nor is it “better”
+2.  GraphQL isn’t a magic bullet, nor is it "better"
 3.  You can definitely use both at the same time
 4.  GraphQL is dope _if used for the right thing_
 
@@ -27,11 +27,11 @@ GraphQL is a [query language](http://graphql.org/learn/queries/), [specification
 
 One of the [main tenants of REST](http://www.restapitutorial.com/lessons/whatisrest.html) is to utilize the uniform interface of the protocols it exists in. When utilizing HTTP, REST can leverage HTTP content-types, caching, status codes, etc., whereas GraphQL invents its own conventions.
 
-Another main focus for REST is hypermedia controls (a.k.a [HATEOAS](https://en.wikipedia.org/wiki/HATEOAS)), which lets a well designed client run around an API like a human runs around the Internet; starting with a search for “How to complete my tax returns”, reading a perfectly relevant article, and after a few clicks ending up on BuzzFeed article about Miley Cyrus throwing Liam Hemsworth a “Weed-Themed” birthday party.
+Another main focus for REST is hypermedia controls (a.k.a [HATEOAS](https://en.wikipedia.org/wiki/HATEOAS)), which lets a well designed client run around an API like a human runs around the Internet; starting with a search for "How to complete my tax returns", reading a perfectly relevant article, and after a few clicks ending up on BuzzFeed article about Miley Cyrus throwing Liam Hemsworth a "Weed-Themed" birthday party.
 
 If your API is not using hypermedia controls, then GraphQL could be a more relevant approach, because you [weren’t really using REST anyway](https://www.martinfowler.com/articles/richardsonMaturityModel.html).
 
-This article will not attempt to point out a winner, but we’re going to look at a few areas where the two differ. Don’t get mad that a lot of the sections say “it depends”, because the winner in each section really depends on what your API is doing, and how. GraphQL comes out stronger in some areas, REST in others, and sometimes they’re both kinda terrible. Let’s dig in!
+This article will not attempt to point out a winner, but we’re going to look at a few areas where the two differ. Don’t get mad that a lot of the sections say "it depends", because the winner in each section really depends on what your API is doing, and how. GraphQL comes out stronger in some areas, REST in others, and sometimes they’re both kinda terrible. Let’s dig in!
 
 ### Is the API More Than Data Transfer?
 
@@ -73,13 +73,13 @@ mutation addAvatar {
   }
 }
 
-Some will argue that this is more “clean”, and it is, it’s very clean, but being forced to create another service is overkill for smaller images, especially early on. Another approach is to upload directly to Amazon S3, forcing a dependency on clients and potentially letting your tokens leak, or… use multipart uploads, which are a super hacky approach that depends on if the server and various clients can even support it.
+Some will argue that this is more "clean", and it is, it’s very clean, but being forced to create another service is overkill for smaller images, especially early on. Another approach is to upload directly to Amazon S3, forcing a dependency on clients and potentially letting your tokens leak, or… use multipart uploads, which are a super hacky approach that depends on if the server and various clients can even support it.
 
 This is one area where REST holds strong. Some would say that REST handling CRUD and arbitrary stuff is confusing, but this is a core tenant of what makes REST so useful. A REST API can do anything, not just send fields backwards and forwards — even if that is how REST is often used.
 
 ### Both GraphQL and REST Prefer Evolution
 
-One false advertised benefit of GraphQL I’ve seen suggested (in quite a few locations) is that you “never have to version anything.”
+One false advertised benefit of GraphQL I’ve seen suggested (in quite a few locations) is that you "never have to version anything."
 
 The suggested approach is to add new fields and deprecate old ones, which is [a concept well known in REST as evolution](https://www.mnot.net/blog/2012/12/04/api-evolution).
 
@@ -164,7 +164,7 @@ Some APIs use also end up with arguments in the query string that are not relate
 
 That’s pretty darn handy, and it stops the confusion of `?status=active` being a filter but `?unit=foot` being a display option. I have seen `?filter:status=active`, `?filter[status]=active`, etc., but this is still a bit of a mess.
 
-In these scenarios, GraphQL beats the pants off of REST APIs that try to hand-roll their own query language functionality, but I would suggest hand-rolling your own query language is a bad idea anyway. GraphQL gives you a query language syntax, and SDKs for your programming language to fetch the right models for that, but so do things like [OData](http://www.odata.org/), a project with the slogan “A Better Way to REST”.
+In these scenarios, GraphQL beats the pants off of REST APIs that try to hand-roll their own query language functionality, but I would suggest hand-rolling your own query language is a bad idea anyway. GraphQL gives you a query language syntax, and SDKs for your programming language to fetch the right models for that, but so do things like [OData](http://www.odata.org/), a project with the slogan "A Better Way to REST".
 
 This is another example of folks saying that REST cannot do something, just because many REST APIs don’t do it, or because its implemented poorly by many that do. Saying that, remember that the more customisation an endpoint-based API adds to the request, the fewer cache hits are likely at a network caching level, making the REST/HTTP approach less rewarding, and forcing you down the route of the application caching and database reorganisation that GraphQL forces anyway.
 
@@ -174,13 +174,13 @@ Another customisation consideration that comes up a lot is when to offer include
 
 You start off with overly simplistic examples like `/users?include=comments,posts` but end up on `/trips?include=driver,passengers,passengers.avatar,passengers.itineraries` and worse.
 
-I call this the “Mega Include of DOOOOOOM”, and it is crap solution to a genuine concern, when clients strive for performance over all else. Includes are a common convention found in REST APIs, recommended in specs like [JSON API](http://jsonapi.org/), but actually bends the rules of REST a bit.
+I call this the "Mega Include of DOOOOOOM", and it is crap solution to a genuine concern, when clients strive for performance over all else. Includes are a common convention found in REST APIs, recommended in specs like [JSON API](http://jsonapi.org/), but actually bends the rules of REST a bit.
 
 REST would call for a HATEOAS approach, which would have you make one call to the `/trips` endpoint, then hit `"links": { "driver": "https://example.com/drivers/123" }`, and again for passengers, and again for child data of each of those passengers. In this case, it would be worse than the dreaded `n+1`, and more like `n+(2+(num passengers*2))`!
 
 Includes start off with the best of intentions, but can grow to be a bottleneck in a REST API, with unwieldy queries happening against the data store. GraphQL not only removes this design question, but forces the include approach, and forces you to consider efficient means of fetching this data.
 
-This is a big win for GraphQL, as forcing the include approach, and forcing efficient “Mega Includes of Doom”, the GraphQL will be both efficient and consistent. Trying to make a REST API be include-only would be bizarre and unusable, so consistency will never work there.
+This is a big win for GraphQL, as forcing the include approach, and forcing efficient "Mega Includes of Doom", the GraphQL will be both efficient and consistent. Trying to make a REST API be include-only would be bizarre and unusable, so consistency will never work there.
 
 GraphQL will not help with your database queries, so you still need to fine tune those indexes and cache fragments of the data intelligently. If you skip this, clients will surprise you. At a previous job we had a poorly-tuned mega include from the iOS app taking about 20s+ to respond, which was bloody terrifying. We almost just had them curl down a `latest.sqlite` to process locally. 🤣
 
@@ -218,7 +218,7 @@ But, if you have a multitude of different clients, or are public (therefore have
 
 ### Why Not Use Both?
 
-The biggest oddity I notice in the “GraphQL vs REST” conversation, is the falsehood that _you must pick one_.
+The biggest oddity I notice in the "GraphQL vs REST" conversation, is the falsehood that _you must pick one_.
 
 In a world of SoA, you are likely to have multiple services, which expose multiple APIs. In the [RPC vs REST article](https://www.smashingmagazine.com/2016/09/understanding-rest-and-rpc-for-http-apis/) I point out that some services might be REST and some might be RPC, and you can absolutely throw some GraphQL in with your REST.
 
@@ -226,13 +226,13 @@ One mix of REST and GraphQL could just be adding a `/graphql` endpoint to `api.w
 
 Another, is one that has been vaguely tossed around at work, which is the idea of having one GraphQL API, acting as a gateway to our other multiple REST APIs.
 
-Having one GraphQL server act as a sort of data proxy, giving one entry point for mixed data, one Authentication scheme despite each REST API having its own “unique” approach to tokens, one HTTP call for clients — despite it hitting multiple actual REST APIs, etc., would be a damn powerful thing.
+Having one GraphQL server act as a sort of data proxy, giving one entry point for mixed data, one Authentication scheme despite each REST API having its own "unique" approach to tokens, one HTTP call for clients — despite it hitting multiple actual REST APIs, etc., would be a damn powerful thing.
 
 Ask yourself — at the very least — these following questions:
 
 *   How different are your clients from each other?
 *   Do you trust your clients to handle caching?
-*   Do you want “dumb clients” that act like crawlers — knowing very little about the API, or clients that own a lot of the logic and know a lot about the API, using it simply as a data transfer?
+*   Do you want "dumb clients" that act like crawlers — knowing very little about the API, or clients that own a lot of the logic and know a lot about the API, using it simply as a data transfer?
 *   Are you ok letting go of HTTP debugging proxies, cache proxies, all the knowledge your team have around HTTP, etc?
 *   Are you just doing basic CRUD with simple JSON documents, or will your API need file upload/download too?
 
