@@ -7,6 +7,12 @@ type: blog
 author: Phil Sturgeon
 ---
 
+**Update: I spent a lot of time duct-taping and glueing crap together to get a
+coherent workflow together because tooling at the time was rather lacking for
+API Design-First. Most of this experience has gone into making [Stoplight Studio](https://stoplight.io/studio/) and [Stoplight
+Platform](https://stoplight.io/welcome/create) awesome, covering all the [docs](https://stoplight.io/docs), [mocks](https://meta.stoplight.io/docs/platform/3.-design/d.setting-up-a-mock-server.md), [linting](https://stoplight.io/open-source/spectral),
+[style guides](https://apisyouwonthate.com/blog/automated-style-guides-for-rest-graphql-and-grpc), [visual editing](https://stoplight.io/studio/), and [contract validation](https://meta.stoplight.io/docs/prism/docs/guides/03-validation-proxy.md) you could ever need.**
+
 A year ago we started trying to figure out the best way to not just document HTTP APIs, but to leverage API specifications to avoid duplicating efforts on loads of similar-but-different tasks; maintaining Postman Collections, creating mocks, contract testing, payload validation, etc. To us, it felt like API developers were wasting a lot of time writing up the same logic over and over again. Listing endpoints, defining what fields should have what data, figuring out validation logic, writing up examples, doing this all over and over again in loads of different formats, then — the few folks that have enough time and interest — would write loads of tests to make sure all these different formats were saying the same thing.
 
 The initial goals were:
