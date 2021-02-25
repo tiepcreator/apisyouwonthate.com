@@ -9,7 +9,7 @@ const NewsletterForm = () => {
 
       <iframe
         title="Subscribe to our Newsletter"
-        class="mj-w-res-iframe"
+        className="mj-w-res-iframe"
         frameBorder="0"
         scrolling="no"
         marginHeight="0"
