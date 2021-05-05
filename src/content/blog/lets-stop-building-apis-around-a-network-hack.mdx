@@ -68,13 +68,14 @@ solved this with Connection: keep-alive, but not many people seem to use that. W
 we enabled it at WeWork it sped up HTTP interactions by around ~10%, which was nice.
 
 HTTP/2 not only maintains a single connection per domain for reuse, but these calls
-can be handled asynchronously. You could requests all the A's, then the callback for that async
-request asks for some B's as and when the A's respond. And C and D.
+can be handled asynchronously. For a blog website, you could requests articles, and
+upon receiving those ask for the author information. Further callbacks may ask for
+comments and then comment author information.
 
 If you can use [Server
-Push](https://http2.github.io/faq/#whats-the-benefit-of-server-push) then you
-don't have to wait for the A's to respond before you can request the B's. The
-server will just start sending you the B's!
+Push](https://http2.github.io/faq/#whats-the-benefit-of-server-push) then you don't
+have to wait for the articles to arrive before you can request the author information.
+The server will just start sending you the author information!
 
 Seriously, [HTTP/2 calling is fast](https://gist.github.com/philsturgeon/ea4c3966731c8e2e92e70b11fe10d1bc).
 
