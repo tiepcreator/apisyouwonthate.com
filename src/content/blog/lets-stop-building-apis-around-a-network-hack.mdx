@@ -15,7 +15,7 @@ rather different RC versions (changing drastically as it went), finally
 stabilizing with v1.0 back in mid-2015.
 
 My interest in JSON:API has changed substantially over the years. Initially I
-avoided it like the plague, later I recommending it, and now I generally suggest
+avoided it like the plague, later I recommended it, and now I generally suggest
 folks skip it if at all possible.
 
 Besides trying to standardize how you represent items, collections, meta data
@@ -95,7 +95,7 @@ trimming down the size of the response.
 The entire mindset of "more handshakes = bad" has forced us to shove fields into
 the same resource to avoid making new resources, or sub-resources. Now that we
 don't need to be scared of it, we can stop using hacks like [the partials
-rade-off](/blog/partials-happy-compromise-between-customization-and-cacheability)
+trade-off](/blog/partials-happy-compromise-between-customization-and-cacheability)
 I recently proposed, and move towards having more resources that are a bit more
 targeted in scope.
 
@@ -105,7 +105,7 @@ their own related resources, discoverable with hypermedia controls.
 
 If splitting up resources sounds like a big change and you want to just squash
 that actual response, HTTP/2 has your back there too. Headers are compressed
-with HPACK, which is similar to GZIP but a little better, and its something
+with HPACK, which is similar to GZIP but a little better, and it's something
 [Cloudflare are pretty excited
 about.](https://blog.cloudflare.com/hpack-the-silent-killer-feature-of-http-2/)
 
@@ -132,14 +132,14 @@ slapping Cloudflare, Fastly, etc., in front of their HTTP/1.1 setup.
 
 ### But the Browsers...
 
-<s>Currently not 100% of browsers support HTTP/2 in it's entirety, but the
+<s>Currently not 100% of browsers support HTTP/2 in its entirety, but the
 situation is pretty good.</s> [Modern browsers support
 HTTP/2](http://caniuse.com/#feat=http2), and these browsers are used by 88% of
 users.
 
 If your API is predominantly web-based, and older browser support is important,
 or you have _no idea_ which browsers are going to be hitting it, then maybe you
-need to continue worrying about network hacks like compound documentation.
+need to continue worrying about network hacks like compound documents.
 
 ## The New World of API Design
 
@@ -192,10 +192,10 @@ calls.
 
 ## Summary
 
-These previous solution were far from perfect, and I'm going to write about
+These previous solutions were far from perfect, and I'm going to write about
 real-world issues I've struggled through with compound documents in the next
 article
-([done!](/blog/making-the-most-of-jsonapi))
+([done!](/blog/making-the-most-of-jsonapi)).
 I don't think anyone should rush out and change everything right now, but
 recognize the changing environment around the web.
 
