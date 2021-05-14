@@ -8,7 +8,7 @@ type: blog
 author: Phil Sturgeon
 ---
 
-Making a call over the network is inherently unreliable. A million things can go wrong when an API client talks to an API: the connection could fail on the device half way through the transaction, the server could run out of RAM, the request could time out, an automatic retry might trigger a weird validation message for something that actually worked fine but failed on the retry and now is in a conflict state, or maybe the API developers pushed a breaking change without telling the clients and now the client cannot comprehend the current state.
+A million things can go wrong when an API client talks to an API, from the expected to the unexpected, from business logic and validation failures, to dropped connections and race conditions. The server could run out of RAM, the request could time out, an automatic retry might trigger a weird validation message for something that actually worked fine but failed on the retry and now is in a conflict state, or maybe the API developers pushed a breaking change without telling anyone and now the API client cannot comprehend the current state.
 
 When things go wrong, what do you do? Do you vomit random API error codes and exception class names all over your end users screens, pointlessly confusing the hell out of them? Probably!
 
