@@ -235,7 +235,7 @@ Content-Language: en
   "balance": 30,
   "accounts": ["/account/12345", "/account/67890"]
 }
-````
+```
 
 This example from the RFC shows the user was forbidden from taking that action, because the balance did not have enough credit. 403 would not have conveyed that (it could have meant the user was banned, or all sorts of things) but there is text, and there is a type, which is just an error code in the form of a URL.
 > *Note that this requires each of the sub-problems to be similar enough to use the same HTTP status code. If they do not, the 207 (Multi- Status) [RFC4918] code could be used to encapsulate multiple status messages.*
@@ -346,15 +346,14 @@ HTTP 4XX or 5XX codes alert the client, monitoring systems, caching systems, and
 all sorts of other network components that something bad happened.
 
 ![The folks over at CommitStrip.com know what’s
-up.](https://cdn-images-1.medium.com/max/2000/0*2knrFUxt80PLVhWl.jpeg)*The folks
-over at CommitStrip.com know what’s up.*
+up.](https://cdn-images-1.medium.com/max/2000/0*2knrFUxt80PLVhWl.jpeg)
 
 If you return an HTTP status code of 200 with an error code, then Chuck Norris
 will roundhouse your door in, destroy your computer, instantly 35-pass wipe your
 backups, cancel your Dropbox account, and block you from GitHub.
 
 It is the hidden error. HTTP-based monitoring systems do not know about your
-arbitrary { success : false } conventions and so do not report errors.
+arbitrary `{ success : false }` conventions and so do not report errors.
 
 HTTP network caching will cache your errors because you are recording them as
 not errors.
