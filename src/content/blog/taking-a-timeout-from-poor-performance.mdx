@@ -87,14 +87,14 @@ conn = Faraday.new('http://example.com');
 conn.get do |req|
   req.url '/search'
   req.options.timeout = 5           # open/read timeout in seconds
-  req.options.open\_timeout = 2      # connection open timeout in seconds
+  req.options.open_timeout = 2      # connection open timeout in seconds
 end
 ```
 
 For PHP, [Guzzle](http://docs.guzzlephp.org/en/stable/request-options.html?highlight=timeout#timeout) does this:
 
 ```php
-$client->request('GET', '/delay/5', \['timeout' => 5\]);
+$client->request('GET', '/delay/5', ['timeout' => 5]);
 ```
 There are two types of timeout that a lot of HTTP clients use:
 
