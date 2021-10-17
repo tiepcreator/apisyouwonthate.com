@@ -5,7 +5,7 @@ import { Link } from 'gatsby';
 import slugify from '../../utils/slugify';
 import { Image, Button } from '../';
 
-import classes from './BookFeature.module.css';
+import * as classes from './BookFeature.module.css';
 
 const BookFeature = ({ book }) => {
   const { title, coverImage, description, subtitle } = book.frontmatter;

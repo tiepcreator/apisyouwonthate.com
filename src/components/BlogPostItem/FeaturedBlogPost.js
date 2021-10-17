@@ -8,7 +8,7 @@ import slugify from '../../utils/slugify';
 import { TypeLabel } from '..';
 import { CoverImage } from '../Image';
 
-import classes from './FeaturedBlogPost.module.css';
+import * as classes from './FeaturedBlogPost.module.css';
 
 const FeaturedBlogPost = ({ post }) => {
   const { coverImage, subtitle, title } = post.frontmatter;

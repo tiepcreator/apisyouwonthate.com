@@ -3,7 +3,7 @@ import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 
 import { formatEpisodeNumber } from '../../utils/podcast';
-import classes from './FeaturedPodcast.module.css';
+import * as classes from './FeaturedPodcast.module.css';
 import { TypeLabel } from '..';
 
 const FeaturedPodcast = ({ podcast }) => {

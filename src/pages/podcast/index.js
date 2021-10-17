@@ -5,7 +5,7 @@ import moment from 'moment';
 
 import { Layout, SEO } from '../../components';
 import { formatEpisodeNumber } from '../../utils/podcast';
-import classes from './Podcast.module.css';
+import * as classes from './Podcast.module.css';
 
 const PodcastPage = ({ data }) => {
   const { podcasts } = data;

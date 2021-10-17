@@ -19,7 +19,7 @@ import {
   SEO,
 } from '../components';
 
-import classes from './Home.module.css';
+import * as classes from './Home.module.css';
 
 const findNewest = ({ posts, podcasts }) => {
   const [firstPost] = orderBy(

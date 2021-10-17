@@ -6,11 +6,11 @@ import Container from 'react-bootstrap/Container';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
-import classes from './Header.module.css';
+import * as classes from './Header.module.css';
 
 const Header = ({ siteTitle }) => (
   <div className={classes.background}>
-    <Container className={classes.container}>
+    <Container>
       <Row>
         <Col>
           <header className={classes.header}>

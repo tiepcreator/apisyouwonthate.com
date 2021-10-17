@@ -8,7 +8,7 @@ import slugify from '../../utils/slugify';
 import { CoverImage } from '../Image';
 import { AuthorDisplay } from '../AuthorDisplay';
 
-import classes from './BlogPostItem.module.css';
+import * as classes from './BlogPostItem.module.css';
 
 const BlogPostItem = ({ post, feature = false }) => {
   const { author, date, coverImage, subtitle, title } = post.frontmatter;
