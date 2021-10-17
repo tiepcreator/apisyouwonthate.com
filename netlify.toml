@@ -9,6 +9,8 @@
   from = "/books/*.html"
   to = "/books/:splat"
 
+# Medium URLs
+
 [[redirects]]
   from = "/rest-and-hypermedia-in-2019-76cb3421e745"
   to = "/blog/rest-and-hypermedia-in-2019"
@@ -173,6 +175,12 @@
   from = "/you-might-not-need-graphql-*"
   to = "/blog/you-might-not-need-graphql"
 
+# Renamed Articles
+
 [[redirects]]
   from = "/blog/annotations-dsls-and-guis-for-api-descriptions"
   to = "/blog/theres-no-reason-to-write-openapi-by-hand"
+
+[[redirects]]
+  from = "/blog/openapi-v31-and-json-schema-2019-09"
+  to = "/blog/openapi-v31-and-json-schema"
