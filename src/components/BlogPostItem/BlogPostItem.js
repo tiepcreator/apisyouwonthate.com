@@ -14,30 +14,30 @@ const BlogPostItem = ({ post, feature = false }) => {
   const { author, date, coverImage, subtitle, title } = post.frontmatter;
   return (
     <Col xs={12} sm={12} md={feature ? 12 : 6} lg={feature ? 12 : 4}>
-      <Link to={`/blog/${slugify(title)}`} className={classes.container}>
-        <Row>
-          <Col xs={12} sm={12} md={12} lg={feature ? 8 : 12}>
+      <Row>
+        <Col xs={12} sm={12} md={12} lg={feature ? 8 : 12}>
+          <Link to={`/blog/${slugify(title)}`} className={classes.container}>
             <CoverImage
               src={coverImage}
               className={
                 feature ? classes.featureImageContainer : classes.imageContainer
               }
             />
-          </Col>
-          <Col>
-            <main>
-              <Link
-                to={`/blog/${slugify(title)}`}
-                style={{ textDecoration: 'none' }}
-              >
-                <h2 className={classes.title}>{title}</h2>
-                <p className={classes.subtitle}>{subtitle}</p>
-              </Link>
-              <AuthorDisplay name={author} date={date} />
-            </main>
-          </Col>
-        </Row>
-      </Link>
+          </Link>
+        </Col>
+        <Col>
+          <main>
+            <Link
+              to={`/blog/${slugify(title)}`}
+              style={{ textDecoration: 'none' }}
+            >
+              <h2 className={classes.title}>{title}</h2>
+              <p className={classes.subtitle}>{subtitle}</p>
+            </Link>
+            <AuthorDisplay name={author} date={date} />
+          </main>
+        </Col>
+      </Row>
     </Col>
   );
 };
