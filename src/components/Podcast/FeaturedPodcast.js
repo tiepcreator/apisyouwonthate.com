@@ -3,7 +3,7 @@ import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 
 import { formatEpisodeNumber } from '../../utils/podcast';
-import classes from './FeaturedPodcast.module.css';
+import * as classes from './FeaturedPodcast.module.css';
 import { TypeLabel } from '..';
 
 const FeaturedPodcast = ({ podcast }) => {
@@ -12,7 +12,7 @@ const FeaturedPodcast = ({ podcast }) => {
 
   return (
     <Row>
-      <Col xs={12}>
+      <Col xs={12} style={{ paddingLeft: 0 }}>
         <div className={classes.container}>
           <div className={classes.content}>
             <TypeLabel>Podcast</TypeLabel>

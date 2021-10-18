@@ -8,7 +8,7 @@ import slugify from '../../utils/slugify';
 import { CoverImage } from '../Image';
 import { AuthorDisplay } from '../AuthorDisplay';
 
-import classes from './BlogPostItem.module.css';
+import * as classes from './BlogPostItem.module.css';
 
 const BlogPostItem = ({ post, feature = false }) => {
   const { author, date, coverImage, subtitle, title } = post.frontmatter;
@@ -18,6 +18,7 @@ const BlogPostItem = ({ post, feature = false }) => {
         <Col xs={12} sm={12} md={12} lg={feature ? 8 : 12}>
           <Link to={`/blog/${slugify(title)}`} className={classes.container}>
             <CoverImage
+              alt={title}
               src={coverImage}
               className={
                 feature ? classes.featureImageContainer : classes.imageContainer

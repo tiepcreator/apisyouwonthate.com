@@ -3,13 +3,13 @@ import { Container, Col, Row } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
 
 import { Layout } from '../../components';
-import classes from './Conduct.module.css';
+import * as classes from './Conduct.module.css';
 
 const ConductPage = () => (
   <Layout>
     <Helmet title="Code of Conduct" />
 
-    <Container className={classes.container}>
+    <Container>
       <Row>
         <Col>
           <h1 id="contributor-covenant-code-of-conduct">Code of Conduct</h1>

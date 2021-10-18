@@ -8,7 +8,7 @@ import { Container, Col, Row } from 'react-bootstrap';
 import moment from 'moment';
 
 import { Button, Layout, SEO, Overline } from '../../components';
-import classes from './JobListing.module.css';
+import * as classes from './JobListing.module.css';
 
 const JobListing = ({ data, pageContext }) => {
   const { jobListing } = data;

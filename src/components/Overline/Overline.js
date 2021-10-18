@@ -1,6 +1,6 @@
 import React from 'react';
 
-import classes from './Overline.module.css';
+import * as classes from './Overline.module.css';
 
 const Overline = ({ children }) => (
   <h6 className={classes.overline}>{children}</h6>

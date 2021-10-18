@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 
-import classes from './VideoFeature.module.css';
+import * as classes from './VideoFeature.module.css';
 
 const VideoFeature = ({ video }) => {
   return (

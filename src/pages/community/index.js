@@ -2,7 +2,7 @@ import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 
 import { Image, Layout, SEO } from '../../components';
-import classes from './CommunityPage.module.css';
+import * as classes from './CommunityPage.module.css';
 
 const CommunityPage = () => (
   <Layout>

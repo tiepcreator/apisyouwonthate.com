@@ -5,7 +5,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 import { map, size } from 'lodash';
 
 import { Button, Image, Layout, SEO, ShopifyBuyButton } from '../../components';
-import classes from './BookPage.module.css';
+import * as classes from './BookPage.module.css';
 
 const BookPage = ({ data }) => {
   const book = data.mdx;

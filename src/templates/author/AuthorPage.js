@@ -5,7 +5,7 @@ import { Col, Container, Row } from 'react-bootstrap';
 
 import { AuthorSummary, BlogPostItem, Layout, SEO } from '../../components';
 
-import classes from './AuthorPage.module.css';
+import * as classes from './AuthorPage.module.css';
 
 const BookPage = ({ data }) => {
   const { author, posts } = data;

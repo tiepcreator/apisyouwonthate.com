@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useStaticQuery, graphql } from 'gatsby';
-import Img from 'gatsby-image';
+import { GatsbyImage } from 'gatsby-plugin-image';
 
 export const Image = ({ src, alt, ...rest }) => {
   const { allImageSharp } = useStaticQuery(graphql`
@@ -9,10 +9,10 @@ export const Image = ({ src, alt, ...rest }) => {
       allImageSharp {
         edges {
           node {
-            fluid(maxWidth: 1200) {
-              ...GatsbyImageSharpFluid_withWebp_noBase64
+            fluid {
               originalName
             }
+            gatsbyImageData(layout: FULL_WIDTH)
           }
         }
       }
@@ -21,10 +21,11 @@ export const Image = ({ src, alt, ...rest }) => {
   const image = allImageSharp.edges.find(
     (edge) => edge.node.fluid.originalName === src
   );
+
   if (!image) {
     return null;
   }
-  return <Img fluid={image.node.fluid} alt={alt} {...rest} />;
+  return <GatsbyImage image={image.node.gatsbyImageData} alt={alt} {...rest} />;
 };
 
 Image.propTypes = {

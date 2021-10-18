@@ -6,7 +6,7 @@ import { Container, Col, Row } from 'react-bootstrap';
 
 import { JobPostItem, Layout, SEO } from '../../components';
 
-import classes from './Jobs.module.css';
+import * as classes from './Jobs.module.css';
 
 const JobsPage = ({ data }) => {
   // sort jobs by date
@@ -20,7 +20,7 @@ const JobsPage = ({ data }) => {
       <Container className={classes.container}>
         <Row noGutters>
           <Col>
-            <div className={classes.heading}>
+            <div>
               <h2>API Jobs</h2>
             </div>
           </Col>

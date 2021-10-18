@@ -7,7 +7,7 @@ import slugify from '../../utils/slugify';
 import { GitHubIcon, TwitterIcon } from '../icons';
 import { Image } from '..';
 
-import classes from './AuthorSummary.module.css';
+import * as classes from './AuthorSummary.module.css';
 import { Button } from '../Button';
 
 const AuthorSummary = ({ author }) => {
