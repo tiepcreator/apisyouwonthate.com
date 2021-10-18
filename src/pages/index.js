@@ -19,7 +19,7 @@ import {
   SEO,
 } from '../components';
 
-import classes from './Home.module.css';
+import * as classes from './Home.module.css';
 
 const findNewest = ({ posts, podcasts }) => {
   const [firstPost] = orderBy(
@@ -87,7 +87,7 @@ const IndexPage = ({ data }) => {
         <Container>
           {books.nodes.map((book, i) => {
             return (
-              <React.Fragment key={book.id}>
+              <React.Fragment key={book.title}>
                 <BookFeature book={book} />
                 {i < books.nodes.length - 1 && (
                   <div className={classes.bookSpacer} />

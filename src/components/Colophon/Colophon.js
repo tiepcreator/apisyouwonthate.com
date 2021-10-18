@@ -1,6 +1,6 @@
 import React from 'react';
 
-import classes from './Colophon.module.css';
+import * as classes from './Colophon.module.css';
 
 const Colophon = () => <div className={classes.colophon} />;
 

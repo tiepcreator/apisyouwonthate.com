@@ -5,7 +5,7 @@ import { Link } from 'gatsby';
 import slugify from '../../utils/slugify';
 import { Image, Button } from '../';
 
-import classes from './BookFeature.module.css';
+import * as classes from './BookFeature.module.css';
 
 const BookFeature = ({ book }) => {
   const { title, coverImage, description, subtitle } = book.frontmatter;
@@ -22,7 +22,11 @@ const BookFeature = ({ book }) => {
             </Link>
           </h2>
           <div className={classes.smallCover}>
-            <Image src={coverImage} className={classes.smallCover} />
+            <Image
+              alt={`Cover image for ${title}`}
+              src={coverImage}
+              className={classes.smallCover}
+            />
           </div>
         </Col>
       </Row>

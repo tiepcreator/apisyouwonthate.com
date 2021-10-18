@@ -5,7 +5,7 @@ import { graphql } from 'gatsby';
 import { Container, Col, Row } from 'react-bootstrap';
 
 import { Image, Layout, SEO, VideoFeature } from '../../components';
-import classes from './Videos.module.css';
+import * as classes from './Videos.module.css';
 
 const VideosPage = ({ data }) => {
   const { videos } = data;

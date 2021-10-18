@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap';
 
 import slugify from '../../utils/slugify';
 
-import classes from './JobPostItem.module.css';
+import * as classes from './JobPostItem.module.css';
 import { Button, Overline } from '../';
 
 const JobPostItem = ({ job }) => {

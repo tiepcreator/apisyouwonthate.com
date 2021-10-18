@@ -6,7 +6,7 @@ import moment from 'moment';
 import Img from 'gatsby-image/withIEPolyfill';
 
 import slugify from '../../utils/slugify';
-import classes from './AuthorDisplay.module.css';
+import * as classes from './AuthorDisplay.module.css';
 
 const AuthorDisplay = ({ authorImage, name, date, readTimeInMinutes }) => {
   // const author = useStaticQuery(graphql(``));

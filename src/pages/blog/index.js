@@ -6,7 +6,7 @@ import { Container, Row } from 'react-bootstrap';
 
 import { BlogPostItem, Layout, SEO } from '../../components';
 
-import classes from './BlogPage.module.css';
+import * as classes from './BlogPage.module.css';
 
 const BlogPage = ({ data }) => {
   // sort posts by date

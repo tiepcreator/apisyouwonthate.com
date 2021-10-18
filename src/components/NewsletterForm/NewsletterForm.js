@@ -1,6 +1,6 @@
 import React from 'react';
 
-import classes from './NewsletterForm.module.css';
+import * as classes from './NewsletterForm.module.css';
 
 const NewsletterForm = () => {
   return (

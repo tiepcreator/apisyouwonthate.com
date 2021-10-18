@@ -4,7 +4,7 @@ import { Button, Container, Col, Form, Row } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
 
 import { Layout } from '../../components';
-import classes from './AMA.module.css';
+import * as classes from './AMA.module.css';
 
 const encode = (data) => {
   return Object.keys(data)

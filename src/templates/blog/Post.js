@@ -14,7 +14,7 @@ import {
   Layout,
   SEO,
 } from '../../components';
-import classes from './Post.module.css';
+import * as classes from './Post.module.css';
 
 const Post = ({ data, pageContext }) => {
   const { post, coverImageUrl } = data;
@@ -52,6 +52,7 @@ const Post = ({ data, pageContext }) => {
                 <Row noGutters>
                   <Col>
                     <CoverImage
+                      alt={title}
                       src={coverImage}
                       className={classes.coverImage}
                     />

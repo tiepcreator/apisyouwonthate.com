@@ -3,7 +3,7 @@ import { graphql } from 'gatsby';
 import { Container, Col, Row } from 'react-bootstrap';
 
 import { BookFeature, Layout, SEO } from '../../components';
-import classes from './BooksPage.module.css';
+import * as classes from './BooksPage.module.css';
 
 const BooksPage = ({ data }) => {
   const { books } = data;

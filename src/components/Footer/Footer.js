@@ -2,7 +2,7 @@ import React from 'react';
 import { Container, Col, Row } from 'react-bootstrap';
 import { Link } from 'gatsby';
 
-import classes from './Footer.module.css';
+import * as classes from './Footer.module.css';
 
 import { GitHubIcon, TwitterIcon } from '../icons';
 import { NewsletterForm } from '../NewsletterForm';
@@ -88,7 +88,7 @@ const Footer = () => (
           <NewsletterForm />
         </Col>
       </Row>
-      <Row className={classes.bottomRow}>
+      <Row>
         <Col>
           <p>
             <a

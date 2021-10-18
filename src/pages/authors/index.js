@@ -3,7 +3,7 @@ import { graphql } from 'gatsby';
 import { Container, Col, Row } from 'react-bootstrap';
 
 import { AuthorSummary, Layout, SEO } from '../../components';
-import classes from './AuthorsPage.module.css';
+import * as classes from './AuthorsPage.module.css';
 
 const AuthorsPage = ({ data }) => {
   const { authors } = data;
@@ -21,7 +21,7 @@ const AuthorsPage = ({ data }) => {
         title="Authors"
         keywords={['apis', 'api', 'rest', 'rpc', 'graphql']}
       />
-      <div className={classes.background}>
+      <div>
         <Container className={classes.container}>
           <Row>
             <Col>
