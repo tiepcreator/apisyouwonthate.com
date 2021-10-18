@@ -12,7 +12,7 @@ const FeaturedPodcast = ({ podcast }) => {
 
   return (
     <Row>
-      <Col xs={12}>
+      <Col xs={12} style={{ paddingLeft: 0 }}>
         <div className={classes.container}>
           <div className={classes.content}>
             <TypeLabel>Podcast</TypeLabel>

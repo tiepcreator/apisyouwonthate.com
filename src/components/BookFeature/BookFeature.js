@@ -22,7 +22,11 @@ const BookFeature = ({ book }) => {
             </Link>
           </h2>
           <div className={classes.smallCover}>
-            <Image src={coverImage} className={classes.smallCover} />
+            <Image
+              alt={`Cover image for ${title}`}
+              src={coverImage}
+              className={classes.smallCover}
+            />
           </div>
         </Col>
       </Row>

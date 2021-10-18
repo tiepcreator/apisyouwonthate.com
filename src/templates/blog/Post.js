@@ -52,6 +52,7 @@ const Post = ({ data, pageContext }) => {
                 <Row noGutters>
                   <Col>
                     <CoverImage
+                      alt={title}
                       src={coverImage}
                       className={classes.coverImage}
                     />

@@ -14,9 +14,10 @@ const FeaturedBlogPost = ({ post }) => {
   const { coverImage, subtitle, title } = post.frontmatter;
   return (
     <Row>
-      <Col xs={12} sm={12} md={12} lg={12}>
+      <Col xs={12} sm={12} md={12} lg={12} style={{ paddingLeft: 0 }}>
         <Link to={`/blog/${slugify(title)}`} className={classes.container}>
           <CoverImage
+            alt={title}
             src={coverImage}
             className={classes.featureImageContainer}
           />
