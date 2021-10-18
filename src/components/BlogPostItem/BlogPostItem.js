@@ -26,8 +26,13 @@ const BlogPostItem = ({ post, feature = false }) => {
           </Col>
           <Col>
             <main>
-              <h2 className={classes.title}>{title}</h2>
-              <p className={classes.subtitle}>{subtitle}</p>
+              <Link
+                to={`/blog/${slugify(title)}`}
+                style={{ textDecoration: 'none' }}
+              >
+                <h2 className={classes.title}>{title}</h2>
+                <p className={classes.subtitle}>{subtitle}</p>
+              </Link>
               <AuthorDisplay name={author} date={date} />
             </main>
           </Col>
