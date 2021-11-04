@@ -1,11 +1,13 @@
 const slugify = require('./src/utils/slugify');
 
+const siteUrl = `https://apisyouwonthate.com`;
+
 module.exports = {
   siteMetadata: {
     title: `APIs You Won't Hate - A community that cares about API design and development.`,
     description: ``,
     author: `@apisyouwonthate`,
-    siteUrl: `https://apisyouwonthate.com`,
+    siteUrl,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,
@@ -106,8 +108,6 @@ module.exports = {
               siteMetadata {
                 title
                 description
-                siteUrl
-                site_url: siteUrl
               }
             }
           }
@@ -125,12 +125,8 @@ module.exports = {
                 return Object.assign({}, post.frontmatter, {
                   description: post.frontmatter.subtitle,
                   date: post.frontmatter.date,
-                  url: `${site.siteMetadata.siteUrl}/blog/${slugify(
-                    post.frontmatter.title
-                  )}`,
-                  guid: `${site.siteMetadata.siteUrl}/blog/${slugify(
-                    post.frontmatter.title
-                  )}`,
+                  url: `${siteUrl}/blog/${slugify(post.frontmatter.title)}`,
+                  guid: `${siteUrl}/blog/${slugify(post.frontmatter.title)}`,
                 });
               });
             },
@@ -167,7 +163,73 @@ module.exports = {
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
-    `gatsby-plugin-sitemap`,
+    {
+      resolve: 'gatsby-plugin-sitemap',
+      options: {
+        query: `
+          {
+            allSitePage {
+              nodes {
+                path
+              }
+            }
+            posts: allMdx(filter: {frontmatter: {type: {eq: "blog"}}}) {
+              nodes {
+                slug
+                frontmatter {
+                  date
+                }
+              }
+            }
+            
+            books: allMdx(filter: {frontmatter: {type: {eq: "book"}}}) {
+              nodes {
+                slug
+                frontmatter {
+                  date
+                }
+              }
+            }
+          }
+      `,
+        resolveSiteUrl: () => siteUrl,
+        resolvePages: ({
+          allSitePage: { nodes: allPages },
+          posts: { nodes: allPosts },
+          books: { nodes: allBooks },
+        }) => {
+          const postsNodeMap = allPosts.reduce((acc, node) => {
+            const { date } = node.frontmatter;
+            const uri = `/${date}`;
+            acc[uri] = node;
+
+            return acc;
+          }, {});
+
+          const booksNodeMap = allBooks.reduce((acc, node) => {
+            const { date } = node.frontmatter;
+            const uri = `/${date}`;
+            acc[uri] = node;
+
+            return acc;
+          }, {});
+
+          return allPages.map((page) => {
+            return {
+              ...page,
+              ...postsNodeMap[page.path],
+              ...booksNodeMap[page.path],
+            };
+          });
+        },
+        serialize: ({ path, frontmatter }) => {
+          return {
+            url: path,
+            lastmod: frontmatter?.date,
+          };
+        },
+      },
+    },
     `gatsby-plugin-netlify`, // make sure to put last in the array
   ],
 };
