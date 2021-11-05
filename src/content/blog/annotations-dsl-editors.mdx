@@ -101,7 +101,7 @@ One downside to annotations is that they don't confirm the code is doing what it
 
 Annotation users need to find a way to contract test the actual output against these annotations, which we've written about before in [Keeping Documentation Honest](/blog/keeping-documentation-honest).
 
-The tools in this article generally involve the machine-readable OpenAPI / JSON Schema files around, so you need to export them back to a machine-readable format in order to compare them to the code... This means running a command in the command line which pulls the annotations out into a machine-readable file, then running a tool like Dredd or a JSON Schema validators, which is a pretty awkward step.
+The tools in this article generally involve the machine-readable OpenAPI / JSON Schema files around, so you need to export them back to a machine-readable format in order to compare them to the code... This means running a command in the command line which pulls the annotations out into a machine-readable file, then running a tool like [Dredd](https://dredd.org/) or a JSON Schema validators, which is a pretty awkward step.
 
 Design-first is incompatible with all this, unless you chose to design the API, then generate code with annotations, then figure out how to keep the code, the annotations AND the machine readable designs up to date. If there's anything worse than two sources of truth it's three...
 
@@ -150,7 +150,7 @@ DSL's can be used in code-first or design-first. You have your code, you have yo
 
 This is shorter than the OpenAPI YAML it replaces, but it's also another format for people to learn. People who know how to write up OpenAPI will need to learn this format, and the folks familiar with a different DSL will have to learn this format too. Your editor will also need to learn about this format if you want autocomplete, syntax highlighting, linting and validation. The "native" description formats all have this, but these DSLs usually do not.
 
-This approach, just like annotations, do not help you ensure that what you're writing in the DSL is actually correct. The contract written down in the description could be completely incorrect. Some DSLs like [RSawg](https://github.com/rswag/rswag) aim to solve this by having their DSL be written as integration texts. The source of truth for how you create OpenAPI is literally integration tests:
+This approach, just like annotations, do not help you ensure that what you're writing in the DSL is actually correct. The contract written down in the description could be completely incorrect. Some DSLs like [Rswag](https://github.com/rswag/rswag) aim to solve this by having their DSL be written as integration texts. The source of truth for how you create OpenAPI is literally integration tests:
 
 ```ruby
 describe 'Blogs API' do
@@ -249,7 +249,7 @@ Another approach to checking responses is contract testing. Instead of having so
 
 Another approach is using [Prism Proxy](https://stoplight.io/p/docs/gh/stoplightio/prism/docs/guides/03-validation-proxy.md) in end-to-end testing to blow up if any requests or responses are invalid throughout the test suite. This can be implemented with little to no buy in from the folks producing the APIs, because you can just funnel existing cross-API traffic through the proxy in the testing environment without modifying any code.
 
-Code first and editors do not jive at all, because the editors do not understand the annotation system in the Java/PHP/Pyhton/etc sourcecode. According to an extremely scientific [poll on my Twitter](https://twitter.com/philsturgeon/status/1234455612265725952), 35% of teams are battling through with a mixture of code-first and design-first. 
+Code first and editors do not jive at all, because the editors do not understand the annotation system in the Java/PHP/Python/etc source code. According to an extremely scientific [poll on my Twitter](https://twitter.com/philsturgeon/status/1234455612265725952), 35% of teams are battling through with a mixture of code-first and design-first. 
 
 ![](../../images/posts/annotations-dsl-editors/design-code-poll.png)
 _[](https://twitter.com/philsturgeon/status/1234455612265725952)_
