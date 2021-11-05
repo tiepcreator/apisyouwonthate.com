@@ -4,8 +4,8 @@ const siteUrl = `https://apisyouwonthate.com`;
 
 module.exports = {
   siteMetadata: {
-    title: `APIs You Won't Hate - A community that cares about API design and development.`,
-    description: ``,
+    title: `APIs You Won't Hate`,
+    description: `A community that cares about API design and development.`,
     author: `@apisyouwonthate`,
     siteUrl,
   },
@@ -161,6 +161,12 @@ module.exports = {
             match: '^/blog/',
           },
         ],
+      },
+    },
+    {
+      resolve: `gatsby-plugin-canonical-urls`,
+      options: {
+        siteUrl,
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality
