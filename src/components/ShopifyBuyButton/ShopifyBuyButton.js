@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Client from 'shopify-buy';
 import ShopifyBuy from '@shopify/buy-button-js';
 
 class ShopifyBuyButton extends Component {
@@ -8,10 +7,9 @@ class ShopifyBuyButton extends Component {
     super(props);
     this.buyButton = React.createRef();
 
-    this.shopifyClient = Client.buildClient({
+    this.shopifyClient = ShopifyBuy.buildClient({
       domain: process.env.GATSBY_SHOPIFY_DOMAIN,
-      appId: process.env.GATSBY_SHOPIFY_APP_ID,
-      apiKey: process.env.GATSBY_SHOPIFY_API_KEY,
+      storefrontAccessToken: 'fc0600a4e4b6ae63d1386e4755de6050',
     });
 
     this.shopifyUi = ShopifyBuy.UI.init(this.shopifyClient);
