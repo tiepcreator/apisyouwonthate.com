@@ -4,14 +4,14 @@ import { graphql } from 'gatsby';
 // bootstrap
 import { Container, Col, Row } from 'react-bootstrap';
 
-import { Image, Layout, SEO, VideoFeature } from '../../components';
+import { Image, Layout, Seo, VideoFeature } from '../../components';
 import * as classes from './Videos.module.css';
 
 const VideosPage = ({ data }) => {
   const { videos } = data;
   return (
     <Layout>
-      <SEO
+      <Seo
         title="Videos"
         keywords={['apis', 'api', 'rest', 'rpc', 'graphql']}
       />

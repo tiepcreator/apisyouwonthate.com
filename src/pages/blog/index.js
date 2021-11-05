@@ -4,7 +4,7 @@ import { graphql } from 'gatsby';
 // bootstrap
 import { Container, Row } from 'react-bootstrap';
 
-import { BlogPostItem, Layout, SEO } from '../../components';
+import { BlogPostItem, Layout, Seo } from '../../components';
 
 import * as classes from './BlogPage.module.css';
 
@@ -16,7 +16,7 @@ const BlogPage = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title="Blog" />
+      <Seo title="Blog" />
       <Container className={classes.container}>
         <Row>
           {posts.map((post, idx) => (

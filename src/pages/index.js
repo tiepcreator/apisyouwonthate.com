@@ -16,7 +16,7 @@ import {
   Layout,
   NewsletterForm,
   Overline,
-  SEO,
+  Seo,
 } from '../components';
 
 import * as classes from './Home.module.css';
@@ -70,7 +70,7 @@ const IndexPage = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
+      <Seo title="Home" keywords={[`gatsby`, `application`, `react`]} />
 
       <div className={classes.featured}>
         <Container>

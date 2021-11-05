@@ -27,6 +27,7 @@
     "gatsby-source-rss-feed": "^1.2.2",
     "gatsby-source-shopify": "^6.1.0",
     "gatsby-source-stripe": "^3.2.2",
+    "gatsby-transformer-gitinfo": "^1.1.0",
     "gatsby-transformer-remark": "^5.1.0",
     "gatsby-transformer-sharp": "^4.1.0",
     "moment": "^2.29.1",
@@ -46,8 +47,6 @@
     "@mdx-js/loader": "^1.6.22",
     "@mdx-js/mdx": "^1.6.22",
     "@netlify/plugin-gatsby": "^1.0.3",
-    "eslint-config-react-app": "^6.0.0",
-    "eslint-plugin-react-hooks": "^4.2.0",
     "loader-utils": "^2.0.0",
     "prettier": "^2.4.1"
   },

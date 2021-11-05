@@ -15,7 +15,7 @@ export { JobPostItem } from './JobPostItem';
 export { Layout } from './Layout';
 export { NewsletterForm } from './NewsletterForm';
 export { Overline } from './Overline';
-export { SEO } from './SEO';
+export { SEO as Seo } from './SEO';
 export { ShopifyBuyButton } from './ShopifyBuyButton';
 export { TypeLabel } from './TypeLabel';
 export { VideoFeature } from './VideoFeature';

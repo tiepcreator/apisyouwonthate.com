@@ -1,12 +1,12 @@
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 
-import { Image, Layout, SEO } from '../../components';
+import { Image, Layout, Seo } from '../../components';
 import * as classes from './CommunityPage.module.css';
 
 const CommunityPage = () => (
   <Layout>
-    <SEO title="Books" keywords={['apis', 'api', 'rest', 'rpc', 'graphql']} />
+    <Seo title="Books" keywords={['apis', 'api', 'rest', 'rpc', 'graphql']} />
     <div className={classes.container}>
       <Container>
         <div className={classes.slack}>

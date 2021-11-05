@@ -1,4 +1,4 @@
-const slugify = require('./src/utils/slugify');
+const slugify = require('./src/utils/slugify.js');
 
 const siteUrl = `https://apisyouwonthate.com`;
 
@@ -40,6 +40,9 @@ module.exports = {
         name: 'content',
       },
     },
+    // use gitinfo transformer to add last modified date from git to files sourced by gatsby-source-filesystem
+    // this is used for our sitemap
+    `gatsby-transformer-gitinfo`,
     // parse markdown with gatsby-plugin-mdx
     {
       resolve: 'gatsby-plugin-mdx',

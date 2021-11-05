@@ -3,7 +3,7 @@ import { graphql, Link } from 'gatsby';
 import { Container, Col, Row } from 'react-bootstrap';
 import moment from 'moment';
 
-import { Layout, SEO } from '../../components';
+import { Layout, Seo } from '../../components';
 import { formatEpisodeNumber } from '../../utils/podcast';
 import * as classes from './Podcast.module.css';
 
@@ -12,7 +12,7 @@ const PodcastPage = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title="Podcast" />
+      <Seo title="Podcast" />
       <Container className={classes.container}>
         <Row>
           <Col>

@@ -12,7 +12,7 @@ import {
   Colophon,
   CoverImage,
   Layout,
-  SEO,
+  Seo,
 } from '../../components';
 import * as classes from './Post.module.css';
 
@@ -37,7 +37,7 @@ const Post = ({ data, pageContext }) => {
 
         return (
           <Layout>
-            <SEO
+            <Seo
               title={title}
               description={subtitle}
               ogType="article"
@@ -105,7 +105,7 @@ Post.propTypes = {
 };
 
 export const query = graphql`
-  query($id: String!, $coverImage: String) {
+  query ($id: String!, $coverImage: String) {
     post: mdx(id: { eq: $id }) {
       id
       body
