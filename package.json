@@ -1,6 +1,6 @@
 {
   "name": "apisyouwonthate.com",
-  "private": true,
+  "private": false,
   "description": "APIs You Won't Hate",
   "version": "0.2.0",
   "author": "Mike Bifulco <mbifulco@live.com>",
@@ -67,7 +67,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/apisyouwonthate/apisyouwonthate.com/"
+    "url": "https://github.com/apisyouwonthate/apisyouwonthate.com"
   },
   "bugs": {
     "url": "https://github.com/apisyouwonthate/apisyouwonthate.com/issues"
