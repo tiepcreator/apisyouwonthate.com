@@ -33,7 +33,10 @@ const VideosPage = ({ data }) => {
                 </p>
               </Col>
               <Col lg={5} className="justify-content-center">
-                <Image src="videos-page-header-image.jpg" />
+                <Image
+                  src="videos-page-header-image.jpg"
+                  alt="A slide from one of Phil's many talks over the years"
+                />
               </Col>
             </Row>
           </div>

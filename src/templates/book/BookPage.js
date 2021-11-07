@@ -76,7 +76,11 @@ const BookPage = ({ data }) => {
               <Col lg={1} />
               <Col>
                 <div className={classes.smallCover}>
-                  <Image src={coverImage} className={classes.smallCover} />
+                  <Image
+                    src={coverImage}
+                    className={classes.smallCover}
+                    alt={`Cover for ${title}`}
+                  />
                 </div>
               </Col>
             </Row>
