@@ -8,7 +8,7 @@ import Row from 'react-bootstrap/Row';
 
 import * as classes from './Header.module.css';
 
-const Header = ({ siteTitle }) => (
+const Header = () => (
   <div className={classes.background}>
     <Container>
       <Row>
@@ -18,7 +18,7 @@ const Header = ({ siteTitle }) => (
               <Link to="/">
                 <img
                   className={`img-responsive ${classes.headerImage}`}
-                  src="/img/apis-you-wont-hate-wide.png"
+                  src="/img/apis-you-wont-hate-dark.png"
                   alt="APIs You Won't Hate"
                 />
               </Link>
