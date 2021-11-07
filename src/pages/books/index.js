@@ -2,14 +2,14 @@ import React from 'react';
 import { graphql } from 'gatsby';
 import { Container, Col, Row } from 'react-bootstrap';
 
-import { BookFeature, Layout, SEO } from '../../components';
+import { BookFeature, Layout, Seo } from '../../components';
 import * as classes from './BooksPage.module.css';
 
 const BooksPage = ({ data }) => {
   const { books } = data;
   return (
     <Layout>
-      <SEO title="Books" keywords={['apis', 'api', 'rest', 'rpc', 'graphql']} />
+      <Seo title="Books" keywords={['apis', 'api', 'rest', 'rpc', 'graphql']} />
       <div className={classes.background}>
         <Container className={classes.container}>
           <Row>

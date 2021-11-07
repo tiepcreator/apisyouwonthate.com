@@ -4,7 +4,7 @@ import { graphql } from 'gatsby';
 // bootstrap
 import { Container, Col, Row } from 'react-bootstrap';
 
-import { JobPostItem, Layout, SEO } from '../../components';
+import { JobPostItem, Layout, Seo } from '../../components';
 
 import * as classes from './Jobs.module.css';
 
@@ -16,7 +16,7 @@ const JobsPage = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title="Jobs" />
+      <Seo title="Jobs" />
       <Container className={classes.container}>
         <Row noGutters>
           <Col>

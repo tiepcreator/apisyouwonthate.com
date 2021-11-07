@@ -11,15 +11,8 @@ import * as classes from './AuthorSummary.module.css';
 import { Button } from '../Button';
 
 const AuthorSummary = ({ author }) => {
-  const {
-    consultingUrl,
-    github,
-    name,
-    photo,
-    shortBio,
-    shortName,
-    twitter,
-  } = author.frontmatter;
+  const { consultingUrl, github, name, photo, shortBio, shortName, twitter } =
+    author.frontmatter;
 
   return (
     <Col xs={12} md={4}>
@@ -28,7 +21,7 @@ const AuthorSummary = ({ author }) => {
           <header className={classes.header}>
             <div className={classes.headshotContainer}>
               <Link to={`/author/${slugify(name)}`}>
-                {photo && <Image src={photo} />}
+                {photo && <Image src={photo} alt={name} />}
               </Link>
             </div>
             <Link

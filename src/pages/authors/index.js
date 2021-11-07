@@ -2,7 +2,7 @@ import React from 'react';
 import { graphql } from 'gatsby';
 import { Container, Col, Row } from 'react-bootstrap';
 
-import { AuthorSummary, Layout, SEO } from '../../components';
+import { AuthorSummary, Layout, Seo } from '../../components';
 import * as classes from './AuthorsPage.module.css';
 
 const AuthorsPage = ({ data }) => {
@@ -17,7 +17,7 @@ const AuthorsPage = ({ data }) => {
 
   return (
     <Layout>
-      <SEO
+      <Seo
         title="Authors"
         keywords={['apis', 'api', 'rest', 'rpc', 'graphql']}
       />

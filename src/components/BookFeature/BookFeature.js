@@ -48,7 +48,7 @@ const BookFeature = ({ book }) => {
         </Col>
         <Col className="d-sm-hidden" md={1} />
         <Col md={4} className="d-none d-sm-none d-md-none d-lg-block">
-          <Image src={coverImage} />
+          <Image src={coverImage} alt={`Cover image for ${title}`} />
         </Col>
       </Row>
     </React.Fragment>

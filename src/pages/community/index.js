@@ -1,12 +1,12 @@
 import React from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 
-import { Image, Layout, SEO } from '../../components';
+import { Image, Layout, Seo } from '../../components';
 import * as classes from './CommunityPage.module.css';
 
 const CommunityPage = () => (
   <Layout>
-    <SEO title="Books" keywords={['apis', 'api', 'rest', 'rpc', 'graphql']} />
+    <Seo title="Books" keywords={['apis', 'api', 'rest', 'rpc', 'graphql']} />
     <div className={classes.container}>
       <Container>
         <div className={classes.slack}>
@@ -21,7 +21,7 @@ const CommunityPage = () => (
               <p>
                 Joining is as easy as going to our{' '}
                 <a
-                  href="http://slack.apisyouwonthate.com/"
+                  href="http://slack.apisyouwonthate.com"
                   target="_blank"
                   rel="noreferrer noopener"
                 >

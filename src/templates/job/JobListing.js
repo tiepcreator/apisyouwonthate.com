@@ -7,7 +7,7 @@ import { Container, Col, Row } from 'react-bootstrap';
 
 import moment from 'moment';
 
-import { Button, Layout, SEO, Overline } from '../../components';
+import { Button, Layout, Seo, Overline } from '../../components';
 import * as classes from './JobListing.module.css';
 
 const JobListing = ({ data, pageContext }) => {
@@ -26,7 +26,7 @@ const JobListing = ({ data, pageContext }) => {
   } = jobListing.frontmatter;
   return (
     <Layout>
-      <SEO
+      <Seo
         title={title}
         description={`${title} job at ${company}`}
         ogType="article"
@@ -92,7 +92,7 @@ JobListing.propTypes = {
 };
 
 export const query = graphql`
-  query($id: String!) {
+  query ($id: String!) {
     jobListing: mdx(id: { eq: $id }) {
       id
       body

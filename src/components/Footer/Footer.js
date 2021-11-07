@@ -44,7 +44,7 @@ const Footer = () => (
             <li>
               <TwitterIcon />{' '}
               <a
-                href="https://twitter.com/apisyouwonthate/"
+                href="https://twitter.com/apisyouwonthate"
                 target="_blank"
                 rel="noreferrer noopener me"
               >

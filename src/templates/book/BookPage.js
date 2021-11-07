@@ -4,7 +4,7 @@ import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { Col, Container, Row } from 'react-bootstrap';
 import { map, size } from 'lodash';
 
-import { Button, Image, Layout, SEO, ShopifyBuyButton } from '../../components';
+import { Button, Image, Layout, Seo, ShopifyBuyButton } from '../../components';
 import * as classes from './BookPage.module.css';
 
 const BookPage = ({ data }) => {
@@ -22,7 +22,7 @@ const BookPage = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title={title} ogType="article" />
+      <Seo title={title} ogType="article" />
       <section className={classes.top}>
         <Container>
           <div className={classes.container}>
@@ -76,7 +76,11 @@ const BookPage = ({ data }) => {
               <Col lg={1} />
               <Col>
                 <div className={classes.smallCover}>
-                  <Image src={coverImage} className={classes.smallCover} />
+                  <Image
+                    src={coverImage}
+                    className={classes.smallCover}
+                    alt={`Cover for ${title}`}
+                  />
                 </div>
               </Col>
             </Row>
@@ -98,7 +102,7 @@ const BookPage = ({ data }) => {
 };
 
 export const query = graphql`
-  query($id: String!) {
+  query ($id: String!) {
     mdx(id: { eq: $id }) {
       id
       body

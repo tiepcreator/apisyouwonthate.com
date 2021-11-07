@@ -1,11 +1,11 @@
-const slugify = require('./src/utils/slugify');
+const slugify = require('./src/utils/slugify.js');
 
 const siteUrl = `https://apisyouwonthate.com`;
 
 module.exports = {
   siteMetadata: {
-    title: `APIs You Won't Hate - A community that cares about API design and development.`,
-    description: ``,
+    title: `APIs You Won't Hate`,
+    description: `A community that cares about API design and development.`,
     author: `@apisyouwonthate`,
     siteUrl,
   },
@@ -40,6 +40,9 @@ module.exports = {
         name: 'content',
       },
     },
+    // use gitinfo transformer to add last modified date from git to files sourced by gatsby-source-filesystem
+    // this is used for our sitemap
+    `gatsby-transformer-gitinfo`,
     // parse markdown with gatsby-plugin-mdx
     {
       resolve: 'gatsby-plugin-mdx',
@@ -158,6 +161,12 @@ module.exports = {
             match: '^/blog/',
           },
         ],
+      },
+    },
+    {
+      resolve: `gatsby-plugin-canonical-urls`,
+      options: {
+        siteUrl,
       },
     },
     // this (optional) plugin enables Progressive Web App + Offline functionality

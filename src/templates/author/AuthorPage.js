@@ -3,7 +3,7 @@ import { graphql } from 'gatsby';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
 import { Col, Container, Row } from 'react-bootstrap';
 
-import { AuthorSummary, BlogPostItem, Layout, SEO } from '../../components';
+import { AuthorSummary, BlogPostItem, Layout, Seo } from '../../components';
 
 import * as classes from './AuthorPage.module.css';
 
@@ -14,7 +14,7 @@ const BookPage = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title={name} />
+      <Seo title={name} />
       <section className={classes.about}>
         <Container>
           <Row>
@@ -51,7 +51,7 @@ const BookPage = ({ data }) => {
 };
 
 export const query = graphql`
-  query($id: String!, $name: String!) {
+  query ($id: String!, $name: String!) {
     author: mdx(id: { eq: $id }) {
       id
       body

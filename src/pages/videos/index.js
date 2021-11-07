@@ -4,14 +4,14 @@ import { graphql } from 'gatsby';
 // bootstrap
 import { Container, Col, Row } from 'react-bootstrap';
 
-import { Image, Layout, SEO, VideoFeature } from '../../components';
+import { Image, Layout, Seo, VideoFeature } from '../../components';
 import * as classes from './Videos.module.css';
 
 const VideosPage = ({ data }) => {
   const { videos } = data;
   return (
     <Layout>
-      <SEO
+      <Seo
         title="Videos"
         keywords={['apis', 'api', 'rest', 'rpc', 'graphql']}
       />
@@ -33,7 +33,10 @@ const VideosPage = ({ data }) => {
                 </p>
               </Col>
               <Col lg={5} className="justify-content-center">
-                <Image src="videos-page-header-image.jpg" />
+                <Image
+                  src="videos-page-header-image.jpg"
+                  alt="A slide from one of Phil's many talks over the years"
+                />
               </Col>
             </Row>
           </div>

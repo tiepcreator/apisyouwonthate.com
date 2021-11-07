@@ -16,7 +16,7 @@ import {
   Layout,
   NewsletterForm,
   Overline,
-  SEO,
+  Seo,
 } from '../components';
 
 import * as classes from './Home.module.css';
@@ -70,7 +70,7 @@ const IndexPage = ({ data }) => {
 
   return (
     <Layout>
-      <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
+      <Seo title="Home" keywords={[`gatsby`, `application`, `react`]} />
 
       <div className={classes.featured}>
         <Container>
@@ -87,7 +87,7 @@ const IndexPage = ({ data }) => {
         <Container>
           {books.nodes.map((book, i) => {
             return (
-              <React.Fragment key={book.title}>
+              <React.Fragment key={book.frontmatter.title}>
                 <BookFeature book={book} />
                 {i < books.nodes.length - 1 && (
                   <div className={classes.bookSpacer} />
@@ -169,7 +169,7 @@ const IndexPage = ({ data }) => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://wework.com/"
+                href="https://wework.com"
               >
                 WeWork
               </a>

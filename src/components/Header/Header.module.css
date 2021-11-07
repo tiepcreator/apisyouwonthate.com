@@ -4,7 +4,7 @@
 
 .header {
   /* max-width: var(--site-width); */
-  margin: 0 auto;
+  margin: 1rem auto 0;
   padding: 10px 0;
 }
 
@@ -15,6 +15,7 @@
 .headerImage {
   max-height: 60px;
   max-width: 90vw;
+  margin-bottom: 0.5rem;
 }
 
 .navbar {
