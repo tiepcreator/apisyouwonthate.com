@@ -169,7 +169,7 @@ const IndexPage = ({ data }) => {
               <a
                 target="_blank"
                 rel="noopener noreferrer"
-                href="https://wework.com/"
+                href="https://wework.com"
               >
                 WeWork
               </a>
