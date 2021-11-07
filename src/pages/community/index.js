@@ -21,7 +21,7 @@ const CommunityPage = () => (
               <p>
                 Joining is as easy as going to our{' '}
                 <a
-                  href="http://slack.apisyouwonthate.com/"
+                  href="http://slack.apisyouwonthate.com"
                   target="_blank"
                   rel="noreferrer noopener"
                 >
