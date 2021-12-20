@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { Link } from 'gatsby';
+import Link from 'next/link';
 
 import slugify from '../../utils/slugify';
 import { Image, Button } from '../';
@@ -18,7 +18,7 @@ const BookFeature = ({ book }) => {
           {/* cover image and title shown on small views */}
           <h2>
             <Link className={classes.title} to={bookUrl}>
-              {title}
+              <a>{title}</a>
             </Link>
           </h2>
           <div className={classes.smallCover}>

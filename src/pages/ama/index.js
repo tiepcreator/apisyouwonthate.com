@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'gatsby';
+import Link from 'next/link';
 import { Button, Container, Col, Form, Row } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
 
@@ -49,7 +49,10 @@ const AMAPage = () => {
                 <p>
                   We'll do our best to answer your question as quickly as
                   possible. Make sure to subscribe to the{' '}
-                  <Link to="/podcast">podcast</Link>, too. Have a great day!
+                  <Link href="/podcast">
+                    <a>podcast</a>
+                  </Link>
+                  , too. Have a great day!
                 </p>
               </Col>
             </Row>

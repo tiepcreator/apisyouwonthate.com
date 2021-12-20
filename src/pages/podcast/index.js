@@ -26,7 +26,7 @@ const PodcastPage = ({ data }) => {
           <Col xl={4}>
             <h4>Got a question for us?</h4>
             <p>
-              Head on over to <Link to="/ama">Submit</Link> to submit your
+              Head on over to <Link href="/ama">Submit</Link> to submit your
               question for the show. We'll do our best to answer on an upcoming
               episode.
             </p>

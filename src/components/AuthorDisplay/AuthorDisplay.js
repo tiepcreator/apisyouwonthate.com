@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'gatsby';
+import Link from 'next/link';
 
 import moment from 'moment';
 import Img from 'gatsby-image/withIEPolyfill';
@@ -27,7 +27,9 @@ const AuthorDisplay = ({ authorImage, name, date, readTimeInMinutes }) => {
     <div className={classes.container}>
       {authorImage && (
         <Link to={authorUrl}>
-          <Img fluid={authorImage} className={classes.authorImage} />
+          <a>
+            <Img fluid={authorImage} className={classes.authorImage} />
+          </a>
         </Link>
       )}
       <div className={classes.metadataContainer}>

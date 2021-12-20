@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'gatsby';
+import Link from 'next/link';
 
 import { Col, Row } from 'react-bootstrap';
 
@@ -16,16 +16,18 @@ const FeaturedBlogPost = ({ post }) => {
     <Row>
       <Col xs={12} sm={12} md={12} lg={12} style={{ paddingLeft: 0 }}>
         <Link to={`/blog/${slugify(title)}`} className={classes.container}>
-          <CoverImage
-            alt={title}
-            src={coverImage}
-            className={classes.featureImageContainer}
-          />
-          <main className={classes.meta}>
-            <TypeLabel>Article</TypeLabel>
-            <h2 className={classes.title}>{title}</h2>
-            <p className={classes.subtitle}>{subtitle}</p>
-          </main>
+          <a>
+            <CoverImage
+              alt={title}
+              src={coverImage}
+              className={classes.featureImageContainer}
+            />
+            <main className={classes.meta}>
+              <TypeLabel>Article</TypeLabel>
+              <h2 className={classes.title}>{title}</h2>
+              <p className={classes.subtitle}>{subtitle}</p>
+            </main>
+          </a>
         </Link>
       </Col>
     </Row>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'gatsby';
+import Link from 'next/link';
 
 import { Col, Row } from 'react-bootstrap';
 
@@ -21,16 +21,22 @@ const AuthorSummary = ({ author }) => {
           <header className={classes.header}>
             <div className={classes.headshotContainer}>
               <Link to={`/author/${slugify(name)}`}>
-                {photo && <Image src={photo} alt={name} />}
+                {photo && (
+                  <a>
+                    <Image src={photo} alt={name} />
+                  </a>
+                )}
               </Link>
             </div>
             <Link
               className={classes.authorNameContainer}
               to={`/author/${slugify(name)}`}
             >
-              <h2 className={classes.authorName}>
-                <span>{name}</span>
-              </h2>
+              <a>
+                <h2 className={classes.authorName}>
+                  <span>{name}</span>
+                </h2>
+              </a>
             </Link>
           </header>
         </Col>

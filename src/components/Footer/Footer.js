@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Col, Row } from 'react-bootstrap';
-import { Link } from 'gatsby';
+import Link from 'next/link';
 
 import * as classes from './Footer.module.css';
 
@@ -15,16 +15,24 @@ const Footer = () => (
           <div className={classes.subtitle}>APIs You Won't hate</div>
           <ul className={classes.linkList}>
             <li>
-              <Link to="/books">Books</Link>
+              <Link href="/books">
+                <a>Books</a>
+              </Link>
             </li>
             <li>
-              <Link to="/blog">Blog</Link>
+              <Link href="/blog">
+                <a>Blog</a>
+              </Link>
             </li>
             <li>
-              <Link to="/videos">Videos</Link>
+              <Link href="/videos">
+                <a>Videos</a>
+              </Link>
             </li>
             <li>
-              <Link to="/podcast">Podcast</Link>
+              <Link href="/podcast">
+                <a>Podcast</a>
+              </Link>
             </li>
           </ul>
         </Col>
@@ -52,7 +60,7 @@ const Footer = () => (
               </a>
             </li>
             <li>
-              <Link to="/community">Join our Slack Community</Link>
+              <Link href="/community">Join our Slack Community</Link>
             </li>
             <li>
               <a href="https://forum.apisyouwonthate.com">Forum</a>
@@ -71,7 +79,7 @@ const Footer = () => (
               />
             </li>
             <li>
-              <Link to="/conduct">Code of Conduct</Link>
+              <Link href="/conduct">Code of Conduct</Link>
             </li>
           </ul>
         </Col>

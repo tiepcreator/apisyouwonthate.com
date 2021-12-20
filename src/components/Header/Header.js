@@ -1,4 +1,4 @@
-import { Link } from 'gatsby';
+import Link from 'next/link';
 import PropTypes from 'prop-types';
 import React from 'react';
 
@@ -15,29 +15,31 @@ const Header = () => (
         <Col>
           <header className={classes.header}>
             <h1 className={classes.title}>
-              <Link to="/">
-                <img
-                  className={`img-responsive ${classes.headerImage}`}
-                  src="/img/apis-you-wont-hate-dark.png"
-                  alt="APIs You Won't Hate"
-                />
+              <Link href="/">
+                <a>
+                  <img
+                    className={`img-responsive ${classes.headerImage}`}
+                    src="/img/apis-you-wont-hate-dark.png"
+                    alt="APIs You Won't Hate"
+                  />
+                </a>
               </Link>
             </h1>
             <nav className={classes.navbar}>
-              <Link to="/books" className={classes.link}>
-                Books
+              <Link href="/books" className={classes.link}>
+                <a>Books</a>
               </Link>
-              <Link to="/blog" className={classes.link}>
-                Blog
+              <Link href="/blog" className={classes.link}>
+                <a>Blog</a>
               </Link>
-              <Link to="/jobs" className={classes.link}>
-                Jobs
+              <Link href="/jobs" className={classes.link}>
+                <a>Jobs</a>
               </Link>
-              <Link to="/podcast" className={classes.link}>
-                Podcast
+              <Link href="/podcast" className={classes.link}>
+                <a>Podcast</a>
               </Link>
-              <Link to="/videos" className={classes.link}>
-                Videos
+              <Link href="/videos" className={classes.link}>
+                <a>Videos</a>
               </Link>
               <a
                 href="https://calendly.com/philsturgeon"
@@ -47,8 +49,8 @@ const Header = () => (
               >
                 Consulting
               </a>
-              <Link to="/community" className={classes.link}>
-                Community
+              <Link href="/community" className={classes.link}>
+                <a>Community</a>
               </Link>
             </nav>
           </header>

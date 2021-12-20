@@ -76,7 +76,7 @@ const JobListing = ({ data, pageContext }) => {
           <Col>
             <div className={classes.footer}>
               <small>
-                <Link to="/jobs">All Jobs</Link>
+                <Link href="/jobs">All Jobs</Link>
               </small>
             </div>
           </Col>
