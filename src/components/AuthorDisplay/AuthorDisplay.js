@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 
-import moment from 'moment';
-import Img from 'gatsby-image/withIEPolyfill';
+import { format } from 'date-fns';
+import Image from 'next/image';
 
 import slugify from '../../utils/slugify';
 import * as classes from './AuthorDisplay.module.css';
@@ -16,9 +16,7 @@ const AuthorDisplay = ({ authorImage, name, date, readTimeInMinutes }) => {
   );
 
   const dateDisplay = date && (
-    <span className={classes.date}>
-      {moment(new Date(date)).format('MMM D YYYY')}
-    </span>
+    <span className={classes.date}>{format(new Date(date), 'MMM D YYYY')}</span>
   );
 
   const authorUrl = `/author/${slugify(name)}`;
@@ -28,7 +26,7 @@ const AuthorDisplay = ({ authorImage, name, date, readTimeInMinutes }) => {
       {authorImage && (
         <Link to={authorUrl}>
           <a>
-            <Img fluid={authorImage} className={classes.authorImage} />
+            {/* <Image fluid={authorImage} className={classes.authorImage} /> */}
           </a>
         </Link>
       )}

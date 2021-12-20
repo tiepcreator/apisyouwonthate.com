@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Col, Row } from 'react-bootstrap';
+import { Stack } from '@chakra-ui/react';
 
 import { formatEpisodeNumber } from '../../utils/podcast';
 import * as classes from './FeaturedPodcast.module.css';
@@ -11,33 +11,31 @@ const FeaturedPodcast = ({ podcast }) => {
   const podcastEmbedUrl = podcast.link.replace('/s/', '/e/');
 
   return (
-    <Row>
-      <Col xs={12} style={{ paddingLeft: 0 }}>
-        <div className={classes.container}>
-          <div className={classes.content}>
-            <TypeLabel>Podcast</TypeLabel>
-            <h1 className={classes.title}>
-              {formatEpisodeNumber(podcast.itunes.episode)} - {podcast.title}
-            </h1>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: podcast.contentSnippet,
-              }}
-            />
-          </div>
-          <iframe
-            title={`APIs You Won't Hate Podcast episode ${podcast.itunes.episode} - ${podcast.title}`}
-            src={podcastEmbedUrl}
-            width="100%"
-            height="180"
-            frameBorder="0"
-            scrolling="no"
-            seamless
-            className={classes.podcastFrame}
-          ></iframe>
+    <Stack>
+      <div className={classes.container}>
+        <div className={classes.content}>
+          <TypeLabel>Podcast</TypeLabel>
+          <h1 className={classes.title}>
+            {formatEpisodeNumber(podcast.itunes.episode)} - {podcast.title}
+          </h1>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: podcast.contentSnippet,
+            }}
+          />
         </div>
-      </Col>
-    </Row>
+        <iframe
+          title={`APIs You Won't Hate Podcast episode ${podcast.itunes.episode} - ${podcast.title}`}
+          src={podcastEmbedUrl}
+          width="100%"
+          height="180"
+          frameBorder="0"
+          scrolling="no"
+          seamless
+          className={classes.podcastFrame}
+        ></iframe>
+      </div>
+    </Stack>
   );
 };
 

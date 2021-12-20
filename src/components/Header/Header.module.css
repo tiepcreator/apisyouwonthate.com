@@ -2,22 +2,6 @@
   background-color: var(--hateful-green);
 }
 
-.header {
-  /* max-width: var(--site-width); */
-  margin: 1rem auto 0;
-  padding: 10px 0;
-}
-
-.header h1 {
-  margin-bottom: 0;
-}
-
-.headerImage {
-  max-height: 60px;
-  max-width: 90vw;
-  margin-bottom: 0.5rem;
-}
-
 .navbar {
   max-width: 100vw;
   display: flex;
@@ -41,11 +25,6 @@
   color: var(--white);
 }
 
-.link {
-  color: rgba(var(--white_rgb), var(--alpha-dimmed));
-  text-decoration: none;
-  padding-right: 2rem;
-}
 
 .link:hover {
   color: rgba(var(--white_rgb), var(--alpha-full));

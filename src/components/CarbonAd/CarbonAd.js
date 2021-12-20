@@ -1,7 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 
-import './CarbonAds.css';
-
 const CarbonAd = () => {
   const scriptEl = useRef(null);
 

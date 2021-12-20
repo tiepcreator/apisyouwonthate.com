@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { Location } from '@reach/router';
+import Image from 'next/image';
 
 import { graphql } from 'gatsby';
 import { MDXRenderer } from 'gatsby-plugin-mdx';
@@ -10,7 +12,6 @@ import {
   AuthorDisplay,
   CarbonAd,
   Colophon,
-  CoverImage,
   Layout,
   Seo,
 } from '../../components';
@@ -51,7 +52,7 @@ const Post = ({ data, pageContext }) => {
               <Container fluid className={classes.coverImageContainer}>
                 <Row noGutters>
                   <Col>
-                    <CoverImage
+                    <Image
                       alt={title}
                       src={coverImage}
                       className={classes.coverImage}

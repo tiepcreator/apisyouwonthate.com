@@ -1,5 +1,8 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
+
+import Link from 'next/link';
+
+import { Stack, Text } from '@chakra-ui/react';
 
 import slugify from '../../utils/slugify';
 
@@ -11,20 +14,21 @@ const JobPostItem = ({ job }) => {
   const jobUrl = `/jobs/${slugify(company)}-${slugify(title)}`;
 
   return (
-    <Card style={{ marginBottom: '1.75rem' }}>
-      <Card.Body>
-        <Card.Subtitle>
-          <Overline>
-            {company} | {location} {employment_type && ` | ${employment_type}`}
-          </Overline>
-        </Card.Subtitle>
-        <Card.Title>{title}</Card.Title>
-        <Card.Text>{job.excerpt}</Card.Text>
-        <Card.Link href={jobUrl}>
-          <Button className={classes.button}>Find out more</Button>
-        </Card.Link>
-      </Card.Body>
-    </Card>
+    <Stack
+      style={{ marginBottom: '1.75rem' }}
+      border="1px solid gray.800"
+      padding="1rem"
+    >
+      <Overline>
+        {company} | {location} {employment_type && ` | ${employment_type}`}
+      </Overline>
+
+      <Text>{title}</Text>
+      <Text>{job.excerpt}</Text>
+      <Link href={jobUrl}>
+        <Button className={classes.button}>Find out more</Button>
+      </Link>
+    </Stack>
   );
 };
 
