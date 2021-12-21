@@ -11,6 +11,8 @@ import * as classes from './AuthorSummary.module.css';
 import { Button } from '../Button';
 
 const AuthorSummary = ({ author }) => {
+  if (!author) return null;
+
   const { consultingUrl, github, name, photo, shortBio, shortName, twitter } =
     author.frontmatter;
 
@@ -18,7 +20,7 @@ const AuthorSummary = ({ author }) => {
     <>
       <header className={classes.header}>
         <div className={classes.headshotContainer}>
-          <Link to={`/author/${slugify(name)}`}>
+          <Link href={`/author/${slugify(name)}`}>
             {photo && (
               <a>
                 <Image src={photo} alt={name} />
@@ -28,7 +30,7 @@ const AuthorSummary = ({ author }) => {
         </div>
         <Link
           className={classes.authorNameContainer}
-          to={`/author/${slugify(name)}`}
+          href={`/author/${slugify(name)}`}
         >
           <a>
             <h2 className={classes.authorName}>

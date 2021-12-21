@@ -1,18 +1,19 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { Container } from '@chakra-ui/react';
-
 import { MDXProvider } from '@mdx-js/react';
 
 import { Footer, Header } from '../';
+import { Box } from '@chakra-ui/react';
 
 const Layout = ({ children }) => {
   return (
     <MDXProvider>
-      <Header />
-      <main>{children}</main>
-      <Footer />
+      <Box width="100vw">
+        <Header />
+        <main>{children}</main>
+        <Footer />
+      </Box>
     </MDXProvider>
   );
 };

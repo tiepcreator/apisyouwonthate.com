@@ -3,49 +3,42 @@ import PropTypes from 'prop-types';
 import Link from 'next/link';
 
 import { format } from 'date-fns';
-import Image from 'next/image';
+
+import { Stack, Text, Link as ChakraLink } from '@chakra-ui/react';
 
 import slugify from '../../utils/slugify';
 import * as classes from './AuthorDisplay.module.css';
 
-const AuthorDisplay = ({ authorImage, name, date, readTimeInMinutes }) => {
-  // const author = useStaticQuery(graphql(``));
-
+const AuthorDisplay = ({ name, date, readTimeInMinutes }) => {
   const readTimeDisplay = readTimeInMinutes && (
     <span className={classes.readingTime}>{readTimeInMinutes} min read</span>
   );
 
   const dateDisplay = date && (
-    <span className={classes.date}>{format(new Date(date), 'MMM D YYYY')}</span>
+    <Text as="small" color="grey.600">
+      {format(new Date(date), 'MMM dd, yyyy')}
+    </Text>
   );
 
   const authorUrl = `/author/${slugify(name)}`;
 
   return (
     <div className={classes.container}>
-      {authorImage && (
-        <Link to={authorUrl}>
-          <a>
-            {/* <Image fluid={authorImage} className={classes.authorImage} /> */}
-          </a>
-        </Link>
-      )}
-      <div className={classes.metadataContainer}>
-        <Link to={authorUrl} className={classes.authorName}>
-          {name}
+      <Stack direction="row">
+        <Link href={authorUrl} className={classes.authorName}>
+          <ChakraLink color="green.400">{name}</ChakraLink>
         </Link>
         <div>
           {dateDisplay}
           {date && readTimeDisplay && ` · `}
           {readTimeDisplay}
         </div>
-      </div>
+      </Stack>
     </div>
   );
 };
 
 AuthorDisplay.propTypes = {
-  authorImage: PropTypes.shape({}),
   name: PropTypes.string,
   date: PropTypes.string,
   readTimeInMinutes: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

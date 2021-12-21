@@ -25,7 +25,7 @@ const JobPostItem = ({ job }) => {
 
       <Text>{title}</Text>
       <Text>{job.excerpt}</Text>
-      <Link href={jobUrl}>
+      <Link href={jobUrl || ''}>
         <Button className={classes.button}>Find out more</Button>
       </Link>
     </Stack>

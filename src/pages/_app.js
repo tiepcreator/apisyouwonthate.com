@@ -4,6 +4,8 @@ import * as Fathom from 'fathom-client';
 
 import { ChakraProvider } from '@chakra-ui/react';
 
+import theme from '../styles/theme';
+
 import '../styles/_variables.css';
 import '../components/CarbonAd/CarbonAds.css';
 
@@ -29,7 +31,7 @@ function MyApp({ Component, pageProps }) {
   });
 
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <Component {...pageProps} />
     </ChakraProvider>
   );

@@ -13,7 +13,7 @@ const BookFeature = ({ book }) => {
   return (
     <Stack>
       <h2>
-        <Link className={classes.title} to={bookUrl}>
+        <Link className={classes.title} href={bookUrl}>
           <a>{title}</a>
         </Link>
       </h2>
@@ -27,13 +27,13 @@ const BookFeature = ({ book }) => {
       {/* cover image and title shown on large views */}
       <div>
         <h2 className="d-none d-sm-none d-lg-block">
-          <Link className={classes.title} to={bookUrl}>
+          <Link className={classes.title} href={bookUrl}>
             {title}
           </Link>
         </h2>
         <h3 className={classes.subtitle}>{subtitle}</h3>
         <p className={classes.description}>{description}</p>
-        <Link to={bookUrl}>
+        <Link href={bookUrl}>
           <Button>Find out more</Button>
         </Link>
       </div>

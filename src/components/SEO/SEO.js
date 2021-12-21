@@ -26,10 +26,14 @@ const SEO = ({
   const router = useRouter();
   const { siteMetadata } = config;
 
-  const baseUrl = siteMetadata.siteUrl;
+  const {
+    siteUrl: baseUrl,
+    title: siteTitle,
+    description: siteDescription,
+  } = siteMetadata;
 
   const metaTitle = title || siteTitle;
-  const metaDescription = description || siteMetadata.description;
+  const metaDescription = description || siteDescription;
 
   const fullCanonical = () => {
     const link = canonical || router.asPath;
@@ -41,6 +45,8 @@ const SEO = ({
 
     return fullUrl;
   };
+
+  const formattedTitle = title ? `${title} | ${siteTitle}` : siteTitle;
 
   return (
     <Head>
@@ -70,7 +76,7 @@ const SEO = ({
 
       <link rel="canonical" href={fullCanonical(canonical)} />
 
-      <title>{`${title} | ${siteMetadata.title}`}</title>
+      <title>{formattedTitle}</title>
       <meta name="description" content={description || metaDescription} />
       <meta
         name="monetization"

@@ -1,34 +1,78 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Link from 'next/link';
 
-import { Stack } from '@chakra-ui/react';
+import {
+  Container,
+  SimpleGrid,
+  Image,
+  Link,
+  Flex,
+  Heading,
+  Text,
+  Stack,
+  StackDivider,
+  useColorModeValue,
+} from '@chakra-ui/react';
 
-import slugify from '../../utils/slugify';
-import { TypeLabel } from '..';
-import Image from 'next/image';
-
-import * as classes from './FeaturedBlogPost.module.css';
+import { Overline } from '..';
 
 const FeaturedBlogPost = ({ post }) => {
-  const { coverImage, subtitle, title } = post.frontmatter;
+  const { author, coverImage, subtitle, title } = post.frontmatter;
+
   return (
-    <Stack>
-      <Link to={`/blog/${slugify(title)}`} className={classes.container}>
-        <a>
-          <Image
-            alt={title}
-            src={coverImage}
-            className={classes.featureImageContainer}
-          />
-          <main className={classes.meta}>
-            <TypeLabel>Article</TypeLabel>
-            <h2 className={classes.title}>{title}</h2>
-            <p className={classes.subtitle}>{subtitle}</p>
-          </main>
-        </a>
-      </Link>
-    </Stack>
+    <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8}>
+      <Stack spacing={4}>
+        <Overline>Article</Overline>
+        <Heading>{title}</Heading>
+        <Text>
+          written by{' '}
+          <Link color="green.600" fontSize={'md'} href={`/authors/${author}`}>
+            <a>{author}</a>
+          </Link>
+        </Text>
+        <Text color={'gray.500'} fontSize={'lg'}>
+          {subtitle}
+        </Text>
+        <Stack
+          spacing={4}
+          divider={
+            <StackDivider
+              borderColor={useColorModeValue('gray.100', 'gray.700')}
+            />
+          }
+        ></Stack>
+      </Stack>
+      <Flex>
+        <Image
+          rounded={'md'}
+          alt={title}
+          src={`/images/posts/${coverImage}`}
+          width="500px"
+          height="100%"
+          objectFit="cover"
+        />
+      </Flex>
+    </SimpleGrid>
+
+    // return (
+    //   <Link href={`/blog/${slugify(title)}`}>
+    //     <a>
+    //       <Stack as="article" direction={'row'}>
+    //         <Image
+    //           alt={title}
+    //           src={`/images/posts/${coverImage}`}
+    //           width="500px"
+    //           height="100%"
+    //           objectFit="cover"
+    //         />
+    //         <main>
+    //           <TypeLabel>Article</TypeLabel>
+    //           <h2>{title}</h2>
+    //           <p>{subtitle}</p>
+    //         </main>
+    //       </Stack>
+    //     </a>
+    //   </Link>
   );
 };
 

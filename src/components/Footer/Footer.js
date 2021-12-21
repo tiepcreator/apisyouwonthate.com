@@ -1,4 +1,4 @@
-import { Container, Stack } from '@chakra-ui/react';
+import { Box, Stack, Text } from '@chakra-ui/react';
 import Link from 'next/link';
 
 import * as classes from './Footer.module.css';
@@ -6,91 +6,68 @@ import * as classes from './Footer.module.css';
 import { GitHubIcon, TwitterIcon } from '../icons';
 import { NewsletterForm } from '../NewsletterForm';
 
+const Subtitle = ({ children }) => (
+  <Text textTransform={'uppercase'} fontWeight={'bold'}>
+    {children}
+  </Text>
+);
+
 const Footer = () => (
-  <Container maxW="7xl" as="footer">
-    <Stack direction={['column', 'row']}>
+  <Box as="footer" margin="6rem 2rem 0">
+    <Stack
+      direction={['column', 'column', 'row', 'row']}
+      justifyContent={'space-between'}
+    >
       <Stack>
-        <div className={classes.subtitle}>APIs You Won't hate</div>
-        <ul className={classes.linkList}>
-          <li>
-            <Link href="/books">
-              <a>Books</a>
-            </Link>
-          </li>
-          <li>
-            <Link href="/blog">
-              <a>Blog</a>
-            </Link>
-          </li>
-          <li>
-            <Link href="/videos">
-              <a>Videos</a>
-            </Link>
-          </li>
-          <li>
-            <Link href="/podcast">
-              <a>Podcast</a>
-            </Link>
-          </li>
-        </ul>
+        <Subtitle>APIs You Won't Hate</Subtitle>
+        <Link href="/books">
+          <a>Books</a>
+        </Link>
+
+        <Link href="/blog">
+          <a>Blog</a>
+        </Link>
+
+        <Link href="/videos">
+          <a>Videos</a>
+        </Link>
+
+        <Link href="/podcast">
+          <a>Podcast</a>
+        </Link>
       </Stack>
       <Stack>
-        <div className={classes.subtitle}>Community</div>
-        <ul className={classes.linkList}>
-          <li>
-            <GitHubIcon />{' '}
-            <a
-              href="https://github.com/apisyouwonthate"
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              GitHub
-            </a>
-          </li>
-          <li>
-            <TwitterIcon />{' '}
-            <a
-              href="https://twitter.com/apisyouwonthate"
-              target="_blank"
-              rel="noreferrer noopener me"
-            >
-              @apisyouwonthate
-            </a>
-          </li>
-          <li>
-            <Link href="/community">Join our Slack Community</Link>
-          </li>
-          <li>
-            <a href="https://forum.apisyouwonthate.com">Forum</a>
-          </li>
-          <li>
-            <a
-              href="https://www.patreon.com/bePatron?u=19197006"
-              data-patreon-widget-type="become-patron-button"
-            >
-              Become a Patron!
-            </a>
-            {/* this script came from https://www.patreon.com/dashboard/widgets */}
-            <script
-              async
-              src="https://c6.patreon.com/becomePatronButton.bundle.js"
-            />
-          </li>
-          <li>
-            <Link href="/conduct">Code of Conduct</Link>
-          </li>
-        </ul>
+        <Subtitle>Community</Subtitle>
+        <Stack direction="row" alignItems="center">
+          <GitHubIcon />{' '}
+          <a
+            href="https://github.com/apisyouwonthate"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            GitHub
+          </a>
+        </Stack>
+        <Stack direction="row" alignItems="center">
+          <TwitterIcon />
+          <a
+            href="https://twitter.com/apisyouwonthate"
+            target="_blank"
+            rel="noreferrer noopener me"
+          >
+            @apisyouwonthate
+          </a>
+        </Stack>
+        <Link href="/community">Join our Slack Community</Link>
+        <a href="https://forum.apisyouwonthate.com">Forum</a>
+        <Link href="/conduct">Code of Conduct</Link>
       </Stack>
       <Stack>
-        <div className={classes.subtitle}>More help</div>
-        <ul className={classes.linkList}>
-          <li>
-            <a href="https://calendly.com/philsturgeon">Consulting</a>
-          </li>
-        </ul>
+        <Subtitle>More help</Subtitle>
+        <a href="https://calendly.com/philsturgeon">Consulting</a>
       </Stack>
       <Stack>
-        <div className={classes.subtitle}>Subscribe to our newsletter</div>
+        <Subtitle>Subscribe to our newsletter</Subtitle>
         <NewsletterForm />
       </Stack>
     </Stack>
@@ -112,7 +89,7 @@ const Footer = () => (
         {` APIs You Won't Hate`}
       </small>
     </Stack>
-  </Container>
+  </Box>
 );
 
 export default Footer;
