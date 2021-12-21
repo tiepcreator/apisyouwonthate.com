@@ -36,13 +36,6 @@ const Header = () => {
             <Link href="/podcast">
               <a>Podcast</a>
             </Link>
-            <a
-              href="https://calendly.com/philsturgeon"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Consulting
-            </a>
             <Link href="/community">
               <Button as="a" colorScheme={'green'}>
                 Join the Community

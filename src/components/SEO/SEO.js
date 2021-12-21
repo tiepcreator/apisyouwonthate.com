@@ -110,8 +110,8 @@ const SEO = ({
       <meta name="og:image" content={imageUrl} />
       <meta name="og:image:url" content={imageUrl} />
 
-      <meta name="creator" content="Mike Bifulco @irreverentmike" />
-      <meta name="publisher" content="mikebifulco.com" />
+      <meta name="creator" content="APIs You Won't Hate @apisyouwonthate" />
+      <meta name="publisher" content="apisyouwonthate.com" />
       {meta}
     </Head>
   );

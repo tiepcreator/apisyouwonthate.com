@@ -15,14 +15,10 @@ export const getAllAuthors = async () => {
   return allAuthors;
 };
 
-export const getAuthorByName = async (authorName) => {
-  const authors = await getAllAuthors();
+export const getAuthorBySlug = async (slug) => {
+  const allAuthors = await getAllAuthors();
 
-  console.log(allAuthors.length);
-
-  const [author] = authors.find(
-    (author) => author.frontmatter.name === authorName
-  );
+  const author = allAuthors.find((author) => author.slug === slug);
 
   return author;
 };

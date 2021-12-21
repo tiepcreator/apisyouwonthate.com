@@ -37,7 +37,10 @@ const IndexPage = ({ books, posts }) => {
   return (
     <Layout>
       <Container maxW="7xl">
-        <Seo title="Home" keywords={[`gatsby`, `application`, `react`]} />
+        <Seo
+          title="API News, articles, podcasts, and books"
+          keywords={[`gatsby`, `application`, `react`]}
+        />
         <div className={classes.featured}>
           <Stack>
             <FeaturedBlogPost post={firstPost} />

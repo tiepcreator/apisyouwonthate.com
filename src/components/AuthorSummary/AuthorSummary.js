@@ -1,14 +1,11 @@
 import React from 'react';
-import Link from 'next/link';
 
-import { Text, Flex } from '@chakra-ui/react';
+import Image from 'next/image';
+
+import { Box, Button, Heading, Link, Stack, Text } from '@chakra-ui/react';
 
 import slugify from '../../utils/slugify';
 import { GitHubIcon, TwitterIcon } from '../icons';
-import { Image } from '..';
-
-import * as classes from './AuthorSummary.module.css';
-import { Button } from '../Button';
 
 const AuthorSummary = ({ author }) => {
   if (!author) return null;
@@ -16,69 +13,72 @@ const AuthorSummary = ({ author }) => {
   const { consultingUrl, github, name, photo, shortBio, shortName, twitter } =
     author.frontmatter;
 
-  return (
-    <>
-      <header className={classes.header}>
-        <div className={classes.headshotContainer}>
-          <Link href={`/author/${slugify(name)}`}>
-            {photo && (
-              <a>
-                <Image src={photo} alt={name} />
-              </a>
-            )}
-          </Link>
-        </div>
-        <Link
-          className={classes.authorNameContainer}
-          href={`/author/${slugify(name)}`}
-        >
-          <a>
-            <h2 className={classes.authorName}>
-              <span>{name}</span>
-            </h2>
-          </a>
-        </Link>
-      </header>
-      {consultingUrl && (
-        <div className={classes.hire}>
-          <Button fullWidth>
-            <a href={consultingUrl} target="_blank" rel="noopener noreferrer">
-              Hire {shortName || 'them'}
-            </a>
-          </Button>
-        </div>
-      )}
+  const authorPageUrl = `/authors/${slugify(author.slug)}`;
 
+  return (
+    <Stack>
+      <Box>
+        <Link href={authorPageUrl} width="100%">
+          {photo && (
+            <a>
+              <Image
+                src={`/images/authors/${photo}`}
+                alt={name}
+                width="400px"
+                height="400px"
+                objectFit="cover"
+                maxWidth="100%"
+              />
+            </a>
+          )}
+        </Link>
+        <Heading
+          as="h2"
+          mt="-7rem"
+          mb="3rem"
+          padding="1rem"
+          zIndex={4}
+          position={'relative'}
+          background={'green.400'}
+          size={'md'}
+          color={'white'}
+        >
+          <Link href={authorPageUrl} display="inline-block">
+            {name}
+          </Link>
+        </Heading>
+      </Box>
       {github && (
-        <div>
+        <Stack direction="row" alignItems="center">
+          <GitHubIcon />
           <a
             href={`https://github.com/${github}`}
             target="_blank"
             rel="noopener noreferrer"
           >
-            <span className={classes.icon}>
-              <GitHubIcon />
-            </span>{' '}
             {github}
           </a>
-        </div>
+        </Stack>
       )}
       {twitter && (
-        <div>
-          <a
-            href={`https://twitter.com/${twitter}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <span className={classes.icon}>
-              <TwitterIcon />
-            </span>{' '}
-            {twitter}
+        <Link href={`https://twitter.com/${twitter}`}>
+          <Stack direction="row" alignItems="center">
+            <TwitterIcon />
+            <a target="_blank" rel="noopener noreferrer">
+              {twitter}
+            </a>
+          </Stack>
+        </Link>
+      )}
+      {consultingUrl && (
+        <Button>
+          <a href={consultingUrl} target="_blank" rel="noopener noreferrer">
+            Hire {shortName || 'them'}
           </a>
-        </div>
+        </Button>
       )}
       <Text>{shortBio && <p>{shortBio}</p>}</Text>
-    </>
+    </Stack>
   );
 };
 

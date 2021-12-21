@@ -26,7 +26,7 @@ const H3 = (props) => <Heading as="h3" {...props} />;
 const H4 = (props) => <Heading as="h4" {...props} />;
 const H5 = (props) => <Heading as="h5" {...props} />;
 const H6 = (props) => <Heading as="h6" {...props} />;
-const P = (props) => <Text marginTop="1rem" marginBottom="1rem" {...props} />;
+const P = (props) => <Text marginBottom="1rem" {...props} />;
 
 const CustomLink = (props) => {
   const theme = useTheme();

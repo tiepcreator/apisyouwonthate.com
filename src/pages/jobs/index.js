@@ -4,7 +4,7 @@ import { JobPostItem, Layout, Seo } from '../../components';
 import getJobs from '../../lib/jobLoader';
 
 // load books, podcasts, and posts fro useStaticProps
-export const getServerSideProps = async () => {
+export const getStaticProps = async () => {
   const jobs = await getJobs();
 
   return {
