@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  Container,
   SimpleGrid,
   Image,
   Link,
@@ -20,9 +19,9 @@ const FeaturedBlogPost = ({ post }) => {
   const { author, coverImage, subtitle, title } = post.frontmatter;
 
   return (
-    <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8}>
+    <SimpleGrid columns={{ base: 1, md: 2 }} spacing={8} width="100%">
       <Stack spacing={4}>
-        <Overline>Article</Overline>
+        <Overline>Featured Article</Overline>
         <Heading>{title}</Heading>
         <Text>
           written by{' '}
@@ -42,37 +41,17 @@ const FeaturedBlogPost = ({ post }) => {
           }
         ></Stack>
       </Stack>
-      <Flex>
+      <Flex justifySelf="end">
         <Image
           rounded={'md'}
           alt={title}
           src={`/images/posts/${coverImage}`}
-          width="500px"
+          width="100%"
           height="100%"
           objectFit="cover"
         />
       </Flex>
     </SimpleGrid>
-
-    // return (
-    //   <Link href={`/blog/${slugify(title)}`}>
-    //     <a>
-    //       <Stack as="article" direction={'row'}>
-    //         <Image
-    //           alt={title}
-    //           src={`/images/posts/${coverImage}`}
-    //           width="500px"
-    //           height="100%"
-    //           objectFit="cover"
-    //         />
-    //         <main>
-    //           <TypeLabel>Article</TypeLabel>
-    //           <h2>{title}</h2>
-    //           <p>{subtitle}</p>
-    //         </main>
-    //       </Stack>
-    //     </a>
-    //   </Link>
   );
 };
 

@@ -1,11 +1,6 @@
 import React from 'react';
 
-import { Container, Grid, SimpleGrid, Stack } from '@chakra-ui/react';
-
-import { orderBy } from 'lodash';
-import isAfter from 'date-fns/isAfter';
-
-import Image from 'next/image';
+import { Box, Container, Grid, SimpleGrid, Stack } from '@chakra-ui/react';
 
 import {
   CarbonAd,
@@ -16,6 +11,7 @@ import {
   Layout,
   NewsletterForm,
   Seo,
+  Overline,
 } from '../components';
 
 import { getAllPosts } from '../lib/blogPostLoader';
@@ -31,7 +27,6 @@ export const getStaticProps = async () => {
   return {
     props: {
       books,
-      podcasts,
       posts,
     },
   };
@@ -45,14 +40,17 @@ const IndexPage = ({ books, posts }) => {
         <Seo title="Home" keywords={[`gatsby`, `application`, `react`]} />
         <div className={classes.featured}>
           <Stack>
+            <FeaturedBlogPost post={firstPost} />
             <Grid gridTemplateColumns="1fr 130px" gap={4}>
-              <FeaturedBlogPost post={firstPost} />
-              <CarbonAd />
+              <FeaturedPodcast />
+              <Box alignSelf="end">
+                <CarbonAd />
+              </Box>
             </Grid>
-            <FeaturedPodcast />
           </Stack>
         </div>
-        <SimpleGrid minChildWidth="300px" spacing={8} mt={8}>
+        <Overline mt="8">More articles</Overline>
+        <SimpleGrid minChildWidth="300px" spacing={8} mt={4}>
           {otherPosts.map((post) => {
             return <BlogPostItem key={post.slug} post={post} />;
           })}

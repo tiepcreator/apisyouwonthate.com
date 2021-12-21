@@ -4,6 +4,7 @@ import { Text, useColorModeValue } from '@chakra-ui/react';
 
 const Overline = ({ children, ...rest }) => (
   <Text
+    display={'inline-block'}
     textTransform={'uppercase'}
     color={'blue.400'}
     fontWeight={600}

@@ -1,83 +1,53 @@
-import React from 'react';
-import { graphql } from 'gatsby';
-
-// bootstrap
-import { Container, Col, Row } from 'react-bootstrap';
+import { Container, Heading, SimpleGrid, Stack } from '@chakra-ui/react';
 
 import { JobPostItem, Layout, Seo } from '../../components';
+import getJobs from '../../lib/jobLoader';
 
-import * as classes from './Jobs.module.css';
+// load books, podcasts, and posts fro useStaticProps
+export const getServerSideProps = async () => {
+  const jobs = await getJobs();
 
-const JobsPage = ({ data }) => {
-  // sort jobs by date
-  const jobs = data.allMdx.nodes.sort((a, b) => {
-    return new Date(b.frontmatter.date) - new Date(a.frontmatter.date);
-  });
+  return {
+    props: {
+      jobs,
+    },
+  };
+};
 
+const JobsPage = ({ jobs }) => {
   return (
     <Layout>
       <Seo title="Jobs" />
-      <Container className={classes.container}>
-        <Row noGutters>
-          <Col>
-            <div>
-              <h2>API Jobs</h2>
-            </div>
-          </Col>
-        </Row>
-        <Row>
-          {jobs.map((job) => (
-            <Col xs={12} sm={3} md={4}>
+      <Container>
+        <Stack>
+          <Heading as="h2">API Jobs</Heading>
+          <SimpleGrid columns={[1, 1, 2, 3]} spacing={8}>
+            {jobs.map((job) => (
               <JobPostItem key={job.id} job={job} />
-            </Col>
-          ))}
-        </Row>
-        <Row>
-          <Col>
-            <p>
-              To add a job, make a pull request to{' '}
-              <a href="https://github.com/apisyouwonthate/apisyouwonthate.com">
-                the project repository
-              </a>{' '}
-              and use{' '}
-              <a href="https://github.com/apisyouwonthate/apisyouwonthate.com/blob/master/src/content/jobs/primitive-php-developer.mdx">
-                this
-              </a>{' '}
-              as a template to filling out your posting.
-            </p>
-            <p>
-              {'If you would rather, you can '}
-              <a href="mailto:mjtrask@gmail.com, mbifulco@live.com?subject=New API Job!">
-                send us an email
-              </a>
-              , and we'll take care of the rest.
-            </p>
-          </Col>
-        </Row>
+            ))}
+          </SimpleGrid>
+          <p>
+            To add a job, make a pull request to{' '}
+            <a href="https://github.com/apisyouwonthate/apisyouwonthate.com">
+              the project repository
+            </a>{' '}
+            and use{' '}
+            <a href="https://github.com/apisyouwonthate/apisyouwonthate.com/blob/master/src/content/jobs/primitive-php-developer.mdx">
+              this
+            </a>{' '}
+            as a template to filling out your posting.
+          </p>
+          <p>
+            {'If you would rather, you can '}
+            <a href="mailto:mjtrask@gmail.com, mbifulco@live.com?subject=New API Job!">
+              send us an email
+            </a>
+            , and we'll take care of the rest.
+          </p>
+        </Stack>
       </Container>
     </Layout>
   );
 };
 
 export default JobsPage;
-
-export const query = graphql`
-  {
-    allMdx(
-      filter: { frontmatter: { type: { eq: "jobs" }, published: { eq: true } } }
-    ) {
-      nodes {
-        id
-        body
-        excerpt
-        frontmatter {
-          title
-          company
-          salary
-          date
-          location
-        }
-      }
-    }
-  }
-`;

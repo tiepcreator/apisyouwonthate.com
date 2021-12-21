@@ -8,6 +8,7 @@ import theme from '../styles/theme';
 
 import '../styles/_variables.css';
 import '../components/CarbonAd/CarbonAds.css';
+import MDXProviderWrapper from '../utils/MDXProviderWrapper';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -32,7 +33,9 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <ChakraProvider theme={theme}>
-      <Component {...pageProps} />
+      <MDXProviderWrapper>
+        <Component {...pageProps} />
+      </MDXProviderWrapper>
     </ChakraProvider>
   );
 }
