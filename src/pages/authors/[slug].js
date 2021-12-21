@@ -12,7 +12,13 @@ import {
 } from '@chakra-ui/react';
 import { MDXRemote } from 'next-mdx-remote';
 
-import { CarbonAd, Colophon, Layout, NewsletterForm } from '../../components';
+import {
+  CarbonAd,
+  Colophon,
+  Layout,
+  NewsletterForm,
+  Seo,
+} from '../../components';
 
 import { GitHubIcon, InstagramIcon, TwitterIcon } from '../../components/icons';
 
@@ -50,19 +56,30 @@ export async function getStaticProps({ params }) {
 }
 
 const AuthorPage = ({ author }) => {
-  const { consultingUrl, github, instagram, name, photo, shortName, twitter } =
-    author.frontmatter;
+  const {
+    consultingUrl,
+    github,
+    instagram,
+    isStaff,
+    name,
+    photo,
+    shortName,
+    shortBio,
+    twitter,
+  } = author.frontmatter;
+
+  const pageTitle = `${name}, ${isStaff ? 'staff' : 'contributing'} author`;
+
+  const authorImageUrl = `/images/authors/${photo}`;
   return (
     <Layout>
+      <Seo title={pageTitle} description={shortBio} imageUrl={authorImageUrl} />
       <Container>
         <Stack>
           <Heading as="h1">{name}</Heading>
           <Grid gridTemplateColumns={'300px 70ch 130px'} gap={8}>
             <Stack>
-              <Image
-                src={`/images/authors/${photo}`}
-                alt={`${name} headshot`}
-              />
+              <Image src={authorImageUrl} alt={`${name} headshot`} />
               {consultingUrl && (
                 <Button>
                   <a

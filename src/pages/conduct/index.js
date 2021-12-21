@@ -2,12 +2,12 @@ import React from 'react';
 import { Container, Col, Row } from 'react-bootstrap';
 import { Helmet } from 'react-helmet';
 
-import { Layout } from '../../components';
+import { Layout, Seo } from '../../components';
 import * as classes from './Conduct.module.css';
 
 const ConductPage = () => (
   <Layout>
-    <Helmet title="Code of Conduct" />
+    <Seo title="Code of Conduct" />
 
     <Container>
       <Row>
