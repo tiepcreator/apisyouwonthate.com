@@ -5,6 +5,8 @@ import React from 'react';
 
 import { Box, Button, Container, Stack, useTheme } from '@chakra-ui/react';
 
+import logo from '../../../public/img/apis-you-wont-hate-light.png';
+
 const Header = () => {
   const theme = useTheme();
   return (
@@ -19,7 +21,7 @@ const Header = () => {
           <Link href="/">
             <a>
               <Image
-                src="/img/apis-you-wont-hate-light.png"
+                src={logo}
                 alt="APIs You Won't Hate"
                 width="130px"
                 height="60px"
