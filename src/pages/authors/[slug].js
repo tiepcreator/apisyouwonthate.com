@@ -73,14 +73,14 @@ const AuthorPage = ({ author }) => {
   const pageTitle = `${name}, ${isStaff ? 'staff' : 'contributing'} author`;
 
   const { siteUrl } = config.siteMetadata;
-  const authorImageUrl = `${siteUrl}/images/authors/${photo}`;
+  const authorImageUrl = `/images/authors/${photo}`;
   return (
     <Layout>
       <Seo title={pageTitle} description={shortBio} imageUrl={authorImageUrl} />
       <Container>
         <Stack>
           <Heading as="h1">{name}</Heading>
-          <Grid gridTemplateColumns={'300px 70ch 130px'} gap={8}>
+          <Grid gridTemplateColumns={['1fr', '1fr', '300px 1fr 130px']} gap={8}>
             <Stack>
               <Image src={authorImageUrl} alt={`${name} headshot`} />
               {consultingUrl && (

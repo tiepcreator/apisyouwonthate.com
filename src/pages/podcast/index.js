@@ -10,7 +10,7 @@ const PodcastPage = ({ podcasts }) => {
     <Layout>
       <Seo title="Podcast" />
       <Container>
-        <Grid gridTemplateColumns={'3fr 1fr'} gap={8}>
+        <Grid gridTemplateColumns={['1fr', '1fr', '3fr 1fr']} gap={8}>
           <Stack>
             <Heading as="h1">APIs You Won&apos;t Hate (the podcast)</Heading>
 

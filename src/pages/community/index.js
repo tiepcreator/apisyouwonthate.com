@@ -16,7 +16,7 @@ const CommunityPage = () => (
   <Layout>
     <Seo title="Books" keywords={['apis', 'api', 'rest', 'rpc', 'graphql']} />
     <Container>
-      <Grid gridTemplateColumns={'1fr 1fr'} gap={20}>
+      <Grid gridTemplateColumns={['1fr', '1fr', '1fr 1fr']} gap={20}>
         <Stack>
           <Heading as="h1">
             Join the APIs You Won&apos;t Hate Slack Community

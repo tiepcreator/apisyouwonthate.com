@@ -44,7 +44,7 @@ const IndexPage = ({ books, posts }) => {
         <div className={classes.featured}>
           <Stack>
             <FeaturedBlogPost post={firstPost} />
-            <Grid gridTemplateColumns="1fr 130px" gap={4}>
+            <Grid gridTemplateColumns={['1fr', '1fr', '1fr 130px']} gap={4}>
               <FeaturedPodcast />
               <Box alignSelf="end">
                 <CarbonAd />

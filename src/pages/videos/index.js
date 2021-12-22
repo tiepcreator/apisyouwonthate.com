@@ -35,7 +35,7 @@ const VideosPage = ({ videos }) => {
         ogImage={`/images/videos/videos-page-header-image.jpg`}
       />
       <Container>
-        <Grid gridTemplateColumns={'2fr 3fr'} gap={8} mb="3rem">
+        <Grid gridTemplateColumns={['1fr', '1fr', '2fr 3fr']} gap={8} mb="3rem">
           <Stack>
             <Heading as="h1">Videos</Heading>
             <Text>

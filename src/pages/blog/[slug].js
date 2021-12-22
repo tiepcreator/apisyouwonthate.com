@@ -67,7 +67,7 @@ const BlogPage = ({ post, slug }) => {
           imageUrl={postImageUrl}
         />
         <Stack>
-          <Grid gridTemplateColumns="1fr 130px" gap={4}>
+          <Grid gridTemplateColumns={['1fr', '1fr', '1fr 130px']} gap={4}>
             <Image
               rounded={'sm'}
               alt={title}

@@ -20,7 +20,7 @@ const AuthorDisplay = ({ name, date, readTimeInMinutes }) => {
     </Text>
   );
 
-  const authorUrl = `/author/${slugify(name)}`;
+  const authorUrl = `/authors/${slugify(name)}`;
 
   return (
     <div className={classes.container}>

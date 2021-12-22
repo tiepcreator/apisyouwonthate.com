@@ -38,7 +38,7 @@ const AboutPage = ({ staffAuthors, contributingAuthors }) => {
       <Seo />
       <Container mt="2rem">
         <Stack>
-          <Grid gridTemplateColumns={'2fr 1fr'} gap={8}>
+          <Grid gridTemplateColumns={['1fr', '1fr', '2fr 1fr']} gap={8}>
             <Stack>
               <Heading as="h1">About APIs You Won&apos;t Hate</Heading>
               <Text>

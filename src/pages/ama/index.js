@@ -63,7 +63,7 @@ const AMAPage = () => {
             </p>
           </Stack>
         ) : (
-          <Grid gridTemplateColumns={'3fr 5fr'} gap={8}>
+          <Grid gridTemplateColumns={['1fr', '1fr', '3fr 5fr']} gap={8}>
             <Stack>
               <Heading as="h1">Got a question or comment?</Heading>
               <p>
