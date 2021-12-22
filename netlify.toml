@@ -2,8 +2,12 @@
   command = "npm run build"
   publish = ".next"
 
-  [[plugins]]
+[[plugins]]
 package = "@netlify/plugin-nextjs"
+
+[[plugins]]
+package = "netlify-plugin-cache-nextjs"
+
 
 [[redirects]]
   from = "/podcast/rss"
