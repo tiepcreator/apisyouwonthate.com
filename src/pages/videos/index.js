@@ -61,8 +61,8 @@ const VideosPage = ({ videos }) => {
         </Grid>
         <Spacer />
         <Stack spacing={12}>
-          {videos.map((video, i) => (
-            <div key={video.id}>
+          {videos.map((video) => (
+            <div key={video.id || video.frontmatter.title}>
               <VideoFeature video={video} />
             </div>
           ))}

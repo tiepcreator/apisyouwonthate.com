@@ -14,8 +14,8 @@ const Header = () => {
       <Container maxW="7xl">
         <Stack
           as="header"
-          direction="row"
-          alignItems={'center'}
+          direction={['column', 'row']}
+          alignItems={['flex-start', 'center']}
           justifyContent="space-between"
         >
           <Link href="/">
@@ -28,7 +28,11 @@ const Header = () => {
               />
             </a>
           </Link>
-          <Stack as="nav" direction="row" alignItems={'center'}>
+          <Stack
+            as="nav"
+            direction={['column', 'row']}
+            alignItems={['flex-start', 'center']}
+          >
             <Link href="/books">
               <a>Books</a>
             </Link>
