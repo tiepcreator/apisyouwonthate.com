@@ -17,7 +17,7 @@ const BlogPostItem = ({ post, feature = false }) => {
 
   const postUrl = `/blog/${post.slug}`;
   return (
-    <Stack>
+    <Stack maxW={'calc(100vw - 32px)'}>
       <Link href={postUrl} className={classes.container}>
         <a>
           <Image
