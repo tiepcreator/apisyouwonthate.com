@@ -42,7 +42,7 @@ const JobsPage = ({ jobs }) => {
             <a href="mailto:mjtrask@gmail.com, mbifulco@live.com?subject=New API Job!">
               send us an email
             </a>
-            , and we'll take care of the rest.
+            , and we&apos;ll take care of the rest.
           </p>
         </Stack>
       </Container>

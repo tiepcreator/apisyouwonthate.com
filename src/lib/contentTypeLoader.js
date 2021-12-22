@@ -31,7 +31,7 @@ export async function getContentBySlug(slug, directory, type) {
   };
 }
 
-export async function getAllContentFromDirectory(directory, type) {
+export async function getAllContentFromDirectory(directory, type, slim = true) {
   const slugs = fs.readdirSync(directory);
   const articles = await Promise.all(
     slugs.map(async (slug) => await getContentBySlug(slug, directory, type))
@@ -46,6 +46,6 @@ export async function getAllContentFromDirectory(directory, type) {
     // remove content and source from the "all content" query, so index pages don't get super heavy
     const { source: _, ...trimmedArticle } = article;
 
-    return trimmedArticle;
+    return slim ? trimmedArticle : article;
   });
 }

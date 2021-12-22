@@ -22,6 +22,7 @@ const NewsletterForm = () => {
       <script
         type="text/javascript"
         src="https://app.mailjet.com/statics/js/iframeResizer.min.js"
+        async
       ></script>
     </div>
   );

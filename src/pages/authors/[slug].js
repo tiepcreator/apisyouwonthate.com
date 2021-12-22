@@ -70,7 +70,8 @@ const AuthorPage = ({ author }) => {
 
   const pageTitle = `${name}, ${isStaff ? 'staff' : 'contributing'} author`;
 
-  const authorImageUrl = `/images/authors/${photo}`;
+  const { siteUrl } = config.siteMetadata;
+  const authorImageUrl = `${siteurl}/images/authors/${photo}`;
   return (
     <Layout>
       <Seo title={pageTitle} description={shortBio} imageUrl={authorImageUrl} />

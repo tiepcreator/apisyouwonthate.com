@@ -1,12 +1,15 @@
 import React from 'react';
+import { MDXRemote } from 'next-mdx-remote';
 
-import { Stack } from '@chakra-ui/react';
+import { Heading, Stack } from '@chakra-ui/react';
 
 const VideoFeature = ({ video }) => {
   return (
     <Stack>
-      <h2 id={video.frontmatter.slug}>{video.frontmatter.title}</h2>
-      <MDXRenderer>{video.body}</MDXRenderer>
+      <Heading as="h2" id={video.frontmatter.slug}>
+        {video.frontmatter.title}
+      </Heading>
+      <MDXRemote {...video.source} />
     </Stack>
   );
 };

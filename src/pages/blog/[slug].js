@@ -20,6 +20,7 @@ import {
 } from '../../components';
 import { getAllPosts, getPostBySlug } from '../../lib/blogPostLoader';
 import { formatDate } from '../../utils/formatDate';
+import config from '../../../config';
 
 export async function getStaticProps({ params }) {
   const post = await getPostBySlug(params.slug);
@@ -54,16 +55,24 @@ export async function getStaticPaths() {
 
 const BlogPage = ({ post, slug }) => {
   const { author, date, coverImage, title, subtitle } = post.frontmatter;
+
+  const { siteUrl } = config.siteMetadata;
+  const postImageUrl = `${siteUrl}/images/posts/${coverImage}`;
   return (
     <Layout>
       <Container>
-        <Seo title={title} description={subtitle} author={author} />
+        <Seo
+          title={title}
+          description={subtitle}
+          author={author}
+          imageUrl={postImageUrl}
+        />
         <Stack>
           <Grid gridTemplateColumns="1fr 130px" gap={4}>
             <Image
               rounded={'sm'}
               alt={title}
-              src={`/images/posts/${coverImage}`}
+              src={postImageUrl}
               width="100%"
               minHeight="300px"
               height="40vh"

@@ -2,7 +2,6 @@ export { AuthorDisplay } from './AuthorDisplay';
 export { AuthorSummary } from './AuthorSummary';
 export { BlogPostItem } from './BlogPostItem';
 export { BookFeature } from './BookFeature';
-export { Button } from './Button';
 export { CarbonAd } from './CarbonAd';
 export { Colophon } from './Colophon';
 export { FeaturedBlogPost } from './BlogPostItem';

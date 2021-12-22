@@ -25,7 +25,7 @@ const AuthorDisplay = ({ name, date, readTimeInMinutes }) => {
   return (
     <div className={classes.container}>
       <Stack direction="row">
-        <Link href={authorUrl} className={classes.authorName}>
+        <Link href={authorUrl} className={classes.authorName} passHref>
           <ChakraLink color="green.400">{name}</ChakraLink>
         </Link>
         <div>

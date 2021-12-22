@@ -40,15 +40,15 @@ const AboutPage = ({ staffAuthors, contributingAuthors }) => {
         <Stack>
           <Grid gridTemplateColumns={'2fr 1fr'} gap={8}>
             <Stack>
-              <Heading as="h1">About APIs You Won't Hate</Heading>
+              <Heading as="h1">About APIs You Won&apos;t Hate</Heading>
               <Text>
                 API development is a topic very close to our hearts. APIs You
-                Won't Hate started out as a book, with founder Phil pouring
+                Won&apos;t Hate started out as a book, with founder Phil pouring
                 everything API related he knew, all the problems he faced, all
                 the design decisions he wish he thought about earlier.
               </Text>
               <Text>
-                Since the first book, APIs You Won't Hate has expanded to
+                Since the first book, APIs You Won&apos;t Hate has expanded to
                 include many articles about API development, a podcast, several
                 additional books, and a fantastic{' '}
                 <Link href="/community">community</Link> of API developers. Our
@@ -56,7 +56,7 @@ const AboutPage = ({ staffAuthors, contributingAuthors }) => {
                 debate and share experiences knowledge with other smart people.
               </Text>
               <Text>
-                APIs You Won{"'"}t Hate is dedicated to learning, writing,
+                APIs You Won&apos;t Hate is dedicated to learning, writing,
                 sharing ideas and bettering understanding of API practices.
                 Together we can erradicate APIs we hate.
               </Text>
@@ -74,7 +74,7 @@ const AboutPage = ({ staffAuthors, contributingAuthors }) => {
 
           <Stack>
             <Heading as="h2">Staff Authors</Heading>
-            <p>Meet the fouding team behind APIs You Won't Hate</p>
+            <p>Meet the fouding team behind APIs You Won&apos;t Hate</p>
 
             <SimpleGrid columns={[1, 1, 3]} spacing={8}>
               {staffAuthors.map((author) => (

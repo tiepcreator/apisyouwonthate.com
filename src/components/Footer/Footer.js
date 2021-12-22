@@ -1,5 +1,6 @@
 import { Box, Stack, Text, useTheme } from '@chakra-ui/react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 import { GitHubIcon, TwitterIcon } from '../icons';
 import { NewsletterForm } from '../NewsletterForm';
@@ -15,16 +16,17 @@ const Footer = () => {
   return (
     <Box
       as="footer"
-      margin="6rem 0"
-      padding="2rem 2rem 0 2rem"
+      margin="6rem 0 0 0"
+      padding="2rem 2rem 6rem 2rem"
       borderTop={`20px solid ${theme.colors.green[400]}`}
+      background={theme.colors.green[100]}
     >
       <Stack
         direction={['column', 'column', 'row', 'row']}
         justifyContent={'space-between'}
       >
         <Stack>
-          <Subtitle>APIs You Won't Hate</Subtitle>
+          <Subtitle>APIs You Won&apos;t Hate</Subtitle>
           <Link href="/books">
             <a>Books</a>
           </Link>
@@ -83,9 +85,11 @@ const Footer = () => {
             target="_blank"
             rel="noreferrer noopener"
           >
-            <img
+            <Image
               alt="Deploys by netlify"
               src="https://www.netlify.com/img/global/badges/netlify-dark.svg"
+              width="114"
+              height="51"
             />
           </a>
         </p>

@@ -2,6 +2,7 @@ import { extendTheme } from '@chakra-ui/react';
 
 import Container from './components/container';
 import Link from './components/link';
+import UnorderedList from './components/unorderedList';
 
 const theme = extendTheme({
   // colors generated from https://material.io/inline-tools/color/
@@ -37,6 +38,8 @@ const theme = extendTheme({
   components: {
     Container,
     Link,
+    List: UnorderedList,
+    UnorderedList,
   },
 });
 

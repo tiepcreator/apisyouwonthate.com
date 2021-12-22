@@ -17,12 +17,12 @@ import {
 import { getAllPosts } from '../lib/blogPostLoader';
 
 import * as classes from './Home.module.css';
+import { getAllBooks } from '../lib/bookLoader';
 
 // load books, podcasts, and posts fro useStaticProps
 export const getStaticProps = async () => {
-  const books = [];
-
   const posts = await getAllPosts();
+  const books = await getAllBooks();
 
   return {
     props: {

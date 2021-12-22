@@ -19,11 +19,11 @@ const CommunityPage = () => (
       <Grid gridTemplateColumns={'1fr 1fr'} gap={20}>
         <Stack>
           <Heading as="h1">
-            Join the APIs You Won't Hate Slack Community
+            Join the APIs You Won&apos;t Hate Slack Community
           </Heading>
           <Text>
             Get your API, REST and HTTP questions answered by almost 5,000
-            people! We're the largest API-centric Slack channel on the web.
+            people! We&apos;re the largest API-centric Slack channel on the web.
           </Text>
 
           <Button

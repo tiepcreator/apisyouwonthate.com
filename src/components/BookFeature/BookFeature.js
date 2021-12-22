@@ -1,45 +1,89 @@
-import { Stack } from '@chakra-ui/react';
+import {
+  Button,
+  Flex,
+  Heading,
+  Image,
+  Stack,
+  Text,
+  useBreakpointValue,
+} from '@chakra-ui/react';
+
 import Link from 'next/link';
 
 import slugify from '../../utils/slugify';
-import { Image, Button } from '../';
-
-import * as classes from './BookFeature.module.css';
 
 const BookFeature = ({ book }) => {
   const { title, coverImage, description, subtitle } = book.frontmatter;
 
   const bookUrl = `/books/${slugify(title)}`;
+  const bookImage = `/images/books/${coverImage}`;
   return (
-    <Stack>
-      <h2>
-        <Link className={classes.title} href={bookUrl}>
-          <a>{title}</a>
-        </Link>
-      </h2>
-      <div className={classes.smallCover}>
+    <Stack minH={'60vh'} direction={{ base: 'column', md: 'row' }}>
+      <Flex flex={1} align={'center'} justify={'center'}>
+        <Stack spacing={6} w={'full'} maxW={'lg'}>
+          <Heading as="h2" fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}>
+            <Text
+              as={'span'}
+              position={'relative'}
+              _after={{
+                content: "''",
+                width: 'full',
+                height: useBreakpointValue({ base: '20%', md: '30%' }),
+                position: 'absolute',
+                bottom: 1,
+                left: 0,
+                bg: 'purple.200',
+                zIndex: -1,
+              }}
+            >
+              {title}
+            </Text>
+          </Heading>
+          <Text fontSize={{ base: 'md', lg: 'lg' }} color={'gray.500'}>
+            {subtitle}
+          </Text>
+          <Stack direction={{ base: 'column', md: 'row' }} spacing={4}>
+            <Link href={bookUrl} passHref>
+              <Button
+                as="a"
+                rounded={'full'}
+                bg={'purple.400'}
+                color={'white'}
+                _hover={{
+                  bg: 'purple.500',
+                }}
+              >
+                Get the book
+              </Button>
+            </Link>
+          </Stack>
+        </Stack>
+      </Flex>
+      <Flex flex={1} justifyContent={'center'}>
         <Image
+          height="75vh"
+          src={bookImage}
           alt={`Cover image for ${title}`}
-          src={coverImage}
-          className={classes.smallCover}
+          objectFit={'cover'}
         />
-      </div>
-      {/* cover image and title shown on large views */}
-      <div>
-        <h2 className="d-none d-sm-none d-lg-block">
-          <Link className={classes.title} href={bookUrl}>
-            {title}
-          </Link>
-        </h2>
-        <h3 className={classes.subtitle}>{subtitle}</h3>
-        <p className={classes.description}>{description}</p>
-        <Link href={bookUrl}>
-          <Button>Find out more</Button>
-        </Link>
-      </div>
-      <Image src={coverImage} alt={`Cover image for ${title}`} />
+      </Flex>
     </Stack>
   );
+  // <Stack>
+  //   <Heading as="h2">
+  //     <Link className={classes.title} href={bookUrl}>
+  //       <a>{title}</a>
+  //     </Link>
+  //   </Heading>
+  //   <div>
+  //     <Text className={classes.subtitle}>{subtitle}</Text>
+  //     <p className={classes.description}>{description}</p>
+  //     <Link href={bookUrl} passHref>
+  //       <Button>Find out more</Button>
+  //     </Link>
+  //   </div>
+  //   <Image src={bookImage} alt={`Cover image for ${title}`} />
+  // </Stack>
 };
 
 export default BookFeature;

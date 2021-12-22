@@ -4,7 +4,7 @@ const FeaturedPodcast = () => {
   return (
     <Stack>
       <Heading as="h2" size="md" id="podcast">
-        APIs You Won't Hate podcast
+        APIs You Won&apos;t Hate podcast
       </Heading>
       <iframe
         width="100%"

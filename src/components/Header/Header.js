@@ -36,8 +36,8 @@ const Header = () => {
             <Link href="/podcast">
               <a>Podcast</a>
             </Link>
-            <Link href="/community">
-              <Button as="a" colorScheme={'green'}>
+            <Link href="/community" passHref>
+              <Button as="a" colorScheme={'purple'}>
                 Join the Community
               </Button>
             </Link>
