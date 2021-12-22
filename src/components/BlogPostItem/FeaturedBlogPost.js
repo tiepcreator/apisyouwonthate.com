@@ -1,10 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import Link from 'next/link';
+
 import {
   SimpleGrid,
   Image,
-  Link,
   Flex,
   Heading,
   Text,
@@ -32,12 +33,10 @@ const FeaturedBlogPost = ({ post }) => {
         </Heading>
         <Text>
           written by{' '}
-          <Link
-            color="green.600"
-            fontSize={'md'}
-            href={`/authors/${slugify(author)}`}
-          >
-            <a>{author}</a>
+          <Link href={`/authors/${slugify(author)}`} passHref>
+            <Text as="a" color="green.600" fontSize={'md'}>
+              {author}
+            </Text>
           </Link>
         </Text>
         <Text color={'gray.500'} fontSize={'lg'}>
@@ -51,8 +50,10 @@ const FeaturedBlogPost = ({ post }) => {
             />
           }
         >
-          <Link href={blogPostUrl} color="green.600" fontWeight={'bold'}>
-            <a>Read more &rarr;</a>
+          <Link href={blogPostUrl} passHref>
+            <Text as="a" color="green.600" fontWeight={'bold'}>
+              Read more &rarr;
+            </Text>
           </Link>
         </Stack>
       </Stack>
