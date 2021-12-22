@@ -95,7 +95,7 @@ const Footer = () => {
         </p>
         <small>
           © {new Date().getFullYear()}
-          {` APIs You Won't Hate`}
+          APIs You Won&apos;t Hate
         </small>
       </Stack>
     </Box>
