@@ -1,39 +1,25 @@
-const fetch = require('node-fetch');
+// Install gray-matter and date-fns
+import { join } from 'path';
 
-const remotiveApiHost = 'https://remotive.io/api';
-const category = 'software-dev';
-const search = 'api';
+import {
+  getAllContentFromDirectory,
+  getContentBySlug,
+} from './contentTypeLoader';
 
-const FULL_TIME = 'Full Time';
-const PART_TIME = 'Part Time';
+const jobsDirectory = join(process.cwd(), 'src', 'content', 'jobs');
+const JOB_CONTENT_TYPE = 'job';
 
-const getJobs = async () => {
-  const searchUrl = `${remotiveApiHost}/remote-jobs?category=${category}&search=${search}`;
-  const response = await fetch(searchUrl);
+export const getJobBySlug = async (slug) => {
+  const job = await getContentBySlug(slug, jobsDirectory, JOB_CONTENT_TYPE);
 
-  const data = await response.json();
-
-  if (!data.jobs || data.jobs.length <= 0) {
-    throw Error('no jobs found');
-  }
-
-  const normalizeJobType = {
-    full_time: FULL_TIME,
-    part_time: PART_TIME,
-  };
-
-  return data.jobs.map((job) => ({
-    ...job,
-    title: job.title,
-    company: job.company_name,
-    salary: job.salary,
-    employment_type: normalizeJobType[job.job_type] || 'Unknown',
-    location: job.candidate_required_location || 'Anywhere',
-    date: job.publication_date,
-    url: job.url,
-    published: true,
-    description: job.description,
-  }));
+  return job;
 };
 
-export default getJobs;
+export const getAllJobs = async () => {
+  const allJobs = await getAllContentFromDirectory(
+    jobsDirectory,
+    JOB_CONTENT_TYPE
+  );
+
+  return allJobs;
+};

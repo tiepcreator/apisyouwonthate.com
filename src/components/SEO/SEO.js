@@ -38,6 +38,7 @@ const SEO = ({
   const fullCanonical = () => {
     const link = canonical || router.asPath;
     if (!link) return baseUrl;
+    if (link.startsWith('http')) return link;
 
     const slashLink = link.startsWith('/') ? link : `/${link}`;
 
@@ -47,6 +48,16 @@ const SEO = ({
   };
 
   const formattedTitle = title ? `${title} | ${siteTitle}` : siteTitle;
+
+  // og images must have a full (not relative) path
+  let fullImageUrl;
+  if (imageUrl && !imageUrl.startsWith(baseUrl)) {
+    if (imageUrl.startsWith('/')) {
+      fullImageUrl = `${baseUrl}${fullImageUrl}`;
+    } else {
+      fullImageUrl = `${baseUrl}/${imageUrl}`;
+    }
+  }
 
   return (
     <Head>
@@ -89,7 +100,7 @@ const SEO = ({
 
       <meta
         name="twitter:card"
-        content={imageUrl ? `summary_large_image` : `summary`}
+        content={fullImageUrl ? `summary_large_image` : `summary`}
       />
       <meta name="twitter:title" content={metaTitle} />
       <meta
@@ -107,8 +118,8 @@ const SEO = ({
       <meta name="og:description" content={metaDescription} />
       <meta name="og:type" content={ogType || `website`} />
       <meta name="og:url" content={router.asPath} />
-      <meta name="og:image" content={imageUrl} />
-      <meta name="og:image:url" content={imageUrl} />
+      <meta name="og:image" content={fullImageUrl} />
+      <meta name="og:image:url" content={fullImageUrl} />
 
       <meta name="creator" content="APIs You Won't Hate @apisyouwonthate" />
       <meta name="publisher" content="apisyouwonthate.com" />

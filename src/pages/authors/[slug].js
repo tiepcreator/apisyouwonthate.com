@@ -24,6 +24,8 @@ import { GitHubIcon, InstagramIcon, TwitterIcon } from '../../components/icons';
 
 import { getAllAuthors, getAuthorBySlug } from '../../lib/authorLoader';
 
+import config from '../../../config';
+
 export async function getStaticPaths() {
   const authors = await getAllAuthors();
 
@@ -71,7 +73,7 @@ const AuthorPage = ({ author }) => {
   const pageTitle = `${name}, ${isStaff ? 'staff' : 'contributing'} author`;
 
   const { siteUrl } = config.siteMetadata;
-  const authorImageUrl = `${siteurl}/images/authors/${photo}`;
+  const authorImageUrl = `${siteUrl}/images/authors/${photo}`;
   return (
     <Layout>
       <Seo title={pageTitle} description={shortBio} imageUrl={authorImageUrl} />

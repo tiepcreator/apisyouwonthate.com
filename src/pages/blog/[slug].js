@@ -18,9 +18,9 @@ import {
   NewsletterForm,
   Seo,
 } from '../../components';
+
 import { getAllPosts, getPostBySlug } from '../../lib/blogPostLoader';
 import { formatDate } from '../../utils/formatDate';
-import config from '../../../config';
 
 export async function getStaticProps({ params }) {
   const post = await getPostBySlug(params.slug);
@@ -56,8 +56,7 @@ export async function getStaticPaths() {
 const BlogPage = ({ post, slug }) => {
   const { author, date, coverImage, title, subtitle } = post.frontmatter;
 
-  const { siteUrl } = config.siteMetadata;
-  const postImageUrl = `${siteUrl}/images/posts/${coverImage}`;
+  const postImageUrl = `/images/posts/${coverImage}`;
   return (
     <Layout>
       <Container>

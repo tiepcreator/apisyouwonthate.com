@@ -1,4 +1,9 @@
 import slugify from './slugify';
 
-const getJobUrl = (job) =>
-  `/jobs/${slugify(job.company)}-${slugify(job.title)}`;
+export const getJobUrl = (job) => {
+  return `/jobs/${slugify(job.frontmatter.company)}-${slugify(
+    job.frontmatter.title
+  )}`;
+};
+
+export default getJobUrl;

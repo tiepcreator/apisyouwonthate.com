@@ -1,11 +1,11 @@
 import { Container, Heading, SimpleGrid, Stack } from '@chakra-ui/react';
 
 import { JobPostItem, Layout, Seo } from '../../components';
-import getJobs from '../../lib/jobLoader';
+import { getAllJobs } from '../../lib/jobLoader';
 
 // load books, podcasts, and posts fro useStaticProps
 export const getStaticProps = async () => {
-  const jobs = await getJobs();
+  const jobs = await getAllJobs();
 
   return {
     props: {
@@ -23,7 +23,9 @@ const JobsPage = ({ jobs }) => {
           <Heading as="h2">API Jobs</Heading>
           <SimpleGrid columns={[1, 1, 2, 3]} spacing={8}>
             {jobs.map((job) => (
-              <JobPostItem key={job.id} job={job} />
+              <div key={job.id || job.slug}>
+                <JobPostItem job={job} />
+              </div>
             ))}
           </SimpleGrid>
           <p>

@@ -29,22 +29,26 @@ const getJobs = async () => {
     part_time: PART_TIME,
   };
 
-  return data.jobs.map((job) => ({
-    frontmatter: {
-      title: job.title,
-      company: job.company_name,
-      salary: job.salary,
-      currency: '',
-      employment_type: normalizeJobType[job.job_type] || 'Unknown',
-      remote: 'yes', // lol
-      location: job.candidate_required_location || 'Anywhere',
-      date: job.publication_date,
-      type: 'jobs',
-      url: job.url,
-      published: true,
-    },
-    description: job.description,
-  }));
+  return data.jobs.map((job) => {
+    const { description, ...rest } = job;
+    return {
+      frontmatter: {
+        ...rest,
+        id: job.id,
+        title: job.title,
+        company: job.company_name,
+        salary: job.salary,
+        currency: '',
+        employment_type: normalizeJobType[job.job_type] || 'Unknown',
+        location: job.candidate_required_location || 'Anywhere',
+        date: job.publication_date,
+        type: 'jobs',
+        url: job.url,
+        published: true,
+      },
+      description: job.description,
+    };
+  });
 };
 
 const main = async () => {
@@ -57,7 +61,11 @@ ${yaml.dump(job.frontmatter)}
 ${turndownService.turndown(job.description)}`;
 
     const newFilename = `${slugify(
-      job.frontmatter.title + ' ' + job.frontmatter.company,
+      job.frontmatter.title +
+        ' ' +
+        job.frontmatter.company +
+        ' ' +
+        job.frontmatter.id,
       {
         remove: /[*+~.()\/'"?!:@,]/g,
         lower: true,

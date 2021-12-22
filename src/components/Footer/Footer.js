@@ -19,7 +19,7 @@ const Footer = () => {
       margin="6rem 0 0 0"
       padding="2rem 2rem 6rem 2rem"
       borderTop={`20px solid ${theme.colors.green[400]}`}
-      background={theme.colors.green[100]}
+      background={theme.colors.green[50]}
     >
       <Stack
         direction={['column', 'column', 'row', 'row']}

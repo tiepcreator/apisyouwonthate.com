@@ -1,9 +1,10 @@
-import PropTypes from 'prop-types';
-// import ShopifyBuy from '@shopify/buy-button-js';
-
-const ShopifyBuyButton = () => {
-  return <h1>ShopifyBuyButton</h1>;
+const ShopifyBuyButton = ({ label, productId }) => {
+  return <span>{label}</span>;
 };
+export default ShopifyBuyButton;
+
+// import PropTypes from 'prop-types';
+// import ShopifyBuy from '@shopify/buy-button-js';
 
 // class ShopifyBuyButton extends Component {
 //   constructor(props) {
@@ -11,7 +12,7 @@ const ShopifyBuyButton = () => {
 //     this.buyButton = React.createRef();
 
 //     this.shopifyClient = ShopifyBuy.buildClient({
-//       domain: process.env.GATSBY_SHOPIFY_DOMAIN,
+//       domain: process.env.NEXT_PUBLIC_SHOPIFY_DOMAIN,
 //       storefrontAccessToken: 'fc0600a4e4b6ae63d1386e4755de6050',
 //     });
 
