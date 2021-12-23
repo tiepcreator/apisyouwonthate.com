@@ -1,12 +1,14 @@
-import React from 'react';
+import { Container, Heading, Text } from '@chakra-ui/react';
 
 import { Layout, Seo } from '../components';
 
 const NotFoundPage = () => (
   <Layout>
-    <Seo title="404: Not found" />
-    <h1>NOT FOUND</h1>
-    <p>You just hit a route that doesn&#39;t exist... the sadness.</p>
+    <Container>
+      <Seo title="404: Not found" />
+      <Heading as="h1">404: Not Found</Heading>
+      <Text>Damn, sorry. This page doesn&apos;t exist.</Text>
+    </Container>
   </Layout>
 );
 
