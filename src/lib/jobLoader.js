@@ -1,4 +1,3 @@
-// Install gray-matter and date-fns
 import { join } from 'path';
 
 import {
@@ -7,10 +6,16 @@ import {
 } from './contentTypeLoader';
 
 const jobsDirectory = join(process.cwd(), 'src', 'content', 'jobs');
+const dynamicJobsDirectory = join(process.cwd(), '.jobs');
 const JOB_CONTENT_TYPE = 'job';
 
 export const getJobBySlug = async (slug) => {
-  const job = await getContentBySlug(slug, jobsDirectory, JOB_CONTENT_TYPE);
+  let job;
+  try {
+    job = await getContentBySlug(slug, jobsDirectory, JOB_CONTENT_TYPE);
+  } catch {
+    job = await getContentBySlug(slug, dynamicJobsDirectory, JOB_CONTENT_TYPE);
+  }
 
   return job;
 };
@@ -21,5 +26,10 @@ export const getAllJobs = async () => {
     JOB_CONTENT_TYPE
   );
 
-  return allJobs;
+  const dynamicJobs = await getAllContentFromDirectory(
+    dynamicJobsDirectory,
+    JOB_CONTENT_TYPE
+  );
+
+  return [...allJobs, ...dynamicJobs];
 };

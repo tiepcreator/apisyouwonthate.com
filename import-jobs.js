@@ -1,3 +1,4 @@
+const { join } = require('path');
 const fs = require('fs');
 const yaml = require('js-yaml');
 const slugify = require('slugify');
@@ -9,7 +10,7 @@ const turndownService = new TurndownService();
 const remotiveApiHost = 'https://remotive.io/api';
 const category = 'software-dev';
 const search = 'api';
-const jobsFolder = './src/content/jobs';
+const jobsFolder = join(process.cwd(), '.jobs');
 
 const FULL_TIME = 'Full Time';
 const PART_TIME = 'Part Time';
@@ -51,6 +52,11 @@ const getJobs = async () => {
   });
 };
 
+// make a .jobs folder to dump the jobs in
+fs.mkdir(jobsFolder, { recursive: true }, (err) => {
+  if (err) throw err;
+});
+
 const main = async () => {
   const jobs = await getJobs();
 
@@ -62,7 +68,7 @@ ${turndownService.turndown(job.description)}`;
 
     // arbitrarily putting d- in front of job titles for dynamically loaded jobs
     // this will be ignored in gitignore
-    const fileNameTemplate = `d-${job.frontmatter.title}-${job.frontmatter.company}-${job.frontmatter.id}`;
+    const fileNameTemplate = `${job.frontmatter.title}-${job.frontmatter.company}-${job.frontmatter.id}`;
     const newFilename = `${slugify(fileNameTemplate, {
       remove: /[*+~.()\/'"?!:@,]/g,
       lower: true,

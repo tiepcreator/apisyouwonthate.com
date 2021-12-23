@@ -9,7 +9,7 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      jobs,
+      jobs: jobs.filter((job) => job?.frontmatter.published === true),
     },
   };
 };

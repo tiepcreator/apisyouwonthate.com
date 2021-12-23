@@ -3,8 +3,8 @@
 public/rss.xml
 public/sitemap.xml
 
-# added by mike - ignore jobs loaded by our job loader script
-src/content/jobs/d-*
+# added by mike - ignore jobs loaded by our job script
+.jobs
 
 # npm
 .package-lock.json

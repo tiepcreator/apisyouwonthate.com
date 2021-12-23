@@ -26,7 +26,9 @@ export async function getStaticProps({ params }) {
 }
 
 export async function getStaticPaths() {
-  const jobs = await getAllJobs();
+  const jobs = (await getAllJobs()).filter(
+    (job) => job?.frontmatter?.published === true
+  );
 
   return {
     paths: jobs.map((job) => {
