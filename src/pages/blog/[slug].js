@@ -64,19 +64,23 @@ const BlogPage = ({ post, slug }) => {
           title={title}
           description={subtitle}
           author={author}
-          imageUrl={postImageUrl}
+          imageUrl={coverImage ? postImageUrl : null}
         />
         <Stack>
           <Grid gridTemplateColumns={['1fr', '1fr', '1fr 130px']} gap={4}>
-            <Image
-              rounded={'sm'}
-              alt={title}
-              src={postImageUrl}
-              width="100%"
-              minHeight="300px"
-              height="40vh"
-              objectFit="cover"
-            />
+            {coverImage ? (
+              <Image
+                rounded={'sm'}
+                alt={title}
+                src={postImageUrl}
+                width="100%"
+                minHeight="300px"
+                height="40vh"
+                objectFit="cover"
+              />
+            ) : (
+              <div />
+            )}
             <CarbonAd />
           </Grid>
 
