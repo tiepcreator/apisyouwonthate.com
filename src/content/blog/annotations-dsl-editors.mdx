@@ -186,7 +186,7 @@ Writing in a DSL or annotations means you're at the mercy of that maintainer to 
 What is the alternative to editing the files but now having to wrangle YAML? Visual thinkers and non-technical people might want a wizard mode, the ability to create arrays of objects with a few buttons, and selection boxes for [shared models](https://stoplight.io/blog/keeping-openapi-dry-and-portable/) without having to think about the filepath. Graphical design editors are pretty new in the world of OpenAPI and GraphQL, with a few popping up over the last year or two. 
 
 <figure>
-  <img src="../../images/posts/annotations-dsl-editors/editor.png" />
+  <img src="/images/posts/annotations-dsl-editors/editor.png" />
   <figcaption><a href="https://stoplight.io/studio">Stoplight Studio</a> main form editor view, showing some the `$ref` selector for picking OpenAPI models.</figcaption>
 </figure>
 
@@ -195,7 +195,7 @@ Two years ago I was looking around for a beautiful, effective graphical editor t
 Modern GUI editors have mocks and docs publishing built right in so you no longer have to figure out your own "DocOps". Editors like Stoplight Studio add "Design Libraries", where you can manage shared models between multiple APIs in an organization. These editors support organization-wide [style guides to have the editor lint](https://www.apisyouwonthate.com/blog/automated-style-guides-for-rest-graphql-and-grpc) during editing (and/or in continuous integration) to enforce consistency, and a bajillion other things. 
 
 <figure>
-  <img src="../../images/posts/annotations-dsl-editors/editor-lint.png" />
+  <img src="/images/posts/annotations-dsl-editors/editor-lint.png" />
   <figcaption><a href="https://stoplight.io/studio">Stoplight Studio</a> with <a href="https://stoplight.io/open-source/spectral">Spectral</a> linting results from a custom rule written to stop folks designing a GET endpoint with a body.</figcaption>
 </figure>
 
@@ -218,13 +218,13 @@ Using tools where the format changes entirely at different points locks you into
 Leaving the machine-readable source of truth in the repo means any integrations are possible. Continuous integration processes can deploy documentation to any documentation provider, you can use use [any code-generators](https://openapi.tools/#sdk) to build and publish SDKs, sync with popular HTTP clients like Postman or Insomnia instead of maintaining API descriptions _and_ bookmarks, and fully take care of contract testing in-repo or end-to-end repositories. If your editor is backed by a design library then the repositories will be analyzed on push, allowing others to use these updated models instead of having 1000 different versions of a "User", "Company" or a "Flight".
 
 <figure>
-  <img src="../../images/posts/annotations-dsl-editors/explorer.png" />
+  <img src="/images/posts/annotations-dsl-editors/explorer.png" />
   <figcaption>The main Stoplight Explorer dashboard, providing search across all APIs in an organization. This has only been available for <a href="https://stoplight.io/enterprise">Enterprise</a> users, but is available for everyone this April.</figcaption>
 </figure>
 
 But, how does having an editor help you catch mistakes? Stoplight Studio has a [built in HTTP Client](https://stoplight.io/p/docs/gh/stoplightio/studio/docs/Design-and-Modeling/05-request-maker.md), which amongst other things is watching for mismatches between the OpenAPI defined for the API and the actual HTTP requests you send. It will also notice mismatches between OpenAPI and the responses coming back, so you'll see mistakes popping up like this:
 
-![](../../images/posts/annotations-dsl-editors/rm-mismatch.png)
+![](/images/posts/annotations-dsl-editors/rm-mismatch.png)
 
 Noticing contract mismatches in a HTTP client is all well and good for spotting mistakes in requests you're making, but you'll want to automate this checking too. 
 
@@ -251,7 +251,7 @@ Another approach is using [Prism Proxy](https://stoplight.io/p/docs/gh/stoplight
 
 Code first and editors do not jive at all, because the editors do not understand the annotation system in the Java/PHP/Python/etc source code. According to an extremely scientific [poll on my Twitter](https://twitter.com/philsturgeon/status/1234455612265725952), 35% of teams are battling through with a mixture of code-first and design-first. 
 
-![](../../images/posts/annotations-dsl-editors/design-code-poll.png)
+![](/images/posts/annotations-dsl-editors/design-code-poll.png)
 _[](https://twitter.com/philsturgeon/status/1234455612265725952)_
 
 So long as the code-first folks add a build step (pre-commit or in CI) to generate a machine-readable file in the filesystem (like `openapi.yaml`), then hosted solutions like Stoplight Platform can analyze repo contents to give the same hosted docs, mocks, and design libraries, to all the projects. No editing for them of course, but those who want editors are on the same remaining workflow as those who don't. 🥳 
