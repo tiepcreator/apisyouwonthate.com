@@ -18,7 +18,8 @@ export const getPostBySlug = async (slug) => {
 export const getAllPosts = async () => {
   const allPosts = await getAllContentFromDirectory(
     postsDirectory,
-    POST_CONTENT_TYPE
+    POST_CONTENT_TYPE,
+    false
   );
 
   return allPosts;
