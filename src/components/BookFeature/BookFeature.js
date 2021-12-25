@@ -18,10 +18,10 @@ const BookFeature = ({ book }) => {
   const bookUrl = `/books/${slugify(title)}`;
   const bookImage = `/images/books/${coverImage}`;
   return (
-    <Stack minH={'60vh'} direction={{ base: 'column', md: 'row' }}>
+    <Stack direction={{ base: 'column', md: 'row' }}>
       <Flex flex={1} align={'center'} justify={'center'}>
         <Stack spacing={6} w={'full'} maxW={'lg'}>
-          <Heading as="h2" fontSize={{ base: '3xl', md: '4xl', lg: '5xl' }}>
+          <Heading as="h2" fontSize={{ base: 'xl', md: '2xl', lg: '3xl' }}>
             <Text
               as={'span'}
               position={'relative'}
@@ -61,7 +61,7 @@ const BookFeature = ({ book }) => {
       </Flex>
       <Flex flex={1} justifyContent={'center'}>
         <Image
-          height="75vh"
+          height="50vh"
           src={bookImage}
           alt={`Cover image for ${title}`}
           objectFit={'cover'}

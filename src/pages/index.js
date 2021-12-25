@@ -16,7 +16,6 @@ import {
 
 import { getAllPosts } from '../lib/blogPostLoader';
 
-import * as classes from './Home.module.css';
 import { getAllBooks } from '../lib/bookLoader';
 import { generateRSSFeed } from '../utils/rss';
 
@@ -53,18 +52,15 @@ const IndexPage = ({ books, posts }) => {
           </Grid>
 
           <Overline>Books for API Developers</Overline>
-          <div className={classes.books}>
+          <SimpleGrid minChildWidth={'400px'} spacing={8}>
             {books.map((book, i) => {
               return (
                 <div key={book.frontmatter.title}>
                   <BookFeature book={book} />
-                  {i < books.length - 1 && (
-                    <div className={classes.bookSpacer} />
-                  )}
                 </div>
               );
             })}
-          </div>
+          </SimpleGrid>
           <FeaturedPodcast />
           <Overline>More articles</Overline>
           <SimpleGrid minChildWidth="300px" spacing={8} mt={4}>
