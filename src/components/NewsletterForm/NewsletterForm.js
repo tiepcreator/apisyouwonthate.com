@@ -1,11 +1,11 @@
-import React from 'react';
+import { Text, Stack } from '@chakra-ui/react';
 
-import * as classes from './NewsletterForm.module.css';
+import Script from 'next/script';
 
 const NewsletterForm = () => {
   return (
-    <div className={classes.newsletterFormContainer}>
-      <p>Get Pragmatic API, HTTP And REST Info Monthly!</p>
+    <Stack>
+      <Text>Get Pragmatic API, HTTP And REST Info Monthly!</Text>
 
       <iframe
         className="mj-w-res-iframe"
@@ -17,12 +17,11 @@ const NewsletterForm = () => {
         width="100%"
       ></iframe>
 
-      <script
-        async
+      <Script
         type="text/javascript"
         src="https://app.mailjet.com/statics/js/iframeResizer.min.js"
-      ></script>
-    </div>
+      />
+    </Stack>
   );
 };
 
