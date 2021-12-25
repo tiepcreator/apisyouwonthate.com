@@ -16,9 +16,6 @@ export default async function handler(req, res) {
     'bot-field': honeypot,
   } = body;
 
-  console.log('api received');
-  console.log(name, contact, message);
-
   if (honeypot) {
     res.status(400).send({ message: 'No bots allowed 🤖' });
     return;
