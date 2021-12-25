@@ -1,15 +1,21 @@
 import React from 'react';
 
-import { Box, Container, Grid, SimpleGrid, Stack } from '@chakra-ui/react';
+import {
+  Box,
+  Container,
+  Grid,
+  SimpleGrid,
+  Spacer,
+  Stack,
+} from '@chakra-ui/react';
 
 import {
   CarbonAd,
   BlogPostItem,
   BookFeature,
   FeaturedBlogPost,
-  FeaturedPodcast,
+  LatestPodcast,
   Layout,
-  NewsletterForm,
   Seo,
   Overline,
 } from '../components';
@@ -61,7 +67,12 @@ const IndexPage = ({ books, posts }) => {
               );
             })}
           </SimpleGrid>
-          <FeaturedPodcast />
+
+          <Spacer />
+          <Overline>Listen to the podcast</Overline>
+          <LatestPodcast />
+
+          <Spacer />
           <Overline>More articles</Overline>
           <SimpleGrid minChildWidth="300px" spacing={8} mt={4}>
             {otherPosts.map((post) => {

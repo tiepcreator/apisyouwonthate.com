@@ -1,11 +1,9 @@
 import Link from 'next/link';
 import { Button, Container, Grid, Heading, Stack } from '@chakra-ui/react';
 
-import { Layout, Seo } from '../../components';
-import { formatEpisodeNumber } from '../../utils/podcast';
-import * as classes from './Podcast.module.css';
+import { Layout, PodcastFeed, Seo } from '../../components';
 
-const PodcastPage = ({ podcasts }) => {
+const PodcastPage = () => {
   return (
     <Layout>
       <Seo title="Podcast" />
@@ -13,15 +11,7 @@ const PodcastPage = ({ podcasts }) => {
         <Grid gridTemplateColumns={['1fr', '1fr', '3fr 1fr']} gap={8}>
           <Stack>
             <Heading as="h1">APIs You Won&apos;t Hate (the podcast)</Heading>
-
-            <iframe
-              width="100%"
-              height="390"
-              frameBorder="no"
-              scrolling="no"
-              seamless
-              src="https://share.transistor.fm/e/apis-you-wont-hate/playlist"
-            ></iframe>
+            <PodcastFeed />
           </Stack>
           <Stack>
             <Heading as="h2" size="lg" pt="1.5em">
