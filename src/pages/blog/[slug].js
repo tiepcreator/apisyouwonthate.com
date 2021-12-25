@@ -16,7 +16,7 @@ import {
   CarbonAd,
   Colophon,
   Layout,
-  NewsletterForm,
+  NewsletterCTA,
   Seo,
 } from '../../components';
 
@@ -99,17 +99,7 @@ const BlogPage = ({ post, slug }) => {
               <MDXRemote {...post.source} />
             </Box>
             <Colophon />
-            <Box
-              padding="2rem"
-              borderRadius="2ch"
-              background={'white.50'}
-              boxShadow={`2.37px 2.37px 5.925px hsl(0, 0%, 82.6%),  -2.37px -1.37px 5.925px hsl(0, 0%, 117.4%),  inset -1.44px -1.44px 5.76px hsl(0, 0%, 82.6%),  inset 1.44px 1.44px 5.76px hsl(0, 0%, 117.4%)`}
-            >
-              <Heading as="h2" size="lg" mb="1ch">
-                Get the APIs You Won&apos;t Hate Newsletter
-              </Heading>
-              <NewsletterForm />
-            </Box>
+            <NewsletterCTA />
           </Container>
         </Stack>
       </Container>

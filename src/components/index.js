@@ -10,7 +10,7 @@ export { Footer } from './Footer';
 export { Header } from './Header';
 export { JobPostItem } from './JobPostItem';
 export { Layout } from './Layout';
-export { NewsletterForm } from './NewsletterForm';
+export { NewsletterCTA, NewsletterForm } from './NewsletterForm';
 export { Overline } from './Overline';
 export { SEO as Seo } from './SEO';
 export { ShopifyBuyButton } from './ShopifyBuyButton';

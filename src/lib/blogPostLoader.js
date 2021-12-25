@@ -1,6 +1,8 @@
 // Install gray-matter and date-fns
 import { join } from 'path';
 
+import slugify from '../utils/slugify';
+
 import {
   getAllContentFromDirectory,
   getContentBySlug,
@@ -29,4 +31,16 @@ export const getAllPostsByTag = async (tag) => {
   const posts = await getAllPosts();
 
   return posts.filter((post) => post?.frontmatter?.tags?.includes(tag)) || [];
+};
+
+export const getAllPostsByAuthor = async (author) => {
+  const posts = await getAllPosts();
+
+  return (
+    posts.filter(
+      (post) =>
+        post?.frontmatter?.author === author || // either an exact match for author
+        slugify(post.frontmatter?.author) === author // or look for a match of an author's slug
+    ) || []
+  );
 };

@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 import { serialize } from 'next-mdx-remote/serialize';
 import {
   Box,
@@ -6,23 +8,25 @@ import {
   Grid,
   Heading,
   Image,
-  Link,
+  SimpleGrid,
   Stack,
   Text,
 } from '@chakra-ui/react';
 import { MDXRemote } from 'next-mdx-remote';
 
 import {
+  BlogPostItem,
   CarbonAd,
   Colophon,
   Layout,
-  NewsletterForm,
+  NewsletterCTA,
   Seo,
 } from '../../components';
 
 import { GitHubIcon, InstagramIcon, TwitterIcon } from '../../components/icons';
 
 import { getAllAuthors, getAuthorBySlug } from '../../lib/authorLoader';
+import { getAllPostsByAuthor } from '../../lib/blogPostLoader';
 
 import config from '../../../config';
 
@@ -44,6 +48,10 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const author = await getAuthorBySlug(params.slug);
 
+  const posts = await getAllPostsByAuthor(
+    author.frontmatter.name || params.slug
+  );
+
   const mdxSource = await serialize(author.content);
 
   return {
@@ -53,11 +61,12 @@ export async function getStaticProps({ params }) {
         ...author,
         source: mdxSource,
       },
+      posts,
     },
   };
 }
 
-const AuthorPage = ({ author }) => {
+const AuthorPage = ({ author, posts }) => {
   const {
     consultingUrl,
     github,
@@ -96,37 +105,33 @@ const AuthorPage = ({ author }) => {
               )}
               {twitter && (
                 <Link href={`https://twitter.com/${twitter}`}>
-                  <Stack direction="row" alignItems="center">
-                    <TwitterIcon />
-                    <a target="_blank" rel="noopener noreferrer">
-                      {twitter}
-                    </a>
-                  </Stack>
+                  <a target="_blank" rel="noopener noreferrer">
+                    <Stack direction="row" alignItems="center">
+                      <TwitterIcon />
+                      <Text>{twitter}</Text>
+                    </Stack>
+                  </a>
                 </Link>
               )}
               {github && (
-                <Stack direction="row" alignItems="center">
-                  <GitHubIcon />
-                  <a
-                    href={`https://github.com/${github}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {github}
+                <Link href={`https://github.com/${github}`}>
+                  <a target="_blank" rel="noopener noreferrer">
+                    <Stack direction="row" alignItems="center">
+                      <GitHubIcon />
+                      <Text>{github}</Text>
+                    </Stack>
                   </a>
-                </Stack>
+                </Link>
               )}
               {instagram && (
-                <Stack direction="row" alignItems="center">
-                  <InstagramIcon />
-                  <a
-                    href={`https://instagram.com.com/${github}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    {instagram}
+                <Link href={`https://instagram.com.com/${github}`}>
+                  <a target="_blank" rel="noopener noreferrer">
+                    <Stack direction="row" alignItems="center">
+                      <InstagramIcon />
+                      <Text>{instagram}</Text>
+                    </Stack>
                   </a>
-                </Stack>
+                </Link>
               )}
             </Stack>
             <Box fontSize={'lg'} mt={0}>
@@ -134,8 +139,23 @@ const AuthorPage = ({ author }) => {
             </Box>
             <CarbonAd />
           </Grid>
-          <Colophon />
-          <NewsletterForm />
+          <Stack>
+            {posts?.length > 0 && (
+              <Heading as="h2" mt="2rem">
+                {posts.length} Articles from {name}
+              </Heading>
+            )}
+            <SimpleGrid minChildWidth="300px" spacing={8}>
+              {posts.map((post) => (
+                <BlogPostItem key={post.slug} post={post} />
+              ))}
+            </SimpleGrid>
+            <Colophon />
+
+            <Stack alignSelf={'center'}>
+              <NewsletterCTA />
+            </Stack>
+          </Stack>
         </Stack>
       </Container>
     </Layout>

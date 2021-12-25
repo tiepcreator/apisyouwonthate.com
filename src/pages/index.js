@@ -44,33 +44,35 @@ const IndexPage = ({ books, posts }) => {
           title="API News, articles, podcasts, and books"
           keywords={[`gatsby`, `application`, `react`]}
         />
-        <div className={classes.featured}>
-          <Stack>
+        <Stack>
+          <Grid gridTemplateColumns={['1fr', '1fr', '1fr 130px']} gap={4}>
             <FeaturedBlogPost post={firstPost} />
-            <Grid gridTemplateColumns={['1fr', '1fr', '1fr 130px']} gap={4}>
-              <FeaturedPodcast />
-              <Box alignSelf="end">
-                <CarbonAd />
-              </Box>
-            </Grid>
-          </Stack>
-        </div>
-        <Overline mt="8">More articles</Overline>
-        <SimpleGrid minChildWidth="300px" spacing={8} mt={4}>
-          {otherPosts.map((post) => {
-            return <BlogPostItem key={post.slug} post={post} />;
-          })}
-        </SimpleGrid>
-        <div className={classes.books}>
-          {books.map((book, i) => {
-            return (
-              <div key={book.frontmatter.title}>
-                <BookFeature book={book} />
-                {i < books.length - 1 && <div className={classes.bookSpacer} />}
-              </div>
-            );
-          })}
-        </div>
+            <Box alignSelf="end">
+              <CarbonAd />
+            </Box>
+          </Grid>
+
+          <Overline>Books for API Developers</Overline>
+          <div className={classes.books}>
+            {books.map((book, i) => {
+              return (
+                <div key={book.frontmatter.title}>
+                  <BookFeature book={book} />
+                  {i < books.length - 1 && (
+                    <div className={classes.bookSpacer} />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+          <FeaturedPodcast />
+          <Overline>More articles</Overline>
+          <SimpleGrid minChildWidth="300px" spacing={8} mt={4}>
+            {otherPosts.map((post) => {
+              return <BlogPostItem key={post.slug} post={post} />;
+            })}
+          </SimpleGrid>
+        </Stack>
       </Container>
     </Layout>
   );

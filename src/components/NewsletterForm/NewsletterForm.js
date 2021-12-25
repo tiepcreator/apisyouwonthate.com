@@ -5,8 +5,6 @@ import Script from 'next/script';
 const NewsletterForm = () => {
   return (
     <Stack>
-      <Text>Get Pragmatic API, HTTP And REST Info Monthly!</Text>
-
       <iframe
         className="mj-w-res-iframe"
         frameBorder="0"
@@ -15,6 +13,7 @@ const NewsletterForm = () => {
         marginWidth="0"
         src="https://app.mailjet.com/widget/iframe/5dss/LBf"
         width="100%"
+        height="200px"
       ></iframe>
 
       <Script
