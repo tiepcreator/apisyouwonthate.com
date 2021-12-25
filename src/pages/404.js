@@ -1,5 +1,4 @@
 import { Container, Grid, Heading, Stack, Text } from '@chakra-ui/react';
-import Image from 'next/image';
 
 import { Layout, Seo } from '../components';
 
