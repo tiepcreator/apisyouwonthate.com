@@ -3,7 +3,6 @@ import React from 'react';
 import { Container, Heading, Stack } from '@chakra-ui/react';
 
 import { BookFeature, Layout, Seo } from '../../components';
-import * as classes from './BooksPage.module.css';
 import { getAllBooks } from '../../lib/bookLoader';
 
 // load books, podcasts, and posts fro useStaticProps

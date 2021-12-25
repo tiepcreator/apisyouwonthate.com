@@ -6,19 +6,15 @@ import Image from 'next/image';
 
 import { Heading, Stack } from '@chakra-ui/react';
 
-import slugify from '../../utils/slugify';
-
 import { AuthorDisplay } from '../AuthorDisplay';
 
-import * as classes from './BlogPostItem.module.css';
-
-const BlogPostItem = ({ post, feature = false }) => {
+const BlogPostItem = ({ post }) => {
   const { author, date, coverImage, subtitle, title } = post.frontmatter;
 
   const postUrl = `/blog/${post.slug}`;
   return (
     <Stack maxW={'calc(100vw - 32px)'}>
-      <Link href={postUrl} className={classes.container}>
+      <Link href={postUrl}>
         <a>
           <Image
             alt={title}
@@ -26,22 +22,19 @@ const BlogPostItem = ({ post, feature = false }) => {
             width="400px"
             height="250px"
             objectFit="cover"
-            className={
-              feature ? classes.featureImageContainer : classes.imageContainer
-            }
           />
         </a>
       </Link>
       <main>
         <Link href={postUrl} style={{ textDecoration: 'none' }}>
           <a>
-            <Heading as="h2" size="lg" className={classes.title}>
+            <Heading as="h2" size="lg">
               {title}
             </Heading>
           </a>
         </Link>
         <AuthorDisplay name={author} date={date} />
-        <p className={classes.subtitle}>{subtitle}</p>
+        <p>{subtitle}</p>
       </main>
     </Stack>
   );
@@ -49,7 +42,6 @@ const BlogPostItem = ({ post, feature = false }) => {
 
 BlogPostItem.propTypes = {
   post: PropTypes.shape({}),
-  feature: PropTypes.bool,
 };
 
 export default BlogPostItem;

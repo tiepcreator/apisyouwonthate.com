@@ -4,8 +4,6 @@ import Link from 'next/link';
 
 import { Button, Heading, Stack, Text } from '@chakra-ui/react';
 
-import getJobUrl from '../../utils/getJobUrl';
-
 import { Overline } from '../';
 
 const JobPostItem = ({ job }) => {

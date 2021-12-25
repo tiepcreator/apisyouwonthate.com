@@ -69,21 +69,6 @@ const BookFeature = ({ book }) => {
       </Flex>
     </Stack>
   );
-  // <Stack>
-  //   <Heading as="h2">
-  //     <Link className={classes.title} href={bookUrl}>
-  //       <a>{title}</a>
-  //     </Link>
-  //   </Heading>
-  //   <div>
-  //     <Text className={classes.subtitle}>{subtitle}</Text>
-  //     <p className={classes.description}>{description}</p>
-  //     <Link href={bookUrl} passHref>
-  //       <Button>Find out more</Button>
-  //     </Link>
-  //   </div>
-  //   <Image src={bookImage} alt={`Cover image for ${title}`} />
-  // </Stack>
 };
 
 export default BookFeature;

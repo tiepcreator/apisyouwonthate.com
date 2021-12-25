@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import Link from 'next/link';
 
@@ -17,7 +17,6 @@ import {
 } from '@chakra-ui/react';
 
 import { Layout, Seo } from '../../components';
-import * as classes from './AMA.module.css';
 
 const encode = (data) => {
   return Object.keys(data)
@@ -49,7 +48,7 @@ const AMAPage = () => {
   return (
     <Layout>
       <Seo title="Ask us a question!" />
-      <Container className={classes.container}>
+      <Container>
         {submitted ? (
           <Stack>
             <Heading as="h1">Thank you!</Heading>
@@ -78,7 +77,7 @@ const AMAPage = () => {
               name="contact"
               data-netlify="true"
               netlify-honeypot="bot-field"
-              className={classes.form}
+              marginBottom={'2rem'}
               onSubmit={handleSubmit}
               spacing={6}
             >
