@@ -53,7 +53,7 @@ const SEO = ({
   let fullImageUrl;
   if (imageUrl && !imageUrl.startsWith(baseUrl)) {
     if (imageUrl.startsWith('/')) {
-      fullImageUrl = `${baseUrl}${fullImageUrl}`;
+      fullImageUrl = `${baseUrl}${imageUrl}`;
     } else {
       fullImageUrl = `${baseUrl}/${imageUrl}`;
     }
