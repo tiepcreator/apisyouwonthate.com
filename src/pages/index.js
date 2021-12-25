@@ -4,20 +4,21 @@ import {
   Box,
   Container,
   Grid,
+  Heading,
   SimpleGrid,
   Spacer,
   Stack,
 } from '@chakra-ui/react';
 
 import {
-  CarbonAd,
   BlogPostItem,
   BookFeature,
+  CarbonAd,
   FeaturedBlogPost,
-  LatestPodcast,
   Layout,
-  Seo,
   Overline,
+  PodcastFeed,
+  Seo,
 } from '../components';
 
 import { getAllPosts } from '../lib/blogPostLoader';
@@ -57,7 +58,7 @@ const IndexPage = ({ books, posts }) => {
             </Box>
           </Grid>
 
-          <Overline>Books for API Developers</Overline>
+          <Overline id="books">Books for API Developers</Overline>
           <SimpleGrid minChildWidth={'400px'} spacing={8}>
             {books.map((book, i) => {
               return (
@@ -69,12 +70,9 @@ const IndexPage = ({ books, posts }) => {
           </SimpleGrid>
 
           <Spacer />
-          <Overline>Listen to the podcast</Overline>
-          <LatestPodcast />
-
-          <Spacer />
-          <Overline>More articles</Overline>
+          <Overline id="more">More API goodness</Overline>
           <SimpleGrid minChildWidth="300px" spacing={8} mt={4}>
+            <PodcastFeed dark height="500" />
             {otherPosts.map((post) => {
               return <BlogPostItem key={post.slug} post={post} />;
             })}
