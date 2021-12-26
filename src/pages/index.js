@@ -4,7 +4,6 @@ import {
   Box,
   Container,
   Grid,
-  Heading,
   SimpleGrid,
   Spacer,
   Stack,
