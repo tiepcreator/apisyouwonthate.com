@@ -24,7 +24,7 @@ const BooksPage = ({ books }) => {
         <Heading as="h1">Books for API Developers</Heading>
         <Stack spacing={8}>
           {books.map((book) => (
-            <div key={book.title}>
+            <div key={book.frontmatter.title}>
               <BookFeature book={book} />
             </div>
           ))}

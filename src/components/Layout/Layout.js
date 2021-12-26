@@ -1,4 +1,4 @@
-import React from 'react';
+import Script from 'next/script';
 import PropTypes from 'prop-types';
 
 import { MDXProvider } from '@mdx-js/react';
@@ -10,6 +10,7 @@ const Layout = ({ children }) => {
   return (
     <MDXProvider>
       <Box width="100vw">
+        <Script src="http://sdks.shopifycdn.com/buy-button/1.0.0/buybutton.js" />
         <Header />
         <main>{children}</main>
         <Footer />
