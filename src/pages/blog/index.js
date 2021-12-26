@@ -1,11 +1,18 @@
-const { Container, Heading, Stack, SimpleGrid } = require('@chakra-ui/react');
-const {
+import {
+  Container,
+  Heading,
+  Stack,
+  SimpleGrid,
+  GridItem,
+} from '@chakra-ui/react';
+
+import {
   Layout,
   FeaturedBlogPost,
   BlogPostItem,
   NewsletterCTA,
   PodcastFeed,
-} = require('../../components');
+} from '../../components';
 
 import { getAllPosts } from '../../lib/blogPostLoader';
 
@@ -22,6 +29,13 @@ export const getStaticProps = async () => {
 
 const BlogPage = ({ posts }) => {
   const [firstPost, ...otherPosts] = posts;
+
+  let feed = otherPosts.map((post) => (
+    <BlogPostItem key={post.slug} post={post} />
+  ));
+
+  feed.splice(0, 0, <PodcastFeed dark key="pcast-feed" />);
+
   return (
     <Layout>
       <Container>
@@ -29,10 +43,7 @@ const BlogPage = ({ posts }) => {
           <Heading as="h1">All Articles</Heading>
           <FeaturedBlogPost post={firstPost} />
           <SimpleGrid minChildWidth="300px" spacing={8}>
-            <PodcastFeed />
-            {otherPosts.map((post) => (
-              <BlogPostItem key={post.slug} post={post} />
-            ))}
+            {feed}
           </SimpleGrid>
           <NewsletterCTA />
         </Stack>
