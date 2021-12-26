@@ -5,6 +5,8 @@ import Image from 'next/image';
 import { GitHubIcon, TwitterIcon } from '../icons';
 import { NewsletterForm } from '../NewsletterForm';
 
+import poweredByVercel from '../../../public/img/powered-by-vercel.svg';
+
 const Subtitle = ({ children }) => (
   <Text textTransform={'uppercase'} fontWeight={'bold'}>
     {children}
@@ -81,16 +83,11 @@ const Footer = () => {
       <Stack>
         <p>
           <a
-            href="https://www.netlify.com"
+            href="https://vercel.com?utm_source=[apis-you-wont-hate]&utm_campaign=oss"
             target="_blank"
             rel="noreferrer noopener"
           >
-            <Image
-              alt="Deploys by netlify"
-              src="https://www.netlify.com/img/global/badges/netlify-dark.svg"
-              width="114"
-              height="51"
-            />
+            <Image alt="Powered by Vercel" src={poweredByVercel} />
           </a>
         </p>
         <small>
