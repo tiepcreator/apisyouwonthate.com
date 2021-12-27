@@ -1,4 +1,4 @@
-import { Box, Stack, Text, useTheme } from '@chakra-ui/react';
+import { Box, SimpleGrid, Stack, Text, useTheme } from '@chakra-ui/react';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -23,10 +23,7 @@ const Footer = () => {
       borderTop={`20px solid ${theme.colors.green[400]}`}
       background={theme.colors.green[50]}
     >
-      <Stack
-        direction={['column', 'column', 'row', 'row']}
-        justifyContent={'space-between'}
-      >
+      <SimpleGrid minChildWidth={'250px'} gap={8} mb="4rem">
         <Stack>
           <Subtitle>APIs You Won&apos;t Hate</Subtitle>
           <Link href="/books">
@@ -47,6 +44,16 @@ const Footer = () => {
         </Stack>
         <Stack>
           <Subtitle>Community</Subtitle>
+          <Link href="/community">Join our Slack Community</Link>
+          <Link href="/conduct">Code of Conduct</Link>
+        </Stack>
+        <Stack>
+          <Subtitle>More help</Subtitle>
+          <a href="https://calendly.com/philsturgeon">API Design Consulting</a>
+        </Stack>
+
+        <Stack>
+          <Subtitle>Online</Subtitle>
           <Stack direction="row" alignItems="center">
             <GitHubIcon />{' '}
             <a
@@ -67,19 +74,13 @@ const Footer = () => {
               @apisyouwonthate
             </a>
           </Stack>
-          <Link href="/community">Join our Slack Community</Link>
-          <a href="https://forum.apisyouwonthate.com">Forum</a>
-          <Link href="/conduct">Code of Conduct</Link>
-        </Stack>
-        <Stack>
-          <Subtitle>More help</Subtitle>
-          <a href="https://calendly.com/philsturgeon">Consulting</a>
         </Stack>
         <Stack>
           <Subtitle>Subscribe to our newsletter</Subtitle>
           <NewsletterForm />
         </Stack>
-      </Stack>
+      </SimpleGrid>
+
       <Stack>
         <p>
           <a
@@ -90,11 +91,9 @@ const Footer = () => {
             <Image alt="Powered by Vercel" src={poweredByVercel} />
           </a>
         </p>
-        <small>
-          {'© '}
-          {new Date().getFullYear()}
-          APIs You Won&apos;t Hate
-        </small>
+        <Text as="small">
+          {`© ${new Date().getFullYear()} APIs You Won't Hate. All rights reserved.`}
+        </Text>
       </Stack>
     </Box>
   );
