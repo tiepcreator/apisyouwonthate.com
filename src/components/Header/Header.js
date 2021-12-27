@@ -43,7 +43,12 @@ const Header = () => {
               <a>Podcast</a>
             </Link>
             <Link href="/community" passHref>
-              <Button as="a" colorScheme={'purple'}>
+              <Button
+                as="a"
+                colorScheme={'purple'}
+                rounded={'full'}
+                _hover={{ bgColor: 'purple.400' }}
+              >
                 Join the Community
               </Button>
             </Link>

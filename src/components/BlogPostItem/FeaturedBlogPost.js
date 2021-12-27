@@ -51,7 +51,12 @@ const FeaturedBlogPost = ({ post }) => {
           }
         >
           <Link href={blogPostUrl} passHref>
-            <Text as="a" color="green.600" fontWeight={'bold'}>
+            <Text
+              as="a"
+              color="green.600"
+              fontWeight={'bold'}
+              _hover={{ color: 'green.400' }}
+            >
               Read more &rarr;
             </Text>
           </Link>
