@@ -21,7 +21,7 @@ const BlogPostItem = ({ post }) => {
             src={`/images/posts/${coverImage}`}
             width="400px"
             height="250px"
-            objectFit="cover"
+            objectFit={'contain'}
           />
         </a>
       </Link>

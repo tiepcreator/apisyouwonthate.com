@@ -70,17 +70,25 @@ const BlogPage = ({ post, slug }) => {
           imageUrl={coverImage ? postImageUrl : null}
         />
         <Stack>
-          <Grid gridTemplateColumns={['1fr', '1fr', '1fr 130px']} gap={4}>
+          <Grid
+            gridTemplateColumns={['1fr', '1fr', '1fr 130px']}
+            gap={4}
+            alignContent={'start'}
+            justifyContent={'start'}
+          >
             {coverImage ? (
-              <Image
-                rounded={'sm'}
-                alt={title}
-                src={postImageUrl}
-                width="100%"
-                minHeight="300px"
-                height="40vh"
-                objectFit="cover"
-              />
+              <Box>
+                <Image
+                  rounded={'sm'}
+                  alt={title}
+                  src={postImageUrl}
+                  width="1200px"
+                  maxHeight={['20vh', '45vh', '65vh']}
+                  height="600px"
+                  objectFit="contain"
+                  align={'flex-start'}
+                />
+              </Box>
             ) : (
               <div />
             )}
@@ -95,7 +103,7 @@ const BlogPage = ({ post, slug }) => {
                 {formatDate(date, 'MMMM dd, yyyy')}
               </Text>
             </Stack>
-            <Box fontSize={'lg'}>
+            <Box fontSize={'lg'} mt="1rem">
               <MDXRemote {...post.source} />
             </Box>
             <Colophon />
