@@ -64,15 +64,16 @@ const BookPage = ({ book }) => {
 
   const actions = (
     <SimpleGrid minChildWidth={'120px'} gap={4}>
-      {shopifyData?.map(({ productId, label }) => (
-        <Button
-          key={`shopify-action-${productId}`}
-          rounded={'full'}
-          colorScheme={'purple'}
-          _hover={{ bg: 'green.500' }}
-        >
-          {label}
-        </Button>
+      {shopifyData?.map(({ productId, label, url }) => (
+        <Link href={url} passHref key={`shopify-action-${productId}`}>
+          <Button
+            rounded={'full'}
+            colorScheme={'purple'}
+            _hover={{ bg: 'green.500' }}
+          >
+            {label}
+          </Button>
+        </Link>
       ))}
       {leanpubLinks?.map(({ url, label }, idx) => (
         <Link href={url} key={`leanpub-link-${idx}`} passHref>

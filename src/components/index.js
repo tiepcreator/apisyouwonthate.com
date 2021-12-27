@@ -13,5 +13,4 @@ export { Layout } from './Layout';
 export { NewsletterCTA, NewsletterForm } from './NewsletterForm';
 export { Overline } from './Overline';
 export { SEO as Seo } from './SEO';
-export { ShopifyBuyButton } from './ShopifyBuyButton';
 export { VideoFeature } from './VideoFeature';
