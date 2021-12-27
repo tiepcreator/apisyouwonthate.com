@@ -41,6 +41,10 @@ const Footer = () => {
           <Link href="/podcast">
             <a>Podcast</a>
           </Link>
+
+          <Link href="/ama">
+            <a>Ask us a question</a>
+          </Link>
         </Stack>
         <Stack>
           <Subtitle>Community</Subtitle>
