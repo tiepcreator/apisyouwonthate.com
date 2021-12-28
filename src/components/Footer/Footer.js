@@ -90,7 +90,7 @@ const Footer = () => {
       <Stack>
         <p>
           <a
-            href="https://vercel.com?utm_source=[apis-you-wont-hate]&utm_campaign=oss"
+            href="https://vercel.com?utm_source=apis-you-wont-hate&utm_campaign=oss"
             target="_blank"
             rel="noreferrer noopener"
           >
