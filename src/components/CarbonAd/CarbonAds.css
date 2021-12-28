@@ -1,7 +1,4 @@
 #carbonads {
-  display: flex;
-  float: right;
-  margin: 0 0 20px 20px;
   max-width: 130px;
   border-radius: 4px;
   background-color: hsl(0, 0%, 98%);

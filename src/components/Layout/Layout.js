@@ -1,26 +1,20 @@
-import React from 'react';
+import Script from 'next/script';
 import PropTypes from 'prop-types';
-import Container from 'react-bootstrap/Container';
+
 import { MDXProvider } from '@mdx-js/react';
 
 import { Footer, Header } from '../';
-import * as classes from './Layout.module.css';
+import { Box } from '@chakra-ui/react';
 
 const Layout = ({ children }) => {
   return (
-    <MDXProvider
-      components={{
-        // eslint-disable-next-line jsx-a11y/anchor-has-content
-        a: (props) => <a {...props} className={classes.mdxAnchor} />,
-      }}
-    >
-      <Container fluid className={classes.baseGrid}>
+    <MDXProvider>
+      <Box width="100vw">
+        <Script src="http://sdks.shopifycdn.com/buy-button/1.0.0/buybutton.js" />
         <Header />
-        <div className={classes.container}>
-          <main>{children}</main>
-        </div>
+        <main>{children}</main>
         <Footer />
-      </Container>
+      </Box>
     </MDXProvider>
   );
 };

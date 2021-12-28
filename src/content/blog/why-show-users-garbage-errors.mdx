@@ -1,5 +1,5 @@
 ---
-title: "Why Show Users Garbage API Errors"
+title: "Why Show Users Garbage API Errors?"
 subtitle: >-
   What happens in your client application when an API error pops up beyond the common cases of Logged Out, Not Found, etc.? Do you vomit random API error codes and exception class names all over your end users screens, pointlessly confusing the hell out of them?
 date: "2021-05-14"
@@ -13,7 +13,7 @@ A million things can go wrong when an API client talks to an API, from the expec
 When things go wrong, what do you do? Do you vomit random API error codes and exception class names all over your end users screens, pointlessly confusing the hell out of them? Probably!
 
 <figure>
-  <img src="../../images/posts/why-show-users-garbage-errors/trainline.jpg" alt="Error box on the trainline iOS app showing Oops, and an unintelligable error we'll walk through now." />
+  <img src="/images/posts/why-show-users-garbage-errors/trainline.jpg" alt="Error box on the trainline iOS app showing Oops, and an unintelligable error we'll walk through now." />
   <figcaption>Trainline barfed this error message at me when I was trying to book a train ticket from London to Bath.</figcaption>
 </figure>
 
@@ -30,7 +30,7 @@ I'm sure that means something to somebody, but it doesn’t mean anything to me.
 Tell users something relevant, or don't tell them anything. If there was a network error, the Trainline app could have said "There’s a problem with your connection, please check your connection settings." If there was a 500-599 error the application could have said "Sorry, our servers are struggling. Please try again in a few minutes, or call customer support on 555-555-5555."
 
 <figure>
-  <img src="../../images/posts/why-show-users-garbage-errors/bunq.jpg" alt="Bunq iOS app showing error message: Invalid status ACCEPTED_PENDING_RESPONSE for SecureCode with status ACCEPTED." />
+  <img src="/images/posts/why-show-users-garbage-errors/bunq.jpg" alt="Bunq iOS app showing error message: Invalid status ACCEPTED_PENDING_RESPONSE for SecureCode with status ACCEPTED." />
   <figcaption>My bank is shouting at me while I try to book a hotel room.</figcaption>
 </figure>
 
@@ -45,14 +45,14 @@ There's two main problems here:
 Either way, the client and API are failing to let the user do what they want to do: all I want is to mark that payment as accepted, so I can stop standing in the rain and check into my hotel. If it's already been accepted then happy days, we're out of here, move that UI along. 
 
 <figure>
-  <img src="../../images/posts/why-show-users-garbage-errors/twitter.jpg" alt="Error message on twitter iOS app: The operation couldn't be completed. (com.twitter.TFSTwitterAPIError error 120.)" />
+  <img src="/images/posts/why-show-users-garbage-errors/twitter.jpg" alt="Error message on twitter iOS app: The operation couldn't be completed. (com.twitter.TFSTwitterAPIError error 120.)" />
   <figcaption>Twitter slapped <a href="https://twitter.com/alexjgarrett">Alex Garrett-Smith</a> with this nonsense whilst trying to update their bio.</figcaption>
 </figure>
 
 This looks incredibly similar to the Trainline error. It's probably a default in some common iOS HTTP library. Again, we've got ourselves an utterly useless exception class name, and it's not even saying com.twitter.ClientError, just "Somefing dur brok3n!". Then yep, a random "Error 120". This is not a HTTP status code, but something Twitter specific in the JSON body of an error.
 
 <figure>
-  <img src="../../images/posts/why-show-users-garbage-errors/twitter-explains.png" />
+  <img src="/images/posts/why-show-users-garbage-errors/twitter-explains.png" />
   <figcaption>Twitter explain this random API error code to developers but not to users of their mobile app.</figcaption>
 </figure>
 

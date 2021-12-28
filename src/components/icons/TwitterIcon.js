@@ -3,6 +3,7 @@ import React from 'react';
 
 const TwitterIcon = () => (
   <svg
+    display={'inline-block'}
     fill="currentColor"
     preserveAspectRatio="xMidYMid meet"
     height="1em"

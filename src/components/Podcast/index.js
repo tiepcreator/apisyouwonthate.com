@@ -1,1 +1,2 @@
-export { default as FeaturedPodcast } from './FeaturedPodcast';
+export { default as LatestPodcast } from './LatestPodcast';
+export { default as PodcastFeed } from './PodcastFeed';

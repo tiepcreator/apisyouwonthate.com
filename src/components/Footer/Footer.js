@@ -1,115 +1,108 @@
-import React from 'react';
-import { Container, Col, Row } from 'react-bootstrap';
-import { Link } from 'gatsby';
-
-import * as classes from './Footer.module.css';
+import { Box, SimpleGrid, Stack, Text, useTheme } from '@chakra-ui/react';
+import Link from 'next/link';
+import Image from 'next/image';
 
 import { GitHubIcon, TwitterIcon } from '../icons';
 import { NewsletterForm } from '../NewsletterForm';
 
-const Footer = () => (
-  <footer className={classes.footer}>
-    <Container fluid>
-      <Row>
-        <Col lg={2}>
-          <div className={classes.subtitle}>APIs You Won't hate</div>
-          <ul className={classes.linkList}>
-            <li>
-              <Link to="/books">Books</Link>
-            </li>
-            <li>
-              <Link to="/blog">Blog</Link>
-            </li>
-            <li>
-              <Link to="/videos">Videos</Link>
-            </li>
-            <li>
-              <Link to="/podcast">Podcast</Link>
-            </li>
-          </ul>
-        </Col>
-        <Col lg={2}>
-          <div className={classes.subtitle}>Community</div>
-          <ul className={classes.linkList}>
-            <li>
-              <GitHubIcon />{' '}
-              <a
-                href="https://github.com/apisyouwonthate"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                GitHub
-              </a>
-            </li>
-            <li>
-              <TwitterIcon />{' '}
-              <a
-                href="https://twitter.com/apisyouwonthate"
-                target="_blank"
-                rel="noreferrer noopener me"
-              >
-                @apisyouwonthate
-              </a>
-            </li>
-            <li>
-              <Link to="/community">Join our Slack Community</Link>
-            </li>
-            <li>
-              <a href="https://forum.apisyouwonthate.com">Forum</a>
-            </li>
-            <li>
-              <a
-                href="https://www.patreon.com/bePatron?u=19197006"
-                data-patreon-widget-type="become-patron-button"
-              >
-                Become a Patron!
-              </a>
-              {/* this script came from https://www.patreon.com/dashboard/widgets */}
-              <script
-                async
-                src="https://c6.patreon.com/becomePatronButton.bundle.js"
-              />
-            </li>
-            <li>
-              <Link to="/conduct">Code of Conduct</Link>
-            </li>
-          </ul>
-        </Col>
-        <Col lg={2}>
-          <div className={classes.subtitle}>More help</div>
-          <ul className={classes.linkList}>
-            <li>
-              <a href="https://calendly.com/philsturgeon">Consulting</a>
-            </li>
-          </ul>
-        </Col>
-        <Col>
-          <div className={classes.subtitle}>Subscribe to our newsletter</div>
-          <NewsletterForm />
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <p>
+import poweredByVercel from '../../../public/img/powered-by-vercel.svg';
+
+const Subtitle = ({ children }) => (
+  <Text textTransform={'uppercase'} fontWeight={'bold'}>
+    {children}
+  </Text>
+);
+
+const Footer = () => {
+  const theme = useTheme();
+  return (
+    <Box
+      as="footer"
+      margin="6rem 0 0 0"
+      padding="2rem 2rem 6rem 2rem"
+      borderTop={`20px solid ${theme.colors.green[400]}`}
+      background={theme.colors.green[50]}
+    >
+      <SimpleGrid minChildWidth={'250px'} gap={8} mb="4rem">
+        <Stack>
+          <Subtitle>APIs You Won&apos;t Hate</Subtitle>
+          <Link href="/books">
+            <a>Books</a>
+          </Link>
+
+          <Link href="/blog">
+            <a>Blog</a>
+          </Link>
+
+          <Link href="/videos">
+            <a>Videos</a>
+          </Link>
+
+          <Link href="/podcast">
+            <a>Podcast</a>
+          </Link>
+
+          <Link href="/ama">
+            <a>Ask us a question</a>
+          </Link>
+        </Stack>
+        <Stack>
+          <Subtitle>Community</Subtitle>
+          <Link href="/community">Join our Slack Community</Link>
+          <Link href="/authors">About Us</Link>
+          <Link href="/authors">Authors</Link>
+          <Link href="/conduct">Code of Conduct</Link>
+        </Stack>
+        <Stack>
+          <Subtitle>More help</Subtitle>
+          <a href="https://calendly.com/philsturgeon">API Design Consulting</a>
+        </Stack>
+
+        <Stack>
+          <Subtitle>Online</Subtitle>
+          <Stack direction="row" alignItems="center">
+            <GitHubIcon />{' '}
             <a
-              href="https://www.netlify.com"
+              href="https://github.com/apisyouwonthate"
               target="_blank"
               rel="noreferrer noopener"
             >
-              <img
-                alt="Deploys by netlify"
-                src="https://www.netlify.com/img/global/badges/netlify-dark.svg"
-              />
+              GitHub
             </a>
-          </p>
-          <small>
-            © {new Date().getFullYear()}
-            {` APIs You Won't Hate`}
-          </small>
-        </Col>
-      </Row>
-    </Container>
-  </footer>
-);
+          </Stack>
+          <Stack direction="row" alignItems="center">
+            <TwitterIcon />
+            <a
+              href="https://twitter.com/apisyouwonthate"
+              target="_blank"
+              rel="noreferrer noopener me"
+            >
+              @apisyouwonthate
+            </a>
+          </Stack>
+        </Stack>
+        <Stack>
+          <Subtitle>Subscribe to our newsletter</Subtitle>
+          <NewsletterForm />
+        </Stack>
+      </SimpleGrid>
+
+      <Stack>
+        <p>
+          <a
+            href="https://vercel.com?utm_source=apis-you-wont-hate&utm_campaign=oss"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            <Image alt="Powered by Vercel" src={poweredByVercel} />
+          </a>
+        </p>
+        <Text as="small">
+          {`© ${new Date().getFullYear()} APIs You Won't Hate. All rights reserved.`}
+        </Text>
+      </Stack>
+    </Box>
+  );
+};
 
 export default Footer;

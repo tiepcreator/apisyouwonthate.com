@@ -1,51 +1,47 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'gatsby';
 
-import { Col, Row } from 'react-bootstrap';
+import Link from 'next/link';
+import Image from 'next/image';
 
-import slugify from '../../utils/slugify';
-import { CoverImage } from '../Image';
+import { Heading, Stack } from '@chakra-ui/react';
+
 import { AuthorDisplay } from '../AuthorDisplay';
 
-import * as classes from './BlogPostItem.module.css';
-
-const BlogPostItem = ({ post, feature = false }) => {
+const BlogPostItem = ({ post }) => {
   const { author, date, coverImage, subtitle, title } = post.frontmatter;
+
+  const postUrl = `/blog/${post.slug}`;
   return (
-    <Col xs={12} sm={12} md={feature ? 12 : 6} lg={feature ? 12 : 4}>
-      <Row>
-        <Col xs={12} sm={12} md={12} lg={feature ? 8 : 12}>
-          <Link to={`/blog/${slugify(title)}`} className={classes.container}>
-            <CoverImage
-              alt={title}
-              src={coverImage}
-              className={
-                feature ? classes.featureImageContainer : classes.imageContainer
-              }
-            />
-          </Link>
-        </Col>
-        <Col>
-          <main>
-            <Link
-              to={`/blog/${slugify(title)}`}
-              style={{ textDecoration: 'none' }}
-            >
-              <h2 className={classes.title}>{title}</h2>
-              <p className={classes.subtitle}>{subtitle}</p>
-            </Link>
-            <AuthorDisplay name={author} date={date} />
-          </main>
-        </Col>
-      </Row>
-    </Col>
+    <Stack maxW={'calc(100vw - 32px)'}>
+      <Link href={postUrl}>
+        <a>
+          <Image
+            alt={title}
+            src={`/images/posts/${coverImage}`}
+            width="400px"
+            height="250px"
+            objectFit={'contain'}
+          />
+        </a>
+      </Link>
+      <main>
+        <Link href={postUrl} style={{ textDecoration: 'none' }}>
+          <a>
+            <Heading as="h2" size="lg">
+              {title}
+            </Heading>
+          </a>
+        </Link>
+        <AuthorDisplay name={author} date={date} />
+        <p>{subtitle}</p>
+      </main>
+    </Stack>
   );
 };
 
 BlogPostItem.propTypes = {
   post: PropTypes.shape({}),
-  feature: PropTypes.bool,
 };
 
 export default BlogPostItem;

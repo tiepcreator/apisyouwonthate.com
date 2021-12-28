@@ -1,62 +1,63 @@
-import { Link } from 'gatsby';
+import Link from 'next/link';
+import Image from 'next/image';
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import Container from 'react-bootstrap/Container';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
+import { Box, Button, Container, Stack, useTheme } from '@chakra-ui/react';
 
-import * as classes from './Header.module.css';
+import logo from '../../../public/img/apis-you-wont-hate-light.png';
 
-const Header = () => (
-  <div className={classes.background}>
-    <Container>
-      <Row>
-        <Col>
-          <header className={classes.header}>
-            <h1 className={classes.title}>
-              <Link to="/">
-                <img
-                  className={`img-responsive ${classes.headerImage}`}
-                  src="/img/apis-you-wont-hate-dark.png"
-                  alt="APIs You Won't Hate"
-                />
-              </Link>
-            </h1>
-            <nav className={classes.navbar}>
-              <Link to="/books" className={classes.link}>
-                Books
-              </Link>
-              <Link to="/blog" className={classes.link}>
-                Blog
-              </Link>
-              <Link to="/jobs" className={classes.link}>
-                Jobs
-              </Link>
-              <Link to="/podcast" className={classes.link}>
-                Podcast
-              </Link>
-              <Link to="/videos" className={classes.link}>
-                Videos
-              </Link>
-              <a
-                href="https://calendly.com/philsturgeon"
-                className={classes.link}
-                target="_blank"
-                rel="noopener noreferrer"
+const Header = () => {
+  const theme = useTheme();
+  return (
+    <Box padding="1rem 0" borderTop={`10px solid ${theme.colors.green[400]}`}>
+      <Container maxW="7xl">
+        <Stack
+          as="header"
+          direction={['column', 'row']}
+          alignItems={['flex-start', 'center']}
+          justifyContent="space-between"
+        >
+          <Link href="/">
+            <a>
+              <Image
+                src={logo}
+                alt="APIs You Won't Hate"
+                width="130px"
+                height="60px"
+              />
+            </a>
+          </Link>
+          <Stack
+            as="nav"
+            direction={['column', 'row']}
+            alignItems={['flex-start', 'center']}
+          >
+            <Link href="/books">
+              <a>Books</a>
+            </Link>
+            <Link href="/jobs">
+              <a>Jobs</a>
+            </Link>
+            <Link href="/podcast">
+              <a>Podcast</a>
+            </Link>
+            <Link href="/community" passHref>
+              <Button
+                as="a"
+                colorScheme={'purple'}
+                rounded={'full'}
+                _hover={{ bgColor: 'purple.400' }}
               >
-                Consulting
-              </a>
-              <Link to="/community" className={classes.link}>
-                Community
-              </Link>
-            </nav>
-          </header>
-        </Col>
-      </Row>
-    </Container>
-  </div>
-);
+                Join the Community
+              </Button>
+            </Link>
+          </Stack>
+        </Stack>
+      </Container>
+    </Box>
+  );
+};
 
 Header.propTypes = {
   siteTitle: PropTypes.string,

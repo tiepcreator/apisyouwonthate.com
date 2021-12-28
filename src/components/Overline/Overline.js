@@ -1,9 +1,22 @@
 import React from 'react';
 
-import * as classes from './Overline.module.css';
+import { Text, useColorModeValue } from '@chakra-ui/react';
 
-const Overline = ({ children }) => (
-  <h6 className={classes.overline}>{children}</h6>
+const Overline = ({ children, ...rest }) => (
+  <Text
+    display={'inline-block'}
+    textTransform={'uppercase'}
+    color={'blue.400'}
+    fontWeight={600}
+    fontSize={'sm'}
+    bg={useColorModeValue('blue.50', 'blue.900')}
+    p={2}
+    alignSelf={'flex-start'}
+    rounded={'md'}
+    {...rest}
+  >
+    {children}
+  </Text>
 );
 
 export default Overline;

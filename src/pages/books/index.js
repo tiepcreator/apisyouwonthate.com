@@ -1,51 +1,37 @@
 import React from 'react';
-import { graphql } from 'gatsby';
-import { Container, Col, Row } from 'react-bootstrap';
+
+import { Container, Heading, Stack } from '@chakra-ui/react';
 
 import { BookFeature, Layout, Seo } from '../../components';
-import * as classes from './BooksPage.module.css';
+import { getAllBooks } from '../../lib/bookLoader';
 
-const BooksPage = ({ data }) => {
-  const { books } = data;
+// load books, podcasts, and posts fro useStaticProps
+export const getStaticProps = async () => {
+  const books = await getAllBooks();
+
+  return {
+    props: {
+      books,
+    },
+  };
+};
+
+const BooksPage = ({ books }) => {
   return (
     <Layout>
       <Seo title="Books" keywords={['apis', 'api', 'rest', 'rpc', 'graphql']} />
-      <div className={classes.background}>
-        <Container className={classes.container}>
-          <Row>
-            <Col>
-              {books.nodes.map((book, i) => {
-                return (
-                  <React.Fragment key={book.id}>
-                    <BookFeature book={book} />
-                    {i < books.nodes.length - 1 && (
-                      <div className={classes.bookSpacer} />
-                    )}
-                  </React.Fragment>
-                );
-              })}
-            </Col>
-          </Row>
-        </Container>
-      </div>
+      <Container>
+        <Heading as="h1">Books for API Developers</Heading>
+        <Stack spacing={8}>
+          {books.map((book) => (
+            <div key={book.frontmatter.title}>
+              <BookFeature book={book} />
+            </div>
+          ))}
+        </Stack>
+      </Container>
     </Layout>
   );
 };
 
 export default BooksPage;
-
-export const query = graphql`
-  {
-    books: allMdx(filter: { frontmatter: { type: { eq: "book" } } }) {
-      nodes {
-        id
-        frontmatter {
-          title
-          subtitle
-          description
-          coverImage
-        }
-      }
-    }
-  }
-`;

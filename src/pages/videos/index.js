@@ -1,72 +1,75 @@
-import React from 'react';
-import { graphql } from 'gatsby';
+import Image from 'next/image';
 
-// bootstrap
-import { Container, Col, Row } from 'react-bootstrap';
+import {
+  Container,
+  Grid,
+  Heading,
+  Spacer,
+  Stack,
+  Text,
+} from '@chakra-ui/react';
 
-import { Image, Layout, Seo, VideoFeature } from '../../components';
-import * as classes from './Videos.module.css';
+import { Layout, Seo, VideoFeature } from '../../components';
+import { getAllVideos } from '../../lib/videoLoader';
 
-const VideosPage = ({ data }) => {
-  const { videos } = data;
+import videoHeaderImage from '../../../public/images/videos/videos-page-header-image.jpg';
+
+// load books, podcasts, and posts fro useStaticProps
+export const getStaticProps = async () => {
+  const videos = await getAllVideos();
+
+  return {
+    props: {
+      videos,
+    },
+  };
+};
+
+const VideosPage = ({ videos }) => {
   return (
     <Layout>
       <Seo
         title="Videos"
         keywords={['apis', 'api', 'rest', 'rpc', 'graphql']}
+        description="Watch videos from conferences and meetups around the world about the API design and development process."
+        ogImage={`/images/videos/videos-page-header-image.jpg`}
       />
-      <header className={classes.header}>
-        <Container>
-          <div className={classes.headerContent}>
-            <Row>
-              <Col lg={7}>
-                <h1>Videos</h1>
-                <p>
-                  Can't make it to the big conferences In Paris, London, or San
-                  Francisco? we get it! We've all got local bars to keep up
-                  appearances at, bike races to train for, and pet turtles don't
-                  feed themselves!
-                </p>
-                <p>
-                  Grab these mini conference talks, and watch then whenever you
-                  fancy.
-                </p>
-              </Col>
-              <Col lg={5} className="justify-content-center">
-                <Image
-                  src="videos-page-header-image.jpg"
-                  alt="A slide from one of Phil's many talks over the years"
-                />
-              </Col>
-            </Row>
-          </div>
-        </Container>
-      </header>
       <Container>
-        {videos.nodes.map((video, i) => {
-          return (
-            <React.Fragment key={video.id}>
+        <Grid gridTemplateColumns={['1fr', '1fr', '2fr 3fr']} gap={8} mb="3rem">
+          <Stack>
+            <Heading as="h1">Videos</Heading>
+            <Text>
+              Can&apos;t make it to the big conferences In Paris, London, or San
+              Francisco? we get it! We&apos;ve all got local bars to keep up
+              appearances at, bike races to train for, and pet turtles
+              don&apos;t feed themselves!
+            </Text>
+            <Text>
+              Grab these mini conference talks, and watch then whenever you
+              fancy.
+            </Text>
+          </Stack>
+          <figure>
+            <Image
+              src={videoHeaderImage}
+              alt="A slide from one of Phil's many talks over the years"
+            />
+            <figcaption>
+              A slide from one of Phil&apos;s many talks over the years
+            </figcaption>
+          </figure>
+        </Grid>
+        <Spacer />
+        <Stack spacing={12}>
+          {videos.map((video) => (
+            <div key={video.id || video.frontmatter.title}>
               <VideoFeature video={video} />
-            </React.Fragment>
-          );
-        })}
+            </div>
+          ))}
+        </Stack>
       </Container>
     </Layout>
   );
 };
 
 export default VideosPage;
-
-export const query = graphql`
-  {
-    videos: allMdx(filter: { frontmatter: { type: { eq: "video" } } }) {
-      nodes {
-        id
-        body
-        frontmatter {
-          title
-        }
-      }
-    }
-  }
-`;

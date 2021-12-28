@@ -1,50 +1,55 @@
-import React from 'react';
-import { graphql } from 'gatsby';
+import {
+  Container,
+  Heading,
+  Stack,
+  SimpleGrid,
+  GridItem,
+} from '@chakra-ui/react';
 
-// bootstrap
-import { Container, Row } from 'react-bootstrap';
+import {
+  Layout,
+  FeaturedBlogPost,
+  BlogPostItem,
+  NewsletterCTA,
+  PodcastFeed,
+} from '../../components';
 
-import { BlogPostItem, Layout, Seo } from '../../components';
+import { getAllPosts } from '../../lib/blogPostLoader';
 
-import * as classes from './BlogPage.module.css';
+// load books, podcasts, and posts fro useStaticProps
+export const getStaticProps = async () => {
+  const posts = await getAllPosts();
 
-const BlogPage = ({ data }) => {
-  // sort posts by date
-  const posts = data.allMdx.nodes.sort((a, b) => {
-    return new Date(b.frontmatter.date) - new Date(a.frontmatter.date);
-  });
+  return {
+    props: {
+      posts,
+    },
+  };
+};
+
+const BlogPage = ({ posts }) => {
+  const [firstPost, ...otherPosts] = posts;
+
+  let feed = otherPosts.map((post) => (
+    <BlogPostItem key={post.slug} post={post} />
+  ));
+
+  feed.splice(0, 0, <PodcastFeed dark key="pcast-feed" />);
 
   return (
     <Layout>
-      <Seo title="Blog" />
-      <Container className={classes.container}>
-        <Row>
-          {posts.map((post, idx) => (
-            <BlogPostItem key={post.id} post={post} feature={idx === 0} />
-          ))}
-        </Row>
+      <Container>
+        <Stack spacing={8}>
+          <Heading as="h1">All Articles</Heading>
+          <FeaturedBlogPost post={firstPost} />
+          <SimpleGrid minChildWidth="300px" spacing={8}>
+            {feed}
+          </SimpleGrid>
+          <NewsletterCTA />
+        </Stack>
       </Container>
     </Layout>
   );
 };
 
 export default BlogPage;
-
-export const query = graphql`
-  {
-    allMdx(filter: { frontmatter: { type: { eq: "blog" } } }) {
-      nodes {
-        id
-        body
-        excerpt
-        frontmatter {
-          coverImage
-          date
-          author
-          title
-          subtitle
-        }
-      }
-    }
-  }
-`;

@@ -1,3 +1,4 @@
+const { join } = require('path');
 const fs = require('fs');
 const yaml = require('js-yaml');
 const slugify = require('slugify');
@@ -9,7 +10,7 @@ const turndownService = new TurndownService();
 const remotiveApiHost = 'https://remotive.io/api';
 const category = 'software-dev';
 const search = 'api';
-const jobsFolder = './src/content/jobs';
+const jobsFolder = join(process.cwd(), '.jobs');
 
 const FULL_TIME = 'Full Time';
 const PART_TIME = 'Part Time';
@@ -29,23 +30,32 @@ const getJobs = async () => {
     part_time: PART_TIME,
   };
 
-  return data.jobs.map((job) => ({
-    frontmatter: {
-      title: job.title,
-      company: job.company_name,
-      salary: job.salary,
-      currency: '',
-      employment_type: normalizeJobType[job.job_type] || 'Unknown',
-      remote: 'yes', // lol
-      location: job.candidate_required_location || 'Anywhere',
-      date: job.publication_date,
-      type: 'jobs',
-      url: job.url,
-      published: true,
-    },
-    description: job.description,
-  }));
+  return data.jobs.map((job) => {
+    const { description, ...rest } = job;
+    return {
+      frontmatter: {
+        ...rest,
+        id: job.id,
+        title: job.title,
+        company: job.company_name,
+        salary: job.salary,
+        currency: '',
+        employment_type: normalizeJobType[job.job_type] || 'Unknown',
+        location: job.candidate_required_location || 'Anywhere',
+        date: job.publication_date,
+        type: 'jobs',
+        url: job.url,
+        published: true,
+      },
+      description: job.description,
+    };
+  });
 };
+
+// make a .jobs folder to dump the jobs in
+fs.mkdir(jobsFolder, { recursive: true }, (err) => {
+  if (err) throw err;
+});
 
 const main = async () => {
   const jobs = await getJobs();
@@ -56,13 +66,13 @@ ${yaml.dump(job.frontmatter)}
 ---
 ${turndownService.turndown(job.description)}`;
 
-    const newFilename = `${slugify(
-      job.frontmatter.title + ' ' + job.frontmatter.company,
-      {
-        remove: /[*+~.()\/'"?!:@,]/g,
-        lower: true,
-      }
-    )}.mdx`;
+    // arbitrarily putting d- in front of job titles for dynamically loaded jobs
+    // this will be ignored in gitignore
+    const fileNameTemplate = `${job.frontmatter.title}-${job.frontmatter.company}-${job.frontmatter.id}`;
+    const newFilename = `${slugify(fileNameTemplate, {
+      remove: /[*+~.()\/'"?!:@,]/g,
+      lower: true,
+    })}.mdx`;
 
     const filepath = `${jobsFolder}/${newFilename}`;
 

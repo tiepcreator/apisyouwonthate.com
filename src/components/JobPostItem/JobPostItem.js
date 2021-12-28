@@ -1,30 +1,28 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
 
-import slugify from '../../utils/slugify';
+import Link from 'next/link';
 
-import * as classes from './JobPostItem.module.css';
-import { Button, Overline } from '../';
+import { Button, Heading, Stack, Text } from '@chakra-ui/react';
+
+import { Overline } from '../';
 
 const JobPostItem = ({ job }) => {
   const { title, company, location, employment_type } = job.frontmatter;
-  const jobUrl = `/jobs/${slugify(company)}-${slugify(title)}`;
+  const jobUrl = `/jobs/${job.slug}`;
 
   return (
-    <Card style={{ marginBottom: '1.75rem' }}>
-      <Card.Body>
-        <Card.Subtitle>
-          <Overline>
-            {company} | {location} {employment_type && ` | ${employment_type}`}
-          </Overline>
-        </Card.Subtitle>
-        <Card.Title>{title}</Card.Title>
-        <Card.Text>{job.excerpt}</Card.Text>
-        <Card.Link href={jobUrl}>
-          <Button className={classes.button}>Find out more</Button>
-        </Card.Link>
-      </Card.Body>
-    </Card>
+    <Stack marginBottom="1.75rem" border="1px solid gray.800">
+      <Overline>
+        {location} {employment_type && ` | ${employment_type}`}
+      </Overline>
+
+      <Heading as="h2" size="md">
+        {company} &middot; {title}
+      </Heading>
+      <Link href={jobUrl} passHref>
+        <Button as="a">Find out more</Button>
+      </Link>
+    </Stack>
   );
 };
 

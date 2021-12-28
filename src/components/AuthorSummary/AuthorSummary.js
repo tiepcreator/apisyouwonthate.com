@@ -1,93 +1,84 @@
 import React from 'react';
-import { Link } from 'gatsby';
 
-import { Col, Row } from 'react-bootstrap';
+import Image from 'next/image';
+
+import { Box, Button, Heading, Link, Stack, Text } from '@chakra-ui/react';
 
 import slugify from '../../utils/slugify';
 import { GitHubIcon, TwitterIcon } from '../icons';
-import { Image } from '..';
-
-import * as classes from './AuthorSummary.module.css';
-import { Button } from '../Button';
 
 const AuthorSummary = ({ author }) => {
+  if (!author) return null;
+
   const { consultingUrl, github, name, photo, shortBio, shortName, twitter } =
     author.frontmatter;
 
+  const authorPageUrl = `/authors/${slugify(author.slug)}`;
+
   return (
-    <Col xs={12} md={4}>
-      <Row>
-        <Col>
-          <header className={classes.header}>
-            <div className={classes.headshotContainer}>
-              <Link to={`/author/${slugify(name)}`}>
-                {photo && <Image src={photo} alt={name} />}
-              </Link>
-            </div>
-            <Link
-              className={classes.authorNameContainer}
-              to={`/author/${slugify(name)}`}
-            >
-              <h2 className={classes.authorName}>
-                <span>{name}</span>
-              </h2>
-            </Link>
-          </header>
-        </Col>
-      </Row>
-      {consultingUrl && (
-        <Row>
-          <Col>
-            <div className={classes.hire}>
-              <Button fullWidth>
-                <a
-                  href={consultingUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Hire {shortName || 'them'}
-                </a>
-              </Button>
-            </div>
-          </Col>
-        </Row>
+    <Stack>
+      <Box>
+        <Link href={authorPageUrl} width="100%">
+          {photo && (
+            <a>
+              <Image
+                src={`/images/authors/${photo}`}
+                alt={name}
+                width="400px"
+                height="400px"
+                objectFit="cover"
+                maxWidth="100%"
+              />
+            </a>
+          )}
+        </Link>
+        <Heading
+          as="h2"
+          mt="-7rem"
+          mb="3rem"
+          padding="1rem"
+          zIndex={4}
+          position={'relative'}
+          background={'green.400'}
+          size={'md'}
+          color={'white'}
+        >
+          <Link href={authorPageUrl} display="inline-block">
+            {name}
+          </Link>
+        </Heading>
+      </Box>
+      {github && (
+        <Stack direction="row" alignItems="center">
+          <GitHubIcon />
+          <a
+            href={`https://github.com/${github}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {github}
+          </a>
+        </Stack>
       )}
-      <Row className={classes.socialLinks}>
-        <Col>
-          {github && (
-            <div>
-              <a
-                href={`https://github.com/${github}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span className={classes.icon}>
-                  <GitHubIcon />
-                </span>{' '}
-                {github}
-              </a>
-            </div>
-          )}
-          {twitter && (
-            <div>
-              <a
-                href={`https://twitter.com/${twitter}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span className={classes.icon}>
-                  <TwitterIcon />
-                </span>{' '}
-                {twitter}
-              </a>
-            </div>
-          )}
-        </Col>
-      </Row>
-      <Row>
-        <Col>{shortBio && <p>{shortBio}</p>}</Col>
-      </Row>
-    </Col>
+      {twitter && (
+        <Link href={`https://twitter.com/${twitter}`}>
+          <Stack direction="row" alignItems="center">
+            <TwitterIcon />
+            <a target="_blank" rel="noopener noreferrer">
+              {twitter}
+            </a>
+          </Stack>
+        </Link>
+      )}
+      {consultingUrl && (
+        <Button>
+          <a href={consultingUrl} target="_blank" rel="noopener noreferrer">
+            Hire {shortName || 'them'}
+          </a>
+        </Button>
+      )}
+      <Text>{shortBio && <p>{shortBio}</p>}</Text>
+    </Stack>
   );
 };
 

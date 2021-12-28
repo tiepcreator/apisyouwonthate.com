@@ -1,54 +1,30 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'gatsby';
+import Link from 'next/link';
 
-import moment from 'moment';
-import Img from 'gatsby-image/withIEPolyfill';
+import { format } from 'date-fns';
+
+import { Stack, Text, Link as ChakraLink } from '@chakra-ui/react';
 
 import slugify from '../../utils/slugify';
-import * as classes from './AuthorDisplay.module.css';
 
-const AuthorDisplay = ({ authorImage, name, date, readTimeInMinutes }) => {
-  // const author = useStaticQuery(graphql(``));
-
-  const readTimeDisplay = readTimeInMinutes && (
-    <span className={classes.readingTime}>{readTimeInMinutes} min read</span>
-  );
-
-  const dateDisplay = date && (
-    <span className={classes.date}>
-      {moment(new Date(date)).format('MMM D YYYY')}
-    </span>
-  );
-
-  const authorUrl = `/author/${slugify(name)}`;
+const AuthorDisplay = ({ name, date }) => {
+  const authorUrl = `/authors/${slugify(name)}`;
 
   return (
-    <div className={classes.container}>
-      {authorImage && (
-        <Link to={authorUrl}>
-          <Img fluid={authorImage} className={classes.authorImage} />
-        </Link>
+    <Stack direction="row" alignItems={'center'}>
+      <Link href={authorUrl} passHref>
+        <ChakraLink color="green.400">{name}</ChakraLink>
+      </Link>
+      {date && (
+        <Text color={'gray.500'}>{format(new Date(date), 'MMM dd, yyyy')}</Text>
       )}
-      <div className={classes.metadataContainer}>
-        <Link to={authorUrl} className={classes.authorName}>
-          {name}
-        </Link>
-        <div>
-          {dateDisplay}
-          {date && readTimeDisplay && ` · `}
-          {readTimeDisplay}
-        </div>
-      </div>
-    </div>
+    </Stack>
   );
 };
 
 AuthorDisplay.propTypes = {
-  authorImage: PropTypes.shape({}),
   name: PropTypes.string,
   date: PropTypes.string,
-  readTimeInMinutes: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 export default AuthorDisplay;

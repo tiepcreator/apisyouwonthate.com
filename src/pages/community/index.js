@@ -1,41 +1,44 @@
-import React from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
+import Image from 'next/image';
 
-import { Image, Layout, Seo } from '../../components';
-import * as classes from './CommunityPage.module.css';
+import {
+  Button,
+  Container,
+  Grid,
+  Heading,
+  Stack,
+  Text,
+} from '@chakra-ui/react';
+import { Layout, Seo } from '../../components';
+
+import slackImage from '../../../public/images/community/slack.png';
 
 const CommunityPage = () => (
   <Layout>
     <Seo title="Books" keywords={['apis', 'api', 'rest', 'rpc', 'graphql']} />
-    <div className={classes.container}>
-      <Container>
-        <div className={classes.slack}>
-          <Row>
-            <Col>
-              <h1>Slack</h1>
-              <p>
-                Get your API, REST and HTTP questions answered by almost 2,000
-                people! We're the largest API-centric Slack channel around.
-              </p>
+    <Container>
+      <Grid gridTemplateColumns={['1fr', '1fr', '1fr 1fr']} gap={20}>
+        <Stack>
+          <Heading as="h1">
+            Join the APIs You Won&apos;t Hate Slack Community
+          </Heading>
+          <Text>
+            Get your API, REST and HTTP questions answered by almost 5,000
+            people! We&apos;re the largest API-centric Slack channel on the web.
+          </Text>
 
-              <p>
-                Joining is as easy as going to our{' '}
-                <a
-                  href="http://slack.apisyouwonthate.com"
-                  target="_blank"
-                  rel="noreferrer noopener"
-                >
-                  Slack signup form
-                </a>
-                , and entering your email address.
-              </p>
-
-              <Image src="slack.png" alt="Our slack community" />
-            </Col>
-          </Row>
-        </div>
-      </Container>
-    </div>
+          <Button
+            colorScheme="purple"
+            as="a"
+            href="http://slack.apisyouwonthate.com"
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            Join us in Slack
+          </Button>
+        </Stack>
+        <Image src={slackImage} alt="Our slack community" />
+      </Grid>
+    </Container>
   </Layout>
 );
 

@@ -1,8 +1,13 @@
-[[plugins]]
-  package = "netlify-plugin-gatsby-cache"
+[build]
+  command = "npm run build"
+  publish = ".next"
 
 [[plugins]]
-  package = "@netlify/plugin-gatsby"
+package = "@netlify/plugin-nextjs"
+
+[[plugins]]
+package = "netlify-plugin-cache-nextjs"
+
 
 [[redirects]]
   from = "/podcast/rss"
