@@ -1,6 +1,6 @@
-# APIs You Won't Hate Gatsby site
+# APIs You Won't Hate website - apisyouwonthate.com
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/8d3b1173-ffc4-48a9-b6dd-eaba31696707/deploy-status)](https://app.netlify.com/sites/apis-you-wont-hate-com/deploys)
+This site is built with Next.js and MDX/Markdown, and Chakra UI.
 
 ## To run the site locally
 
@@ -8,17 +8,18 @@
 1. `yarn install` to install npm dependencies
 1. To make shopify buy button embeds work, create a file called `.env.development` in the root of this project directory with the following values set:
 
-   ```javascript
-   GATSBY_SHOPIFY_API_KEY=
-   GATSBY_SHOPIFY_DOMAIN=
-   GATSBY_SHOPIFY_APP_ID=
+   ```bash
+   NEXT_PUBLIC_SHOPIFY_DOMAIN=
+   NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
+   NEXT_PUBLIC_FATHOM_ID=
+   CONTACT_FORM_SLACK_WEBHOOK_ADDRESS=
    ```
 
    (fill in missing values to the right of each `=` with values from shopify)
-   Values from this file will be injected into the react runtime following [these rules](https://www.gatsbyjs.org/docs/environment-variables/) whenever you start the project with `gatsby develop` (or `yarn start` / `npm run start`, which just runs `gatsby develop`). (**Note**: any additional environment variables _must_ start with `GATSBY_`)
+   Values from this file will be injected into the react runtime following [these rules](https://nextjs.org/docs/api-reference/next.config.js/environment-variables) whenever you start the project with `yarn dev`).
 
-1. `yarn start` will run the local dev environment 👍
-1. `yarn build` will run the build command to build a prod version of the site
+1. `yarn dev` will run the local dev environment 👍
+1. `yarn build` will run the build command to build a prod version of the site, which you can then test locally with `yarn start`
 
 ## Code of Conduct
 
