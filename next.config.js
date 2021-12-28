@@ -1,3 +1,5 @@
+const redirects = require('./redirects');
+
 // next.config.js
 const withMDX = require('@next/mdx')({
   extension: /\.(md|mdx)$/,
@@ -19,6 +21,7 @@ module.exports = withBundleAnalyzer(
     },
     async redirects() {
       return [
+        ...redirects,
         {
           source: '/authors',
           destination: '/about',
