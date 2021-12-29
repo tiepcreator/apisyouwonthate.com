@@ -75,8 +75,6 @@ const AMAPage = () => {
             <Stack
               as="form"
               name="contact"
-              data-netlify="true"
-              netlify-honeypot="bot-field"
               marginBottom={'2rem'}
               onSubmit={handleSubmit}
               spacing={6}
