@@ -1,6 +1,10 @@
-# APIs You Won't Hate website - apisyouwonthate.com
+# apisyouwonthate.com
 
-This site is built with Next.js and MDX/Markdown, and Chakra UI.
+![APIs You Won't Hate](https://github.com/apisyouwonthate/apisyouwonthate.com/raw/main/public/img/apis-you-wont-hate-dark.png)
+
+(the website)
+
+This site is built with Next.js and MDX/Markdown, and Chakra UI. It is hosted on Vercel.
 
 ## To run the site locally
 
@@ -24,3 +28,5 @@ This site is built with Next.js and MDX/Markdown, and Chakra UI.
 ## Code of Conduct
 
 Our aim is to build a constructive, inclusive, and positive community. Please give our our [Code of Conduct](./CODE_OF_CONDUCT.md) a read through before contributing.
+
+[![Powered by Vercel](https://github.com/apisyouwonthate/apisyouwonthate.com/raw/main/public/img/powered-by-vercel.svg)](https://vercel.com?utm_source=apis-you-wont-hate&utm_campaign=oss)
