@@ -10,7 +10,7 @@ const Layout = ({ children }) => {
   return (
     <MDXProvider>
       <Box width="100vw">
-        <Script src="http://sdks.shopifycdn.com/buy-button/1.0.0/buybutton.js" />
+        <Script src="https://sdks.shopifycdn.com/buy-button/1.0.0/buybutton.js" />
         <Header />
         <main>{children}</main>
         <Footer />
