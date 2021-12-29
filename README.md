@@ -1,4 +1,4 @@
-![APIs You Won't Hate](/public/img/apis-you-wont-hate-dark@1x.png)
+![APIs You Won't Hate](https://github.com/apisyouwonthate/apisyouwonthate.com/raw/main/public/img/apis-you-wont-hate-dark%401x.png)
 
 # The website - apisyouwonthate.com
 
@@ -27,4 +27,4 @@ This site is built with Next.js and MDX/Markdown, and Chakra UI. It is hosted on
 
 Our aim is to build a constructive, inclusive, and positive community. Please give our our [Code of Conduct](./CODE_OF_CONDUCT.md) a read through before contributing.
 
-[![Powered by Vercel](/public/img/powered-by-vercel.svg)](https://vercel.com?utm_source=apis-you-wont-hate&utm_campaign=oss)
+[![Powered by Vercel](https://github.com/apisyouwonthate/apisyouwonthate.com/raw/main/public/img/powered-by-vercel.svg)](https://vercel.com?utm_source=apis-you-wont-hate&utm_campaign=oss)
