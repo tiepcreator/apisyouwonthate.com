@@ -29,7 +29,7 @@ const CommunityPage = () => (
           <Button
             colorScheme="purple"
             as="a"
-            href="http://slack.apisyouwonthate.com"
+            href="https://slack.apisyouwonthate.com"
             target="_blank"
             rel="noreferrer noopener"
           >
