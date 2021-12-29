@@ -20,14 +20,7 @@ module.exports = withBundleAnalyzer(
       domains: ['i.ytimg.com'],
     },
     async redirects() {
-      return [
-        ...redirects,
-        {
-          source: '/authors',
-          destination: '/about',
-          permanent: false,
-        },
-      ];
+      return redirects;
     },
   })
 );
