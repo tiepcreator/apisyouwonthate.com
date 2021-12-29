@@ -1,6 +1,8 @@
-![APIs You Won't Hate](https://github.com/apisyouwonthate/apisyouwonthate.com/raw/main/public/img/apis-you-wont-hate-dark%401x.png)
+# apisyouwonthate.com
 
-# The website - apisyouwonthate.com
+![APIs You Won't Hate](https://github.com/apisyouwonthate/apisyouwonthate.com/raw/main/public/img/apis-you-wont-hate-dark.png)
+
+(the website)
 
 This site is built with Next.js and MDX/Markdown, and Chakra UI. It is hosted on Vercel.
 
