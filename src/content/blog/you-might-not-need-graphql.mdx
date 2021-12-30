@@ -33,7 +33,7 @@ GraphQL allows you to specify the fields you would like to be returned, allowing
 
 REST certainly does not talk about this out of the box, because REST does not concern itself with such implementation specifics. The practice is however very common in the endpoint-based API world.
 
-A common standard for REST APIs to implement is [JSON-API](http://jsonapi.org/), which talks about [sparse fieldsets](http://jsonapi.org/format/#fetching-sparse-fieldsets). The basic idea is that you can specify the fields in the request:
+A common standard for REST APIs to implement is [JSON-API](https://jsonapi.org//), which talks about [sparse fieldsets](https://jsonapi.org//format/#fetching-sparse-fieldsets). The basic idea is that you can specify the fields in the request:
 
 ```
 GET /articles?fields[articles]=title,body
@@ -51,7 +51,7 @@ Facebook also has this in their Graph API:
 GET /frankcarter?fields=id,name,picture
 ```
 
-Read more on [building your own implementation of this](http://yaoganglian.com/2013/07/01/partial-response/) if you’re interested, but I would stick to using existing solutions like [ActiveModel::Serializer](https://github.com/rails-api/active_model_serializers/blob/master/docs/jsonapi/schema.md) (Rails), [tobscure/json-api](https://github.com/tobscure/json-api#sparse-fieldsets) (PHP), etc. which handle standard implementations for you.
+Read more on building your own implementation of this if you’re interested, but I would stick to using existing solutions like [ActiveModel::Serializer](https://github.com/rails-api/active_model_serializers/blob/master/docs/jsonapi/schema.md) (Rails), [tobscure/json-api](https://github.com/tobscure/json-api#sparse-fieldsets) (PHP), etc. which handle standard implementations for you.
 
 ### Types / Schemas
 
@@ -60,13 +60,13 @@ Folks talking about GraphQL get really excited about the concept of Types. JSON 
 Some weakly typed languages might send a numeric string when they really meant to send an integer. A numeric JSON response field could look like an integer one minute, but then a wild decimal place appears.
 
 > GraphQL APIs are organized in terms of types and fields, not endpoints. Access the full capabilities of your data from a single endpoint. GraphQL uses types to ensure Apps only ask for what’s possible and provide clear and helpful errors. 
-> **Source:** [graphql.org](http://graphql.org/)
+> **Source:** [graphql.org](https://graphql.org/)
 
-Many endpoint-based API developers solve this with [HTTP documentation](https://philsturgeon.uk/api/2015/10/08/http-documentation-with-api-blueprint/) using tools like [MSON](https://apiblueprint.org/documentation/mson/tutorial.html) to describe their data, but another approach is to use [JSON Schema](http://json-schema.org/).
+Many endpoint-based API developers solve this with [HTTP documentation](https://philsturgeon.uk/api/2015/10/08/http-documentation-with-api-blueprint/) using tools like [MSON](https://apiblueprint.org/documentation/mson/tutorial.html) to describe their data, but another approach is to use [JSON Schema](https://json-schema.org/).
 
 JSON Schema is very cool and lets you **describe your JSON** using a **JSON metadata file**. This metadata file can be linked into your main JSON outputs, letting JSON Schema-aware clients discover the metadata over the wire. One of the many benefits of this is allowing client apps (like a web frontend) to **validate their form data using the exact same rules as the server-side**, without needing to go over the wire. 😲
 
-Taken from [JSON Schema examples](http://json-schema.org/examples.html):
+Taken from [JSON Schema examples](https://json-schema.org/examples.html):
 
 ```
 {
@@ -120,7 +120,7 @@ I don’t know if I would do it, but it’s an option.
 
 GraphQL is primarily a query language, but if you’d like an endpoint-based API to have a query language, you can give it one.
 
-[OData](http://www.odata.org/) has a strong slogan: the best way to REST. That’s a big claim, but OData provides a lot of stuff that people seem to like about GraphQL. Not only does it offer [machine-readable metadata](https://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html) similar to JSON Schema, and a powerful explorer similar to [GraphiQL](https://pragmatiqa.com/xodata/) , but it [provides a syntax](http://www.odata.org/getting-started/basic-tutorial/) and tooling to allow you to use a query language:
+[OData](https://www.odata.org/) has a strong slogan: the best way to REST. That’s a big claim, but OData provides a lot of stuff that people seem to like about GraphQL. Not only does it offer [machine-readable metadata](https://docs.oasis-open.org/odata/odata/v4.0/odata-v4.0-part3-csdl.html) similar to JSON Schema, and a powerful explorer similar to [GraphiQL](https://pragmatiqa.com/xodata/) , but it [provides a syntax](https://www.odata.org/getting-started/basic-tutorial/) and tooling to allow you to use a query language:
 
 ```
 GET /Airports?$filter=contains(Location/Address, 'San Francisco')
@@ -136,7 +136,7 @@ OData has some other boring grown-up benefits, like allowing your endpoint-based
 
 ### Data Inclusion / Compound Documents
 
-JSON-API suggests an ability to [include related data](http://jsonapi.org/format/#fetching-includes) from multiple resources in a single HTTP request. That is a big pro for some, as it reduces the number of HTTP requests, which under the right conditions can often speed things up for the client. It could also slow it down a bunch, but usually, it’s a helper.
+JSON-API suggests an ability to [include related data](https://jsonapi.org/format/#fetching-includes) from multiple resources in a single HTTP request. That is a big pro for some, as it reduces the number of HTTP requests, which under the right conditions can often speed things up for the client. It could also slow it down a bunch, but usually, it’s a helper.
 
 These includes are very similar to the nested field queries possible in GraphQL. When using JSON-API not only can you fetch related resource representations, but you can trim those related representations down using sparse fieldsets too:
 
@@ -262,7 +262,7 @@ Instead, there needs to be some logic that pulled out all the comments and all t
 
 I used to really hate this, but respect the fact that it reduces data going over the wire, by de-duplicating the expanded forms of the same resource. E.g.: Instead of returning the same author details multiple times, it’s just there once.
 
-Side-loading is a common convention for many endpoint-based APIs, but it has nothing to do with REST. That is simply how JSON-API happens to do things and is one common standard amongst a few. An endpoint-based API can easily nest data in a more relational way just like GraphQL. I built a tool to do this in PHP years back called [Fractal](http://fractal.thephpleague.com/) (before going over to the JSON-API-side).
+Side-loading is a common convention for many endpoint-based APIs, but it has nothing to do with REST. That is simply how JSON-API happens to do things and is one common standard amongst a few. An endpoint-based API can easily nest data in a more relational way just like GraphQL. I built a tool to do this in PHP years back called [Fractal](https://fractal.thephpleague.com/) (before going over to the JSON-API-side).
 
 I don’t think people need to spend a huge amount of time trying to make their endpoint-based APIs do all this stuff just to be cool, but I do think there are concepts in GraphQL that resonate with people who might not know they’re already available to them. As impressed as I am with GraphQL, it is not always the shiny magical hammer-for-everything some people think it is, and making informed decisions is important.
 

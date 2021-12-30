@@ -4,12 +4,12 @@ subtitle: >-
   JSON:API has been one of the most popular standards for API development for a
   while now. It was conceived in 2013, battled through some...
 date: '2017-10-21T00:36:27.622Z'
-coverImage:
+coverImage: lets-stop-building-apis-around-a-network-hack/cover.png
 type: blog
 author: Phil Sturgeon
 ---
 
-[JSON:API](http://jsonapi.org/) has been one of the most popular standards for
+[JSON:API](https://jsonapi.org//) has been one of the most popular standards for
 API development for a while now. It was conceived in 2013, battled through some
 rather different RC versions (changing drastically as it went), finally
 stabilizing with v1.0 back in mid-2015.
@@ -20,7 +20,7 @@ folks skip it if at all possible.
 
 Besides trying to standardize how you represent items, collections, meta data
 and errors (an excellent goal!), it sets out to solve a lot of problems such as
-[Compound Documents](http://jsonapi.org/format/#document-compound-documents).
+[Compound Documents](https://jsonapi.org//format/#document-compound-documents).
 
 The concept of a "compound document" — in the API world at least — is the art of
 squashing related data into the main requested resources. This is done to reduce
@@ -36,7 +36,7 @@ That was a bit of a mess, so conventions and standards were invented to make
 those includes optional, and JSON:API was one of the main contenders.
 
 Somewhere in 2013 I also released a tool called
-[Fractal](http://fractal.thephpleague.com/), which was based off of code I'd
+[Fractal](https://fractal.thephpleague.com/), which was based off of code I'd
 been running in production since early 2013. The goal there (other than
 serialization) was the same thing, to facilitate embedding and nesting includes
 optionally.
@@ -84,7 +84,7 @@ Seriously, [HTTP/2 calling is fast](https://gist.github.com/philsturgeon/ea4c396
 To me JSON:API has always mainly been about reducing the size of a payload
 response via network hacks like compound documents, but there is another
 strategy used. [Sparse
-Fieldsets](http://jsonapi.org/format/#fetching-sparse-fieldsets) — an idea
+Fieldsets](https://jsonapi.org//format/#fetching-sparse-fieldsets) — an idea
 fairly fundamental to GraphQL also — lets clients specify the fields they're
 interested in, so the API can send only those fields.
 
@@ -135,7 +135,7 @@ slapping Cloudflare, Fastly, etc., in front of their HTTP/1.1 setup.
 
 <s>Currently not 100% of browsers support HTTP/2 in its entirety, but the
 situation is pretty good.</s> [Modern browsers support
-HTTP/2](http://caniuse.com/#feat=http2), and these browsers are used by 88% of
+HTTP/2](https://caniuse.com/#feat=http2), and these browsers are used by 88% of
 users.
 
 If your API is predominantly web-based, and older browser support is important,
@@ -185,7 +185,7 @@ not quite as useful as their marketing sites are making out.
 
 If you already have a REST(ish) API, you can just start using HTTP/2 right now
 and get half the benefits of gRPC, and no longer care about many of the
-benefits of GraphQL (which are [mostly available for HTTP APIs anyway](https://blog.apisyouwonthate.com/you-might-not-need-graphql-9f875d7585b5)).
+benefits of GraphQL (which are [mostly available for HTTP APIs anyway](https://apisyouwonthate.com/blog/you-might-not-need-graphql)).
 
 Maybe you can remove the "ish" from your RESTish APIs by focusing more on your
 API as a state machine now that you're not quite as scared of making more HTTP

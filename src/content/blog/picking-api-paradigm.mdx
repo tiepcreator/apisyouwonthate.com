@@ -23,7 +23,7 @@ For example:
 *   [gRPC](https://grpc.io/) is a implementation, following the RPC paradigm, which has no standard or specification by any working group, but authors Google Inc. did [document the protocol](https://github.com/grpc/grpc/blob/master/doc/PROTOCOL-HTTP2.md)
 *   [REST](https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm) is a paradigm, which has never been turned into a specification, and has no official implementations, but building a REST API is usually just a case of picking [appropriate standards](http://standards.rest/) and tooling
 
-As you can see a direct comparison between any of these things is difficult, but at work I needed to find a way to help people make decisions about how to build an API. We’ve covered the [technical differences between RPC, GraphQL and REST](https://blog.apisyouwonthate.com/understanding-rpc-rest-and-graphql-2f959aadebe7) before, so all that was left was to highlight _when_ one should be used over another.
+As you can see a direct comparison between any of these things is difficult, but at work I needed to find a way to help people make decisions about how to build an API. We’ve covered the [technical differences between RPC, GraphQL and REST](https://apisyouwonthate.com/blog/understanding-rpc-rest-and-graphql) before, so all that was left was to highlight _when_ one should be used over another.
 
 I initially wanted to make a diagram to point folks to the appropriate paradigm, but that gets really open-ended. For example, you might want to ask if having a type-system is important for the messages, but some implementations and standards from all three mentioned paradigms use types, and some do not.
 
@@ -43,9 +43,9 @@ That boundary could be as simple as another team/department/company, or a group 
 
 This bounded context bit is really the crux of a lot of the deciding between when to use gRPC, and when to use something else. Internally you can do whatever you want, but when there’s a chance that the developers involved in clients and servers not in close communication (when they have other priorities in the sprint, are on a work retreat, or literally don’t know each other or have any way to communicate), these layers of abstraction become a lot more useful.
 
-Pushing [client-side validation to JSON Schema](https://blog.apisyouwonthate.com/the-many-amazing-uses-of-json-schema-client-side-validation-c78a11fbde45), for instance, is a layer of abstraction that REST allows (and you could totally do in your own RPC APIs if not using gRPC).
+Pushing [client-side validation to JSON Schema](https://apisyouwonthate.com/blog/json-schema-client-side-validation), for instance, is a layer of abstraction that REST allows (and you could totally do in your own RPC APIs if not using gRPC).
 
-Another example would be [pushing workflows and resource state to the API](https://blog.apisyouwonthate.com/representing-state-in-rest-and-graphql-9194b291d127) instead of having your RPC clients have to try and figure it out by looking at random properties.
+Another example would be [pushing workflows and resource state to the API](https://apisyouwonthate.com/blog/representing-state-in-rest-and-graphql) instead of having your RPC clients have to try and figure it out by looking at random properties.
 
 The when here is important, because should every API be REST or RESTish? Hell no! But REST is very important for more use-cases than folks seem to think these days.
 
@@ -56,7 +56,7 @@ GraphQL fits in here when the more important parts of REST are not relevant, and
 gRPC and GraphQL have officially approved implementations for a wide array of languages, so use those as a starting point.
 
 * [gRPC](https://grpc.io/)
-* [GraphQL](http://graphql.org/)
+* [GraphQL](https://graphql.org/)
 
 There is a bunch of REST tooling floating around that’s not awful.
 
@@ -69,4 +69,4 @@ There is a bunch of REST tooling floating around that’s not awful.
 * [VertX](https://vertx.io/docs/#web)
 * [jsonapi-rb](https://github.com/jsonapi-rb/jsonapi-rb)
 
-It certainly would be lovely if there was a go-to REST implementation, like gRPC + HTTP URLs + with JSON Schema for [client+server-side validation](https://blog.apisyouwonthate.com/the-many-amazing-uses-of-json-schema-client-side-validation-c78a11fbde45) and [discovery through HATEOAS](https://blog.apisyouwonthate.com/getting-started-with-json-hyper-schema-part-2-ca9d7ffdf6f6)… that’d be dope.
+It certainly would be lovely if there was a go-to REST implementation, like gRPC + HTTP URLs + with JSON Schema for [client+server-side validation](https://apisyouwonthate.com/blog/json-schema-client-side-validation) and [discovery through HATEOAS](https://apisyouwonthate.com/blog/getting-started-with-json-hyper-schema-part-2)… that’d be dope.

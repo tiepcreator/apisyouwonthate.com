@@ -13,7 +13,7 @@ _Another guest post from our friend [Darrel Miller](https://twitter.com/darrel_m
 
 This is my attempt to make the HTTPbis caching rules more accessible and hopefully shine a light on how powerful HTTP caching can be.
 
-I’ve been working on a Pluralsight course that talks about how to use the Microsoft HttpClient library. One of the areas I cover is how to take advantage of HTTP caching. In the process I have been doing quite a bit of reading of the HTTPbis spec document on [caching](http://tools.ietf.org/html/draft-ietf-httpbis-p6-cache-26). It isn’t the easiest of specifications to read as there are many interdependencies between the directives and there are a many different scenarios that are supported.
+I’ve been working on a Pluralsight course that talks about how to use the Microsoft HttpClient library. One of the areas I cover is how to take advantage of HTTP caching. In the process I have been doing quite a bit of reading of the HTTPbis spec document on [caching](https://tools.ietf.org/html/draft-ietf-httpbis-p6-cache-26). It isn’t the easiest of specifications to read as there are many interdependencies between the directives and there are a many different scenarios that are supported.
 
 To help me get a grip, I decided I needed to draw some diagrams to help me get a clearer picture of the rules. The rules break down into two distinct steps:
 
@@ -54,11 +54,11 @@ Once a response has been stored, then future requests may reuse that stored resp
 
 #### Effective URI matches stored response?
 
-The request URI is used as part of the primary cache lookup key. The other part is the request method which we will talk about next. The term “Effective URI” is used because on the server side [some processing](http://tools.ietf.org/html/draft-ietf-httpbis-p1-messaging-26#section-5.5) is needed to reconstruct the URI that the client used to make the request.
+The request URI is used as part of the primary cache lookup key. The other part is the request method which we will talk about next. The term “Effective URI” is used because on the server side [some processing](https://tools.ietf.org/html/draft-ietf-httpbis-p1-messaging-26#section-5.5) is needed to reconstruct the URI that the client used to make the request.
 
 #### Can HTTP request method return cached responses?
 
-The second part of the primary cache lookup key is the the HTTP method. As we mentioned earlier, only GET and HEAD requests can return cached responses. However, because the GET and HEAD request for the same resource return different representations they are treated as distinct cache entries. I wondered if it might be acceptable to generate the HEAD cached response directly from a stored GET response by simply stripping off the body. However, I’m not sure if that is allowed because you can use HEAD requests to freshen stored GET responses. [Here](http://tools.ietf.org/html/draft-ietf-httpbis-p6-cache-26#section-4.3.5) is the relevant part of the spec, maybe someone else can do a better job of decoding it than me!
+The second part of the primary cache lookup key is the the HTTP method. As we mentioned earlier, only GET and HEAD requests can return cached responses. However, because the GET and HEAD request for the same resource return different representations they are treated as distinct cache entries. I wondered if it might be acceptable to generate the HEAD cached response directly from a stored GET response by simply stripping off the body. However, I’m not sure if that is allowed because you can use HEAD requests to freshen stored GET responses. [Here](https://tools.ietf.org/html/draft-ietf-httpbis-p6-cache-26#section-4.3.5) is the relevant part of the spec, maybe someone else can do a better job of decoding it than me!
 
 #### Do selecting header fields match?
 
@@ -76,7 +76,7 @@ You might notice that there is no check for the no-store request header in the d
 
 If the stored response is still fresh. I.e. the expired date has not passed, or the date retrieved plus max-age has not passed, then the response can be served. If the response is stale and the client sends a max-stale directive then it may also be possible to serve the stale response. And finally, if we have just finished re-validating the response, then we can return it.
 
-That’s a high level overview of the process. There are lots of details I skipped, but that’s why the full [caching specification](http://tools.ietf.org/html/draft-ietf-httpbis-p6-cache-26) is 40 pages! Hopefully, this overview will make it easier when you want to dig into more details in the spec.
+That’s a high level overview of the process. There are lots of details I skipped, but that’s why the full [caching specification](https://tools.ietf.org/html/draft-ietf-httpbis-p6-cache-26) is 40 pages! Hopefully, this overview will make it easier when you want to dig into more details in the spec.
 
 #### Show me the code!
 

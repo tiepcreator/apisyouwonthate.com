@@ -10,7 +10,7 @@ author: Phil Sturgeon
 
 A few months back I wrote [a comparison between RPC and REST](https://www.smashingmagazine.com/2016/09/understanding-rest-and-rpc-for-http-apis/) for Smashing Magazine, and now I want to talk about the differences between REST and GraphQL: the new kid on the block.
 
-[GraphQL](http://graphql.org/) is incorrectly considered by some to be a "replacement" to [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). GraphQL is a newer concept, being released by Facebook publicly in 2015, whereas REST was a [dissertation](https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm) published by Roy Fielding in 2000, popularized by companies like Twitter (quite inaccurately) in 2006.
+[GraphQL](https://graphql.org/) is incorrectly considered by some to be a "replacement" to [REST](https://en.wikipedia.org/wiki/Representational_state_transfer). GraphQL is a newer concept, being released by Facebook publicly in 2015, whereas REST was a [dissertation](https://www.ics.uci.edu/~fielding/pubs/dissertation/top.htm) published by Roy Fielding in 2000, popularized by companies like Twitter (quite inaccurately) in 2006.
 
 This article aims to cover a few notable differences, and make the following points:
 
@@ -23,9 +23,9 @@ This article aims to cover a few notable differences, and make the following poi
 
 REST is an [architectural concept](https://www.ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm#sec_5_3) for network-based software, has no official set of tools, has no specification, doesn’t care if you use HTTP, AMQP, etc., and is designed to decouple an API from the client. The focus is on making APIs last for decades, instead of optimizing for performance.
 
-GraphQL is a [query language](http://graphql.org/learn/queries/), [specification](http://facebook.github.io/graphql/), and [collection of tools](https://github.com/graphql/), designed to operate over a single endpoint via HTTP, optimizing for performance and flexibility.
+GraphQL is a [query language](https://graphql.org/learn/queries/), [specification](https://facebook.github.io/graphql/), and [collection of tools](https://github.com/graphql/), designed to operate over a single endpoint via HTTP, optimizing for performance and flexibility.
 
-One of the [main tenants of REST](http://www.restapitutorial.com/lessons/whatisrest.html) is to utilize the uniform interface of the protocols it exists in. When utilizing HTTP, REST can leverage HTTP content-types, caching, status codes, etc., whereas GraphQL invents its own conventions.
+One of the [main tenants of REST](https://www.restapitutorial.com/lessons/whatisrest.html) is to utilize the uniform interface of the protocols it exists in. When utilizing HTTP, REST can leverage HTTP content-types, caching, status codes, etc., whereas GraphQL invents its own conventions.
 
 Another main focus for REST is hypermedia controls (a.k.a [HATEOAS](https://en.wikipedia.org/wiki/HATEOAS)), which lets a well designed client run around an API like a human runs around the Internet; starting with a search for "How to complete my tax returns", reading a perfectly relevant article, and after a few clicks ending up on BuzzFeed article about Miley Cyrus throwing Liam Hemsworth a "Weed-Themed" birthday party.
 
@@ -105,7 +105,7 @@ Content-Type: application/graphql
   }
 }
 
-Tracking this would be trivial, but a REST API acts a little differently. Whilst all REST APIs make the base endpoint available via `/turtles/123`, not all APIs offer [sparse fieldsets](http://jsonapi.org/format/#fetching-sparse-fieldsets): `/turtles/123?fields=length,width,intelligence`. Of those that do offer it, it's almost always optional.
+Tracking this would be trivial, but a REST API acts a little differently. Whilst all REST APIs make the base endpoint available via `/turtles/123`, not all APIs offer [sparse fieldsets](https://jsonapi.org//format/#fetching-sparse-fieldsets): `/turtles/123?fields=length,width,intelligence`. Of those that do offer it, it's almost always optional.
 
 If a REST API client calls `/turtles/123`, then they could be using _any_ field in that response. Imagine the API plans to get rid of `intelligence` (because [all turtles are geniuses](https://en.wikipedia.org/wiki/Turtle#Intelligence)), how do the API developers know which clients are using that field?
 
@@ -137,13 +137,13 @@ Even if a REST API returns only a basic partial by default, there are still more
 
 ### REST Makes Caching Easier At All Levels
 
-Caching for HTTP, common usage in REST APIs, and different types of caching are huge topics, and something that I had to split out of this article. I’ll post a followup shortly, which will be posted on the [APIs You Won’t Hate Newsletter](http://eepurl.com/biKG_v).
+Caching for HTTP, common usage in REST APIs, and different types of caching are huge topics, and something that I had to split out of this article. I’ll post a followup shortly, which will be posted on the [APIs You Won’t Hate Newsletter](https://apisyouwonthate.com/newsletter).
 
 > _In an endpoint-based API, clients can use HTTP caching to easily avoid refetching resources, and for identifying when two resources are the same. The URL in these APIs is a globally unique identifier that the client can leverage to build a cache._
 
 > _In GraphQL, though, there’s no URL-like primitive that provides this globally unique identifier for a given object. It’s hence a best practice for the API to expose such an identifier for clients to use._
 
-> _— Source:_ [_graphql.org_](http://graphql.org/learn/caching/)
+> _— Source:_ [_graphql.org_](https://graphql.org/learn/caching/)
 
 REST over HTTP uses a whole pile of HTTP conventions that make existing HTTP clients, HTTP cache proxies, etc., all work easily to benefit both API clients and API servers, but with GraphQL… tough. Reorganize your data stores, use a bunch of Redis, and hope clients are caching too.
 
@@ -164,7 +164,7 @@ Some APIs use also end up with arguments in the query string that are not relate
 
 That’s pretty darn handy, and it stops the confusion of `?status=active` being a filter but `?unit=foot` being a display option. I have seen `?filter:status=active`, `?filter[status]=active`, etc., but this is still a bit of a mess.
 
-In these scenarios, GraphQL beats the pants off of REST APIs that try to hand-roll their own query language functionality, but I would suggest hand-rolling your own query language is a bad idea anyway. GraphQL gives you a query language syntax, and SDKs for your programming language to fetch the right models for that, but so do things like [OData](http://www.odata.org/), a project with the slogan "A Better Way to REST".
+In these scenarios, GraphQL beats the pants off of REST APIs that try to hand-roll their own query language functionality, but I would suggest hand-rolling your own query language is a bad idea anyway. GraphQL gives you a query language syntax, and SDKs for your programming language to fetch the right models for that, but so do things like [OData](https://www.odata.org//), a project with the slogan "A Better Way to REST".
 
 This is another example of folks saying that REST cannot do something, just because many REST APIs don’t do it, or because its implemented poorly by many that do. Saying that, remember that the more customisation an endpoint-based API adds to the request, the fewer cache hits are likely at a network caching level, making the REST/HTTP approach less rewarding, and forcing you down the route of the application caching and database reorganisation that GraphQL forces anyway.
 
@@ -174,7 +174,7 @@ Another customisation consideration that comes up a lot is when to offer include
 
 You start off with overly simplistic examples like `/users?include=comments,posts` but end up on `/trips?include=driver,passengers,passengers.avatar,passengers.itineraries` and worse.
 
-I call this the "Mega Include of DOOOOOOM", and it is crap solution to a genuine concern, when clients strive for performance over all else. Includes are a common convention found in REST APIs, recommended in specs like [JSON API](http://jsonapi.org/), but actually bends the rules of REST a bit.
+I call this the "Mega Include of DOOOOOOM", and it is crap solution to a genuine concern, when clients strive for performance over all else. Includes are a common convention found in REST APIs, recommended in specs like [JSON API](https://jsonapi.org//), but actually bends the rules of REST a bit.
 
 REST would call for a HATEOAS approach, which would have you make one call to the `/trips` endpoint, then hit `"links": { "driver": "https://example.com/drivers/123" }`, and again for passengers, and again for child data of each of those passengers. In this case, it would be worse than the dreaded `n+1`, and more like `n+(2+(num passengers*2))`!
 
@@ -236,7 +236,7 @@ Ask yourself — at the very least — these following questions:
 *   Are you ok letting go of HTTP debugging proxies, cache proxies, all the knowledge your team have around HTTP, etc?
 *   Are you just doing basic CRUD with simple JSON documents, or will your API need file upload/download too?
 
-If your REST API is following good practices, like allowing careful [evolution](https://www.mnot.net/blog/2012/12/04/api-evolution) instead of [global versioning](https://www.troyhunt.com/your-api-versioning-is-wrong-which-is/), [serializing data](https://philsturgeon.uk/api/2015/05/30/serializing-api-output/) instead of returning directly from data store, implementing [sparse fieldsets](http://jsonapi.org/format/#fetching-sparse-fieldsets) to allow slimming down response sizes, [GZiping contents](http://checkgzipcompression.com/), outlining data structures with [JSON Schema](http://json-schema.org/), offering [binary alternatives to JSON like Protobuff](http://blog.codeclimate.com/blog/2014/06/05/choose-protocol-buffers/) or BSON, etc., then the advertised advantages of GraphQL seem to fall a bit short.
+If your REST API is following good practices, like allowing careful [evolution](https://www.mnot.net/blog/2012/12/04/api-evolution) instead of [global versioning](https://www.troyhunt.com/your-api-versioning-is-wrong-which-is/), [serializing data](https://philsturgeon.uk/api/2015/05/30/serializing-api-output/) instead of returning directly from data store, implementing [sparse fieldsets](https://jsonapi.org//format/#fetching-sparse-fieldsets) to allow slimming down response sizes, [GZiping contents](http://checkgzipcompression.com/), outlining data structures with [JSON Schema](https://json-schema.org/), offering [binary alternatives to JSON like Protobuff](http://blog.codeclimate.com/blog/2014/06/05/choose-protocol-buffers/) or BSON, etc., then the advertised advantages of GraphQL seem to fall a bit short.
 
 If you need a highly query-able API, expect an array of clients that need small and different data, and can restructure your data to be inexpensive to query, then GraphQL is likely to fit your needs.
 
@@ -246,4 +246,4 @@ I like that many folks will no longer treat REST like a shiny unicorn, struggle 
 
 Swapping one false idol for another isn’t going to make the API world a better place.
 
-_Originally published at_ [_philsturgeon.uk_](https://philsturgeon.uk/api/2017/01/24/graphql-vs-rest-overview/) _on January 24, 2017._
+_Originally published at_ [_philsturgeon.uk_](https://apisyouwonthate.com/blog/graphql-vs-rest-overview) _on January 24, 2017._

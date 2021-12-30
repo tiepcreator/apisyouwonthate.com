@@ -127,7 +127,7 @@ Other than hypermedia (the [most powerful yet most ignored aspect of REST](https
 
 The goal of these constraints is to make the REST architecture help APIs last for decades, which is almost impossible to do without these concepts.
 
-REST also does not require the use of schema metadata, which many API developers hated in SOAP. For a long time nobody was building REST APIs with schema, but these days it is far more common thanks to [JSON Schema](http://json-schema.org/).
+REST also does not require the use of schema metadata, which many API developers hated in SOAP. For a long time nobody was building REST APIs with schema, but these days it is far more common thanks to [JSON Schema](https://json-schema.org/).
 
 JSON Schema is inspired by XML Schema — but not functionally identical — and is one of the most important things to happen to HTTP APIs in years, and will be mentioned a lot in further articles.
 
@@ -141,26 +141,26 @@ REST can theoretically work in any transportation protocol that provides it the 
 
 REST has no specification which is what leads to some of this confusion, nor does it have concrete implementations. That said, there are two large popular specifications which provide a whole lot of standardization for REST APIs that chose to use them:
 
-* [OData](http://www.odata.org/)
-* [JSON-API](http://jsonapi.org/)
+* [OData](https://www.odata.org//)
+* [JSON-API](https://jsonapi.org//)
 
 If the API advertises itself as using these, there is a chance it is a good one. Find a OData client or a JSON-API client in your programming language to save yourself some work. Otherwise go at it yourself with a plain-old HTTP client and you should be ok with a little bit of elbow grease.
 
 ## GraphQL
 
-Listing [GraphQL](http://graphql.org/) as a direct comparison to these other two concepts is a little odd, as GraphQL is essentially RPC, with a lot of good ideas from the REST/HTTP community tacked in. Still, it is one of the fastest growing API ecosystems out there, mostly due to some of the confusion outlined above.
+Listing [GraphQL](https://graphql.org/) as a direct comparison to these other two concepts is a little odd, as GraphQL is essentially RPC, with a lot of good ideas from the REST/HTTP community tacked in. Still, it is one of the fastest growing API ecosystems out there, mostly due to some of the confusion outlined above.
 
 GraphQL is basically RPC with a default procedure providing a query language, a little like SQL — if that is something you are familiar with. You ask for specific resources and specific fields, and it will return that data in the response.
 
 ![](https://cdn-images-1.medium.com/max/800/1*odlr0di3IFkR9RxagoTL-g.png)
 _GraphQL Request (left) and the corresponding response (right)_
 
-It has [Mutations](http://graphql.org/learn/queries/#mutations) for creates, updates, deletes, etc. and again they are exactly RPC.
+It has [Mutations](https://graphql.org/learn/queries/#mutations) for creates, updates, deletes, etc. and again they are exactly RPC.
 
 ![Definition of a mutation (top left), the mutation request (bottom left), and the response (right).](https://cdn-images-1.medium.com/max/800/1*9x2Kug-Ir7qewUKgwXu7Vw.png)
 Definition of a mutation (top left), the mutation request (bottom left), and the response (right).
 
-GraphQL has many fantastic features and benefits, which are all bundled in one package, with a nice marketing site. If you are trying to learn how to make calls to a GraphQL API, the [Learn GraphQL](http://graphql.org/learn/) documentation will help, and their site has a bunch of other resources.
+GraphQL has many fantastic features and benefits, which are all bundled in one package, with a nice marketing site. If you are trying to learn how to make calls to a GraphQL API, the [Learn GraphQL](https://graphql.org/learn/) documentation will help, and their site has a bunch of other resources.
 
 Seeing as GraphQL was built by Facebook, who had previously built a REST\_ish\_ API, they’re familiar with various REST/HTTP API concepts. Many of those existing concepts were used as inspiration for GraphQL functionality, or carbon copied straight into GraphQL. Sadly a few of the most powerful REST concepts were completely ignored.
 
@@ -176,10 +176,10 @@ In the end, they developed this RPC-style query language system, to ignore most 
 
 The main selling point of GraphQL is that it defaults to providing the very smallest response from an API, as you are requesting only the specific bits of data that you want, which minimizes the Content Download portion of the HTTP request.
 
-It also reduces the number of HTTP requests necessary to retrieve data for multiple resources, known as the "HTTP N+1 Problem" that has been a problem for API developers through the lifetime of HTTP/1.1, but thankfully was [solved quite nicely in HTTP/2](https://blog.apisyouwonthate.com/lets-stop-building-apis-around-a-network-hack-9a68f7e83dd2).
+It also reduces the number of HTTP requests necessary to retrieve data for multiple resources, known as the "HTTP N+1 Problem" that has been a problem for API developers through the lifetime of HTTP/1.1, but thankfully was [solved quite nicely in HTTP/2](https://apisyouwonthate.com/blog/lets-stop-building-apis-around-a-network-hack).
 
-The rest of the chapter, and the rest of the book, will be talking about various pros and cons of these approaches, such as how [HTTP caching really suffers](https://blog.apisyouwonthate.com/graphql-vs-rest-caching-2e599077dc88) in GraphQL compared to other REST/RESTish approaches, how [Representing State](https://apisyouwonthate.com/blog/representing-state-in-rest-and-graphql) can be tough, and plenty of other things.
+The rest of the chapter, and the rest of the book, will be talking about various pros and cons of these approaches, such as how [HTTP caching really suffers](https://apisyouwonthate.com/blog/graphql-vs-rest-caching) in GraphQL compared to other REST/RESTish approaches, how [Representing State](https://apisyouwonthate.com/blog/representing-state-in-rest-and-graphql) can be tough, and plenty of other things.
 
 All this in [_Build APIs You Won’t Hate: Second Edition_](https://leanpub.com/build-apis-you-wont-hate-2/), currently available for pre-order with the early chapters available for download.
 
-**_Update 2018–06–01:_** _With this article only covering the technical differences, some folks thought it was about trying to establish which is "the best", instead of trying to be a helpful resource in getting folks thinking about how these different paradigms work. For help picking the right paradigm for any give task, check out_ [**_Picking the right Paradigm_**](https://blog.apisyouwonthate.com/picking-the-right-api-paradigm-d476f1a622e8)_._
+**_Update 2018–06–01:_** _With this article only covering the technical differences, some folks thought it was about trying to establish which is "the best", instead of trying to be a helpful resource in getting folks thinking about how these different paradigms work. For help picking the right paradigm for any give task, check out_ [**_Picking the right Paradigm_**](https://apisyouwonthate.com/blog/picking-api-paradigm)_._

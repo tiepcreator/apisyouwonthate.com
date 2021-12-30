@@ -18,8 +18,8 @@ different things.
 
 ## JSON API
 
-[JSON API](http://jsonapi.org/) is a specification written by a group of folks,
-with the goal of being an anti-[bikeshedding](http://bikeshed.org) tool for
+[JSON API](https://jsonapi.org//) is a specification written by a group of folks,
+with the goal of being an anti-[bikeshedding](https://bikeshed.org/) tool for
 writing JSON APIs. The name often causes a bit of confusion, but JSON API is one
 of many data formats that is often applied to REST (or RESTish) APIs, as an
 alternative to [Siren, HAL, Uber,
@@ -90,12 +90,12 @@ be included.
 _This structure initially seems like a lot of noise to somebody who is expecting
 an API to do one thing: transfer a few fields from the server to their client,
 but when an API is more of a_ [_state machine over
-HTTP_](https://blog.apisyouwonthate.com/representing-state-in-rest-and-graphql-9194b291d127)_,
+HTTP_](https://apisyouwonthate.com/blog/representing-state-in-rest-and-graphql)_,
 a lot of this starts to make sense._
 
 Secondly, beyond just the shape of the request/response body, JSON API helps
 with a few other things, like [Sparse
-Fieldsets](http://jsonapi.org/format/#fetching-sparse-fieldsets). You can let
+Fieldsets](https://jsonapi.org//format/#fetching-sparse-fieldsets). You can let
 clients pass `/articles?fields[articles]=title,body` to get just the title and
 body fields, a feature much loved by GraphQL advocates. They’re a controversial
 topic in the REST world because they can slim down responses, but also [screw up
@@ -103,11 +103,11 @@ cache
 ratios](https://philsturgeon.uk/api/2017/08/13/a-happy-compromise-between-customization-and-cacheability/).
 Maybe use them maybe don’t, but JSON API is there to give you the option for
 this. It helps out with a lot of other things, like `?includes=` for [compound
-documents](http://jsonapi.org/format/#document-compound-documents), it takes a
-stab at [pagination](http://jsonapi.org/format/#fetching-pagination), makes [a
-vague hand-wave at filtering](http://jsonapi.org/format/#fetching-filtering),
+documents](https://jsonapi.org//format/#document-compound-documents), it takes a
+stab at [pagination](https://jsonapi.org//format/#fetching-pagination), makes [a
+vague hand-wave at filtering](https://jsonapi.org//format/#fetching-filtering),
 and covers things like [error
-objects](http://jsonapi.org/examples/#error-objects-basics) for those not using
+objects](https://jsonapi.org//examples/#error-objects-basics) for those not using
 [RFC 7807](https://tools.ietf.org/html/rfc7807).
 
 All of this is basically very structural, but none of it tells you anything
@@ -117,7 +117,7 @@ something like OpenAPI, or JSON Schema.
 
 ## OpenAPI and JSON Schema
 
-[OpenAPI](http://openapis.org/) and [JSON Schema](http://json-schema.org/) are
+[OpenAPI](http://openapis.org/) and [JSON Schema](https://json-schema.org/) are
 two different specifications that have inspired each other a lot, but are subtly
 different.
 
@@ -125,9 +125,9 @@ OpenAPI aims to describe both the service model (the API in general, endpoints,
 request metadata like headers, authentication strategies, response metadata,
 etc., and it also covers the HTTP request/response body using a bunch of
 keywords based on JSON Schema, that have [diverged over
-time](https://blog.apisyouwonthate.com/openapi-and-json-schema-divergence-part-1-1daf6678d86e).
+time](https://apisyouwonthate.com/blog/openapi-json-schema-divergence).
 The [divergence is slowly being
-solved](https://blog.apisyouwonthate.com/openapi-and-json-schema-divergence-part-2-52e282e06a05).
+solved](https://apisyouwonthate.com/blog/openapi-v3-1-and-json-schema).
 
 JSON Schema aims to describe an instance of JSON data, like the ones found in a
 HTTP request or response, but is in no way limited to a HTTP API.
@@ -142,11 +142,11 @@ At WeWork, we use JSON Schema to describe the data models, OpenAPI to describe
 everything else, then the message being described is usually JSON API.
 
 OpenAPI has a lot of design-time and build-time
-[tooling](http://openapi.tools/), so it’s popularly used for mocking services
+[tooling](https://openapi.tools/), so it’s popularly used for mocking services
 and generating SDKs. It is not commonly used for run-time functionality. For
 that, most folks use JSON Schema, which can do many amazing things like
 [client-side
-validation](https://blog.apisyouwonthate.com/the-many-amazing-uses-of-json-schema-client-side-validation-c78a11fbde45).
+validation](https://apisyouwonthate.com/blog/json-schema-client-side-validation).
 
 Seeing as JSON Schema does not touch the service model, it’s quite tough to
 build things like SDK generators as they do not know anything about the
@@ -159,7 +159,7 @@ first place.
 JSON API and JSON HyperSchema can actually complement each other quite well.
 Aaron Hedges recently wrote about [how JSON HyperSchema can be used to describe
 JSON API
-payloads](https://blog.apisyouwonthate.com/common-hypermedia-patterns-with-json-hyper-schema-17c78cf884ff),
+payloads](https://apisyouwonthate.com/blog/common-hypermedia-patterns-with-json-hyper-schema17c78cf884ff),
 taking the plain old “here is a HTTP link do with it what you will” approach to
 HATEOAS, and peppering it with all sorts of useful information.
 
@@ -181,12 +181,12 @@ _I’ve used JSON API extensively for years, flipping from being a big fan to an
 outspoken critic, and back again multiple times. JSON API is a great way to
 solve a lot of problems in a HTTP/1 world, but_ [_HTTP/2 should handle a lot of
 the things that JSON API focuses
-on_](https://blog.apisyouwonthate.com/lets-stop-building-apis-around-a-network-hack-9a68f7e83dd2)_.
+on_](https://apisyouwonthate.com/blog/lets-stop-building-apis-around-a-network-hack)_.
 That said, a lot of tooling (especially in the Ruby world) is still completely
 ignoring HTTP/2. I recommend JSON API as an alternative to anarchy, but it is
 full of potential foot-guns, like any powerful concept used carelessly. Please
 read_ [_Making the Most of JSON
-API_](https://blog.apisyouwonthate.com/making-the-most-of-json-api-7fb51f4407aa)
+API_](https://apisyouwonthate.com/blog/making-the-most-of-json-api)
 _if you are considering using it, and do not take my mentioning of it here as
 tacit approval for every idea in the specification._
 

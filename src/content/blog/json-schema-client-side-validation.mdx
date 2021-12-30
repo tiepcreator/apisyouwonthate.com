@@ -13,7 +13,7 @@ but JSON Schema seems to be powering forwards as the primary candidate.
 
 JSON Schema is metadata for JSON, which can be used for a whole bunch of things.
 We've written about how [JSON Schema can really simplify contract
-testing](https://blog.apisyouwonthate.com/keeping-documentation-honest-d9ab5351ddd4),
+testing](https://apisyouwonthate.com/blog/keeping-documentation-honest),
 how JSON Schema can add non-invasive [hypermedia controls to existing
 APIs](/blog/getting-started-with-json-hyper-schema),
 and - seeing as JSON Schema is [mostly compatible with
@@ -59,7 +59,7 @@ smallest evolution of functionality. Rules can be added, removed or changed for
 the API as the business requirements change, and clients struggle to keep up to
 date. Arguably the API development team should not be randomly changing things,
 but change always happens in some form. The [varying versioning strategies for
-APIs](https://blog.apisyouwonthate.com/api-versioning-has-no-right-way-f3c75457c0b7)
+APIs](https://apisyouwonthate.com/blog/api-versioning-has-no-right-way)
 aside, even extremely cautious API developers can introduce unexpectedly
 breaking change when it comes to validation.
 
@@ -67,7 +67,7 @@ The most simple example would be the above mentioned `name` field, with a max
 length of 20 characters. Months later, requirements come in from the business to
 increase the max length to 40, and the API rolls out that change. (Still [not
 how names
-work,](http://www.kalzumeus.com/2010/06/17/falsehoods-programmers-believe-about-names/)
+work](https://www.kalzumeus.com/2010/06/17/falsehoods-programmers-believe-about-names/),
 but Twitter just did this.)
 
 The API developers have a chat, and decide that making validation rules more
@@ -104,7 +104,7 @@ metadata lives in `.json` files, which might look a bit like this:
   "$id": "http://example.com/schemas/user.json",
   "type": "object",
   "definitions": {},
-  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$schema": "https://json-schema.org/draft-07/schema#",
   "properties": {
     "name": {
       "title": "Name",
@@ -155,16 +155,16 @@ might look like this.
 ```
 
 To try playing around with this, head over to
-[jsonschemavalidator.net](http://jsonschemavalidator.net) and paste those in.
+[jsonschemavalidator.net](https://www.jsonschemavalidator.net/) and paste those in.
 Removing the name field triggers an error as we have `"required": ["name"]` in
 there.
 
-![](https://cdn-images-1.medium.com/max/800/1*JpoArUNNqO9Fy-CtNXaaXg.png)
+![screenshot showing object:name is missing](https://cdn-images-1.medium.com/max/800/1*JpoArUNNqO9Fy-CtNXaaXg.png)
 
 Another validation rule could be triggered if you enter date of birth in an
 incorrect format.
 
-![](https://cdn-images-1.medium.com/max/800/1*kFVCBlBeVUAoA_OYMrspQw.png)
+![screenshot showing '2007-01' does not valiate against format 'date'](https://cdn-images-1.medium.com/max/800/1*kFVCBlBeVUAoA_OYMrspQw.png)
 
 Conceptually that probably makes enough sense, but how to actually
 programmatically get this done? The JSON Schema `.json` files are usually made
@@ -183,7 +183,7 @@ these are usually stored on CDNs, like S3 with CloudFlare in front of it. They
 are also likely to have cache headers set, so make sure your HTTP client knows
 how to handle that.
 
-_Learn about [HTTP caching for clients](https://blog.apisyouwonthate.com/speeding-up-apis-apps-smart-toasters-with-http-response-caching-a67becf829c6)._
+_Learn about [HTTP caching for clients](https://apisyouwonthate.com/blog/http-client-response-caching)._
 
 Triggering validation rules on a random website is one thing, but learning how
 to do that with code is going to be far more useful. For JavaScript a module

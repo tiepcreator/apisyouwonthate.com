@@ -56,7 +56,7 @@ Waiting for every application to get to Ruby v2.5.0 didn’t seem like a solutio
 
 #### Typhoeus Is Fantastic
 
-[Typhoeus](https://github.com/typhoeus/typhoeus) is a popular choice for those wanting to make async calls, but are not able to upgrade their architecture to HTTP/2 yet for various reasons. I’m still pushing for more HTTP/2 to help [improve and simplify our API designs](https://blog.apisyouwonthate.com/lets-stop-building-apis-around-a-network-hack-9a68f7e83dd2), but in the meantime letting folks use typheous async stuff seems like a great move.
+[Typhoeus](https://github.com/typhoeus/typhoeus) is a popular choice for those wanting to make async calls, but are not able to upgrade their architecture to HTTP/2 yet for various reasons. I’m still pushing for more HTTP/2 to help [improve and simplify our API designs](https://apisyouwonthate.com/blog/lets-stop-building-apis-around-a-network-hack), but in the meantime letting folks use typheous async stuff seems like a great move.
 
 Not only does typheous’ async functionality mean multiple things can be done faster (making a lot of calls async is [a lot faster](https://philsturgeon.uk/php/2013/11/12/benchmarking-codswallop-nodejs-v-php/) than making a lot of calls in serial), but making bog-standard calls with typheous is a lot faster too.
 

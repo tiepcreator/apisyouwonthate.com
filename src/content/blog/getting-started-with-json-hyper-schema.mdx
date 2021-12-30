@@ -65,7 +65,7 @@ Let’s go through each property in the schema
 
 ### **type**
 
-type describes the data type such as string, object or number. You can find the whole list [here](http://json-schema.org/latest/json-schema-validation.html#rfc.section.6.1). Each type has its own set of [validation keywords](http://json-schema.org/latest/json-schema-validation.html#rfc.section.6) that make up the rest of the schema. We’ll describe two validation keywords below.
+type describes the data type such as string, object or number. You can find the whole list [here](https://json-schema.org/latest/json-schema-validation.html#rfc.section.6.1). Each type has its own set of [validation keywords](https://json-schema.org/latest/json-schema-validation.html#rfc.section.6) that make up the rest of the schema. We’ll describe two validation keywords below.
 
 ### **properties**
 
@@ -91,7 +91,7 @@ And this JSON data is not valid because id is required
 }
 ```
 
-Once your API consumers have a JSON schema, they can use one of the many [JSON Schema libraries](http://json-schema.org/implementations.html) to validate their JSON data.
+Once your API consumers have a JSON schema, they can use one of the many [JSON Schema libraries](https://json-schema.org/implementations.html) to validate their JSON data.
 
 ## **JSON Hyper-Schema**
 
@@ -100,7 +100,7 @@ Now that we have a foundation of JSON Schema, let’s add the “Hyper” part. 
 
 [JSON schema [Section] 4.3.2](https://tools.ietf.org/html/draft-handrews-json-schema-00#section-4.3.2)
 
-[JSON Schema core](http://json-schema.org/latest/json-schema-core.html) defines the general vocabulary. In the JSON Schema example above I described part of the validation vocabulary. In the following section I will describe part of the hypermedia vocabulary, which include everything needed to describe an API request.
+[JSON Schema core](https://json-schema.org/latest/json-schema-core.html) defines the general vocabulary. In the JSON Schema example above I described part of the validation vocabulary. In the following section I will describe part of the hypermedia vocabulary, which include everything needed to describe an API request.
 
 Let’s start with an example. Here’s a JSON Hyper-Schema document for a blog post.
 
@@ -135,7 +135,7 @@ This hyper-schema starts with the blog post schema from earlier and adds two new
 
 ### **base**
 
-base is similar to the HTML [\<base\>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base) tag. The value should be a URI, which becomes the root of any relative URI in the JSON instance. For example, a base of [http://dashron.com/api/](http://dashron.com/) would be combined with the relative URI of users and become http://dashron.com/api/users.
+base is similar to the HTML [\<base\>](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base) tag. The value should be a URI, which becomes the root of any relative URI in the JSON instance. For example, a base of [https://dashron.com/api](https://dashron.com/api) would be combined with the relative URI of users and become http://dashron.com/api/users.
 
 ### **links**
 
@@ -190,7 +190,7 @@ If your URI variables don’t line up with your JSON properties you can use temp
     }
 ```
 
-A template pointer is a [absolute](https://tools.ietf.org/html/rfc6901) or [relative](http://json-schema.org/latest/relative-json-pointer.html) JSON pointer. JSON Pointers allow you to refer directly to sections of a JSON document, but are out of the scope of this article. I recommend learning more when you have the time!
+A template pointer is a [absolute](https://tools.ietf.org/html/rfc6901) or [relative](https://json-schema.org/latest/relative-json-pointer.html) JSON pointer. JSON Pointers allow you to refer directly to sections of a JSON document, but are out of the scope of this article. I recommend learning more when you have the time!
 
 But what if urlSlug is not in your JSON? We won’t have this problem with id because it is a required field, but urlSlug is optional. When a property is missing JSON schema assumes the value is an empty string. In the above example our fully resolved url would become [https://api.dashron.com/posts/](https://api.dashron.com/posts/), which isn’t the URL we are describing. To avoid this problem use templateRequired.
 
@@ -263,8 +263,8 @@ Now that I’ve covered schema references, let’s clean up that hrefSchema exam
 
 ### What’s next?
 
-With this information, you can start writing schemas for all the JSON in your API, along with their hypermedia links. In the [next article](https://blog.apisyouwonthate.com/getting-started-with-json-hyper-schema-part-2-ca9d7ffdf6f6) I cover request and response bodies.
+With this information, you can start writing schemas for all the JSON in your API, along with their hypermedia links. In the [next article](https://apisyouwonthate.com/blog/getting-started-with-json-hyper-schema-part-2) I cover request and response bodies.
 
-In the meanwhile try building a JSON Hyper-Schema for one of your API endpoints, and validating your JSON with one of the many [JSON Schema libraries](http://json-schema.org/implementations.html).
+In the meanwhile try building a JSON Hyper-Schema for one of your API endpoints, and validating your JSON with one of the many [JSON Schema libraries](https://json-schema.org/implementations.html).
 
 *This is part one of a three-parter. Check out [part two](/blog/getting-started-with-json-hyper-schema-part-2).*

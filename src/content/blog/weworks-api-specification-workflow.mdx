@@ -48,7 +48,7 @@ Tools like [ReDoc](https://github.com/Rebilly/ReDoc) supported v2.0 and v3.0
 (using swagger2openapi internally), so we could easily produce documentation
 written in either version.
 
-There was still some confusion about how [JSON Schema](http://json-schema.org/)
+There was still some confusion about how [JSON Schema](https://json-schema.org/)
 and OpenAPI fit together. JSON Schema is incredibly powerful, and is the basis
 for how OpenAPI handles the schema portion of its specifications, but [the two
 have some subtle
@@ -90,7 +90,7 @@ us know how it goes for you.
 **Write OpenAPI:** Writing YAML files by hand is daunting and too open-ended.
 Many beginners (including my past self) just don’t want to do it. Thankfully
 several IDE/editors like Atom, VS Code, Eclipse, and the JetBrains suite, [have
-plugins](http://openapi.tools/#editors) that help you autocomplete keywords,
+plugins](https://openapi.tools/#editors) that help you autocomplete keywords,
 provide validation, linting, and more.
 
 Many want a more GUI approach, and currently that’s not quite there. Some such
@@ -157,11 +157,11 @@ rush.
 
 If you’re using CircleCI, add the following to your `.circle/config.yml`:
 
-``` yaml
+```yaml
 version: 2
 
 jobs:
- # other jobs
+  # other jobs
 
   speccy:
     docker:
@@ -178,13 +178,13 @@ workflows:
     context: org-global
     requires:
     - build
-  ````
+```
 
 This will fail the job not only when somebody creates something like an OpenAPI syntax error, but also when they do something Speccy doesn’t like, like adding a parameter without a description. As soon as Speccy is enabled, the quality of specs can only go up.
 
 **Contract Testing:** This step is implemented at the same time as the code, because a JSON Schema file is a great way to check your code is working according to expectations.
 
-I’ve referred to this as [Tricking Colleagues into Writing Documentation via Contract Testing](https://blog.apisyouwonthate.com/tricking-colleagues-into-writing-documentation-via-contract-testing-206308b47e05), because developers often hate writing docs. Many developers want contract testing, so getting them to write contract tests can actually create documentation at the same time…
+I’ve referred to this as [Tricking Colleagues into Writing Documentation via Contract Testing](https://apisyouwonthate.com/blog/writing-documentation-via-contract-testing), because developers often hate writing docs. Many developers want contract testing, so getting them to write contract tests can actually create documentation at the same time…
 
 Write contract tests, and get awesome documentation that you know is up-to-date "for free".
 
@@ -289,7 +289,7 @@ user = sdk.apis.memberships.get_user_memberships(user_uuid: 123, status_scope: '
 puts user.data # [ ... ]
 ```
 
-The `.data` property is an abstraction on `.body` which could contain a string of [JSON:API](http://jsonapi.org/) data or our own propietary data format.
+The `.data` property is an abstraction on `.body` which could contain a string of [JSON:API](https://jsonapi.org//) data or our own propietary data format.
 
 ```ruby
 def data
@@ -306,10 +306,10 @@ handy that we can roll out code which dynamically supports both. It’s also bak
 in [faraday-sunset](https://github.com/wework/faraday-sunset), so more teams
 will start to notice deprecation warnings showing up in their logs (and since
 faraday-sunset v0.2.0 things can also get reported to
-[Rollbar](http://rollbar.com/)).
+[Rollbar](https://rollbar.com/)).
 
 Over time we can programmatically add other things like [HTTP
-caching](https://blog.apisyouwonthate.com/speeding-up-apis-apps-smart-toasters-with-http-response-caching-a67becf829c6)
+caching](https://apisyouwonthate.com/blog/http-client-response-caching)
 and [circuit
 breakers](https://blog.runscope.com/posts/phil-sturgeon-taking-a-timeout-from-poor-performance)
 and enable them one API at a time if we so want, and thanks to

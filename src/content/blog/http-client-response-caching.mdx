@@ -19,7 +19,7 @@ Client A could be asking to check 10 policies, all of which might request differ
 
 We implemented a little Ruby memoization to avoid duplicate requests, but that will not help with multiple Client A calls making similar requests, or the same requests shortly after.
 
-At this point people usually recommend adding some cache logic to the application (application caching), which [in Rails](http://guides.rubyonrails.org/caching_with_rails.html#low-level-caching) looks a bit like this:
+At this point people usually recommend adding some cache logic to the application (application caching), which [in Rails](https://guides.rubyonrails.org/caching_with_rails.html#low-level-caching) looks a bit like this:
 
 ```ruby
 Rails.cache.fetch("users/#{uuid}") do
@@ -200,7 +200,7 @@ This can lower cache hit ratios so much it might not be worth worrying about. De
 
 The cool thing about HTTP caching is that once a server has declared its cacheability, not only can clients leverage that metadata to seamlessly know when to skip requests, but cache proxies can then offer cached responses to requests clients do actually make.
 
-Properly explaining cache proxies is another article in itself, but the topic is outlined in the previous article [GraphQL vs REST: Caching](https://blog.apisyouwonthate.com/graphql-vs-rest-caching-2e599077dc88).
+Properly explaining cache proxies is another article in itself, but the topic is outlined in the previous article [GraphQL vs REST: Caching](https://apisyouwonthate.com/blog/graphql-vs-rest-caching).
 
 Caching is a great way to avoid doing slow stuff multiple times. Of course keep working on making things not be slow in the first place, but being able to have servers define their rules and clients automatically follow those rules is a fantastic way to add some stability to your architecture.
 

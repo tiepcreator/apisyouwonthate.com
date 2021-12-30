@@ -12,7 +12,7 @@ author: Phil Sturgeon
 Part of my day job is trying to get folks to write API documentation, so the
 hordes of new developers joining the company on a weekly basis are not stuck
 trying [guess at
-contracts](https://blog.apisyouwonthate.com/guessing-api-contracts-ac1b7eaebced)
+contracts](https://apisyouwonthate.com/blog/commit-to-api-contracts)
 by poking around years old code. Convincing API developers to take the time to
 write specs has involved dangling a myriad of carrots.
 
@@ -20,7 +20,7 @@ One was a continuous integration pipeline to convert their in-repo OpenAPI specs
 to read-only Postman Mirrors (because who wants to maintain Postman collections
 manually?!!), and some folks are excited to [use JSON Schema to offer
 client-side
-validation](https://blog.apisyouwonthate.com/the-many-amazing-uses-of-json-schema-client-side-validation-c78a11fbde45)
+validation](https://apisyouwonthate.com/blog/json-schema-client-side-validation)
 (now that we’ve solved the JSON Schema &gt;&lt; OpenAPI issue.)
 
 The carrot we’ll be discussing here is contract testing: the art of validating
@@ -28,7 +28,7 @@ the shape of data provided by the API is what you think it is.
 
 Folks are regularly asking “how can we keep our documentation up to date”, and
 we have [covered a few solutions to
-that,](https://blog.apisyouwonthate.com/keeping-documentation-honest-d9ab5351ddd4)
+that,](https://apisyouwonthate.com/blog/keeping-documentation-honest)
 one of which is using JSON Schema. Unfortunately thinking of it this way leads
 to responses like “ok greeeeeat, when I have finished spending a week writing up
 documentation, I get to write a bunch more stuff to ensure its up to date.
@@ -94,7 +94,7 @@ Don’t Repeat Yourself, and define reusable `schemas/components/user.json` file
 
 ```json
 {
-  "$schema": "http://json-schema.org/draft-06/schema#",
+  "$schema": "https://json-schema.org/draft-06/schema#",
   "title": "Foo",
   "type": "object",
   "properties": {
@@ -165,7 +165,7 @@ end
 
 That’s it as far as contract testing goes. Run your tests, tweak the responses and JSON Schema, try and get it to fail. Remove a required field and it’ll moan. Typecast an int to a string and it’ll get sad.
 
-If you need help creating these JSON Schema files, there’s [a few hacks to speed you up](https://blog.apisyouwonthate.com/creating-api-specifications-from-bulls-t-f5a54c005135).
+If you need help creating these JSON Schema files, there’s [a few hacks to speed you up](https://apisyouwonthate.com/blog/creating-api-specifications-from-bulls-t).
 
 #### What about Docs?
 
@@ -189,8 +189,7 @@ With the schema missing you lose all benefit of API specifications: you have no 
             $ref: ./components/schemas/user.json
 ```
 
-_You’ll need to watch out for the [divergence
-issue](https://blog.apisyouwonthate.com/openapi-and-json-schema-divergence-part-1-1daf6678d86e),
+_You’ll need to watch out for the [divergence issue](https://apisyouwonthate.com/blog/openapi-json-schema-divergence),
 or use
 [json-schema-to-openapi-schema](https://github.com/openapi-contrib/json-schema-to-openapi-schema)
 to convert this JSON Schema & OpenAPI combo to "pure OpenAPI" in some build/CI

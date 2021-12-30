@@ -24,8 +24,8 @@ network
 2. Some of those fields might be computed on request, and as such are
 slow
 
-Specifications like [OData](http://www.odata.org/) and
-[JSON:API](http://jsonapi.org/format/#fetching-sparse-fieldsets)
+Specifications like [OData](https://www.odata.org//) and
+[JSON:API](https://jsonapi.org//format/#fetching-sparse-fieldsets)
 support this, and most of their tooling also support it. The trouble is, the
 more you allow a response to be customized, the lower the chance of a cache hit.
 
@@ -35,7 +35,7 @@ set of caches for web and one for ios. That’s half as useful, and the more
 different clients you have, the less useful network caching becomes (if you’re
 using sparse fieldsets).
 
-This is a massive shame! [Varnish](http://varnish-software.com/),
+This is a massive shame! [Varnish](https://www.varnish-software.com/),
 [Squid](http://www.squid-cache.org/), [Fastly](https://www.fastly.com/), etc.,
 can all be a huge boost to the speed and stability of your architecture, and can
 save a bunch of money by reducing your application server hosting resources.
@@ -123,8 +123,8 @@ class Api::V3::CompanyPresenter
   attr_accessor :company, :partials
 
   def initialize(company, partials: [])
-    [@company](http://twitter.com/company "Twitter profile for @company") = company
-    [@partials](http://twitter.com/partials "Twitter profile for @partials") = Array(partials)
+    [@company](https://twitter.com/company "Twitter profile for @company") = company
+    [@partials](https://twitter.com/partials "Twitter profile for @partials") = Array(partials)
   end
 
   def as_json

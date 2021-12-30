@@ -173,7 +173,7 @@ module.exports = [
   },
   {
     source: '/picking-the-right-api-paradigm-:id',
-    destination: '/blog/picking-the-right-api-paradigm',
+    destination: '/blog/picking-api-paradigm',
     permanent: true,
   },
   {

@@ -7,9 +7,9 @@ type: blog
 author: Phil Sturgeon
 ---
 
-Recently I wrote [GraphQL vs REST: Overview](https://blog.apisyouwonthate.com/api/2017/01/24/graphql-vs-rest-overview/), giving a hype-free outline of the differences between [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) and [GraphQL](http://graphql.org/). One section that would not have fit into that already lengthy article was caching, so I thought I'd cover this on its own.
+Recently I wrote [GraphQL vs REST: Overview](https://apisyouwonthate.com/blog/graphql-vs-rest-overview), giving a hype-free outline of the differences between [REST](https://en.wikipedia.org/wiki/Representational_state_transfer) and [GraphQL](https://graphql.org/). One section that would not have fit into that already lengthy article was caching, so I thought I'd cover this on its own.
 
-Comparing how caching is used for the two approaches is tricky, because despite common opinion, REST has nothing to do with HTTP. REST is _usually_ implemented in HTTP, therefore when most folks talk about ["caching in REST"](http://www.apiacademy.co/how-to-http-caching-for-restful-hypermedia-apis/), they are really talking about caching with HTTP. That is a [huge topic in its own right](https://www.mnot.net/cache_docs/).
+Comparing how caching is used for the two approaches is tricky, because despite common opinion, REST has nothing to do with HTTP. REST is _usually_ implemented in HTTP, therefore when most folks talk about ["caching in REST"](https://apiacademy.co/2016/02/how-to-http-caching-for-restful-hypermedia-apis/), they are really talking about caching with HTTP. That is a [huge topic in its own right](https://www.mnot.net/cache_docs/).
 
 Another point to mention is that caching for HTTP-based REST, or HTTP-based RPC, is pretty much the same. In the wild I notice RPC APIs offer caching far less, but for the sake of argument let's ignore this separation and describe them both as "endpoint-based APIs"; a term used by the GraphQL folks to differentiate APIs able to leverage the entirety [of HTTP caching](https://tools.ietf.org/html/rfc7234) to their advantage, from GraphQL APIs which usually just use HTTP as a "dumb" tunnel.
 
@@ -67,7 +67,7 @@ More on this later, but "just switch it to GET" is not the solution many people 
 
 With network caching essentially removed from the equation, the responsibility of caching falls on the API developers to do application caching, and/or client caching. The GraphQL site seems happy to suggest the client should take care of caching on their end:
 
-> In an endpoint-based API, clients can use HTTP caching to easily avoid refetching resources, and for identifying when two resources are the same. The URL in these APIs is a globally unique identifier that the client can leverage to build a cache. In GraphQL, though, there's no URL-like primitive that provides this globally unique identifier for a given object. It's hence a best practice for the API to expose such an identifier for clients to use. — Source: [graphql.org](http://graphql.org/learn/caching/)
+> In an endpoint-based API, clients can use HTTP caching to easily avoid refetching resources, and for identifying when two resources are the same. The URL in these APIs is a globally unique identifier that the client can leverage to build a cache. In GraphQL, though, there's no URL-like primitive that provides this globally unique identifier for a given object. It's hence a best practice for the API to expose such an identifier for clients to use. — Source: [graphql.org](https://graphql.org/learn/caching/)
 
 In an ideal world, all clients would implement client caching, but a lot don't. Many HTTP clients (gems, packages, etc. that make the actual HTTP requests, or HTTP layers for frameworks like EmberData) either make it easier, or handle it seamlessly for clients, but they utilize the same parts of the HTTP specification that cache proxies do: `Etag`, `Cache-Control`, etc. These approaches work for endpoint-based APIs, but not for GraphQL.
 
@@ -107,6 +107,6 @@ Building a super-flexible API for a lot of different clients making loads of dif
 
 However you look at it, GraphQL certainly isn't "better" at caching. It forces application developers to structure their data in a more scalable way, which is less of a feature and more of a necessity. In my experience this sort of thing goes against the grain of the MVP and Agile methodologies so many developers work within these days, and goes against the sales pitch of "GraphQL is easy for beginners" and "does everything out of the box" which is so often pitched.
 
-If you care about HTTP caching, [stick to a paradigm](/blog/picking-the-right-api-paradigm) which leverages HTTP instead of ignoring it. Even if some of your data is real-time, or private, HTTP lets you split that up over various endpoints, and thanks to HTTP/2 that's not not a performance issue like it was in the olden days of HTTP/1.1. 
+If you care about HTTP caching, [stick to a paradigm](/blog/picking-api-paradigm) which leverages HTTP instead of ignoring it. Even if some of your data is real-time, or private, HTTP lets you split that up over various endpoints, and thanks to HTTP/2 that's not not a performance issue like it was in the olden days of HTTP/1.1. 
 
 Frontend developers stopped using images sprites, and API developers no longer need to use JSON sprites. Splitting into multiple requests via HTTP/2 is considered best practice instead of the old approach to bundling, which is what GraphQL (and [other compound document standards](/blog/lets-stop-building-apis-around-a-network-hack)) are all about. 

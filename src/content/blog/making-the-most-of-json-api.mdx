@@ -9,7 +9,7 @@ type: blog
 author: Phil Sturgeon
 ---
 
-With [JSON:API](http://jsonapi.org/), HAL, and other compound document formats
+With [JSON:API](https://jsonapi.org//), HAL, and other compound document formats
 [becoming less necessary thanks to
 HTTP/2](/blog/lets-stop-building-apis-around-a-network-hack), using these
 formats is no longer a given.
@@ -18,7 +18,7 @@ That said, there are plenty of reasons for some teams to continue using JSON:API
 
 1. Existing APIs with an underlying codebase tightly coupled to JSON:API, that cannot serialize multiple formats
 2. Teams that are all very used to JSON:API and are on tight deadlines to deliver a working solution
-3. APIs that are consumed in the browser, especially those which need support for mobile browsers, or operating systems older than Windows 10, or OS X 10.11 ([source](http://caniuse.com/#feat=http2))
+3. APIs that are consumed in the browser, especially those which need support for mobile browsers, or operating systems older than Windows 10, or OS X 10.11 ([source](https://caniuse.com/#feat=http2))
 
 Let's look at a few of the problems I've hit using JSON:API in production for two years.
 
@@ -86,7 +86,7 @@ If you can avoid doing that, performance should not suffer too badly from
 multiple relationships. Basically you need to fetch everything then split it
 yourself, which… is what we were trying to avoid all the clients doing. At least
 adding [HTTP headers will help clients hopefully cache that
-result](https://blog.apisyouwonthate.com/speeding-up-apis-apps-smart-toasters-with-http-response-caching-a67becf829c6).
+result](https://apisyouwonthate.com/blog/http-client-response-caching).
 
 Some people try solve this in another way: filtering relationships.
 
@@ -97,7 +97,7 @@ developers will then think: I need a `WHERE` clause. JSON:API doesn't really
 provide anything for this, but does suggest using a query string parameter
 called `?filter=`.
 
-The spec is [extremely vague about filtering](http://jsonapi.org/format/#fetching-filtering):
+The spec is [extremely vague about filtering](https://jsonapi.org//format/#fetching-filtering):
 
 > The `filter` query parameter is reserved for filtering data. Servers and clients **SHOULD** use this key for filtering operations.
 >
@@ -144,11 +144,11 @@ been actual buses with 100. After a few months there could be several hundreds
 of riders with various status, and that's getting to be some chunky JSON.
 
 JSON:API offers fantastic advice in the [Pagination
-section](http://jsonapi.org/format/#fetching-pagination):
+section](https://jsonapi.org//format/#fetching-pagination):
 
 > A server **MAY** provide links to traverse a paginated data set ("pagination links”).
 >
-> Pagination links **MUST** appear in the links object that corresponds to a collection. To paginate the primary data, supply pagination links in the top-level `links` object. To paginate an included collection returned in a [compound document](http://jsonapi.org/format/#document-compound-documents), supply pagination links in the corresponding links object.
+> Pagination links **MUST** appear in the links object that corresponds to a collection. To paginate the primary data, supply pagination links in the top-level `links` object. To paginate an included collection returned in a [compound document](https://jsonapi.org//format/#document-compound-documents), supply pagination links in the corresponding links object.
 
 Basically they recommend shoving some `"next"` links in there.
 

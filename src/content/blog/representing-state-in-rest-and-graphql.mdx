@@ -195,11 +195,11 @@ A client could call `OPTIONS /invoices/093b941d/payment_attempts` and get a resp
 
 What actions are available. What fields can be updated. What data do those fields expect?
 
-Sometimes people make [homegrown solutions](http://zacstewart.com/2012/04/14/http-options-method.html), and some folks leverage tools like [JSON Schema](http://json-schema.org/) for the fields part.
+Sometimes people make [homegrown solutions](http://zacstewart.com/2012/04/14/http-options-method.html), and some folks leverage tools like [JSON Schema](https://json-schema.org/) for the fields part.
 
 #### **Hyper Schema**
 
-Another approach is [JSON Hyper-Schema](http://json-schema.org/latest/json-schema-hypermedia.html), which is a draft spec. Is essentially an extension to JSON Schema, which adds `links` keywords! Instead of making your own `OPTIONS` metadata and linking to JSON Schema, this Hyper-Schema could be the entire OPTIONS response!
+Another approach is [JSON Hyper-Schema](https://json-schema.org/latest/json-schema-hypermedia.html), which is a draft spec. Is essentially an extension to JSON Schema, which adds `links` keywords! Instead of making your own `OPTIONS` metadata and linking to JSON Schema, this Hyper-Schema could be the entire OPTIONS response!
 
 If hiding it behind options seems weird, you can also/either place a link in the response document:
 
@@ -213,7 +213,7 @@ Using metadata to let clients know what data they should send is very cool, as i
 
 #### **Hypermedia-friendly Formats**
 
-Instead of two requests, another approach is combining the metadata with the response document. Our example so far has been using [JSON-API](http://jsonapi.org/), so to continue using that:
+Instead of two requests, another approach is combining the metadata with the response document. Our example so far has been using [JSON-API](https://jsonapi.org//), so to continue using that:
 
 ```
 "links": {
@@ -227,7 +227,7 @@ Instead of two requests, another approach is combining the metadata with the res
 }
 ```
 
-This isn’t really part of the JSON-API specification, but [it is valid](http://jsonapi.org/format/#document-links). Inventing your own standards and conventions can be a pain in the ass, so maybe don’t bother. There’s a standard for that: [Siren](https://github.com/kevinswiber/siren).
+This isn’t really part of the JSON-API specification, but [it is valid](https://jsonapi.org//format/#document-links). Inventing your own standards and conventions can be a pain in the ass, so maybe don’t bother. There’s a standard for that: [Siren](https://github.com/kevinswiber/siren).
 
 Check out this potential JSON response.
 
@@ -311,6 +311,6 @@ If you’re really set on using GraphQL but want to make sure you’re represent
 
 Finally, if you’re not doing any of this stuff then stop calling it a REST API. RESTish will do. 👍
 
-_Thanks to the small army of people who battled through my nonsense first drafts in an effort to make me sound intelligent. You know who you are, but especially_ [_@dstockto_](http://twitter.com/dstockto)_,_ [_@glasnt_](http://twitter.com/glasnt)_, and_ [_@mwop_](http://twitter.com/mwop)_._
+_Thanks to the small army of people who battled through my nonsense first drafts in an effort to make me sound intelligent. You know who you are, but especially_ [_@dstockto_](https://twitter.com/dstockto)_,_ [_@glasnt_](https://twitter.com/glasnt)_, and_ [_@mwop_](https://twitter.com/mwop)_._
 
 _\* I’m sure you could find some way to hack HATEOAS support into GraphQL, like a field with an array of potential mutators that are available, but it’ll be a bit of a mess and you’d need to request specific pieces of metadata making the queries huge. The majority of REST & RESTish APIs have ignored HATEOAS for years, so I don’t expect a stampede of GraphQL developers trying to mash it into a query language that was designed to exclude it._

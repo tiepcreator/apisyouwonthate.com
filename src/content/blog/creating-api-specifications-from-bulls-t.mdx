@@ -11,7 +11,7 @@ author: Phil Sturgeon
 
 So you want to get into design-first API development. Getting started can seem a little tricky, especially when you have a bunch of old APIs floating around and feature work keeps piling up. Writing out full specs for code that already exists can seem like a challenge, and a lot of people get tempted down the dark nonsense path of annotation-based specifications.
 
-Don’t do that to yourself, just use one of these handy tricks to catch your legacy APIs up with a bunch of specs, then your old APIs and new APIs can be on the [same workflow](https://blog.apisyouwonthate.com/weworks-api-specification-workflow-defec45cc037?source=---------5---------------------), maintained with awesome [OpenAPI editors](https://openapi.tools/), [used for contract testing](https://blog.apisyouwonthate.com/tricking-colleagues-into-writing-documentation-via-contract-testing-206308b47e05), etc.
+Don’t do that to yourself, just use one of these handy tricks to catch your legacy APIs up with a bunch of specs, then your old APIs and new APIs can be on the [same workflow](https://apisyouwonthate.com/blog/weworks-api-specification-workflow), maintained with awesome [OpenAPI editors](https://openapi.tools/), [used for contract testing](https://apisyouwonthate.com/blog/writing-documentation-via-contract-testing), etc.
 
 #### Convert from Postman
 
@@ -40,9 +40,9 @@ There are a few tools around for OpenAPI and JSON Schema.
 
 **_Update 2018–05–16:_** _Smartbear (creators of the Swagger tooling for OpenAPI) have just released_ [_Swagger Inspector_](https://inspector.swagger.io/builder)_, which is explained in_ [_this blog post_](https://swagger.io/blog/convert-oas-3-swagger-inspector/)_. You basically use it like a HTTP client, import it into SwaggerHub, then export as OpenAPI v2 or v3 and use it however you like._
 
-If you want to create JSON Schema there are a whole bunch of [JSON Schema Generators](http://json-schema.org/implementations.html#schema-generation), including [one written in Ruby](https://github.com/maxlinc/json-schema-generator), and [one written for NodeJS](https://github.com/stoplightio/json-schema-generator).
+If you want to create JSON Schema there are a whole bunch of [JSON Schema Generators](https://json-schema.org/implementations.html#schema-generation), including [one written in Ruby](https://github.com/maxlinc/json-schema-generator), and [one written for NodeJS](https://github.com/stoplightio/json-schema-generator).
 
-There is also [jsonschema.net](http://jsonschema.net), which is a really handy online tool that supports loads of different drafts of JSON Schema.
+There is also [jsonschema.net](https://jsonschema.net), which is a really handy online tool that supports loads of different drafts of JSON Schema.
 
 ![Throw JSON in on the left, get a bunch of JSON Schema out on the right.](https://cdn-images-1.medium.com/max/800/1*yoc45QH20TEfiIu4k7K8BQ.png)
 Throw JSON in on the left, get a bunch of JSON Schema out on the right.
@@ -68,4 +68,4 @@ When you have both your data model defined in OpenAPI or JSON Schema, and your s
 ![What is data model vs what is service model.](https://cdn-images-1.medium.com/max/800/1*HJNeScvRLelLDfn5RgoXSg.png)
 What is data model vs what is service model.
 
-Now all you need to do is save those specification files in your API’s GitHub repository, create some [beautiful documentation](/blog/turning-contracts-into-beautiful-documentation), serve them up for [client-side validation,](https://blog.apisyouwonthate.com/the-many-amazing-uses-of-json-schema-client-side-validation-c78a11fbde45) and all sorts of other handy stuff.
+Now all you need to do is save those specification files in your API’s GitHub repository, create some [beautiful documentation](/blog/turning-contracts-into-beautiful-documentation), serve them up for [client-side validation,](https://apisyouwonthate.com/blog/json-schema-client-side-validation) and all sorts of other handy stuff.
