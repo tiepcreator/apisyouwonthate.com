@@ -37,7 +37,7 @@ export const generateRSSFeed = (posts) => {
       slug,
     } = post;
 
-    const url = `${siteUrl}/posts/${slug}`;
+    const url = `${siteUrl}/blog/${slug}`;
 
     const htmlContent = ReactDOMServer.renderToStaticMarkup(
       <ChakraProvider resetCSS theme={theme}>
