@@ -89,7 +89,10 @@ const AuthorPage = ({ author, posts }) => {
       <Container>
         <Stack>
           <Heading as="h1">{name}</Heading>
-          <Grid gridTemplateColumns={['1fr', '1fr', '300px 1fr 130px']} gap={8}>
+          <Grid
+            gridTemplateColumns={['1fr', '1fr', '300px 1fr fit-content(130px)']}
+            gap={8}
+          >
             <Stack>
               <Image src={authorImageUrl} alt={`${name} headshot`} />
               {consultingUrl && (
