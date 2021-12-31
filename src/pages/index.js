@@ -50,7 +50,10 @@ const IndexPage = ({ books, posts }) => {
           keywords={[`gatsby`, `application`, `react`]}
         />
         <Stack>
-          <Grid gridTemplateColumns={['1fr', '1fr', '1fr 130px']} gap={4}>
+          <Grid
+            gridTemplateColumns={['1fr', '1fr', '1fr fit-content(130px)']}
+            gap={4}
+          >
             <FeaturedBlogPost post={firstPost} />
             <Box alignSelf="end">
               <CarbonAd />

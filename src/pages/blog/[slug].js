@@ -71,7 +71,7 @@ const BlogPage = ({ post, slug }) => {
         />
         <Stack>
           <Grid
-            gridTemplateColumns={['1fr', '1fr', '1fr 130px']}
+            gridTemplateColumns={['1fr', '1fr', '1fr fit-content(130px)']}
             gap={4}
             alignContent={'start'}
             justifyContent={'start'}
@@ -83,7 +83,7 @@ const BlogPage = ({ post, slug }) => {
                   alt={title}
                   src={postImageUrl}
                   width="1200px"
-                  maxHeight={['20vh', '45vh', '65vh']}
+                  minHeight={'300px'}
                   height="600px"
                   objectFit="contain"
                   align={'flex-start'}
