@@ -33,6 +33,9 @@ const Header = () => {
             direction={['column', 'row']}
             alignItems={['flex-start', 'center']}
           >
+            <Link href="/blog">
+              <a>Blog</a>
+            </Link>
             <Link href="/books">
               <a>Books</a>
             </Link>
