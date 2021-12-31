@@ -9,7 +9,6 @@ module.exports = {
     const remotiveJobsRegEx = /^\/jobs\/.*-\d*$/gm;
     if (remotiveJobsRegEx.test(path)) return null;
 
-    console.log('path', path);
     return {
       loc: path, // => this will be exported as http(s)://<config.siteUrl>/<path>
       changefreq: config.changefreq,
