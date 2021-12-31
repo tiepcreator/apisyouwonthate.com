@@ -57,7 +57,7 @@ module.exports = [
     permanent: true,
   },
   {
-    source: '/useful-api-errors-for-rest-graphql-and-grpc-:id',
+    source: '/useful-api-errors-for-rest-graphql-and-grpc-897efa851165',
     destination: '/blog/creating-good-api-errors-in-rest-graphql-and-grpc',
     permanent: true,
   },
@@ -72,17 +72,17 @@ module.exports = [
     permanent: true,
   },
   {
-    source: '/api-versioning-has-no-right-way-:id',
+    source: '/api-versioning-has-no-right-way-f3c75457c0b7',
     destination: '/blog/api-versioning-has-no-right-way',
     permanent: true,
   },
   {
-    source: '/api-evolution-for-rest-http-apis-:id',
+    source: '/api-evolution-for-rest-http-apis-b4296519e564',
     destination: '/blog/api-evolution-for-rest-http-apis',
     permanent: true,
   },
   {
-    source: '/common-hypermedia-patterns-with-json-hyper-schema-:id',
+    source: '/common-hypermedia-patterns-with-json-hyper-schema-17c78cf884ff',
     destination: '/blog/common-hypermedia-patterns-with-json-hyper-schema',
     permanent: true,
   },
@@ -92,17 +92,17 @@ module.exports = [
     permanent: true,
   },
   {
-    source: '/getting-started-with-json-hyper-schema-:id',
+    source: '/getting-started-with-json-hyper-schema-184775b91f',
     destination: '/blog/getting-started-with-json-hyper-schema',
     permanent: true,
   },
   {
-    source: '/getting-started-with-json-hyper-schema-part-2-:id',
+    source: '/getting-started-with-json-hyper-schema-part-2-ca9d7ffdf6f6',
     destination: '/blog/getting-started-with-json-hyper-schema-part-2',
     permanent: true,
   },
   {
-    source: '/govern-your-apis-with-speccy-:id',
+    source: '/govern-your-apis-with-speccy-6a507dd68f56',
     destination: '/blog/govern-your-apis-with-speccy',
     permanent: true,
   },
@@ -212,7 +212,7 @@ module.exports = [
   },
   {
     source:
-      '/tricking-colleagues-into-writing-documentation-via-contract-testing-:id',
+      '/tricking-colleagues-into-writing-documentation-via-contract-testing-206308b47e05',
     destination: '/blog/writing-documentation-via-contract-testing',
     permanent: true,
   },
