@@ -4,253 +4,117 @@ subtitle: >-
  If you want to get into API design-first, but awkwardly already have a bunch of APIs with 
  no OpenAPI, use a HTTP proxy like Akita to create OpenAPI from your HTTP traffic! 
 date: "2022-01-01"
-# coverImage: 
+coverImage: design-and-implementation.jpg
 type: blog
 author: Phil Sturgeon
 ---
 
-With API descriptions rising in popularity, the main question I hear folks
-asking about is "API Design-first" or "code-first". This is a bit of a
-misleading question because these are not two unique things, there are a few
-variants. 
+Around this time of year we're thinking about things we're going to do differently, new practices we've been putting off for too long, and mistakes we want to avoid continuing into another year. For many of us in the API world, that is going to be switching to [API Design-first](/blog/api-design-first-vs-code-first), using standards like [OpenAPI](https://openapis.org/) to plan and prototype the API long before any code is written. 
 
-## Code-First, Write Docs "When We Have Time" 
+More organizations are switching to [API Design-first with OpenAPI](https://stoplight.io/case-studies/schneider-electric/), thanks to huge efforts from tooling vendors - from the bigger folks: [Stoplight](https://stoplight.io/) and [Postman](https://postman.com/), to the smaller open-source [OpenAPI tools](https://openapi.tools/) - making it far easier to do. 
 
-![](/images/posts/api-design-first-vs-code-first/wf-1.png)
+Sadly, there's an awkward position many of us are stuck in. We have an API that we built years ago, and now our DevRel team want OpenAPI-based API Reference documentation, the API governance team want OpenAPI to be included in the pull request for any code change, the testing team want our OpenAPI to set up end-to-end  contract testing, but we don't have any OpenAPI... AGH!
 
-This is how I came into contact with API description documents like OpenAPI or
-API Blueprint in the first place, and it is how our first book suggested API
-developers do things. This may have made sense at the time, but I quickly
-discovered it to be an immature workflow.
+We wrote before about some slightly hacky ways to create OpenAPI from things like Postman Collections, using JSON to JSON Schema converters, and a whole lot of mucking about, but thankfully these days there are far nicer solutions around. One especially smooth tool is [Akita](https://www.akitasoftware.com/)! 
 
-One issue here is that "code-first and meh docs later" treats API descriptions
-like a fancy way of making API reference documentation, which is one of 100
-things API descriptions can do. API descriptions are machine readable files with
-a plethora of data and metadata, which can used to gather feedback from early
-stages to improve the quality of the API before it's even written through
-[mocking](https://stoplight.io/prism/), offer [client-side
-validation](/blog/the-many-amazing-uses-of-json-schema-client-side-validation)
-and [server-side
-validation](/blog/server-side-validation-with-api-descriptions/). 
+Akita is an observability tool, which can sniff HTTP traffic, and build models of your data. Once it's done that, it can create a graph of all your APIs to give insight into a system, intelligently catch and communicate breaking changes, and various other handy things. 
 
-Writing a bunch of code first, deploying the thing, getting clients onboarded
-with special hands-on treatment, etc. is a whole lot of work. When this whole
-phase is done, spending a month writing up documentation which will "only get
-out of date" can feel like a giant chore, one that most businesses struggle to
-prioritize so the task just never gets done. 
+We're going to use just part of it's power to create OpenAPI for an API after it's already been deployed to production, so that we can use API Design-first for any new functionality going forwards. 
 
-This was the excuse I heard regularly for why WeWork, a company with ~50
-engineers in 2016 managed to build ~30 APIs with zero documentation at any
-point. The lack of documentation lead to some of the most bonkers
-time-and-money-wasting I've ever come across, with folks building out [new
-versions of endpoints and APIs](/blog/api-versioning-has-no-right-way/) because
-nobody could remember how the code worked. Even reading the code was almost
-impossible due to API A dynamically returning mushed together chunks of JSON
-from API B and API C [without any serializers
-involved](https://phil.tech/api/2015/05/30/serializing-api-output/). 
+Looking for a example wasn't hard. I'd made this mistake myself earlier in the year.  We rushed an API for [Protect Earth](https://www.protect.earth/). There was no need to design the API because it had to match a contract defined by an existing tree-planting partner, so we just copied some of their JSON, and coded to that rough shape hoping for the best. Of course this rush blew up in our face immediately. The first consumer integration was a lot of awful trial-and-error which took ages, and when the second consumer they didn't have any documentation. I know I know. The mechanic’s car is always broken...
 
-"We'll write documentation later" means "We will not write documentation", and
-by the time you discover you need it, it'll be too late. On the off-chance you
-are one of the few who get it done quickly, keeping these documents "in sync"
-with the code is the biggest problem most developers faced. At my talk on this
-subject at [API the Docs](https://apithedocs.org/amsterdam2019), the entire room
-of ~80-100 people put their hand up when I asked "Who here struggles with
-keeping code and docs in sync"? 
+So let's get on with it. We could install the Akita Client anywhere, maybe pop it on a staging/production servers to detect that traffic, but installing on a laptop is easier for this workflow: running a proxy, sniffing requests/responses for `https://api.protect.earth/`, and importing into Akita. This is [documented nicely on Akita's docs site](https://docs.akita.software/docs/watch-traffic-with-a-proxy), but lets focus on the specific bits for this workflow.
 
-There are [a few approaches](/blog/keeping-documentation-honest), but even if
-you absolutely nail using [Dredd](https://dredd.org/) or similar tooling to keep
-things synced up, there is the other rather large problem we've not covered yet:
-the fact that you built the whole API before giving your customers a chance to
-play with it. 
+## Step 1: Setup Akita Client locally
 
-[Mocking](https://stoplight.io/mocking/) is too often overlooked, and people
-waste time and money building out nonsense APIs which don't help their
-customers. This usually means a v2 comes quickly after the v1, and maybe a v3 is
-required as a few more clients get involved and give more feedback. This usually
-means the API was too normalized, leading to the client needing to make 150 HTTP
-requests to solve their use case, or the resources are giant meaning there is
-good data hidden amongst 100 fields the user didn't need. 
+Head over to [akitasoftware.com](https://www.akitasoftware.com/) and click Join Beta. Maybe it's already out so click Register, just get yourself an account somehow. 
 
-[Use-case driven
-APIs](https://medium.com/@__xuorig__/the-tension-between-data-use-case-driven-graphql-apis-8f982198653b)
-are usually way more useful than data-driven APIs, regardless of the API
-[paradigm you picked](/blog/picking-api-paradigm/) for the API build.
-Let your users share their feedback early, when it's still cheap and easy to
-change things - not when it's already in production and change gets more
-complex.
+Now we can install the akita-cli client. On macOS that'll be a [brew](https://brew.sh/) install, and for [everything else theres docs](https://docs.akita.software/docs/install-akita-client).
 
-## Code-First, then Annotate
-
-![](/images/posts/api-design-first-vs-code-first/wf-2.png)
-
-This popular variation of the code-first approach to API descriptions the effort
-to speed up the "documentation later" part of the process, a lot of API
-developers decide to use annotations or code comments to litter their source
-code with bits of the API description in a special format.
-
-Multiple tools exist for this. In some strictly typed languages the annotation
-tooling contains very little information, mostly only things like human-readable
-descriptions. Information like basic types ("string" and "integer") can be
-inferred from the code, wether null is allowed, etc. can all be picked up. Sadly
-some people think that is all the information they need to put into a
-description document. They ignore things like example values, formats like
-"email" or "date-time" which can add validation benefits and make documentation
-more useful, and other more advanced features in OpenAPI or JSON Schema like
-allOf, oneOf, etc. 
-
-Languages with annotations as a first class feature generally support this a bit
-better, like Java. They have a multitude of annotation systems which can give
-you syntax errors if you write rubbish in there.
-
-```java
-class UserController {
-  @OpenApi(
-      path = "/users",
-      method = HttpMethod.POST,
-      // ...
-  )
-  public static void createUser(Context ctx) {
-      // ...
-  }
-}
+``` bash
+brew tap akitasoftware/akita && brew install akita-cli
 ```
 
-Other languages like PHP rely on doc block comments, and that's just writing
-nonsense into a text editor. 
+When that's installed, use the `akita login` command to log in. You'll want to go fishing for your API Key which is in Settings on the Akita dashboard.
 
-```php
-/**
-  * @OA\Get(path="/2.0/users/{username}",
-  *   operationId="getUserByName",
-  *   @OA\Parameter(name="username",
-  *     in="path",
-  *     required=true,
-  *     description=Explaining all about the username parameter
-  *     @OA\Schema(type="string")
-  *   ),
-  *   @OA\Response(response="200",
-  *     description="The User",
-  *     @OA\JsonContent(ref="#/components/schemas/user"),
-  *     @OA\Link(link="userRepositories", ref="#/components/links/UserRepositories")
-  *   )
-  * )
-  */
-public function getUserByName($username, $newparam)
-{
-}
+```
+akita login
+API Key ID: apk_0000000000000000000000
+API Key Secret: ******************************
+Login successful!
+API keys stored in ${HOME}/.akita/credentials.yaml
 ```
 
-This looks rough to me, but folks defend it with reasoning like: "having the
-annotations near the code means developers are more likely to keep it up to
-date". More likely is not definitely.
+## Step 2: Man in the Middle Proxy
 
-![](/images/posts/api-design-first-vs-code-first/milk.jpg)
+In order to intercept the HTTP traffic going to an encrypted website (`https://`) we can use the free tool [mitmproxy](https://mitmproxy.org), which is another brew install. 
 
-Using annotations you still need to use one of the approaches to making sure
-code and descriptions are in sync, but you have to add a build step to export
-from source code and then run that generated OpenAPI file through Dredd or
-similar. Or you can just hope that all of your developers remember and "it'll be
-fine".
+``` bash
+brew install mitmproxy
+```
 
-The feedback loop here is still a bit long. It comes after you've written a
-whole bunch of code, or maybe you wrote all the routes to a bunch of empty
-controllers, and can export the OpenAPI to create a mock server, but that all
-still sounds like a lot of work. There are more improvements to be made.
+Then, we'll want to grab the har_dump.py script from mitmproxy which will turn intercepted traffic on their proxy into a [HAR (HTTP Archive format) file](https://w3c.github.io/web-performance/specs/HAR/Overview.html).
 
-## Design First, Ditch for Code First
+``` bash
+wget https://raw.githubusercontent.com/mitmproxy/mitmproxy/master/examples/contrib/har_dump.py
+```
 
-![](/images/posts/api-design-first-vs-code-first/wf-3.png)
+Ready for action.
 
-In general, "API Design First" is about closing the feedback loop substantially.
-You get mocks and docs before you write any code, so there is no more mucking
-about with code until a decent number of clients have confirmed the interfaces
-look good for their needs, and seeing as you already have what you need to
-generate docs you don't have to worry about doing it later. 
+## Step 3: Using the proxy 
 
-This specific flavour of design-first still has a lot of problems, yet recently
-a few big names in the API world have been advocating for this. Mainly I think
-they advocate for it because they are sick of writing API descriptions by hand:
-insert the usual complaints about "thousands of lines of YAML" here. Maybe they
-use a DSL to design things at first, then switch to annotations once things are
-done, again hoping "it will be more likely to stay up to date" that way.
+In one terminal session, run the proxy server with the har_dump.py script loaded up, and `dump.har` set so the HAR file will be saved locally.
 
-One of multiple falsehoods here is the idea that there is a design phase, then
-you stop designing things and it's time for the code to happen, and we don't
-need to do design new functionality after that. 
+``` bash
+mitmdump -s ./har_dump.py --set hardump=./dump.har
+```
 
-Regardless of whether devs write the API code by hand or generate it from API
-descriptions, there is no end to the design phase. Design is a circular
-life-cycle with a feedback loop which leads to new resources and endpoints, or
-new global versions, or just new properties. APIs evolve over time, and rolling
-out new functionality without gathering feedback from customers is always a bad
-idea, not just in the initial design phase. 
+If it's working, the proxy will run on `localhost:8080` so you can use that as a proxy in whatever http client. 
 
-I have seen some success from folks at [Meetup](https://meetup.com/) using
-"immutable services", where they generate routes, controllers, data models,
-docker config, even all the Kubernetes setup, all from OpenAPI, then they just
-slap in a bit of business logic in the empty gaps and hit deploy. What happens
-when they need to make changes to the contract? That'll be a brand new service.
-No change allowed. Plan things well enough you don't need to tweak em for ages,
-then deprecate and replace them if change is required. Immutable services are
-not a common way to do things, and require a huge amount of discipline to get
-right. 
+Maybe you're one of those folks who can remember how curl works. 
 
-For everyone else, evolution is more common, because even folks using major
-global versions for their API will make backwards compatible changes as they go
-(new endpoints, etc.) Tooling which asks you to "Import" OpenAPI then go on from
-there without it is condemning you to a design-less future for new
-functionality, even if they offer an Export OpenAPI feature (which many don't).
+``` bash
+curl -D - -k --proxy localhost:8080 https://api.protect.earth/v1/orders/c36916f7-7591-47e5-b069-f983b9c0f320
+```
 
-Worse than that, many of these tools keep their own version of your API
-description in the cloud, which can change independently of the API description
-you have in your Git repo, meaning you don't a sources of truth: _you have two
-sources of lies._
+That will make requests to the `https://api.protect.earth/v1/orders/{uuid}` endpoint of the Protect Earth API, pass the request and response through mitmproxy, and write the output to `dump.har`.
 
-Let's look at a workflow which allows you to use API descriptions as a single
-source of truth, which evolves along with your code.
+Doing all of this in curl was a bit of a mess so I grabbed [Insomnia](https://insomnia.rest/) and clicked around the API a bit, hitting as many resources and collections as possible, so the OpenAPI is based on a superset of all the data it's seen, instead of just the one JSON representation. 
 
-## Design-First, Evolve with Code
+### Step 4: Converting HAR to OpenAPI
 
-![](/images/posts/api-design-first-vs-code-first/wf-4.png)
+There are a lot of tools out there to convert a HAR to OpenAPI, but some of them are old, some of them are bad, and most of them are both.
 
-This approach stops treating API description documents like an afterthought, or
-like a chore, because they aren't. DSL's might have been required to [make
-writing OpenAPI
-bearable](https://developer.squareup.com/blog/making-openapi-swagger-bearable-with-your-own-dsl/)
-in the past, but with stunning visual editors like [Stoplight
-Studio](https://stoplight.io/studio/), the days of using DSLs as a crutch to
-avoid hand-rolling YAML are behind us. Studio lets you work with your OpenAPI
-files on your local machine, for free, so anyone can easily build up powerful
-description documents, and even easily reuse models between multiple APIs so the
-whole "thousand lines of YAML" thing completely falls away.
+Akita is fantastic at doing this, and can handle all nullable, optional, polymorphic, and generally funny shaped data! It'll take a stab at noticing formats of strings, all of which saves you time from filling all this in manually.
 
-Whether you use Studio, DSL, or write it by hand, start off in your empty repo
-with just the description documents. Run a mock server early and often, get
-feedback from your customers, then commit the documents once things are agreed.
+The `akita apispec` command can import `dump.har` to your service, and give it a name. The service was `protect-earth` and the spec was just called mySpec because that's what the docs said and it doesn't seem to matter.
 
-Then you can start writing code. The amount of code you need to write can be
-drastically simplified with tooling that uses your description documents to
-power [server-side
-validation](/blog/server-side-validation-with-api-descriptions/), or even API
-Gateway validation.
+``` bash
+akita apispec --traces dump.har --out akita://protect-earth:spec:mySpec
+```
 
-This is not code generation, but it is using your API descriptions to power
-production validation. The same description documents that you are using to
-render documentation are now powering the most complex aspect of your API, and
-things can never be "out of sync" because there is only one source of truth. 
+The Services page in Akita should now be aware of the service you just uploaded. 
 
-When customers request new functionality, it is easy to add new endpoints,
-introduce new properties, etc., and get feedback on that new stuff before you
-start writing the code. At no point do you lose that ability, so you can benefit
-from design first, design again, and again. 
+![Once logged into Akita dashboard, click Services on the navigation bar, and you should see your new service showing up.](/images/posts/creating-openapi-from-http-traffic/akita-services.png)
 
-This does not help keep responses "in sync", but seeing as your description
-documents are sat right there in your repo, you can use them to [drastically
-simplify your unit/integration
-testing](/blog/writing-documentation-via-contract-testing) anyway, so the whole
-interface is covered. 
+Click on that and there will be a list of endpoints its aware of, with parameters used to avoid duplicating endpoints for different UUIDs or other parameters as other tools often do.
 
-Don't half-ass your description documents. Use them to plan something amazing,
-and cut down the amount of recoding you need to do down the line. Create APIs
-which last longer, which are better documented, better tested, all whilst
-reducing the total amount of time spent developing the API overall.
+![A list of endpoints, with an expandable panel showing metadata for each body property, objects, arrays, even headers its noticed.](/images/posts/creating-openapi-from-http-traffic/akita-endpoints.png)
+
+Those endpoints have all their metadata associated in Akita, which means it's ready for exporting as OpenAPI through the web interface. 
+
+![The "Download Spec" button will download an OpenAPI file in YAML](/images/posts/creating-openapi-from-http-traffic/akita-export.png)
+
+_The OpenAPI document will be created as YAML, and at time of writing is producing OpenAPI v3.0. Ideally it would soon be updated to OpenAPI v3.1, but [the differences are not huge and can be changed manually](https://www.openapis.org/blog/2021/02/16/migrating-from-openapi-3-0-to-3-1-0)._
+
+Once you've got this OpenAPI YAML document you can shove it into your Git repo to live alongside your code. It might not be perfect, but you can hook that Git repo up to a web-based OpenAPI editor like [Stoplight Platform](https://stoplight.io/welcome/create/), or a local file editor like Stoplight Studio, or just manually wrangle the YAML in your favourite text editor. 
+
+![Connect a project to Git in Stoplight via the Add Project > Add from GitHub/GitLab/etc wizard.](/images/posts/creating-openapi-from-http-traffic/stoplight-git.png)
+
+However you go about it, you can tidy up the OpenAPI document according to your preferences, and publish the docs when you're done.
+
+![Tidied up and improved OpenAPI document hosted on Stoplight via Git.](/images/posts/creating-openapi-from-http-traffic/pretty-docs.png)
+
+How you might chose to tidy up the OpenAPI is another article for another day, but getting _some_ OpenAPI without having to manually wrangle it all by hand is a huge timesaver. More importantly it's likely to help API teams get on board with any organization-wide push for API Design-first, or any other API Program or workflow that requires OpenAPI.
+
+Now, I'm off to plan out a new endpoint for the [Protect Earth API](https://protect-earth.stoplight.io/docs/protect-earth-api/) using the design-first approach, so I can give multiple consumers a [mock endpoint](https://meta.stoplight.io/docs/prism/ZG9jOjk1-http-mocking) to hit to see if it'll work for them, before I bother writing up a bunch of code I'll only have to change later based on their feedback.
