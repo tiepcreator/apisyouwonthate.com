@@ -1,10 +1,12 @@
 import { serialize } from 'next-mdx-remote/serialize';
+
+import Image from 'next/image';
+
 import {
   Box,
   Container,
   Grid,
   Heading,
-  Image,
   Stack,
   Text,
   useTheme,
@@ -22,11 +24,12 @@ import {
 
 import { getAllPosts, getPostBySlug } from '../../lib/blogPostLoader';
 import { formatDate } from '../../utils/formatDate';
+import mdxOptions from '../../utils/mdxOptions';
 
 export async function getStaticProps({ params }) {
   const post = await getPostBySlug(params.slug);
 
-  const mdxSource = await serialize(post.content);
+  const mdxSource = await serialize(post.content, mdxOptions);
 
   return {
     props: {
@@ -77,16 +80,13 @@ const BlogPage = ({ post, slug }) => {
             justifyContent={'start'}
           >
             {coverImage ? (
-              <Box>
+              <Box rounded={'sm'} align={'flex-start'}>
                 <Image
-                  rounded={'sm'}
                   alt={title}
                   src={postImageUrl}
                   width="1200px"
-                  minHeight={'300px'}
                   height="600px"
                   objectFit="contain"
-                  align={'flex-start'}
                 />
               </Box>
             ) : (

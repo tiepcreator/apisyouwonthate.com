@@ -103,13 +103,17 @@ The appropriate HTTP status code for rate limiting has been argued over about as
 much as tabs vs spaces, but there is a clear winner now; RFC 6585 defines it as
 429, so APIs should be using 429.
 
-![](https://cdn-images-1.medium.com/max/800/1*esMflK7UItD8mWn4UbGedg.jpeg)
-_[http.cat](https://http.cat/) is an amazing resource._
+![http cat 429 error](/images/posts/what-is-api-rate-limiting-about/429.jpg)
+<figcaption>
+  <a href="https://http.cat/">http cat</a> is an amazing resource.
+</figcaption>
 
 Twitter’s API existed for a few years before this standard, and they chose "420 — Enhance Your Calm". They’ve dropped this and moved over to 429, but some others copied them at the time, and might not have updated since. You cannot rule out bumping into a copycat API, still using that outdated unofficial status.
 
-![](https://cdn-images-1.medium.com/max/800/1*FQyjo2WDsNPOV5vWaYQaTg.jpeg)
-_[http.cat](https://http.cat/) shows us how a cat can enhance their calm._
+![http cat 420 error](/images/posts/what-is-api-rate-limiting-about/420.jpg)
+<figcaption>
+  <a href="https://http.cat/">http cat</a> shows us how a cat can enhance their calm.
+</figcaption>
 
 Google also got a little "creative" with their status code utilization. For a long time were using 403 for their rate limiting, but I have no idea if they are still doing that. GitHub v3 (a RESTful API that was replaced with a GraphQL, but is still floating around) is still using 403:
 

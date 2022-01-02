@@ -17,18 +17,18 @@ Let’s break down some best practices and tips to avoid ending up in a hell of 
 
 The best practice for organizing AsyncAPI files in your microservices architecture is to have a file per microservice. This way, you end up with multiple independent files that define your application.
 
-![](https://cdn-images-1.medium.com/max/800/1*DxwJA1tNl2-WHeVhOQNg4A.png)
+![PubSub diagram](/images/posts/organizing-asyncapi-documents/yaml-rules.png)
 
 One publisher and one subscriber, both sharing the UserSignUp message.
 
 Microservices are meant to do a single thing and to do it well and, very importantly, they must be independently deployable. However, if you have a publisher and multiple consumers, you quickly end up having something like the following:
 
-![One publisher and various subscribers. All of them sharing the UserSignUp message.](https://cdn-images-1.medium.com/max/800/1*b2VLCswy1jx2OX2PvUBDGA.png)
+![One publisher and various subscribers. All of them sharing the UserSignUp message.](/images/posts/organizing-asyncapi-documents/pub-sub.png)
 One publisher and various subscribers. All of them sharing the UserSignUp message.
 
 It’s clear there’s a dependency between all of them: the _UserSignedUp_ message. If at some point to want to change it, you’ll have to go through all of the files and change it. It’s a tedious task we want to avoid, so we can make use of the _$ref_ capability of AsyncAPI to simplify things:
 
-![](https://cdn-images-1.medium.com/max/800/1*S3ztpzerE3X2T8k8tuqYOw.png)
+![A diagram of dependencies in the pubsub relationship](/images/posts/organizing-asyncapi-documents/pub-sub2.png)
 The value of $ref should be "common/messages.json#UserSignedUp".
 
 Now, if you have to add something to the _UserSignedUp_ message, it’s just a matter of changing one file. Depending on your setup, you may have to restart your services to get the new definition. However, as simple and straightforward as it may seem, you must take care not to introduce breaking changes in the message definition. Otherwise, you’ll have inconsistent states while some services got the new message definition and some didn’t yet. Here comes the importance of versioning your messages, but that makes for another blog post alone.

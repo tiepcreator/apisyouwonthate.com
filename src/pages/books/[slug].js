@@ -16,6 +16,7 @@ import { MDXRemote } from 'next-mdx-remote';
 import { Layout, Overline, Seo } from '../../components';
 
 import { getAllBooks, getBookBySlug } from '../../lib/bookLoader';
+import mdxOptions from '../../utils/mdxOptions';
 
 export async function getStaticPaths() {
   const books = await getAllBooks();
@@ -35,7 +36,7 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const book = await getBookBySlug(params.slug);
 
-  const mdxSource = await serialize(book.content);
+  const mdxSource = await serialize(book.content, mdxOptions);
 
   return {
     props: {

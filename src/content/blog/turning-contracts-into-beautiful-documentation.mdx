@@ -23,14 +23,14 @@ OpenAPI (formerly known as Swagger) has some amazing tools, but people often onl
 
 _This is not a tool I recommend. If you don’t like the look of it, please scroll down to two amazing tools._
 
-![Right from swagger.io, this RPC-style API shows that Swagger UI is RPC first](https://cdn-images-1.medium.com/max/800/1*YrjooRs7DYUndQQzB3Kn_g.png)
+![Right from swagger.io, this RPC-style API shows that Swagger UI is RPC first](/images/posts/turning-contracts-into-beautiful-documentation/api-docs.png)
 Right from swagger.io, this RPC-style API shows that Swagger UI is RPC first
 
 Looking at Swagger UI, it’s clear that it was designed by a developer, and also clear that developer was a big fan of RPC.
 
 Documenting an API as purely HTTP requests with the actual objects being hidden away as an afterthought is entirely backwards for a REST API. These tools promote RPC thinking in APIs that have Hypermedia and it’s just propagating the problem.
 
-![Trying to find the object is hidden under “model” and it looks really bad.](https://cdn-images-1.medium.com/max/800/1*lzic0pcw6UfnwhD24Lc80A.png)
+![Trying to find the object is hidden under “model” and it looks really bad.](/images/posts/turning-contracts-into-beautiful-documentation/200-code.png)
 Trying to find the object is hidden under “model” and it looks really bad.
 
 Whilst having docs is better than not having docs (people will just [guess the contracts](https://apisyouwonthate.com/blog/commit-to-api-contracts) and RPC your REST API anyway), you don’t want to use a doc tool that really seems to suggest you completely ignore Hypermedia entirely.
@@ -45,8 +45,12 @@ I think (hope!) this is going away, as Swagger CodeGen has a HTML mode. CodeGen 
 
 With an obvious install (npm/yarn install) you get a simple CLI tool that converts OpenAPI into great looking HTML.
 
-![Demo API talks about Cheese **Source:** sourcey.com/spectacle](https://cdn-images-1.medium.com/max/800/1*XUYRHWH4v8J-kbT9MQnrkw.png)
-Demo API talks about Cheese **Source:** sourcey.com/spectacle
+![A cheese store API](/images/posts/turning-contracts-into-beautiful-documentation/cheese-store.png)
+<figcaption>
+  
+  Demo API talks about Cheese **Source:** [sourcey.com/spectacle](https://sourcey.com/spectacle/)
+  
+</figcaption>
 
 Spectacle splits the logic into two different sections, Operations and Schema Definitions. Operations give it the usual RPC-ish explanation you’re probably used to, and Schema Definitions is dedicated to outlining objects and their properties.
 
@@ -66,12 +70,12 @@ Also despite having the objects linked in there (under request and response will
 
 By far my favourite of the lot, ReDoc just looks absolutely stunning. You can add a logo with the `x-logo` vendor extension, tweak colors, and you get that awesome three-column style popularized by docs like the Stripe.
 
-![Fancy/modern looking three-col API documentation from OpenAPI](https://cdn-images-1.medium.com/max/800/1*JhG3HfXxwMZG2zmj9nPyvQ.png)
+![Fancy/modern looking three-col API documentation from OpenAPI](/images/posts/turning-contracts-into-beautiful-documentation/pet-store.png)
 Fancy/modern looking three-col API documentation from OpenAPI
 
 The “data structures” unfortunately don’t live in their own navigation section like Spectacle, but they are fantastic to look at.
 
-![](https://cdn-images-1.medium.com/max/800/1*KZZj5asLnWadJxj1bkzmZg.gif)
+![Animation of category docs from a CLI tool](/images/posts/turning-contracts-into-beautiful-documentation/category.gif)
 
 It works a little differently to many of the CLI-based tools though, as it’s a node module that you embed into a HTML document and load through the browser.
 

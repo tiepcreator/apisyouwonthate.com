@@ -195,8 +195,9 @@ Then somebody points out it would be nice to have application codes, and new ver
 Guess what happens when a client is expecting the first example of a single
 string, but ends up getting that second example of an object?
 
-![When an error is an object but the client shoves it into a string, you see [object Object] and it happens aaaall the time.](/images/posts/useful-errors/object-Object.jpg)
-_A wild [object Object] appears on Gelato — a discontinued API design and analytics platform acquimerged into Kong._
+  ![When an error is an object but the client shoves it into a string, you see object Object and it happens aaaall the time.](/images/posts/useful-errors/object-Object.jpg)
+  
+  <figcaption>A wild [object Object] appears on Gelato — a discontinued API design and analytics platform acquimerged into Kong.</figcaption>
 
 These errors happened at my previous job all the time, because every one of the
 50 APIs had a totally different error format, some had multiple different error
@@ -345,8 +346,13 @@ make it easy.
 HTTP 4XX or 5XX codes alert the client, monitoring systems, caching systems, and
 all sorts of other network components that something bad happened.
 
-![The folks over at CommitStrip.com know what’s
-up.](https://cdn-images-1.medium.com/max/2000/0*2knrFUxt80PLVhWl.jpeg)
+![The folks over at CommitStrip.com know what’s up.](/images/posts/useful-api-errors-for-rest-graphql-and-grpc/comic.jpg)
+<figcaption>
+
+The folks over at [CommitStrip.com](https://commitstrip.com) know what’s up.
+
+</figcaption>
+
 
 If you return an HTTP status code of 200 with an error code, then Chuck Norris
 will roundhouse your door in, destroy your computer, instantly 35-pass wipe your
@@ -369,8 +375,9 @@ error was on.
 
 ![](/images/posts/useful-errors/graphql-error.png)
 
-_Errors seem to be tailored to helping the console show a pretty message, but make it
-tough for programmers to do anything useful._
+<figcaption>Errors seem to be tailored to helping the console show a pretty message, but make it
+tough for programmers to do anything useful.</figcaption>
+
 
 There is also a path property made available in some error responses:
 
@@ -469,7 +476,7 @@ When trying to work out where people should put their own errors, there are a lo
 > }
 > ```
 >
-> -— [Matt Krick](https://itnext.io/the-definitive-guide-to-handling-graphql-errors-e0c58b52b5e1)
+> — [Matt Krick](https://itnext.io/the-definitive-guide-to-handling-graphql-errors-e0c58b52b5e1)
 
 This is back to creating custom error formats, despite GraphQL having one
 bundled...

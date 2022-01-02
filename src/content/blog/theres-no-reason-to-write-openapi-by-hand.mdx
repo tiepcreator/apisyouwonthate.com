@@ -185,19 +185,15 @@ Writing in a DSL or annotations means you're at the mercy of that maintainer to 
 
 What is the alternative to editing the files but now having to wrangle YAML? Visual thinkers and non-technical people might want a wizard mode, the ability to create arrays of objects with a few buttons, and selection boxes for [shared models](https://stoplight.io/blog/keeping-openapi-dry-and-portable/) without having to think about the filepath. Graphical design editors are pretty new in the world of OpenAPI and GraphQL, with a few popping up over the last year or two. 
 
-<figure>
-  <img src="/images/posts/annotations-dsl-editors/editor.png" />
-  <figcaption><a href="https://stoplight.io/studio">Stoplight Studio</a> main form editor view, showing some the `$ref` selector for picking OpenAPI models.</figcaption>
-</figure>
+![Stoplight studio's form editor view](/images/posts/annotations-dsl-editors/editor.png)
+<figcaption><a href="https://stoplight.io/studio">Stoplight Studio</a> main form editor view, showing some the `$ref` selector for picking OpenAPI models.</figcaption>
 
 Two years ago I was looking around for a beautiful, effective graphical editor to satisfy some code-first sticklers pushing back against [API design-first at WeWork](https://apisyouwonthate.com/blog/weworks-api-specification-workflow/). I figured a GUI would help them convert, and Stoplight told me they were planning a new GUI. Shortly after seeing their amazing prototype I joined the company to help roll it out to even more folks, and now my job is gathering feedback from the API community to make [Studio](https://stoplight.io/studio/), our open-source tools, and the upcoming SaaS platform even better. 🥳
 
 Modern GUI editors have mocks and docs publishing built right in so you no longer have to figure out your own "DocOps". Editors like Stoplight Studio add "Design Libraries", where you can manage shared models between multiple APIs in an organization. These editors support organization-wide [style guides to have the editor lint](https://apisyouwonthate.com/blog/automated-style-guides-for-rest-graphql-and-grpc) during editing (and/or in continuous integration) to enforce consistency, and a bajillion other things. 
 
-<figure>
-  <img src="/images/posts/annotations-dsl-editors/editor-lint.png" />
-  <figcaption><a href="https://stoplight.io/studio">Stoplight Studio</a> with <a href="https://stoplight.io/open-source/spectral">Spectral</a> linting results from a custom rule written to stop folks designing a GET endpoint with a body.</figcaption>
-</figure>
+![Stoplight studio](/images/posts/annotations-dsl-editors/editor-lint.png)
+<figcaption><a href="https://stoplight.io/studio">Stoplight Studio</a> with <a href="https://stoplight.io/open-source/spectral">Spectral</a> linting results from a custom rule written to stop folks designing a GET endpoint with a body.</figcaption>
 
 There are a bunch of different OpenAPI-based graphical editors around, check out our list on [OpenAPI.Tools](https://openapi.tools/#gui-editors):
 
@@ -217,10 +213,10 @@ Using tools where the format changes entirely at different points locks you into
 
 Leaving the machine-readable source of truth in the repo means any integrations are possible. Continuous integration processes can deploy documentation to any documentation provider, you can use use [any code-generators](https://openapi.tools/#sdk) to build and publish SDKs, sync with popular HTTP clients like Postman or Insomnia instead of maintaining API descriptions _and_ bookmarks, and fully take care of contract testing in-repo or end-to-end repositories. If your editor is backed by a design library then the repositories will be analyzed on push, allowing others to use these updated models instead of having 1000 different versions of a "User", "Company" or a "Flight".
 
-<figure>
-  <img src="/images/posts/annotations-dsl-editors/explorer.png" />
-  <figcaption>The main Stoplight Explorer dashboard, providing search across all APIs in an organization. This has only been available for <a href="https://stoplight.io/enterprise">Enterprise</a> users, but is available for everyone this April.</figcaption>
-</figure>
+
+![The main Stoplight Explorer dashboard](/images/posts/annotations-dsl-editors/explorer.png)
+<figcaption>The main Stoplight Explorer dashboard, providing search across all APIs in an organization. This has only been available for <a href="https://stoplight.io/enterprise">Enterprise</a> users, but is available for everyone this April.</figcaption>
+
 
 But, how does having an editor help you catch mistakes? Stoplight Studio has a [built in HTTP Client](https://stoplight.io/p/docs/gh/stoplightio/studio/docs/Design-and-Modeling/05-request-maker.md), which amongst other things is watching for mismatches between the OpenAPI defined for the API and the actual HTTP requests you send. It will also notice mismatches between OpenAPI and the responses coming back, so you'll see mistakes popping up like this:
 

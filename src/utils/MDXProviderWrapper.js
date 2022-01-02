@@ -4,26 +4,56 @@ import React from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import { MDXEmbedProvider } from 'mdx-embed';
 
+import Image from 'next/image';
+import NextLink from 'next/link';
+
 import {
   Button,
   Code,
   Box,
   Heading,
-  Image,
   Link,
   SimpleGrid,
   Text,
   useTheme,
 } from '@chakra-ui/react';
+
 import PrismHighlight, { defaultProps } from 'prism-react-renderer';
 import prismTheme from 'prism-react-renderer/themes/nightOwl';
 
-const H1 = (props) => <Heading as="h1" {...props} />;
-const H2 = (props) => <Heading as="h2" {...props} />;
-const H3 = (props) => <Heading as="h3" {...props} />;
-const H4 = (props) => <Heading as="h4" {...props} />;
-const H5 = (props) => <Heading as="h5" {...props} />;
-const H6 = (props) => <Heading as="h6" {...props} />;
+const CustomHeading = ({ as, id, ...rest }) => {
+  if (id) {
+    return (
+      <NextLink href={`#${id}`}>
+        <a>
+          <Heading
+            as={as}
+            id={id}
+            {...rest}
+            _hover={{
+              _before: {
+                content: '"#"',
+                fontSize: 'smaller',
+                color: 'green.600',
+                position: 'relative',
+                marginLeft: '-1.2ch',
+                paddingRight: '0.2ch',
+              },
+            }}
+          />
+        </a>
+      </NextLink>
+    );
+  }
+
+  return <Heading as={as} {...rest} />;
+};
+const H1 = (props) => <CustomHeading as="h1" {...props} />;
+const H2 = (props) => <CustomHeading as="h2" {...props} />;
+const H3 = (props) => <CustomHeading as="h3" {...props} />;
+const H4 = (props) => <CustomHeading as="h4" {...props} />;
+const H5 = (props) => <CustomHeading as="h5" {...props} />;
+const H6 = (props) => <CustomHeading as="h6" {...props} />;
 const P = (props) => <Text marginBottom="1rem" {...props} />;
 
 const CustomLink = (props) => {
@@ -41,7 +71,9 @@ const InlineCode = (props) => {
       borderRadius=".3em"
       padding="0.1ch 1ch"
       maxW={'calc(100vw - 60px)'}
-      wordWrap="break-word"
+      style={{
+        wordWrap: 'break-word',
+      }}
       display={'inline'}
       {...props}
     />
@@ -88,10 +120,15 @@ const Pre = (props) => {
   );
 };
 
+const NextOptimizedImage = (props) => (
+  // height and width are part of the props, so they get automatically passed here with {...props}
+  <Image {...props} layout="responsive" loading="lazy" alt={props?.alt} />
+);
+
 const components = {
   Button,
   Highlight,
-  Image,
+  img: NextOptimizedImage,
   inlineCode: InlineCode,
   a: CustomLink,
   h1: H1,
