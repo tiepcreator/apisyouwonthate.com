@@ -95,7 +95,12 @@ const BlogPage = ({ post, slug }) => {
             <CarbonAd />
           </Grid>
 
-          <Container maxWidth="70ch" alignSelf={'center'} pt="2rem">
+          <Container
+            maxWidth="70ch"
+            alignSelf={'center'}
+            pt="2rem"
+            padding={[0, 'inherit']}
+          >
             <Heading as="h1">{title}</Heading>
             <Stack direction="row">
               <AuthorDisplay name={author} />
