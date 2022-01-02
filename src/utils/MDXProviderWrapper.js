@@ -40,10 +40,11 @@ const InlineCode = (props) => {
 
   return (
     <Code
-      color={theme.colors.gray[900]}
-      whiteSpace="pre"
       borderRadius=".3em"
       padding="0.1ch 1ch"
+      maxW={'calc(100vw - 60px)'}
+      wordWrap="break-word"
+      display={'inline'}
       {...props}
     />
   );
