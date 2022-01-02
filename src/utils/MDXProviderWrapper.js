@@ -7,7 +7,6 @@ import { MDXEmbedProvider } from 'mdx-embed';
 import {
   Button,
   Code,
-  Flex,
   Box,
   Heading,
   Image,
