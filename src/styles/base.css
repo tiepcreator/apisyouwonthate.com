@@ -1,0 +1,10 @@
+figcaption {
+  margin-bottom: 1.5rem;
+  border-left: 6px solid var(--dark-green);
+  padding-left: 1ch;
+  transition: padding 0.1s ease-in;
+}
+
+figcaption:hover {
+  padding-left: 1.5ch;
+}

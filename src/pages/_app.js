@@ -7,6 +7,7 @@ import { ChakraProvider } from '@chakra-ui/react';
 import theme from '../styles/theme';
 
 import '../styles/_variables.css';
+import '../styles/base.css';
 import '../components/CarbonAd/CarbonAds.css';
 import MDXProviderWrapper from '../utils/MDXProviderWrapper';
 
