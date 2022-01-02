@@ -13,7 +13,6 @@ import {
   Image,
   Link,
   SimpleGrid,
-  Stack,
   Text,
   useTheme,
 } from '@chakra-ui/react';
@@ -66,7 +65,10 @@ const Pre = (props) => {
         }
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
-          <pre className={className} style={{ ...style, overflowX: 'scroll' }}>
+          <pre
+            className={className}
+            style={{ ...style, padding: '16px', overflowX: 'scroll' }}
+          >
             {tokens.map((line, i) => {
               // TODO: why is this needed though?
               if (i === tokens.length - 1) return null;
