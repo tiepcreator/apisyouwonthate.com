@@ -7,13 +7,11 @@ import { MDXEmbedProvider } from 'mdx-embed';
 import {
   Button,
   Code,
-  Flex,
   Box,
   Heading,
   Image,
   Link,
   SimpleGrid,
-  Stack,
   Text,
   useTheme,
 } from '@chakra-ui/react';
@@ -40,10 +38,11 @@ const InlineCode = (props) => {
 
   return (
     <Code
-      color={theme.colors.gray[900]}
-      whiteSpace="pre"
       borderRadius=".3em"
       padding="0.1ch 1ch"
+      maxW={'calc(100vw - 60px)'}
+      wordWrap="break-word"
+      display={'inline'}
       {...props}
     />
   );
@@ -65,7 +64,10 @@ const Pre = (props) => {
         }
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
-          <pre className={className} style={{ ...style, overflowX: 'scroll' }}>
+          <pre
+            className={className}
+            style={{ ...style, padding: '16px', overflowX: 'scroll' }}
+          >
             {tokens.map((line, i) => {
               // TODO: why is this needed though?
               if (i === tokens.length - 1) return null;

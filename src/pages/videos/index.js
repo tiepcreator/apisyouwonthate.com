@@ -32,7 +32,7 @@ const VideosPage = ({ videos }) => {
         title="Videos"
         keywords={['apis', 'api', 'rest', 'rpc', 'graphql']}
         description="Watch videos from conferences and meetups around the world about the API design and development process."
-        ogImage={`/images/videos/videos-page-header-image.jpg`}
+        imageUrl={`/images/videos/videos-page-header-image.jpg`}
       />
       <Container>
         <Grid gridTemplateColumns={['1fr', '1fr', '2fr 3fr']} gap={8} mb="3rem">
