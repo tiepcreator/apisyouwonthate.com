@@ -80,7 +80,7 @@ const BlogPage = ({ post, slug }) => {
             justifyContent={'start'}
           >
             {coverImage ? (
-              <Box rounded={'sm'} align={'flex-start'} minHeight={'300px'}>
+              <Box rounded={'sm'} align={'flex-start'}>
                 <Image
                   alt={title}
                   src={postImageUrl}
