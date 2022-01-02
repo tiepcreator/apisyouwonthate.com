@@ -22,11 +22,12 @@ import {
 
 import { getAllPosts, getPostBySlug } from '../../lib/blogPostLoader';
 import { formatDate } from '../../utils/formatDate';
+import mdxOptions from '../../utils/mdxOptions';
 
 export async function getStaticProps({ params }) {
   const post = await getPostBySlug(params.slug);
 
-  const mdxSource = await serialize(post.content);
+  const mdxSource = await serialize(post.content, mdxOptions);
 
   return {
     props: {

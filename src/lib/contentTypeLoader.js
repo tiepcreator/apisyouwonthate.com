@@ -7,6 +7,8 @@ import { serialize } from 'next-mdx-remote/serialize';
 
 import { parseTag } from './tags';
 
+import mdxOptions from '../utils/mdxOptions';
+
 export async function getContentBySlug(slug, directory, type) {
   const realSlug = slug.replace(/\.mdx$/, '');
   const fullPath = join(directory, `${realSlug}.mdx`);
@@ -16,7 +18,7 @@ export async function getContentBySlug(slug, directory, type) {
 
   const articleDate = new Date(data.date);
 
-  const mdxSource = await serialize(content);
+  const mdxSource = await serialize(content, mdxOptions);
 
   return {
     slug: realSlug,

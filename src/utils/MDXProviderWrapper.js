@@ -4,12 +4,13 @@ import React from 'react';
 import { MDXProvider } from '@mdx-js/react';
 import { MDXEmbedProvider } from 'mdx-embed';
 
+import Image from 'next/image';
+
 import {
   Button,
   Code,
   Box,
   Heading,
-  Image,
   Link,
   SimpleGrid,
   Text,
@@ -88,10 +89,20 @@ const Pre = (props) => {
   );
 };
 
+const NextOptimizedImage = (props) => (
+  // height and width are part of the props, so they get automatically passed here with {...props}
+  <Image
+    {...props}
+    layout="responsive"
+    loading="lazy"
+    alt={props?.alt + 'wobbo yobbo'}
+  />
+);
+
 const components = {
   Button,
   Highlight,
-  Image,
+  img: NextOptimizedImage,
   inlineCode: InlineCode,
   a: CustomLink,
   h1: H1,

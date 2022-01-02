@@ -29,6 +29,7 @@ import { getAllAuthors, getAuthorBySlug } from '../../lib/authorLoader';
 import { getAllPostsByAuthor } from '../../lib/blogPostLoader';
 
 import config from '../../../config';
+import mdxOptions from '../../utils/mdxOptions';
 
 export async function getStaticPaths() {
   const authors = await getAllAuthors();
@@ -52,7 +53,7 @@ export async function getStaticProps({ params }) {
     author.frontmatter.name || params.slug
   );
 
-  const mdxSource = await serialize(author.content);
+  const mdxSource = await serialize(author.content, mdxOptions);
 
   return {
     props: {
