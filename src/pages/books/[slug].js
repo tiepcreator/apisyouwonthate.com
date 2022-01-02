@@ -125,7 +125,7 @@ const BookPage = ({ book }) => {
 
   return (
     <Layout>
-      <Seo title={title} description={subtitle} ogImage={coverImageUrl} />
+      <Seo title={title} description={subtitle} imageUrl={coverImageUrl} />
       <Container>
         <Overline>Get the book</Overline>
         <Stack
