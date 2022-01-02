@@ -21,7 +21,7 @@ Postman Collections are essentially just another API specification format, so ta
 
 Step 1 is to Export your Postman Collection.
 
-![Open the Postman application, find your API and click Export.](https://cdn-images-1.medium.com/max/800/1*ZtxIXvosFR6tUGD1y-Nakg.png)
+![Open the Postman application, find your API and click Export.](/images/posts/creating-api-specifications-from-bullst/export.png)
 Open the Postman application, find your API and click Export.
 
 There are a lot of “Postman to Swagger” or “Postman to OpenAPI” tools out there, but if you are luck enough to find one that works, it is definitely outdated. Many of them only work wiht Postman Collection v1, and they all only convert to OpenAPI v2.0…
@@ -44,7 +44,7 @@ If you want to create JSON Schema there are a whole bunch of [JSON Schema Genera
 
 There is also [jsonschema.net](https://jsonschema.net), which is a really handy online tool that supports loads of different drafts of JSON Schema.
 
-![Throw JSON in on the left, get a bunch of JSON Schema out on the right.](https://cdn-images-1.medium.com/max/800/1*yoc45QH20TEfiIu4k7K8BQ.png)
+![Throw JSON in on the left, get a bunch of JSON Schema out on the right.](/images/posts/creating-api-specifications-from-bullst/json-schema.png)
 Throw JSON in on the left, get a bunch of JSON Schema out on the right.
 
 _Caveat, if you are referencing these JSON Schema files in an OpenAPI v3.0 specification, make sure your JSON Schema Generator is outputting the JSON Schema Draft 04, or it will break OpenAPI._
@@ -65,7 +65,7 @@ It will only return OpenAPI v2 right now, but slap the v2 spec through [APImatic
 
 When you have both your data model defined in OpenAPI or JSON Schema, and your service model defined in OpenAPI or [JSON HyperSchema](/blog/getting-started-with-json-hyper-schema), you’re off to the races!
 
-![What is data model vs what is service model.](https://cdn-images-1.medium.com/max/800/1*HJNeScvRLelLDfn5RgoXSg.png)
+![What is data model vs what is service model.](/images/posts/creating-api-specifications-from-bullst/service-model.png)
 What is data model vs what is service model.
 
 Now all you need to do is save those specification files in your API’s GitHub repository, create some [beautiful documentation](/blog/turning-contracts-into-beautiful-documentation), serve them up for [client-side validation,](https://apisyouwonthate.com/blog/json-schema-client-side-validation) and all sorts of other handy stuff.

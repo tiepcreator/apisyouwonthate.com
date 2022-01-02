@@ -3,8 +3,22 @@ figcaption {
   border-left: 6px solid var(--dark-green);
   padding-left: 1ch;
   transition: padding 0.1s ease-in;
+  font-style: italic;
 }
 
 figcaption:hover {
   padding-left: 1.5ch;
+}
+
+blockquote {
+  margin: 1rem 0;
+  padding: 0.5rem 1rem;
+  border-left: 6px solid var(--dark-green);
+  font-style: italic;
+  background: #f0f0f0;
+}
+
+blockquote p:last-of-type {
+  margin-bottom: 0;
+  padding-bottom: 0;
 }

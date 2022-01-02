@@ -158,7 +158,7 @@ check.
 This is also useful for gRPC APIs. Seeing as they are not pure HTTP, they need
 special handling. For a long time there were three fairly awful choices:
 
-![](https://cdn-images-1.medium.com/max/800/0*4D_OG4hOR2Ki6OF7.png)
+![gRPC Handling choices](/images/posts/health-checks-with-kubernetes/grpc-diagram.png)
 
 1.  httpGet means you have to set up a HTTP/1.1 bridge for an otherwise HTTP/2-only app
 2.  tcpSocket means you might have traffic directed to a pod which is not yet truly ready, meaning you blue/green deployments are looking a bit brown

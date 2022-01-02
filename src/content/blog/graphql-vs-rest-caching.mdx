@@ -35,23 +35,11 @@ Each of the three caching approaches mentioned are helpful in avoiding doing stu
 
 Shoving network caching (HTTP cache proxies like [Varnish](https://www.varnish-software.com/), [Squid](http://www.squid-cache.org/) or a hosted Varnish service called [Fastly](https://www.fastly.com/)) in front of that application server can then save that application server work.
 
+![A request being returned early by a varnish server](/images/posts/graphql-rest-caching/cache-miss.png)
+<figcaption>A request being returned early by a varnish server. — <a href="https://book.varnish-software.com/">Varnish Software</a></figcaption>
 
-<figure>
-
-  ![A request being returned early by a varnish server](/images/posts/graphql-rest-caching/cache-miss.png)
-  <figcaption>A request being returned early by a varnish server. — <a href="https://book.varnish-software.com/">Varnish Software</a></figcaption>
-
-</figure>
-
-
-<figure>
-
-  ![A request failing to find a match](/images/posts/graphql-rest-caching/cache-miss.png)
-  <figcaption>A request failing to find a match (a.k.a cache miss), and being passed on to the API server to fulfill. — <a href="https://book.varnish-software.com/">Varnish Software</a></figcaption>
-  
-</figure>
-
-
+![A request failing to find a match](/images/posts/graphql-rest-caching/cache-miss.png)
+<figcaption>A request failing to find a match (a.k.a cache miss), and being passed on to the API server to fulfill. — <a href="https://book.varnish-software.com/">Varnish Software</a></figcaption>
 
 These tools can leverage HTTP headers like `Etag`, `Vary`, `Cache-Control` to handle cache validation, and know all the rules of HTTP, meaning this application caching can essentially be thrown in and function with very little effort from the API developers. Clients will get a speed boost without even having to implement their own client caching, even though they still could, and still should, as requesting data over the wire from the cache server is still slower than not requesting data.
 

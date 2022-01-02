@@ -37,14 +37,14 @@ You own service A, and are making calls to service B. What happens when service
 B has a bad day, and instead of responding within the usual ~350ms, it starts to
 take 10 seconds? Do you want to wait 10 seconds for that response?
 
-![](https://cdn-images-1.medium.com/max/800/0*nl95Gwq4Be8db-1U)
+![Response time chart showing a spike](/images/posts/taking-a-timeout-from-poor-performance/chart1.png)
 
 What about if service B is fine, but C is taking 20s and D is taking 25s? Are
 you happy to wait 45 seconds for the response from B?
 
 What about **two minutes**?! 😱
 
-![](https://cdn-images-1.medium.com/max/800/1*QACwzrr9wqZ1QAJ6QUA3kw.png)
+![2 minute response times](/images/posts/taking-a-timeout-from-poor-performance/2-minutes.png)
 
 When a server is under load, it can do some pretty wild stuff, and not all
 servers know to give up. Even fewer applications know when to give up, and those
@@ -58,7 +58,7 @@ then the request gets dropped.
 Quite often in monitoring systems like NewRelic or CA APM, you will see things
 like this:
 
-![](https://cdn-images-1.medium.com/max/800/1*cGIO8nDRihF-ba0O0Rsjeg.png)
+![Showing an average response time of 2.9s](/images/posts/taking-a-timeout-from-poor-performance/transactions.png)
 
 This controller has an average response time of 2.9s, but the slow ones are
 floating right around that 30s mark. The Heroku Chop saves the caller from being
@@ -168,7 +168,7 @@ whatever monitoring tool is being used. Looking at the response times, you can
 get an idea of what should be acceptable. Be careful though, **do not look only
 at the average**.
 
-![](https://cdn-images-1.medium.com/max/800/1*FDwkZewKBDLmXnkewgFxUA.png)
+![Web transactions time chart](/images/posts/taking-a-timeout-from-poor-performance/web-transactions.png)
 
 Looking at this graph may lead you to think 300ms is an appropriate timeout.
 Seems fair right? The biggest spike there is 250ms and so round it up a bit and
@@ -178,7 +178,7 @@ Nope! These are averages, and averages are going to be far far lower than the
 slowest transactions. Click the drop-down and find “Web transaction
 percentiles.”
 
-![](https://cdn-images-1.medium.com/max/800/1*GHg5lMp593Gc7L6i-4Vs2A.png)
+![Chart showing percentiles for transactions](/images/posts/taking-a-timeout-from-poor-performance/percentiles.png)
 
 That is a more honest representation. Most of the responses are 30–50ms, and the
 average is usually sub 100ms. That said, under **high load** this service starts
@@ -263,10 +263,10 @@ handling other requests.
 What to do when a circuit breaker is open? It depends on the feature the circuit
 breaker is wrapping.
 
-*   Immediately respond with an error, letting the user know the required system
-is down, and to try again later *   Have a secondary system kick in that handles
-things in a different way *   Divert traffic to a cluster of servers elsewhere *
-Record information about the attempt and have customer services reach out
+* Immediately respond with an error, letting the user know the required system is down, and to try again later
+* Have a secondary system kick in that handles things in a different way
+* Divert traffic to a cluster of servers elsewhere
+* Record information about the attempt and have customer services reach out
 
 That’s only a quick intro to circuit breakers, so head over to see [Martin
 Fowler explain circuit breakers in

@@ -29,10 +29,11 @@ Exasperated, I think I dumped some ridiculous search query into Google like:
 
 Amazingly, I found an answer.
 
-[**timeout is always doubled · Issue #612 · lostisland/faraday**
-_I guess this happens because it sets open and read timeout to the same value ... but it's kind of irritating :…_github.com](https://github.com/lostisland/faraday/issues/612 "https://github.com/lostisland/faraday/issues/612")[](https://github.com/lostisland/faraday/issues/612)
+[**timeout is always doubled · Issue #612 · lostisland/faraday**](https://github.com/lostisland/faraday/issues/612) 
 
-Not a fault of We::Call or Faraday at all, but the default adapter it uses as the guts for its operations: [Net::HTTP](http://ruby-doc.org/stdlib-2.4.2/libdoc/net/http/rdoc/Net/HTTP.html). This is clearly used by Faraday as the default because it comes baked into Ruby.
+> _I guess this happens because it sets open and read timeout to the same value ... but it's kind of irritating :
+
+Not a fault of `We::Call` or Faraday at all, but the default adapter it uses as the guts for its operations: [Net::HTTP](http://ruby-doc.org/stdlib-2.4.2/libdoc/net/http/rdoc/Net/HTTP.html). This is clearly used by Faraday as the default because it comes baked into Ruby.
 
 Back in 2012 [a commit was made](https://github.com/ruby/ruby/commit/bee7ccddd254c7b6e781f5ea9bbf651b50b590ee) that ended up in v2.0.0, to automatically retry any request made that was idempotent:
 
@@ -70,7 +71,7 @@ Patron, httpclient and typhoeus all wrap libcurl, and they switched being fastes
 
 We trialed Typhoeus on a system that gets plenty of hits, and operates as a evaluator for remote data sources. It was the perfect system to trial it on, as making HTTP requests is pretty much all it does, and whatever can be done to speed that up speeds the whole system up.
 
-![Slight improvement in times for connections to some otherwise rather slow services, after the Nov 4ish deployment.](https://cdn-images-1.medium.com/max/800/1*7y995K2YUvkIHInvQYax9g.png)
+![Slight improvement in times for connections to some otherwise rather slow services, after the Nov 4ish deployment.](/images/posts/ruby-users-be-wary-of-net-http/chart.png)
 Slight improvement in times for connections to some otherwise rather slow services, after the Nov 4ish deployment.
 
 We deployed a We::Call v0.7.0-pre1 and lost instrumentation for the rest of the day, leading to that exaggerated dip in the graph. Typheous does support NewRelic, so we [deployed a fix](https://github.com/wework/we-call-gem/commit/f8e0e0da41269d07dc631d8046e02ada6319c6fb), and you can easily see the improvement.

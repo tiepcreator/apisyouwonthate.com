@@ -71,7 +71,9 @@ const InlineCode = (props) => {
       borderRadius=".3em"
       padding="0.1ch 1ch"
       maxW={'calc(100vw - 60px)'}
-      wordWrap="break-word"
+      style={{
+        wordWrap: 'break-word',
+      }}
       display={'inline'}
       {...props}
     />

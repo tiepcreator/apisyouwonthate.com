@@ -19,7 +19,7 @@ I regularly tell folks that until we find a way of making network calls faster t
 
 ### Abandoned Runways
 
-![](https://cdn-images-1.medium.com/max/800/0*EgGpUKoO4UnML0pa.jpg)
+![An empty runway](/images/posts/optimizing-for-the-speed-of-light/runway.jpg)
 
 If I make 1000 HTTP requests simultaneously I only pay the speed of light tax once. So, why is it that we don’t just make every request really small and make many of them at once. The primary reason is based on piece of history. **HTTP/1.1 implementations aren’t very good at sending more than one request simultaneously over a single connection** and generally clients are limited to only opening a certain number of connections with a server. Historically, building servers that could maintain open connections with tens of thousands of clients was challenging. In order to achieve scalable systems it was necessary to limit the state that servers needed to hold onto for each client, and therefore limiting open connections was one way to do this.
 
@@ -35,7 +35,7 @@ The same mantra of “minimizing round trips” has become a best practice of th
 
 This model of a single batch or query request has some advantages to the client developer. For client developers to make simultaneous HTTP calls it is necessary to deal with multiple asynchronous requests that don’t block on IO. This experience is not the easiest to manage. In Java Script you end up with multiple callbacks. In C#/typescript you can no longer use the friendly \`await\` keyword that makes async calls almost as easy synchronous calls. **Ironically, the \`await\` keyword makes it really easy to force HTTP requests to execute sequentially that could easily execute in parallel.** This is what the pit of fail looks like!
 
-![](https://cdn-images-1.medium.com/max/800/0*tBL3Qzv7nT4wNW4t.jpg)
+![An empty quarry](/images/posts/optimizing-for-the-speed-of-light/quarry.jpg)
 
 ### Consequences
 
@@ -51,7 +51,7 @@ There is another industry mantra that is very useful here:
 
 “The fastest round-trip is no round trip”.
 
-![](https://cdn-images-1.medium.com/max/800/0*D8kJ4E797TYPzluH.png)
+![No U turns here](/images/posts/optimizing-for-the-speed-of-light/no-u-turn.png)
 
 This sounds a whole lot like what lead us to batching, but in fact this is referring to local caching. **If I have previously retrieved the information and it is still good, there is no need to retrieve it again.** With a batch request it is the responsibility of a client application to choose which requests to batch together to ensure data stays fresh. When the client wants to update the user presence indicator, it probably doesn’t need to update the user profile information. At least not nearly as often. If the server calculates the email statistics only once a day, refreshing that data more often is a waste of time. It is a non-trivial task for a client to choose when to refresh those pieces of data and aggregate the requests into batches to minimize roundtrips.
 

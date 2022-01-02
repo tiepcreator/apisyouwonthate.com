@@ -1,10 +1,12 @@
 import { serialize } from 'next-mdx-remote/serialize';
+
+import Image from 'next/image';
+
 import {
   Box,
   Container,
   Grid,
   Heading,
-  Image,
   Stack,
   Text,
   useTheme,
@@ -78,16 +80,13 @@ const BlogPage = ({ post, slug }) => {
             justifyContent={'start'}
           >
             {coverImage ? (
-              <Box>
+              <Box rounded={'sm'} align={'flex-start'} minHeight={'300px'}>
                 <Image
-                  rounded={'sm'}
                   alt={title}
                   src={postImageUrl}
                   width="1200px"
-                  minHeight={'300px'}
                   height="600px"
                   objectFit="contain"
-                  align={'flex-start'}
                 />
               </Box>
             ) : (

@@ -159,12 +159,12 @@ To try playing around with this, head over to
 Removing the name field triggers an error as we have `"required": ["name"]` in
 there.
 
-![screenshot showing object:name is missing](https://cdn-images-1.medium.com/max/800/1*JpoArUNNqO9Fy-CtNXaaXg.png)
+![screenshot showing object:name is missing](/images/posts/json-schema-client-side-validation/missing-name.png)
 
 Another validation rule could be triggered if you enter date of birth in an
 incorrect format.
 
-![screenshot showing '2007-01' does not valiate against format 'date'](https://cdn-images-1.medium.com/max/800/1*kFVCBlBeVUAoA_OYMrspQw.png)
+![screenshot showing '2007-01' does not valiate against format 'date'](/images/posts/json-schema-client-side-validation/missing-date.png)
 
 Conceptually that probably makes enough sense, but how to actually
 programmatically get this done? The JSON Schema `.json` files are usually made
