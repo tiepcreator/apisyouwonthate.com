@@ -120,12 +120,7 @@ const Pre = (props) => {
 
 const NextOptimizedImage = (props) => (
   // height and width are part of the props, so they get automatically passed here with {...props}
-  <Image
-    {...props}
-    layout="responsive"
-    loading="lazy"
-    alt={props?.alt + 'wobbo yobbo'}
-  />
+  <Image {...props} layout="responsive" loading="lazy" alt={props?.alt} />
 );
 
 const components = {
