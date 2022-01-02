@@ -17,7 +17,7 @@ module.exports = withBundleAnalyzer(
   withMDX({
     pageExtensions: ['js', 'jsx', 'md', 'mdx'],
     images: {
-      domains: ['i.ytimg.com'],
+      domains: ['i.ytimg.com', 'i.redd.it'],
     },
     async redirects() {
       return redirects;
