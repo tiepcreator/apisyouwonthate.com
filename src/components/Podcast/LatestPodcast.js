@@ -6,6 +6,7 @@ const LatestPodcast = () => {
       frameBorder="no"
       scrolling="no"
       seamless
+      title="The latest episode of the APIs You Won't Hate podcast"
       src="https://share.transistor.fm/e/apis-you-wont-hate/latest"
     />
   );
