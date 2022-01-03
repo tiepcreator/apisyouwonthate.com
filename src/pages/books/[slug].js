@@ -1,11 +1,12 @@
 import Link from 'next/link';
+import Image from 'next/image';
+
 import {
   Box,
   Button,
   Container,
-  Flex,
+  Grid,
   Heading,
-  Image,
   SimpleGrid,
   Stack,
   Text,
@@ -52,7 +53,6 @@ export async function getStaticProps({ params }) {
 const BookPage = ({ book }) => {
   const {
     amazonLinks,
-    author,
     coverImage,
     description,
     leanpubLinks,
@@ -129,10 +129,11 @@ const BookPage = ({ book }) => {
       <Seo title={title} description={subtitle} imageUrl={coverImageUrl} />
       <Container>
         <Overline>Get the book</Overline>
-        <Stack
-          direction={['column', 'column', 'row']}
+        <Grid
+          gridTemplateColumns={['1fr', '1fr', '2fr 1fr']}
           spacing={[4, 8, 12]}
           margin="1rem 0 2rem"
+          gap={16}
         >
           <Stack spacing={8}>
             <Heading
@@ -151,16 +152,14 @@ const BookPage = ({ book }) => {
             </Text>
             {buyLinks}
           </Stack>
-          <Box>
-            <Image
-              src={coverImageUrl}
-              alt={`${title} cover page`}
-              objectFit="contain"
-              height="55vh"
-              width={'100%'}
-            />
-          </Box>
-        </Stack>
+          <Image
+            src={coverImageUrl}
+            alt={`${title} cover page`}
+            objectFit={'contain'}
+            height="1200"
+            width={'500'}
+          />
+        </Grid>
       </Container>
 
       <Box background={'green.50'} padding="2rem 0" marginBottom={'-6rem'}>

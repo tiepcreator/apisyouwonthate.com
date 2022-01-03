@@ -2,16 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Link from 'next/link';
+import Image from 'next/image';
 
 import {
   SimpleGrid,
-  Image,
-  Flex,
   Heading,
   Text,
   Stack,
   StackDivider,
   useColorModeValue,
+  Box,
 } from '@chakra-ui/react';
 
 import { Overline } from '..';
@@ -64,14 +64,15 @@ const FeaturedBlogPost = ({ post }) => {
       </Stack>
       <Link justifySelf="end" href={blogPostUrl}>
         <a>
-          <Image
-            rounded={'md'}
-            alt={title}
-            src={`/images/posts/${coverImage}`}
-            width="100%"
-            height="100%"
-            objectFit="cover"
-          />
+          <Box rounded={'md'}>
+            <Image
+              alt={title}
+              src={`/images/posts/${coverImage}`}
+              width="800"
+              height="475"
+              objectFit="cover"
+            />
+          </Box>
         </a>
       </Link>
     </SimpleGrid>

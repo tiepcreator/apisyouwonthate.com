@@ -32,7 +32,7 @@ const NewsletterCTA = () => {
         >
           Get the newsletter
         </Heading>
-        <Text fontSize={'lg'} color={'gray.500'}>
+        <Text fontSize={'lg'} color={'gray.700'}>
           Pragmatic API, HTTP And REST info monthly
         </Text>
       </Stack>

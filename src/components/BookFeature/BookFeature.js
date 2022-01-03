@@ -1,8 +1,10 @@
+import Image from 'next/image';
+
 import {
+  Box,
   Button,
   Flex,
   Heading,
-  Image,
   Stack,
   Text,
   useBreakpointValue,
@@ -60,12 +62,16 @@ const BookFeature = ({ book }) => {
         </Stack>
       </Flex>
       <Flex flex={1} justifyContent={'center'}>
-        <Image
-          height="50vh"
-          src={bookImage}
-          alt={`Cover image for ${title}`}
-          objectFit={'cover'}
-        />
+        <Box>
+          <Image
+            height="550"
+            width="400"
+            src={bookImage}
+            alt={`Cover image for ${title}`}
+            objectFit={'cover'}
+            priority
+          />
+        </Box>
       </Flex>
     </Stack>
   );

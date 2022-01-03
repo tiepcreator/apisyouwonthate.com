@@ -18,20 +18,17 @@ const AuthorSummary = ({ author }) => {
   return (
     <Stack>
       <Box>
-        <Link href={authorPageUrl} width="100%">
-          {photo && (
-            <a>
-              <Image
-                src={`/images/authors/${photo}`}
-                alt={name}
-                width="400px"
-                height="400px"
-                objectFit="cover"
-                maxWidth="100%"
-              />
-            </a>
-          )}
-        </Link>
+        {photo && (
+          <Link href={authorPageUrl} width="100%">
+            <Image
+              src={`/images/authors/${photo}`}
+              alt={name}
+              width="400px"
+              height="400px"
+              objectFit="cover"
+            />
+          </Link>
+        )}
         <Heading
           as="h2"
           mt="-7rem"
@@ -61,12 +58,14 @@ const AuthorSummary = ({ author }) => {
         </Stack>
       )}
       {twitter && (
-        <Link href={`https://twitter.com/${twitter}`}>
+        <Link
+          href={`https://twitter.com/${twitter}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <Stack direction="row" alignItems="center">
             <TwitterIcon />
-            <a target="_blank" rel="noopener noreferrer">
-              {twitter}
-            </a>
+            {twitter}
           </Stack>
         </Link>
       )}
@@ -77,7 +76,7 @@ const AuthorSummary = ({ author }) => {
           </a>
         </Button>
       )}
-      <Text>{shortBio && <p>{shortBio}</p>}</Text>
+      <Text>{shortBio}</Text>
     </Stack>
   );
 };
