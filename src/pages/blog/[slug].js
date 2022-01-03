@@ -2,15 +2,7 @@ import { serialize } from 'next-mdx-remote/serialize';
 
 import Image from 'next/image';
 
-import {
-  Box,
-  Container,
-  Grid,
-  Heading,
-  Stack,
-  Text,
-  useTheme,
-} from '@chakra-ui/react';
+import { Box, Container, Grid, Heading, Stack, Text } from '@chakra-ui/react';
 import { MDXRemote } from 'next-mdx-remote';
 
 import {
@@ -57,10 +49,8 @@ export async function getStaticPaths() {
   };
 }
 
-const BlogPage = ({ post, slug }) => {
+const BlogPage = ({ post }) => {
   const { author, date, coverImage, title, subtitle } = post.frontmatter;
-
-  const theme = useTheme();
 
   const postImageUrl = `/images/posts/${coverImage}`;
   return (

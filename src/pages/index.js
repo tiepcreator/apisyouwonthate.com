@@ -1,12 +1,13 @@
 import React from 'react';
+import Link from 'next/link';
 
 import {
-  Box,
   Container,
   Grid,
   SimpleGrid,
   Spacer,
   Stack,
+  Text,
 } from '@chakra-ui/react';
 
 import {
@@ -41,13 +42,23 @@ export const getStaticProps = async () => {
 };
 
 const IndexPage = ({ books, posts }) => {
-  const [firstPost, ...otherPosts] = posts;
+  const [firstPost, ...otherPosts] = posts.slice(0, 12);
   return (
     <Layout>
       <Container maxW="7xl">
         <Seo
           title="API News, articles, podcasts, and books"
-          keywords={[`gatsby`, `application`, `react`]}
+          keywords={[
+            `http`,
+            `api`,
+            `api design`,
+            `api development`,
+            `programming`,
+            `systems architecture`,
+            `rest`,
+            `graphql`,
+            `grpc`,
+          ]}
         />
         <Stack>
           <Grid
@@ -55,10 +66,9 @@ const IndexPage = ({ books, posts }) => {
             gap={4}
           >
             <FeaturedBlogPost post={firstPost} />
-            <Box alignSelf="end">
-              <CarbonAd />
-            </Box>
           </Grid>
+
+          <Spacer />
 
           <Overline id="books">Books for API Developers</Overline>
           <SimpleGrid minChildWidth={'400px'} spacing={8}>
@@ -72,12 +82,24 @@ const IndexPage = ({ books, posts }) => {
           </SimpleGrid>
 
           <Spacer />
+
           <Overline id="more">More API goodness</Overline>
           <SimpleGrid minChildWidth="300px" spacing={8} mt={4}>
             <PodcastFeed dark height="500" />
             {otherPosts.map((post) => {
               return <BlogPostItem key={post.slug} post={post} />;
             })}
+            <CarbonAd />
+            <Link href="/blog" passHref>
+              <Text
+                as="a"
+                color="green.600"
+                fontWeight={'bold'}
+                _hover={{ color: 'green.400' }}
+              >
+                Read more articles &rarr;
+              </Text>
+            </Link>
           </SimpleGrid>
         </Stack>
       </Container>
