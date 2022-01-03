@@ -8,12 +8,12 @@ import { Heading, Stack } from '@chakra-ui/react';
 
 import { AuthorDisplay } from '../AuthorDisplay';
 
-const BlogPostItem = ({ post, key }) => {
+const BlogPostItem = ({ post }) => {
   const { author, date, coverImage, subtitle, title } = post.frontmatter;
 
   const postUrl = `/blog/${post.slug}`;
   return (
-    <Stack maxW={'calc(100vw - 32px)'} key={key}>
+    <Stack maxW={'calc(100vw - 32px)'}>
       <Link href={postUrl}>
         <a>
           <Image
