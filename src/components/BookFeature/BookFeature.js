@@ -13,10 +13,11 @@ import Link from 'next/link';
 import slugify from '../../utils/slugify';
 
 const BookFeature = ({ book }) => {
-  const { title, coverImage, description, subtitle } = book.frontmatter;
+  const { title, subtitle, thumbnail } = book.frontmatter;
 
   const bookUrl = `/books/${slugify(title)}`;
-  const bookImage = `/images/books/${coverImage}`;
+  const bookImage = `/images/books/${thumbnail}`;
+
   return (
     <Stack direction={{ base: 'column', md: 'row' }}>
       <Flex flex={1} align={'center'} justify={'center'}>

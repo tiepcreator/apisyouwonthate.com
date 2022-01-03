@@ -6,7 +6,6 @@ import Link from 'next/link';
 import {
   SimpleGrid,
   Image,
-  Flex,
   Heading,
   Text,
   Stack,

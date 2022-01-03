@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Container,
-  Flex,
   Heading,
   Image,
   SimpleGrid,
@@ -52,7 +51,6 @@ export async function getStaticProps({ params }) {
 const BookPage = ({ book }) => {
   const {
     amazonLinks,
-    author,
     coverImage,
     description,
     leanpubLinks,
