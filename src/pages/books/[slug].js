@@ -156,8 +156,8 @@ const BookPage = ({ book }) => {
             src={coverImageUrl}
             alt={`${title} cover page`}
             objectFit={'contain'}
-            height="1200"
-            width={'500'}
+            height="700"
+            width={'550'}
           />
         </Grid>
       </Container>
