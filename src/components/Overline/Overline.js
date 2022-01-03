@@ -6,7 +6,7 @@ const Overline = ({ children, ...rest }) => (
   <Text
     display={'inline-block'}
     textTransform={'uppercase'}
-    color={'blue.400'}
+    color={useColorModeValue('blue.700', 'blue.200')}
     fontWeight={600}
     fontSize={'sm'}
     bg={useColorModeValue('blue.50', 'blue.900')}

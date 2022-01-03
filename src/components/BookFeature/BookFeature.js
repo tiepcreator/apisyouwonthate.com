@@ -42,7 +42,7 @@ const BookFeature = ({ book }) => {
               {title}
             </Text>
           </Heading>
-          <Text fontSize={{ base: 'md', lg: 'lg' }} color={'gray.500'}>
+          <Text fontSize={{ base: 'md', lg: 'lg' }} color={'gray.600'}>
             {subtitle}
           </Text>
           <Stack direction={{ base: 'column', md: 'row' }} spacing={4}>

@@ -39,7 +39,7 @@ const FeaturedBlogPost = ({ post }) => {
             </Text>
           </Link>
         </Text>
-        <Text color={'gray.500'} fontSize={'lg'}>
+        <Text color={'gray.600'} fontSize={'lg'}>
           {subtitle}
         </Text>
         <Stack

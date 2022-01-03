@@ -13,10 +13,10 @@ const AuthorDisplay = ({ name, date }) => {
   return (
     <Stack direction="row" alignItems={'center'}>
       <Link href={authorUrl} passHref>
-        <ChakraLink color="green.400">{name}</ChakraLink>
+        <ChakraLink color="green.700">{name}</ChakraLink>
       </Link>
       {date && (
-        <Text color={'gray.500'}>{format(new Date(date), 'MMM dd, yyyy')}</Text>
+        <Text color={'gray.600'}>{format(new Date(date), 'MMM dd, yyyy')}</Text>
       )}
     </Stack>
   );
