@@ -34,7 +34,7 @@ const FeaturedBlogPost = ({ post }) => {
         <Text>
           written by{' '}
           <Link href={`/authors/${slugify(author)}`} passHref>
-            <Text as="a" color="green.600" fontSize={'md'}>
+            <Text as="a" color="green.700" fontSize={'md'}>
               {author}
             </Text>
           </Link>
@@ -53,7 +53,7 @@ const FeaturedBlogPost = ({ post }) => {
           <Link href={blogPostUrl} passHref>
             <Text
               as="a"
-              color="green.600"
+              color="green.700"
               fontWeight={'bold'}
               _hover={{ color: 'green.400' }}
             >
