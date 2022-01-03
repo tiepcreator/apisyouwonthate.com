@@ -15,10 +15,10 @@ import Link from 'next/link';
 import slugify from '../../utils/slugify';
 
 const BookFeature = ({ book }) => {
-  const { title, subtitle, thumbnail } = book.frontmatter;
+  const { coverImage, title, subtitle } = book.frontmatter;
 
   const bookUrl = `/books/${slugify(title)}`;
-  const bookImage = `/images/books/${thumbnail}`;
+  const bookImage = `/images/books/${coverImage}`;
 
   return (
     <Stack direction={{ base: 'column', md: 'row' }}>
