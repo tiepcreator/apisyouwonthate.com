@@ -82,7 +82,7 @@ const AuthorPage = ({ author, posts }) => {
   const pageTitle = `${name}, ${isStaff ? 'staff' : 'contributing'} author`;
 
   const authorImageUrl = `/images/authors/${photo}`;
-  console.log('pagetitle', pageTitle);
+
   return (
     <Layout>
       <Seo title={pageTitle} description={shortBio} imageUrl={authorImageUrl} />
