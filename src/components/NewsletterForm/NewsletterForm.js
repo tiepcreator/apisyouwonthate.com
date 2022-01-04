@@ -14,6 +14,7 @@ const NewsletterForm = () => {
         src="https://app.mailjet.com/widget/iframe/5dss/LBf"
         width="100%"
         height="200px"
+        title="Newsletter Form"
       ></iframe>
 
       <Script

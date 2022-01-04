@@ -5,6 +5,7 @@ const PodcastFeed = ({ dark = false }) => (
     frameBorder="no"
     scrolling="no"
     seamless
+    title="Listen to the APIs You Won't Hate podcast"
     src={`https://share.transistor.fm/e/apis-you-wont-hate/playlist${
       dark ? '/dark' : ''
     }`}

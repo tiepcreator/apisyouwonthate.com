@@ -34,7 +34,7 @@ const CustomHeading = ({ as, id, ...rest }) => {
               _before: {
                 content: '"#"',
                 fontSize: 'smaller',
-                color: 'green.600',
+                color: 'green.700',
                 position: 'relative',
                 marginLeft: '-1.2ch',
                 paddingRight: '0.2ch',

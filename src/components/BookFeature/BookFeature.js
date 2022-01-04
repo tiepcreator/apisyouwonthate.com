@@ -1,8 +1,10 @@
+import Image from 'next/image';
+
 import {
+  Box,
   Button,
   Flex,
   Heading,
-  Image,
   Stack,
   Text,
   useBreakpointValue,
@@ -13,10 +15,10 @@ import Link from 'next/link';
 import slugify from '../../utils/slugify';
 
 const BookFeature = ({ book }) => {
-  const { title, subtitle, thumbnail } = book.frontmatter;
+  const { coverImage, title, subtitle } = book.frontmatter;
 
   const bookUrl = `/books/${slugify(title)}`;
-  const bookImage = `/images/books/${thumbnail}`;
+  const bookImage = `/images/books/${coverImage}`;
 
   return (
     <Stack direction={{ base: 'column', md: 'row' }}>
@@ -40,7 +42,7 @@ const BookFeature = ({ book }) => {
               {title}
             </Text>
           </Heading>
-          <Text fontSize={{ base: 'md', lg: 'lg' }} color={'gray.500'}>
+          <Text fontSize={{ base: 'md', lg: 'lg' }} color={'gray.600'}>
             {subtitle}
           </Text>
           <Stack direction={{ base: 'column', md: 'row' }} spacing={4}>
@@ -61,12 +63,16 @@ const BookFeature = ({ book }) => {
         </Stack>
       </Flex>
       <Flex flex={1} justifyContent={'center'}>
-        <Image
-          height="50vh"
-          src={bookImage}
-          alt={`Cover image for ${title}`}
-          objectFit={'cover'}
-        />
+        <Box>
+          <Image
+            height="550"
+            width="400"
+            src={bookImage}
+            alt={`Cover image for ${title}`}
+            objectFit={'cover'}
+            priority
+          />
+        </Box>
       </Flex>
     </Stack>
   );

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 import { serialize } from 'next-mdx-remote/serialize';
 import {
@@ -7,7 +8,6 @@ import {
   Container,
   Grid,
   Heading,
-  Image,
   SimpleGrid,
   Stack,
   Text,
@@ -28,7 +28,6 @@ import { GitHubIcon, InstagramIcon, TwitterIcon } from '../../components/icons';
 import { getAllAuthors, getAuthorBySlug } from '../../lib/authorLoader';
 import { getAllPostsByAuthor } from '../../lib/blogPostLoader';
 
-import config from '../../../config';
 import mdxOptions from '../../utils/mdxOptions';
 
 export async function getStaticPaths() {
@@ -82,8 +81,8 @@ const AuthorPage = ({ author, posts }) => {
 
   const pageTitle = `${name}, ${isStaff ? 'staff' : 'contributing'} author`;
 
-  const { siteUrl } = config.siteMetadata;
   const authorImageUrl = `/images/authors/${photo}`;
+
   return (
     <Layout>
       <Seo title={pageTitle} description={shortBio} imageUrl={authorImageUrl} />
@@ -95,7 +94,12 @@ const AuthorPage = ({ author, posts }) => {
             gap={8}
           >
             <Stack>
-              <Image src={authorImageUrl} alt={`${name} headshot`} />
+              <Image
+                src={authorImageUrl}
+                height="300"
+                width="300"
+                alt={`${name} headshot`}
+              />
               {consultingUrl && (
                 <Button>
                   <a

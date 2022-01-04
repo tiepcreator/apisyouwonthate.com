@@ -14,6 +14,7 @@ import {
 import { AuthorSummary, Layout, NewsletterForm, Seo } from '../../components';
 
 import { getAllAuthors } from '../../lib/authorLoader';
+import config from '../../../config';
 
 // load authors from getStaticProps
 export const getStaticProps = async () => {
@@ -35,7 +36,10 @@ export const getStaticProps = async () => {
 const AboutPage = ({ staffAuthors, contributingAuthors }) => {
   return (
     <Layout>
-      <Seo />
+      <Seo
+        title="About APIs You Won't Hate, and our authors"
+        description={config.siteMetadata.description}
+      />
       <Container mt="2rem">
         <Stack>
           <Grid gridTemplateColumns={['1fr', '1fr', '2fr 1fr']} gap={8}>
@@ -74,11 +78,11 @@ const AboutPage = ({ staffAuthors, contributingAuthors }) => {
 
           <Stack>
             <Heading as="h2">Staff Authors</Heading>
-            <p>Meet the fouding team behind APIs You Won&apos;t Hate</p>
+            <Text>Meet the fouding team behind APIs You Won&apos;t Hate</Text>
 
             <SimpleGrid columns={[1, 1, 3]} spacing={8}>
               {staffAuthors.map((author) => (
-                <AuthorSummary key={author.id} author={author} />
+                <AuthorSummary key={author.frontmatter.name} author={author} />
               ))}
             </SimpleGrid>
 
@@ -94,7 +98,7 @@ const AboutPage = ({ staffAuthors, contributingAuthors }) => {
 
             <SimpleGrid columns={[1, 1, 3]} spacing={8}>
               {contributingAuthors.map((author) => (
-                <AuthorSummary key={author.id} author={author} />
+                <AuthorSummary key={author.frontmatter.name} author={author} />
               ))}
             </SimpleGrid>
           </Stack>
