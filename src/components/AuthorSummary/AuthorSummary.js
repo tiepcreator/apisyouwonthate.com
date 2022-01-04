@@ -46,16 +46,16 @@ const AuthorSummary = ({ author }) => {
         </Heading>
       </Box>
       {github && (
-        <Stack direction="row" alignItems="center">
-          <GitHubIcon />
-          <a
-            href={`https://github.com/${github}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {github}
-          </a>
-        </Stack>
+        <Link
+          href={`https://github.com/${github}`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <Stack direction="row" alignItems="center">
+            <GitHubIcon />
+            <Text>{github}</Text>
+          </Stack>
+        </Link>
       )}
       {twitter && (
         <Link
@@ -65,7 +65,7 @@ const AuthorSummary = ({ author }) => {
         >
           <Stack direction="row" alignItems="center">
             <TwitterIcon />
-            {twitter}
+            <Text>{twitter}</Text>
           </Stack>
         </Link>
       )}
