@@ -39,22 +39,26 @@ One of the most common tasks REST APIs provide is CRUD via JSON, but it can do p
 
 Uploading an image in the HTTP body can look a little something like this:
 
+```
 POST /avatars HTTP/1.1
 Host: localhost:3000
 Content-Type: image/jpeg
 Content-Length: 284
 
 raw image content
+```
 
 Leveraging a cool part of HTTP (and therefore REST), API developers can support `application/json` requests on the same endpoint to handle the upload slightly differently, and offer URL-based uploads too:
 
+```
 POST /avatars HTTP/1.1
 Host: localhost:3000
 Content-Type: application/json
 
 {
-  "image\_url" : "[https://example.org/pic.png](https://example.org/pic.png)"
+  "image_url" : "https://example.org/pic.png"
 }
+```
 
 Generally the APIs I have worked on have enjoyed both, which is super handy as iOS often sends photos directly from local files, and web clients often send a URL to the user’s Facebook display picture.
 
@@ -67,9 +71,9 @@ Host: localhost:3000
 Content-Type: application/graphql
 
 mutation addAvatar {
-  addAvatarFromUrl(image\_url: "[https://example.org/pic.png](https://example.org/pic.png)") {
+  addAvatarFromUrl(image_url: "https://example.org/pic.png") {
     id,
-    image\_url
+    image_url
   }
 }
 
@@ -85,7 +89,7 @@ The suggested approach is to add new fields and deprecate old ones, which is [a 
 
 Deprecating, communicating to third-parties, monitoring usage, and removing at an acceptable time, is exactly what many REST APIs have been doing forever.
 
-REST \_is\_ about evolvability, so don’t blame it for the bad habits of us RESTish people.
+REST _is_ about evolvability, so don’t blame it for the bad habits of us RESTish people.
 
 Although GraphQL and REST can (and should) version via evolution just as easily, GraphQL really helps API developers out when it comes to deprecations.
 
@@ -93,6 +97,7 @@ Although GraphQL and REST can (and should) version via evolution just as easily,
 
 One area where GraphQL excels is to make monitoring field usage incredibly easy at a technical level. GraphQL clients are forced to specify the fields they want returned in the query:
 
+```
 POST /graphql HTTP/1.1
 Host: localhost:3000
 Content-Type: application/graphql
@@ -104,6 +109,7 @@ Content-Type: application/graphql
     intelligence
   }
 }
+```
 
 Tracking this would be trivial, but a REST API acts a little differently. Whilst all REST APIs make the base endpoint available via `/turtles/123`, not all APIs offer [sparse fieldsets](https://jsonapi.org//format/#fetching-sparse-fieldsets): `/turtles/123?fields=length,width,intelligence`. Of those that do offer it, it's almost always optional.
 
@@ -123,46 +129,46 @@ GraphQL makes it easy to track specific field usage to a client, meaning API own
 
 I had a vague brain fart about doing this latter option for non-GraphQL HTTP APIs, but have not had a chance to see it through _yet_.
 
-Some
-
 That could help in some situations, but would certainly be baked into things the same way it is in GraphQL.
 
 _GraphQL making field deprecation easier was a point brought to my attention by_ [_Tom Clark_](https://twitter.com/itstomclark)_, super-smart Head of Devops at_ [_WeWork_](https://www.wework.com/)_._
 
 ### GraphQL Puts Client Performance First
 
-GraphQL is always the smallest possible request, whilst REST generally defaults to the fullest. It’s common practice to offer options like `?fields=foo,bar` or partials. [Google recommend doing this for HTTP APIs](https://developers.google.com/google-apps/tasks/performance#partial), whatever that's worth.
+GraphQL is always the smallest possible request, whilst REST generally defaults to the fullest. It’s common practice to offer options like `?fields=foo,bar` or partials. [Google recommend doing this for HTTP APIs](https://developers.google.com/google-apps/tasks/performance#partial), whatever that's worth.
 
 Even if a REST API returns only a basic partial by default, there are still more bits being transferred over the wire by default, than with the GraphQL approach. If a client needs a field, they request it, and if the API adds a new field, clients don’t get it, unless they discover that field in a blog post or whatever and add it to the GraphQL query.
 
-### REST Makes Caching Easier At All Levels
+### REST Makes Caching Easier At All Levels
 
 Caching for HTTP, common usage in REST APIs, and different types of caching are huge topics, and something that I had to split out of this article. I’ll post a followup shortly, which will be posted on the [APIs You Won’t Hate Newsletter](https://apisyouwonthate.com/newsletter).
 
-> _In an endpoint-based API, clients can use HTTP caching to easily avoid refetching resources, and for identifying when two resources are the same. The URL in these APIs is a globally unique identifier that the client can leverage to build a cache._
-
-> _In GraphQL, though, there’s no URL-like primitive that provides this globally unique identifier for a given object. It’s hence a best practice for the API to expose such an identifier for clients to use._
-
-> _— Source:_ [_graphql.org_](https://graphql.org/learn/caching/)
+> In an endpoint-based API, clients can use HTTP caching to easily avoid refetching resources, and for identifying when two resources are the same. The URL in these APIs is a globally unique identifier that the client can leverage to build a cache.
+> 
+> In GraphQL, though, there’s no URL-like primitive that provides this globally unique identifier for a given object. It’s hence a best practice for the API to expose such an identifier for clients to use.
+> 
+> *-— Source:* [graphql.org](https://graphql.org/learn/caching/)
 
 REST over HTTP uses a whole pile of HTTP conventions that make existing HTTP clients, HTTP cache proxies, etc., all work easily to benefit both API clients and API servers, but with GraphQL… tough. Reorganize your data stores, use a bunch of Redis, and hope clients are caching too.
 
-### GraphQL is a Query Language First
+### GraphQL is a Query Language First
 
 A very fundamental difference here of course is that only one of these is a query language. REST APIs are often created initially simple, then slowly more and more query language-like features are tacked on over time.
 
-The most reasonable way to provide arguments for queries in REST is to shove them in the query string. Maybe a `?status=active` to filter by status, then probably `sort=created`, but a client needs sort direction so `sort-dir=desc` is added.
+The most reasonable way to provide arguments for queries in REST is to shove them in the query string. Maybe a `?status=active` to filter by status, then probably `sort=created`, but a client needs sort direction so `sort-dir=desc` is added.
 
 Some APIs use also end up with arguments in the query string that are not related to filtering, more like options. In the GraphQL example they specify the unit they’d like to see a `height` returned in:
 
+```
 {
   human(id: "1000") {
     name
     height(unit: FOOT)
   }
 }
+```
 
-That’s pretty darn handy, and it stops the confusion of `?status=active` being a filter but `?unit=foot` being a display option. I have seen `?filter:status=active`, `?filter[status]=active`, etc., but this is still a bit of a mess.
+That’s pretty darn handy, and it stops the confusion of `?status=active` being a filter but `?unit=foot` being a display option. I have seen `?filter:status=active`, `?filter[status]=active`, etc., but this is still a bit of a mess.
 
 In these scenarios, GraphQL beats the pants off of REST APIs that try to hand-roll their own query language functionality, but I would suggest hand-rolling your own query language is a bad idea anyway. GraphQL gives you a query language syntax, and SDKs for your programming language to fetch the right models for that, but so do things like [OData](https://www.odata.org//), a project with the slogan "A Better Way to REST".
 
@@ -184,9 +190,9 @@ This is a big win for GraphQL, as forcing the include approach, and forcing effi
 
 GraphQL will not help with your database queries, so you still need to fine tune those indexes and cache fragments of the data intelligently. If you skip this, clients will surprise you. At a previous job we had a poorly-tuned mega include from the iOS app taking about 20s+ to respond, which was bloody terrifying. We almost just had them curl down a `latest.sqlite` to process locally. 🤣
 
-### Scoped Includes Suck in Both
+### Scoped Includes Suck in Both
 
-Using that trip example again, a client may be including passengers but realize that includes historical passengers. Don’t want to see people who left the carpool? The client has to iterate through passengers locally, removing any models where `model.status != "active"`, which is a waste of processing on the client side.
+Using that trip example again, a client may be including passengers but realize that includes historical passengers. Don’t want to see people who left the carpool? The client has to iterate through passengers locally, removing any models where `model.status != "active"`, which is a waste of processing on the client side.
 
 The REST way to do this would be to use `/passengers?trip=123&status=active` which is obviously more flexible, but clients will skip this due to the extra requests required.
 
@@ -194,7 +200,7 @@ With client-side filtering being a poor choice, and the extra request not being 
 
 It seems like GraphQL doesn’t help API developers in this instance, but there does seem to be talk of adding `@filter` to [do this in the future](https://discuss.dgraph.io/t/filters-in-graphql/831/31).
 
-### GraphQL Devolves Power to Clients
+### GraphQL Devolves Power to Clients
 
 Another question that comes up a lot for REST API developers, is:
 
@@ -216,7 +222,7 @@ Whether you need this paradigm shift or not is entirely up to how similar your c
 
 But, if you have a multitude of different clients, or are public (therefore have no idea how the API will be used), GraphQL quickly starts to seem more appealing.
 
-### Why Not Use Both?
+### Why Not Use Both?
 
 The biggest oddity I notice in the "GraphQL vs REST" conversation, is the falsehood that _you must pick one_.
 
@@ -245,5 +251,3 @@ Beyond these various pros and cons for GraphQL listed above, what I really enjoy
 I like that many folks will no longer treat REST like a shiny unicorn, struggle to implement REST properly, then call it REST just so they look good and have a ✅ for their marketing. I just hope that not too many people treat GraphQL like a shiny unicorn instead.
 
 Swapping one false idol for another isn’t going to make the API world a better place.
-
-_Originally published at_ [_philsturgeon.uk_](https://apisyouwonthate.com/blog/graphql-vs-rest-overview) _on January 24, 2017._
