@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
 
 import {
+  Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,
   Button,
   FormControl,
   FormLabel,
-  FormErrorMessage,
   Input,
   Text,
   Stack,
@@ -16,7 +19,7 @@ const NewsletterForm = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [emailIsValid, setEmailIsValid] = useState(false);
-  const [formStatus, setFormStatus] = useState({});
+  const [formResponse, setFormResponse] = useState({});
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -41,26 +44,35 @@ const NewsletterForm = () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
     })
-      .then((res) => {
-        setFormStatus({
-          success: true,
-          message: '✅ Check your inbox to confirm your subscription!',
-        });
-        setIsSubmitting(false);
+      .then(async (res) => {
+        if (res.ok) {
+          setFormResponse({
+            status: 'SUCCESS',
+            message: 'Check your inbox to confirm your subscription!',
+          });
+          setIsSubmitting(false);
+        } else {
+          setIsSubmitting(false);
+          const b = await res.json();
+          debugger;
+          setFormResponse({
+            status: 'ERROR',
+            message: b.message,
+          });
+        }
       })
       .catch((error) => {
-        setFormStatus({
+        setFormResponse({
           error: true,
           message: JSON.stringify(error),
         });
-        alert(error);
       });
   };
 
-  if (formStatus.success) {
+  if (formResponse.success) {
     return (
       <Stack>
-        <Text>{formStatus.message}</Text>
+        <Text>{formResponse.message}</Text>
       </Stack>
     );
   }
@@ -78,7 +90,6 @@ const NewsletterForm = () => {
           background={'white'}
         />
       </FormControl>
-
       <FormControl>
         <FormLabel htmlFor="name">First Name</FormLabel>
         <Input
@@ -101,8 +112,18 @@ const NewsletterForm = () => {
       >
         Subscribe
       </Button>
-      {formStatus.error && (
-        <FormErrorMessage>{formStatus.message}</FormErrorMessage>
+      {formResponse.status === 'ERROR' && (
+        <Alert status="error">
+          <AlertIcon />
+          <AlertDescription>{formResponse.message}</AlertDescription>
+        </Alert>
+      )}
+
+      {formResponse.status === 'SUCCESS' && (
+        <Alert status="success">
+          <AlertIcon />
+          <AlertTitle>{formResponse.message}</AlertTitle>
+        </Alert>
       )}
     </Stack>
   );
