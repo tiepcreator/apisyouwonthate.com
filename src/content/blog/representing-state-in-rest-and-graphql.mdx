@@ -31,8 +31,6 @@ Let’s talk about invoices. Our API could be REST, RESTish or GraphQL, doesn’
     }
   }
 }
-
-
 ```
 
 We tell the clients that if there is no paid date, then it has not been paid, and the same logic applies for sent. It might look a bit like this:
@@ -74,7 +72,7 @@ Of course, folks will say “well you shouldn’t change things without versioni
 
 Changing things without versioning is sometimes known as [API evolution](https://www.mnot.net/blog/2012/12/04/api-evolution), and whilst you shouldn’t go running about breaking things willy nilly, you should be able to add to an API without clients exploding. GraphQL is advertising people use evolution right on their homepage, so it’s not an alien concept.
 
-#### API != Database
+#### API != Database
 
 Inferring states from dates or other arbitrary fields is awful, and it _always_
 goes wrong.
@@ -146,7 +144,7 @@ invoice.transition_to(:paid) # => true/false
 
 This gives us a lot of ability to assert a single “status”, and you know the server has everything under control. We’ve not had to spread that logic throughout persistence layer logic, controller logic, and arbitrary classes. It’s all in the state machine, and the main thing is that we no longer have to ask the clients to try and guess what’s up with the invoice.
 
-#### Exposing State over HTTP
+#### Exposing State over HTTP
 
 Just like the Ruby example, we want to know the current state, and we want to know what we can do next.
 
@@ -154,7 +152,7 @@ First thing? Shove that `current_state` property in your serializer to expose a 
 
 How about the “what to do next” bit? Well, this is exactly what HATEOAS is!
 
-#### HATEOAS I CALL ON THEE
+#### HATEOAS I CALL ON THEE
 
 “Hypermedia As The Engine Of Application State” is a concept that’s ignored by many, but it’s what makes a REST API so powerful.
 
@@ -189,7 +187,7 @@ What mime type should be put in `Accept`?
 
 There are a few ways HATEOAS can help.
 
-#### **OPTIONS + Meta Data**
+#### **OPTIONS + Meta Data**
 
 A client could call `OPTIONS /invoices/093b941d/payment_attempts` and get a response with metadata about the document.
 
@@ -279,7 +277,7 @@ You can finally fire Gary!
 
 There’s quite a few [other data formats](https://sookocheff.com/post/api/on-choosing-a-hypermedia-format/) that support hypermedia, including the awesomely named [Hydra](http://www.markus-lanthaler.com/hydra/).
 
-#### Actions seem unRESTy
+#### Actions seem unRESTy
 
 Something I’ve said [fairly recently](https://www.smashingmagazine.com/2016/09/understanding-rest-and-rpc-for-http-apis/) is that “actions are RPC” (‘remote procedure call’), which is… semi accurate. If an API is nothing but actions then it is probably better off as RPC. I’m building a permissions API that accepts a bunch of parameters, then returns true or false if the user has permission. That can stay as RPC.
 
@@ -295,7 +293,7 @@ A [recent talk from Mike Amundsen](http://www.ustream.tv/recorded/102891495) goe
 
 Information and actions, displayed up to a user through a self-documenting format of awesomeness, with a selection of links that turn a well-tuned client into a crawler instead of just being a CRUD exchange… well that’s the whole point of REST.
 
-#### To HATEOAS or not to HATEOAS
+#### To HATEOAS or not to HATEOAS
 
 We know that if you don’t have HATEOAS, [you only have a RESTish API](http://roy.gbiv.com/untangled/2008/rest-apis-must-be-hypertext-driven).
 
