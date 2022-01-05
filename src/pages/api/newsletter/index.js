@@ -6,7 +6,7 @@ const mailjet = require('node-mailjet').connect(
 // attempt to subscribe to newsletter
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    res.status(400).send({ message: 'Only POST requests allowed' });
+    res.status(405).send({ message: 'Only POST requests allowed' });
     return;
   }
 

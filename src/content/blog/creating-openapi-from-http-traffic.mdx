@@ -15,7 +15,7 @@ More organizations are switching to [API Design-first with OpenAPI](https://stop
 
 Sadly, there's an awkward position many of us are stuck in. We have an API that we built years ago, and now our DevRel team want OpenAPI-based API Reference documentation, the API governance team want OpenAPI to be included in the pull request for any code change, the testing team want our OpenAPI to set up end-to-end  contract testing, but we don't have any OpenAPI... AGH!
 
-We wrote before about some slightly hacky ways to create OpenAPI from things like Postman Collections, using JSON to JSON Schema converters, and a whole lot of mucking about, but thankfully these days there are far nicer solutions around. One especially smooth tool is [Akita](https://www.akitasoftware.com/)! 
+We wrote before about some [slightly hacky ways to create OpenAPI](/blog/creating-api-specifications-from-bullst) from things like Postman Collections, using JSON to JSON Schema converters, and a whole lot of mucking about, but thankfully these days there are far nicer solutions around. One especially smooth tool is [Akita](https://www.akitasoftware.com/)! 
 
 Akita is an observability tool, which can sniff HTTP traffic, and build models of your data. Once it's done that, it can create a graph of all your APIs to give insight into a system, intelligently catch and communicate breaking changes, and various other handy things. 
 
