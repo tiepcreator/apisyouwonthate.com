@@ -13,10 +13,18 @@ This site is built with Next.js and MDX/Markdown, and Chakra UI. It is hosted on
 1. To make shopify buy button embeds work, create a file called `.env.development` in the root of this project directory with the following values set:
 
    ```bash
+   # IDs for our shopify store, to be able to sell books
    NEXT_PUBLIC_SHOPIFY_DOMAIN=
    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
    NEXT_PUBLIC_FATHOM_ID=
+
+   # the slack webhook we use for notifications from /ama
    CONTACT_FORM_SLACK_WEBHOOK_ADDRESS=
+
+   # mailjet API stuff, for the newsletter subscription form
+   MAILJET_PUBLIC_KEY=
+   MAILJET_SECRET_KEY=
+   MAILJET_NEWSLETTER_LIST_ID=
    ```
 
    (fill in missing values to the right of each `=` with values from shopify)

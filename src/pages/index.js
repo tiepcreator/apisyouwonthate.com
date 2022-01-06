@@ -66,6 +66,7 @@ const IndexPage = ({ books, posts }) => {
             gap={4}
           >
             <FeaturedBlogPost post={firstPost} />
+            <CarbonAd />
           </Grid>
 
           <Spacer />
@@ -89,7 +90,6 @@ const IndexPage = ({ books, posts }) => {
             {otherPosts.map((post) => {
               return <BlogPostItem key={post.slug} post={post} />;
             })}
-            <CarbonAd />
             <Link href="/blog" passHref>
               <Text
                 as="a"
