@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import * as Fathom from 'fathom-client';
 
 import {
   Alert,
@@ -51,6 +52,7 @@ const NewsletterForm = () => {
             message: 'Check your inbox to confirm your subscription!',
           });
           setIsSubmitting(false);
+          Fathom.trackGoal('S0BKMQCZ');
         } else {
           setIsSubmitting(false);
           const b = await res.json();
