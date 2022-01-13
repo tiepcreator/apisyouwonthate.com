@@ -18,8 +18,6 @@ This site is built with Next.js and MDX/Markdown, and Chakra UI. It is hosted on
    NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
    NEXT_PUBLIC_FATHOM_ID=
 
-   # the slack webhook we use for notifications from /ama
-   CONTACT_FORM_SLACK_WEBHOOK_ADDRESS=
 
    # mailjet API stuff, for the newsletter subscription form
    MAILJET_PUBLIC_KEY=
