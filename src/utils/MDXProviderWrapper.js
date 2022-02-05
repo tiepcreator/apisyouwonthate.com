@@ -13,13 +13,23 @@ import {
   Box,
   Heading,
   Link,
+  OrderedList,
   SimpleGrid,
   Text,
+  UnorderedList,
   useTheme,
 } from '@chakra-ui/react';
 
 import PrismHighlight, { defaultProps } from 'prism-react-renderer';
 import prismTheme from 'prism-react-renderer/themes/nightOwl';
+
+/* 
+  add support for additional prism language highlighting prism-react-renderer docs:
+  https://github.com/FormidableLabs/prism-react-renderer
+*/
+import Prism from 'prism-react-renderer/prism';
+(typeof global !== 'undefined' ? global : window).Prism = Prism;
+require('prismjs/components/prism-php');
 
 const CustomHeading = ({ as, children, id, ...rest }) => {
   if (id) {
@@ -124,11 +134,25 @@ const NextOptimizedImage = (props) => (
   <Image {...props} layout="responsive" loading="lazy" alt={props?.alt} />
 );
 
+const UnorderedListComponent = ({ children, ...rest }) => (
+  <UnorderedList {...rest} stylePosition={'inside'} mb="1rem" ml={0}>
+    {children}
+  </UnorderedList>
+);
+
+const OrderedListComponent = ({ children, ...rest }) => (
+  <OrderedList {...rest} stylePosition={'inside'} mb="1rem" ml={0}>
+    bois{children}
+  </OrderedList>
+);
+
 const components = {
   Button,
   Highlight,
   img: NextOptimizedImage,
   inlineCode: InlineCode,
+  ol: OrderedListComponent,
+  ul: UnorderedListComponent,
   a: CustomLink,
   h1: H1,
   h2: H2,
