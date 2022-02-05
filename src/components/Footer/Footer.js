@@ -2,7 +2,7 @@ import { Box, SimpleGrid, Stack, Text, useTheme } from '@chakra-ui/react';
 import Link from 'next/link';
 import Image from 'next/image';
 
-import { GitHubIcon, TwitterIcon } from '../icons';
+import { GitHubIcon, RssIcon, TwitterIcon } from '../icons';
 import { NewsletterForm } from '../NewsletterForm';
 
 import poweredByVercel from '../../../public/img/powered-by-vercel.svg';
@@ -44,6 +44,15 @@ const Footer = () => {
 
           <Link href="/ama">
             <a>Ask us a question</a>
+          </Link>
+
+          <Link href="/rss.xml">
+            <a>
+              <Stack direction={'row'} alignItems="center">
+                <RssIcon />
+                <Text>RSS</Text>
+              </Stack>
+            </a>
           </Link>
         </Stack>
         <Stack>
