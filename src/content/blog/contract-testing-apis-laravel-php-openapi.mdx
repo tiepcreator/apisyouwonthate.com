@@ -1,0 +1,207 @@
+---
+title: Contract Testing a Laravel API with OpenAPI
+subtitle: >-
+ Keeping your API and OpenAPI in sync doesn't have to be complicated, the Laravel PHP edition.
+date: "2022-02-04"
+coverImage: spiderman-pointing.jpg
+type: blog
+author: Phil Sturgeon
+---
+
+Your API does a bunch of great stuff, and your OpenAPI document tells everyone about all the great stuff that your API can do, but making sure those two sources of truth agree can be a bit of a struggle at first. Whether you followed the [API design-first workflow](/blog/api-design-first-vs-code-first) and want to make sure the team who are about to start building the API follow the design you created, or whether you are trying to [retroactively make documentation for an existing API](/blog/creating-openapi-from-http-traffic), you want to be sure you're starting things off properly. Then over time, there's the chance for the API or OpenAPI to diverge, with a change being made in the code and not in the docs, or vice versa. 
+
+Don't worry, this is a well solved problem. There are various dedicated tools dedicated which we wrote about way back in [Keeping Documentation Honest](/blog/keeping-documentation-honest/), but these days we love the simplicity of adding some [OpenAPI-based contract testing assertions](/blog/writing-documentation-via-contract-testing) to your existing API test suite. 
+
+Don't hae a test suite? Well, never a better time to start. Writing tests sounds scary to some, but seeing as there are a lot of assertions already written into your OpenAPI document, you will have some basic testing done rather quickly.
+
+There are infinite tools for infinite languages and frameworks, but today we're going to focus on this combination:
+
+- [Laravel PHP](https://laravel.com/) - A ridiculously popular PHP framework.
+- [Pest](https://pestphp.com/) - Elegant PHP testing tool that feels like Jest, RSpec, etc.
+- [Spectator](https://github.com/hotmeteor/spectator) - Light-weight OpenAPI testing assertions for Laravel.
+
+
+This article will assume you're familiar with Laravel PHP, and if you're not there are many good articles out there about getting started. Their documentation is fantastic too. The concepts of this will still be interesting to many who are not familiar or in a rush to learn right now.
+
+So, you've already got Laravel running, and you want a test suite. Pest is great, it reminds me of RSpec, Jest and various other tools that I loved using for my last 8 years in Ruby/Go/Node/TypeScript land. 
+
+I was a little worried it would be confusing trying to get Laravel and Pest to play ball, but Pest has a [Laravel plugin](https://pestphp.com/docs/plugins/laravel ) which takes care of that.  
+
+```bash
+composer require pestphp/pest-plugin-laravel --dev
+
+php artisan pest:install
+```
+
+Laravel lets people generate various bits code just like Rails generators, so you can generate a Pest test.
+
+```bash
+php artisan pest:test OrganizationsTest
+```
+
+This will create a very basic test in `tests/Feature/OrganizationsTest.php` that looks like this:
+
+
+```
+<?php
+
+it('has organizations page', function () {
+    $response = $this->get('/organizations');
+
+    $response->assertStatus(200);
+});
+```
+
+Pest is using the [HTTP Tests](https://laravel.com/docs/8.x/http-tests) functionality in Laravel to ping the `/organizations` endpoint, and then make sure you get a 200 back. This HTTP Test functionality will simulate a proper network interaction, meaning the test is more realistic than unit testing your controllers. This test is not talking about code, it's testing HTTP interactions. Perfect.
+
+Trying to run this test with `php artisan test` or `./vendor/bin/pest` will possibly work if you've got your database server running directly on your machine, but if you're using docker you will probably get failures at this point. [Sail](https://laravel.com/docs/8.x/sail) is another Laravel tool which can help interface with Laravel inside docker, so tests can be run with `sail artisan test` instead.
+
+Either way, your ping-tests should be passing now. Let's make the test a bit more useful by creating some data before the tests are run. Afterall, we wont be able to contract test the data if there... isn't any data.
+
+```php
+<?php
+use App\Models\Organization;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+uses(RefreshDatabase::class);
+
+beforeAll(function () {
+    $organization = Organization::factory()->create();
+    $this->uuid = $organization->organization_uuid;
+});
+
+it('returns a 404 for invalid record', function () {
+    $non_existent_uuid = "53d4faeb-e046-4ab1-91ff-6b6e35c4c052";
+    $this
+        ->getJson("/orgs/{$non_existent_uuid}")
+        ->assertStatus(404);
+});
+
+it('returns a valid record', function () {
+    $this
+        ->getJson("/orgs/{$this->uuid}")
+        ->assertStatus(200);
+});
+```
+
+Run `sail artisan test` and hopefully this is working. It might fail complaining you've not got any factories set up, which are a handy feature for setting up fake data to be tested with. Head over to the Laravel Documentation to learn [how to set up model factories](https://laravel.com/docs/8.x/database-testing#defining-model-factories) if you've not got them already, this article is getting lengthy and we need to get onto the contract testing bit.
+
+Great. But we're still just doing pings on these endpoints. Time to give contract testing a go! 
+
+## Grab some OpenAPI
+
+If you have an OpanAPI document already, you can skip this step. 
+
+If you don't have an OpenAPI document, make one with an editor like [Stoplight Studio](https://stoplight.io/studio/) or [Postman](https://www.postman.com/), or you can nab an example document from APIs Guru's [OpenAPI Directory](https://apis.guru/openapi-directory/) to play with. 
+
+Alternatively, shove this into a file called `openapi.yaml`.
+
+```yaml
+openapi: "3.0.3"
+
+info:
+  title: Example API
+  version: "1.0"
+
+paths:
+  /orgs/{id}:
+    get:
+      description: Get an organization
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties: 
+                  id:
+                    type: string
+                    format: uuid
+```
+
+### Using Spectator 
+
+Armed with some OpenAPI we can now try installing [Spectator](https://github.com/hotmeteor/spectator), a tool which will make Laravel's HTTP Tests aware of OpenAPI to help sniff out mismatches.
+
+```bash
+composer require hotmeteor/spectator --dev
+
+php artisan vendor:publish --provider="Spectator\SpectatorServiceProvider"
+```
+
+Now let's tweak our tests:
+
+```php
+<?php
+use App\Models\Organization;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Spectator\Spectator;
+
+uses(RefreshDatabase::class);
+
+beforeAll(function () {
+    $organization = Organization::factory()->create();
+    $this->uuid = $organization->organization_uuid;
+
+    // Add Spectator 👇
+    Spectator::using('openapi.yaml');
+});
+
+it('returns a 404 for invalid record', function () {
+    $non_existent_uuid = "53d4faeb-e046-4ab1-91ff-6b6e35c4c052";
+    $this
+        ->getJson("/orgs/{$non_existent_uuid}")
+        ->assertValidRequest() # 👈 new
+        ->assertValidResponse(404); # 👈 new
+});
+
+it('returns a valid record', function () {
+    $this
+        ->getJson("/orgs/{$this->uuid}")
+        ->assertValidRequest() # 👈 new
+        ->assertValidResponse(200); # 👈 new
+});
+```
+
+Those new assertions are being made available to Pest and the Laravel HTTP Test logic by Spectator, which is looking at the openapi.yaml and then figuring out which "path" to compare to the URL in getJson(). Very smart, and it immediately pointed out that my OpenAPI was missing definitions for how the 404 errors should look, along with a few other mistakes in my OpenAPI.
+
+Here's an example of the API response mismatching data typed for a property defined in OpenAPI. I've added newProperty to OpenAPI but forgot to add it to the HTTP Resource (what Laravel calls their serializer class).
+
+```yaml
+type: object
+required:
+  - id
+  - name
+  - orders
+  - newProperty
+properties:
+  newProperty:
+    type: string
+  # existing properties ...
+```
+
+Now when the test suite is run, Spectacle is going to throw up red flags.
+
+![](/images/posts/contract-testing-apis-laravel-php-openapi/spectacle-errors.png)
+
+Done! Docs and code will never be out of sync again.
+
+There are a few quirks to watch out for with Spectacle, like expecting my path parameters to have a very specific name, but changing those is fairly low stakes and will not damage the quality of your OpenAPI.
+
+## Summary
+
+What I love the most about this simplicity is that it can integrate into an existing applications test suite, and you definitely want to have a test suite. It's not a brand new second test suite, or some hosted tool that is hard to keep up with changes in PRs flagging the "one true cloud test suite" as broken... it's just a few lines of assertions in a standard PHPUnit, Pest, etc. test suite, and run on whatever existing CI/CD you're already using.
+
+Other folks use [Dredd](https://github.com/apiaryio/dredd), which is a whole other tool to maintain with its own database seeding and state management - no handy DB resets like in Laravel/Pest. It's not able to check multiple responses (like 404's) so you're just kinda hoping those are correct when using Dredd. 
+
+Then there's [Prism](https://stoplight.io/open-source/prism/), which is good for contract testing real traffic and spotting issues, but thats not something you can control from code. 
+
+There's loads of other fantastic tools on [OpenAPI.Tools](https://openapi.tools/) for contract testing, and pretty much any [JSON Schema validator](https://json-schema.org/implementations.html#validators) can be used now that [JSON Schema and OpenAPI Schemas are actually the same thing](/blog/openapi-v3-1-and-json-schema), so if you've not got something specifically OpenAPI orientated then hack one together yourself, and maybe release that to make something as simple as Spectator! 
