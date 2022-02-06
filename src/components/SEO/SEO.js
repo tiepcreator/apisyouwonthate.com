@@ -85,6 +85,14 @@ const SEO = ({
       <meta name="theme-color" content="#ffffff" />
       {/* end favicon */}
 
+      {/* Metadata for RSS Feed Readers */}
+      <link
+        rel="alternate"
+        type="application/rss+xml"
+        href="/rss.xml"
+        title="APIs You Won't Hate"
+      />
+
       <link rel="canonical" href={fullCanonical(canonical)} />
 
       <title>{formattedTitle}</title>
