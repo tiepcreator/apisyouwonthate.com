@@ -12,7 +12,7 @@ Your API does a bunch of great stuff, and your OpenAPI document tells everyone a
 
 Don't worry, this is a well solved problem. There are various dedicated tools dedicated which we wrote about way back in [Keeping Documentation Honest](/blog/keeping-documentation-honest/), but these days we love the simplicity of adding some [OpenAPI-based contract testing assertions](/blog/writing-documentation-via-contract-testing) to your existing API test suite. 
 
-Don't hae a test suite? Well, never a better time to start. Writing tests sounds scary to some, but seeing as there are a lot of assertions already written into your OpenAPI document, you will have some basic testing done rather quickly.
+Don't have a test suite? Well, never a better time to start. Writing tests sounds scary to some, but seeing as there are a lot of assertions already written into your OpenAPI document, you will have some basic testing done rather quickly.
 
 There are infinite tools for infinite languages and frameworks, but today we're going to focus on this combination:
 
@@ -90,7 +90,7 @@ Great. But we're still just doing pings on these endpoints. Time to give contrac
 
 ## Grab some OpenAPI
 
-If you have an OpanAPI document already, you can skip this step. 
+If you have an OpenAPI document already, you can skip this step. 
 
 If you don't have an OpenAPI document, make one with an editor like [Stoplight Studio](https://stoplight.io/studio/) or [Postman](https://www.postman.com/), or you can nab an example document from APIs Guru's [OpenAPI Directory](https://apis.guru/openapi-directory/) to play with. 
 
@@ -202,6 +202,6 @@ What I love the most about this simplicity is that it can integrate into an exis
 
 Other folks use [Dredd](https://github.com/apiaryio/dredd), which is a whole other tool to maintain with its own database seeding and state management - no handy DB resets like in Laravel/Pest. It's not able to check multiple responses (like 404's) so you're just kinda hoping those are correct when using Dredd. 
 
-Then there's [Prism](https://stoplight.io/open-source/prism/), which is good for contract testing real traffic and spotting issues, but thats not something you can control from code. 
+Then there's [Prism](https://stoplight.io/open-source/prism/), which is good for contract testing real traffic and spotting issues, but that's not something you can control from code. 
 
 There's loads of other fantastic tools on [OpenAPI.Tools](https://openapi.tools/) for contract testing, and pretty much any [JSON Schema validator](https://json-schema.org/implementations.html#validators) can be used now that [JSON Schema and OpenAPI Schemas are actually the same thing](/blog/openapi-v3-1-and-json-schema), so if you've not got something specifically OpenAPI orientated then hack one together yourself, and maybe release that to make something as simple as Spectator! 
