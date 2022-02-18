@@ -45,15 +45,6 @@ const Footer = () => {
           <Link href="/ama">
             <a>Ask us a question</a>
           </Link>
-
-          <Link href="/rss.xml">
-            <a>
-              <Stack direction={'row'} alignItems="center">
-                <RssIcon />
-                <Text>RSS</Text>
-              </Stack>
-            </a>
-          </Link>
         </Stack>
         <Stack>
           <Subtitle>Community</Subtitle>
@@ -80,13 +71,20 @@ const Footer = () => {
             </a>
           </Stack>
           <Stack direction="row" alignItems="center">
+            <RssIcon />
+
+            <a href="/rss.xml" target="_blank" rel="noreferrer noopener me">
+              RSS
+            </a>
+          </Stack>
+          <Stack direction="row" alignItems="center">
             <TwitterIcon />
             <a
               href="https://twitter.com/apisyouwonthate"
               target="_blank"
               rel="noreferrer noopener me"
             >
-              @apisyouwonthate
+              Twitter
             </a>
           </Stack>
         </Stack>
