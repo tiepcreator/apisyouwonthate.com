@@ -22,7 +22,7 @@ export default async function handler(req, res) {
     });
 
     const { Data } = result.body;
-    const { ID, Email } = Data;
+    const { ID, Email } = Data[0] || Data;
 
     return await addToList({ id: ID, email: Email }, res);
   } catch (err) {
