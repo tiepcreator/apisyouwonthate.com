@@ -19,13 +19,17 @@ import isValidEmail from 'is-valid-email';
 const NewsletterForm = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [emailIsDirty, setEmailIsDirty] = useState(false);
   const [emailIsValid, setEmailIsValid] = useState(false);
   const [formResponse, setFormResponse] = useState({});
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleNameChange = (e) => setName(e.target.value);
-  const handleEmailChange = (e) => setEmail(e.target.value);
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+    setEmailIsDirty(true);
+  };
 
   useEffect(() => {
     const isValid = isValidEmail(email);
@@ -81,7 +85,7 @@ const NewsletterForm = () => {
 
   return (
     <Stack>
-      <FormControl isRequired isInvalid={!emailIsValid}>
+      <FormControl isRequired isInvalid={emailIsDirty && !emailIsValid}>
         <FormLabel htmlFor="email">Email</FormLabel>
         <Input
           id="email"
