@@ -12,7 +12,7 @@ class MyDocument extends Document {
       <script 
       async
       src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4785759960931820"
-     crossorigin="anonymous"></script>
+     crossOrigin="anonymous"></script>
         <Head />
         <body>
           <Main />
